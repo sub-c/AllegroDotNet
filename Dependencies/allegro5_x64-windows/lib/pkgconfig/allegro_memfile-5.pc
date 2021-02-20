@@ -1,0 +1,15 @@
+prefix=D:/Repos/vcpkg/packages/allegro5_x64-windows
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+version=5.2.6
+suffix=
+versuffix=5
+
+Name: allegro_memfile
+Description: Allegro game programming library, memory files addon
+Version: ${version}
+Libs: -L${libdir} -lallegro_memfile${suffix}
+Libs.private: 
+Requires: allegro${suffix}-${versuffix} >= ${version}
+Cflags: -I${includedir}

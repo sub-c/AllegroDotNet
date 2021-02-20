@@ -1,0 +1,14 @@
+prefix=D:/Repos/vcpkg/packages/allegro5_x64-windows
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+version=5.2.6
+suffix=
+versuffix=5
+
+Name: allegro
+Description: Allegro game programming library
+Version: ${version}
+Libs: -L${libdir} -lallegro${suffix}
+Libs.private: 
+Cflags: -I${includedir}
