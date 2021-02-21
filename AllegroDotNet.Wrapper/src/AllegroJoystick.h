@@ -6,7 +6,7 @@
 
 namespace AllegroDotNet::Wrapper
 {
-	public ref class AllegroJoystick : public NativePointer<ALLEGRO_JOYSTICK>
+	public ref class AllegroJoystick sealed : public NativePointer<ALLEGRO_JOYSTICK>
 	{
 	internal:
 		AllegroJoystick(ALLEGRO_JOYSTICK* nativeJoystick);

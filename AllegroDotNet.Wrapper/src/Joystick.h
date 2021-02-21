@@ -29,7 +29,8 @@ namespace AllegroDotNet::Wrapper
 		{
 			AllegroJoystick^ get()
 			{
-				return gcnew AllegroJoystick(nativeSourceEvent_->joystick.id);
+				managedJoystick_->SetNativePointer(nativeSourceEvent_->joystick.id);
+				return managedJoystick_;
 			}
 		}
 
@@ -56,6 +57,7 @@ namespace AllegroDotNet::Wrapper
 		}
 
 	private:
+		AllegroJoystick^ managedJoystick_ { gcnew AllegroJoystick(nullptr) };
 		ALLEGRO_EVENT* nativeSourceEvent_ { nullptr };
 	};
 }

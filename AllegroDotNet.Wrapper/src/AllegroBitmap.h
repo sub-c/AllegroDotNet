@@ -6,7 +6,7 @@
 
 namespace AllegroDotNet::Wrapper
 {
-	public ref class AllegroBitmap : NativePointer<ALLEGRO_BITMAP>
+	public ref class AllegroBitmap sealed : NativePointer<ALLEGRO_BITMAP>
 	{
 	internal:
 		AllegroBitmap(ALLEGRO_BITMAP* nativeBitmap);

@@ -12,7 +12,8 @@ namespace AllegroDotNet::Wrapper
 		{
 			AllegroEventSource^ get()
 			{
-				return gcnew AllegroEventSource(nativeSourceEvent_->any.source);
+				managedEventSource_->SetNativePointer(nativeSourceEvent_->any.source);
+				return managedEventSource_;
 			}
 		}
 
@@ -31,6 +32,7 @@ namespace AllegroDotNet::Wrapper
 		}
 
 	private:
+		AllegroEventSource^ managedEventSource_ { gcnew AllegroEventSource(nullptr) };
 		ALLEGRO_EVENT* nativeSourceEvent_ { nullptr };
 	};
 }

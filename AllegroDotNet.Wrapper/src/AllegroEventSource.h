@@ -6,7 +6,7 @@
 
 namespace AllegroDotNet::Wrapper
 {
-	public ref class AllegroEventSource : public NativePointer<ALLEGRO_EVENT_SOURCE>
+	public ref class AllegroEventSource sealed : public NativePointer<ALLEGRO_EVENT_SOURCE>
 	{
 	public:
 		AllegroEventSource();

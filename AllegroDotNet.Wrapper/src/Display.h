@@ -14,7 +14,8 @@ namespace AllegroDotNet::Wrapper
 		{
 			AllegroDisplay^ get()
 			{
-				return gcnew AllegroDisplay(nativeSourceEvent_->display.source);
+				managedDisplay_->SetNativePointer(nativeSourceEvent_->display.source);
+				return managedDisplay_;
 			}
 		}
 
@@ -65,6 +66,7 @@ namespace AllegroDotNet::Wrapper
 		}
 
 	private:
+		AllegroDisplay^ managedDisplay_ { gcnew AllegroDisplay(nullptr) };
 		ALLEGRO_EVENT* nativeSourceEvent_ { nullptr };
 	};
 }

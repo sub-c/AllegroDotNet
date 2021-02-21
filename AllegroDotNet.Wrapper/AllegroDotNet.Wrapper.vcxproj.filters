@@ -56,6 +56,12 @@
     <ClCompile Include="src\AllegroJoystick.cpp">
       <Filter>Source Files\Models</Filter>
     </ClCompile>
+    <ClCompile Include="src\AllegroTimer.cpp">
+      <Filter>Source Files\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AllegroEventQueue.cpp">
+      <Filter>Source Files\Models</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\PCH.h">
@@ -140,6 +146,15 @@
       <Filter>Source Files\Models\Events</Filter>
     </ClInclude>
     <ClInclude Include="src\AllegroJoystick.h">
+      <Filter>Source Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AllegroTimer.h">
+      <Filter>Source Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="src\KeyModFlags.h">
+      <Filter>Source Files\Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AllegroEventQueue.h">
       <Filter>Source Files\Models</Filter>
     </ClInclude>
   </ItemGroup>

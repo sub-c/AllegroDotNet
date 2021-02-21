@@ -6,7 +6,7 @@
 
 namespace AllegroDotNet::Wrapper
 {
-	public ref class AllegroKeyboardState : NativeDisposableStruct<ALLEGRO_KEYBOARD_STATE>
+	public ref class AllegroKeyboardState sealed : NativeDisposableStruct<ALLEGRO_KEYBOARD_STATE>
 	{
 	public:
 		AllegroKeyboardState();

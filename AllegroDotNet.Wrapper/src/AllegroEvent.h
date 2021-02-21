@@ -15,7 +15,7 @@
 
 namespace AllegroDotNet::Wrapper
 {
-	public ref class AllegroEvent : public NativeDisposableStruct<ALLEGRO_EVENT>
+	public ref class AllegroEvent sealed : public NativeDisposableStruct<ALLEGRO_EVENT>
 	{
 	public:
 		property EventType EventType
