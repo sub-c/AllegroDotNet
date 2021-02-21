@@ -8,14 +8,42 @@ namespace AllegroDotNet::Wrapper
 	ref class AllegroBitmap;
 	ref class AllegroConfig;
 	ref class AllegroDisplay;
+	ref class AllegroEvent;
+	ref class AllegroEventQueue;
+	ref class AllegroEventSource;
 	ref class AllegroKeyboardState;
 	ref class AllegroPath;
+	ref class AllegroTimeout;
+	ref class AllegroUserEvent;
 
 	using namespace System;
 
-	public ref class Al
+	public ref class Al sealed
 	{
 	public:
+		// Event system and events - AlEvent.cpp
+		static AllegroEventQueue^ CreateEventQueue();
+		static Boolean DropNextEvent(AllegroEventQueue^ queue);
+		static Boolean EmitUserEvent(AllegroEventSource^ source, AllegroEvent^ event, Action<AllegroUserEvent^>^ dtor);
+		static Boolean GetNextEvent(AllegroEventQueue^ queue, AllegroEvent^ retEvent);
+		static Boolean IsEventQueueEmpty(AllegroEventQueue^ queue);
+		static Boolean IsEventQueuePaused(AllegroEventQueue^ queue);
+		static Boolean IsEventSourceRegistered(AllegroEventQueue^ queue, AllegroEventSource^ source);
+		static Boolean PeekNextEvent(AllegroEventQueue^ queue, AllegroEvent^ retEvent);
+		static Boolean WaitForEventTimed(AllegroEventQueue^ queue, AllegroEvent^ retEvent, Single secs);
+		static Boolean WaitForEventUntil(AllegroEventQueue^ queue, AllegroEvent^ retEvent, AllegroTimeout^ timeout);
+		static Object^ GetEventSourceData(AllegroEventSource^ source);
+		static void DestroyEventQueue(AllegroEventQueue^ queue);
+		static void DestroyUserEventSource(AllegroEventSource^ source);
+		static void FlushEventQueue(AllegroEventQueue^ queue);
+		static void InitUserEventSource(AllegroEventSource^ source);
+		static void PauseEventQueue(AllegroEventQueue^ queue, Boolean pause);
+		static void RegisterEventSource(AllegroEventQueue^ queue, AllegroEventSource^ source);
+		static void SetEventSourceData(AllegroEventSource^ source, Object^ data);
+		static void UnrefUserEvent(AllegroUserEvent^ userEvent);
+		static void UnregisterEventSource(AllegroEventQueue^ queue, AllegroEventSource^ source);
+		static void WaitForEvent(AllegroEventQueue^ queue, AllegroEvent^ retEvent);
+
 		// System - AlSystem.cpp
 		static AllegroConfig^ GetSystemConfig();
 		static AllegroPath^ GetStandardPath(StandardPath id);

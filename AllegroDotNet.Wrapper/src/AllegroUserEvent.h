@@ -6,7 +6,7 @@
 
 namespace AllegroDotNet::Wrapper
 {
-	public ref class User
+	public ref class AllegroUserEvent
 	{
 	public:
 		property Object^ Data1
@@ -88,7 +88,7 @@ namespace AllegroDotNet::Wrapper
 		}
 
 	internal:
-		User(ALLEGRO_EVENT* nativeSourceEvent)
+		AllegroUserEvent(ALLEGRO_EVENT* nativeSourceEvent)
 		{
 			nativeSourceEvent_ = nativeSourceEvent;
 		}

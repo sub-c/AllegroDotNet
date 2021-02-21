@@ -19,6 +19,8 @@ namespace AllegroDotNet.Sandbox
             Al.RegisterTraceHandler(HandleTrace);
 
             var allegroEvent = new AllegroEvent();
+            var allegroEventQueue = Al.CreateEventQueue();
+            Al.DestroyEventQueue(allegroEventQueue);
 
             Al.UninstallSystem();
             Console.WriteLine("Done.");

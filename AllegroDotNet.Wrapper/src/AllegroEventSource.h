@@ -13,5 +13,7 @@ namespace AllegroDotNet::Wrapper
 
 	internal:
 		AllegroEventSource(ALLEGRO_EVENT_SOURCE* nativeEventSource);
+
+		Object^ Data { nullptr };
 	};
 }

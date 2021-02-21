@@ -11,7 +11,7 @@
 #include "NativeDisposableStruct.h"
 #include "Timer.h"
 #include "Touch.h"
-#include "User.h"
+#include "AllegroUserEvent.h"
 
 namespace AllegroDotNet::Wrapper
 {
@@ -33,7 +33,7 @@ namespace AllegroDotNet::Wrapper
 		initonly Mouse^ Mouse { gcnew AllegroDotNet::Wrapper::Mouse(this->GetNativePointer()) };
 		initonly Timer^ Timer { gcnew AllegroDotNet::Wrapper::Timer(this->GetNativePointer()) };
 		initonly Touch^ Touch { gcnew AllegroDotNet::Wrapper::Touch(this->GetNativePointer()) };
-		initonly User^ User { gcnew AllegroDotNet::Wrapper::User(this->GetNativePointer()) };
+		initonly AllegroUserEvent^ AllegroUserEvent { gcnew AllegroDotNet::Wrapper::AllegroUserEvent(this->GetNativePointer()) };
 
 		AllegroEvent();
 	};

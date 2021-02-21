@@ -53,6 +53,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\AllegroEventQueue.h" />
+    <ClInclude Include="src\AllegroTimeout.h" />
     <ClInclude Include="src\KeyModFlags.h" />
     <ClInclude Include="src\AllegroBitmap.h" />
     <ClInclude Include="src\AllegroDisplay.h" />
@@ -82,9 +83,10 @@
     <ClInclude Include="src\SystemID.h" />
     <ClInclude Include="src\Timer.h" />
     <ClInclude Include="src\Touch.h" />
-    <ClInclude Include="src\User.h" />
+    <ClInclude Include="src\AllegroUserEvent.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\AlEvent.cpp" />
     <ClCompile Include="src\AllegroBitmap.cpp" />
     <ClCompile Include="src\AllegroDisplay.cpp" />
     <ClCompile Include="src\AllegroConfig.cpp" />
@@ -94,6 +96,7 @@
     <ClCompile Include="src\AllegroJoystick.cpp" />
     <ClCompile Include="src\AllegroKeyboardState.cpp" />
     <ClCompile Include="src\AllegroPath.cpp" />
+    <ClCompile Include="src\AllegroTimeout.cpp" />
     <ClCompile Include="src\AllegroTimer.cpp" />
     <ClCompile Include="src\AlNativeSystem.cpp" />
     <ClCompile Include="src\PCH.cpp">
