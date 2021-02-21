@@ -15,11 +15,14 @@
     <Filter Include="Source Files\Enums">
       <UniqueIdentifier>{9b3bdef8-0f52-4983-ac97-6c89aa7e2e15}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Native">
+      <UniqueIdentifier>{4ee9590b-9cd4-4097-a2b7-92eba1ba9f4c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Models\Events">
+      <UniqueIdentifier>{5b5d4844-b509-4fc9-95cb-c97f2ad8c609}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\AlSystem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\PCH.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -29,21 +32,36 @@
     <ClCompile Include="src\AllegroConfig.cpp">
       <Filter>Source Files\Models</Filter>
     </ClCompile>
-    <ClCompile Include="src\AlNative.cpp">
+    <ClCompile Include="src\AlNativeSystem.cpp">
+      <Filter>Source Files\Native</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AlSystem.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AllegroDisplay.cpp">
+      <Filter>Source Files\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AllegroBitmap.cpp">
+      <Filter>Source Files\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AllegroKeyboardState.cpp">
+      <Filter>Source Files\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AllegroEvent.cpp">
+      <Filter>Source Files\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AllegroEventSource.cpp">
+      <Filter>Source Files\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AllegroJoystick.cpp">
+      <Filter>Source Files\Models</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Al.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\PCH.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="src\AllegroPath.h">
-      <Filter>Source Files\Models</Filter>
-    </ClInclude>
-    <ClInclude Include="src\NativePointerWrapper.h">
       <Filter>Source Files\Models</Filter>
     </ClInclude>
     <ClInclude Include="src\StandardPath.h">
@@ -56,7 +74,73 @@
       <Filter>Source Files\Enums</Filter>
     </ClInclude>
     <ClInclude Include="src\AlNative.h">
+      <Filter>Source Files\Native</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Al.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AllegroDisplay.h">
+      <Filter>Source Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AllegroBitmap.h">
+      <Filter>Source Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AllegroKeyboardState.h">
+      <Filter>Source Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="src\NativePointer.h">
+      <Filter>Source Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="src\NativeDisposableStruct.h">
+      <Filter>Source Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DisplayFlags.h">
+      <Filter>Source Files\Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DisplayOption.h">
+      <Filter>Source Files\Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DisplayOrientation.h">
+      <Filter>Source Files\Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AllegroEvent.h">
+      <Filter>Source Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EventType.h">
+      <Filter>Source Files\Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="src\KeyCode.h">
+      <Filter>Source Files\Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Any.h">
+      <Filter>Source Files\Models\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AllegroEventSource.h">
+      <Filter>Source Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Display.h">
+      <Filter>Source Files\Models\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Joystick.h">
+      <Filter>Source Files\Models\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Keyboard.h">
+      <Filter>Source Files\Models\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Mouse.h">
+      <Filter>Source Files\Models\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Timer.h">
+      <Filter>Source Files\Models\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Touch.h">
+      <Filter>Source Files\Models\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\User.h">
+      <Filter>Source Files\Models\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AllegroJoystick.h">
+      <Filter>Source Files\Models</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

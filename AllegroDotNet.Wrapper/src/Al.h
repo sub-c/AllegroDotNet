@@ -5,7 +5,10 @@ namespace AllegroDotNet::Wrapper
 	enum class StandardPath;
 	enum class SystemID;
 
+	ref class AllegroBitmap;
 	ref class AllegroConfig;
+	ref class AllegroDisplay;
+	ref class AllegroKeyboardState;
 	ref class AllegroPath;
 
 	using namespace System;

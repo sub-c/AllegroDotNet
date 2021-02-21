@@ -6,9 +6,9 @@
 
 namespace AllegroDotNet::Wrapper
 {
-	public ref class AllegroPath : public NativePointer<ALLEGRO_PATH>
+	public ref class AllegroBitmap : NativePointer<ALLEGRO_BITMAP>
 	{
 	internal:
-		AllegroPath(ALLEGRO_PATH* nativePath);
+		AllegroBitmap(ALLEGRO_BITMAP* nativeBitmap);
 	};
 }

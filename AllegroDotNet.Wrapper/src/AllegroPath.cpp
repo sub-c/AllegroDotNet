@@ -5,15 +5,7 @@
 namespace AllegroDotNet::Wrapper
 {
 	AllegroPath::AllegroPath(ALLEGRO_PATH* nativePath)
-		: NativePointerWrapper(nativePath)
-	{
-	}
-
-	AllegroPath::~AllegroPath()
-	{
-	}
-
-	AllegroPath::!AllegroPath()
+		: NativePointer(nativePath)
 	{
 	}
 }

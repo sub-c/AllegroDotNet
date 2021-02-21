@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "AllegroDotNet.Sandbox": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}

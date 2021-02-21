@@ -5,7 +5,6 @@
 
 namespace AllegroDotNet::Wrapper
 {
-
 	void AlNative::native_assert_handler(const char* expr, const char* file, int line, const char* func)
 	{
 		auto managedExpr = gcnew String(expr);

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using AllegroDotNet.Wrapper;
 
 namespace AllegroDotNet.Sandbox
@@ -14,10 +15,17 @@ namespace AllegroDotNet.Sandbox
             Console.WriteLine("CpuCount: " + Al.GetCpuCount());
             Console.WriteLine("RamSize: " + Al.GetRamSize());
 
+            Al.RegisterAssertHandler(HandleAssert);
             Al.RegisterTraceHandler(HandleTrace);
+
+            var allegroEvent = new AllegroEvent();
 
             Al.UninstallSystem();
             Console.WriteLine("Done.");
+        }
+
+        private static void HandleAssert(string a, string b, int line, string func)
+        {
         }
 
         private static void HandleTrace(string message)
