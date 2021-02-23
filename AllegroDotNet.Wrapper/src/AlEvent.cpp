@@ -81,51 +81,61 @@ namespace AllegroDotNet::Wrapper
 
 	void Al::DestroyEventQueue(AllegroEventQueue^ queue)
 	{
-
+		auto* nativeEventQueue = queue->GetNativePointer();
+		al_destroy_event_queue(nativeEventQueue);
 	}
 
 	void Al::DestroyUserEventSource(AllegroEventSource^ source)
 	{
-
+		auto* nativeEventSource = source->GetNativePointer();
+		al_destroy_user_event_source(nativeEventSource);
 	}
 
 	void Al::FlushEventQueue(AllegroEventQueue^ queue)
 	{
-
+		auto* nativeEventQueue = queue->GetNativePointer();
+		al_flush_event_queue(nativeEventQueue);
 	}
 
 	void Al::InitUserEventSource(AllegroEventSource^ source)
 	{
-
+		auto* nativeEventSource = source->GetNativePointer();
+		al_init_user_event_source(nativeEventSource);
 	}
 
 	void Al::PauseEventQueue(AllegroEventQueue^ queue, Boolean pause)
 	{
-
+		auto* nativeEventQueue = queue->GetNativePointer();
+		al_pause_event_queue(nativeEventQueue, pause);
 	}
 
 	void Al::RegisterEventSource(AllegroEventQueue^ queue, AllegroEventSource^ source)
 	{
-
+		auto* nativeEventQueue = queue->GetNativePointer();
+		auto* nativeEventSource = source->GetNativePointer();
+		al_register_event_source(nativeEventQueue, nativeEventSource);
 	}
 
 	void Al::SetEventSourceData(AllegroEventSource^ source, Object^ data)
 	{
-
+		source->Data = data;
 	}
 
 	void Al::UnrefUserEvent(AllegroUserEvent^ userEvent)
 	{
-
 	}
 
 	void Al::UnregisterEventSource(AllegroEventQueue^ queue, AllegroEventSource^ source)
 	{
-
+		auto* nativeEventQueue = queue->GetNativePointer();
+		auto* nativeEventSource = source->GetNativePointer();
+		al_unregister_event_source(nativeEventQueue, nativeEventSource);
 	}
 
 	void Al::WaitForEvent(AllegroEventQueue^ queue, AllegroEvent^ retEvent)
 	{
-
+		auto* nativeEventQueue = queue->GetNativePointer();
+		auto* nativeRetEvent = retEvent->GetNativePointer();
+		al_wait_for_event(nativeEventQueue, nativeRetEvent);
 	}
 }
