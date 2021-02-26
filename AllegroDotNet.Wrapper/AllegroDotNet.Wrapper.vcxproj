@@ -52,6 +52,9 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\AllegroCond.h" />
+    <ClInclude Include="src\AllegroMutex.h" />
+    <ClInclude Include="src\AllegroThread.h" />
     <ClInclude Include="src\AllegroEventQueue.h" />
     <ClInclude Include="src\AllegroTimeout.h" />
     <ClInclude Include="src\KeyModFlags.h" />
@@ -86,6 +89,9 @@
     <ClInclude Include="src\AllegroUserEvent.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\AllegroCond.cpp" />
+    <ClCompile Include="src\AllegroMutex.cpp" />
+    <ClCompile Include="src\AllegroThread.cpp" />
     <ClCompile Include="src\AlEvent.cpp" />
     <ClCompile Include="src\AllegroBitmap.cpp" />
     <ClCompile Include="src\AllegroDisplay.cpp" />
