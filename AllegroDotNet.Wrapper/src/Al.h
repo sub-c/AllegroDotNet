@@ -14,6 +14,7 @@ namespace AllegroDotNet::Wrapper
 	ref class AllegroKeyboardState;
 	ref class AllegroPath;
 	ref class AllegroTimeout;
+	ref class AllegroTimer;
 	ref class AllegroUserEvent;
 
 	using namespace System;
@@ -64,5 +65,23 @@ namespace AllegroDotNet::Wrapper
 
 		static Action<String^, String^, Int32, String^>^ ManagedAssertHandler = nullptr;
 		static Action<String^>^ ManagedTraceHandler = nullptr;
+
+		// Timer routines - AlTimer.cpp
+		static AllegroEventSource^ GetTimerEventSource(AllegroTimer^ timer);
+		static AllegroTimer^ CreateTimer(Double speedSecs);
+		static Boolean GetTimerStarted(AllegroTimer^ timer);
+		static Double BpmToSecs(Double bpm);
+		static Double BpsToSecs(Double bps);
+		static Double GetTimerSpeed(AllegroTimer^ timer);
+		static Double MSecsToSecs(Double mSecs);
+		static Double USecsToSecs(Double uSecs);
+		static Int64 GetTimerCount(AllegroTimer^ timer);
+		static void AddTimerCount(AllegroTimer^ timer, Int64 diff);
+		static void DestroyTimer(AllegroTimer^ timer);
+		static void ResumeTimer(AllegroTimer^ timer);
+		static void SetTimerCount(AllegroTimer^ timer, Int64 newCount);
+		static void SetTimerSpeed(AllegroTimer^ timer, Double newSpeedSecs);
+		static void StartTimer(AllegroTimer^ timer);
+		static void StopTimer(AllegroTimer^ timer);
 	};
 }

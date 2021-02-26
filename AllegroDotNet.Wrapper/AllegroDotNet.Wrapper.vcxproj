@@ -89,6 +89,7 @@
     <ClInclude Include="src\AllegroUserEvent.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\AlTimer.cpp" />
     <ClCompile Include="src\AllegroCond.cpp" />
     <ClCompile Include="src\AllegroMutex.cpp" />
     <ClCompile Include="src\AllegroThread.cpp" />
