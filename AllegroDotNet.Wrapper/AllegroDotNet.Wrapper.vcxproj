@@ -57,6 +57,7 @@
     <ClInclude Include="src\AllegroThread.h" />
     <ClInclude Include="src\AllegroEventQueue.h" />
     <ClInclude Include="src\AllegroTimeout.h" />
+    <ClInclude Include="src\Importance.h" />
     <ClInclude Include="src\KeyModFlags.h" />
     <ClInclude Include="src\AllegroBitmap.h" />
     <ClInclude Include="src\AllegroDisplay.h" />
@@ -82,6 +83,7 @@
     <ClInclude Include="src\NativePointer.h" />
     <ClInclude Include="src\PCH.h" />
     <ClInclude Include="src\Al.h" />
+    <ClInclude Include="src\PixelFormat.h" />
     <ClInclude Include="src\StandardPath.h" />
     <ClInclude Include="src\SystemID.h" />
     <ClInclude Include="src\Timer.h" />
@@ -89,6 +91,7 @@
     <ClInclude Include="src\AllegroUserEvent.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\AlDisplay.cpp" />
     <ClCompile Include="src\AlTimer.cpp" />
     <ClCompile Include="src\AllegroCond.cpp" />
     <ClCompile Include="src\AllegroMutex.cpp" />

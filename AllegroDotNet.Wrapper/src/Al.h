@@ -1,7 +1,14 @@
 #pragma once
 
+#include "PCH.h"
+
 namespace AllegroDotNet::Wrapper
 {
+	enum class DisplayFlags;
+	enum class DisplayOption;
+	enum class DisplayOrientation;
+	enum class Importance;
+	enum class PixelFormat;
 	enum class StandardPath;
 	enum class SystemID;
 
@@ -22,6 +29,53 @@ namespace AllegroDotNet::Wrapper
 	public ref class Al sealed
 	{
 	public:
+		// Displays - AlDisplay.cpp
+		literal Int32 NewWindowTitleMaxSize = ALLEGRO_NEW_WINDOW_TITLE_MAX_SIZE;
+
+		static AllegroBitmap^ GetBackbuffer(AllegroDisplay^ display);
+		static AllegroDisplay^ CreateDisplay(Int32 w, Int32 h);
+		static AllegroEventSource^ GetDisplayEventSource(AllegroDisplay^ display);
+		static Boolean AcknowledgeResize(AllegroDisplay^ display);
+		static Boolean ClipboardHasText(AllegroDisplay^ display);
+		static Boolean GetWindowConstraints(AllegroDisplay^ display, Int32% minW, Int32% minH, Int32% maxW, Int32% maxH);
+		static Boolean InhibitScreensaver(Boolean inhibit);
+		static Boolean ResizeDisplay(AllegroDisplay^ display, Int32 width, Int32 height);
+		static Boolean SetClipboardText(AllegroDisplay^ display, String^ text);
+		static Boolean SetDisplayFlag(AllegroDisplay^ display, DisplayFlags flag, Boolean onOff);
+		static Boolean SetWindowConstraints(AllegroDisplay^ display, Int32 minW, Int32 minH, Int32 maxW, Int32 maxH);
+		static Boolean WaitForVSync();
+		static DisplayFlags GetDisplayFlags(AllegroDisplay^ display);
+		static DisplayFlags GetNewDisplayFlags();
+		static DisplayOrientation GetDisplayOrientation(AllegroDisplay^ display);
+		static Int32 GetDisplayHeight(AllegroDisplay^ display);
+		static Int32 GetDisplayOption(AllegroDisplay^ display, DisplayOption option);
+		static Int32 GetDisplayRefreshRate(AllegroDisplay^ display);
+		static Int32 GetDisplayWidth(AllegroDisplay^ display);
+		static Int32 GetNewDisplayOption(DisplayOption option, Importance% importance);
+		static Int32 GetNewDisplayRefreshRate();
+		static PixelFormat GetDisplayFormat(AllegroDisplay^ display);
+		static String^ GetClipboardText(AllegroDisplay^ display);
+		static String^ GetNewWindowTitle();
+		static void AcknowledgeDrawingHalt(AllegroDisplay^ display);
+		static void AcknowledgeDrawingResume(AllegroDisplay^ display);
+		static void ApplyWindowConstraints(AllegroDisplay^ display, Boolean onOff);
+		static void DestroyDisplay(AllegroDisplay^ display);
+		static void FlipDisplay();
+		static void GetNewWindowPosition(Int32% x, Int32% y);
+		static void GetWindowPosition(AllegroDisplay^ display, Int32% x, Int32% y);
+		static void ResetNewDisplayOptions();
+		static void SetDisplayIcon(AllegroDisplay^ display, AllegroBitmap^ icon);
+		static void SetDisplayIcons(AllegroDisplay^ display, Int32 numIcons, array<AllegroBitmap^>^ icons);
+		static void SetDisplayOption(AllegroDisplay^ display, DisplayOption option, Int32 value);
+		static void SetNewDisplayFlags(DisplayFlags flags);
+		static void SetNewDisplayOption(DisplayOption option, Int32 value, Importance importance);
+		static void SetNewDisplayRefreshRate(Int32 refreshRate);
+		static void SetNewWindowPosition(Int32 x, Int32 y);
+		static void SetNewWindowTitle(String^ title);
+		static void SetWindowPosition(AllegroDisplay^ display, Int32 x, Int32 y);
+		static void SetWindowTitle(AllegroDisplay^ display, String^ title);
+		static void UpdateDisplayRegion(Int32 x, Int32 y, Int32 width, Int32 height);
+		
 		// Event system and events - AlEvent.cpp
 		static AllegroEventQueue^ CreateEventQueue();
 		static Boolean DropNextEvent(AllegroEventQueue^ queue);

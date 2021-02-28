@@ -22,6 +22,10 @@ namespace AllegroDotNet.Sandbox
             var allegroEventQueue = Al.CreateEventQueue();
             Al.DestroyEventQueue(allegroEventQueue);
 
+            var display = Al.CreateDisplay(1280, 720);
+            Thread.Sleep(3000);
+            Al.DestroyDisplay(display);
+
             Al.UninstallSystem();
             Console.WriteLine("Done.");
         }

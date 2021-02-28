@@ -80,6 +80,9 @@
     <ClCompile Include="src\AlTimer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\AlDisplay.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\PCH.h">
@@ -186,6 +189,12 @@
     </ClInclude>
     <ClInclude Include="src\AllegroCond.h">
       <Filter>Source Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Importance.h">
+      <Filter>Source Files\Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="src\PixelFormat.h">
+      <Filter>Source Files\Enums</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
