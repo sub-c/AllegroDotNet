@@ -96,6 +96,7 @@
   <ItemGroup>
     <ClCompile Include="src\AlConfig.cpp" />
     <ClCompile Include="src\AlDisplay.cpp" />
+    <ClCompile Include="src\AlKeyboard.cpp" />
     <ClCompile Include="src\AllegroConfigEntry.cpp" />
     <ClCompile Include="src\AllegroConfigSection.cpp" />
     <ClCompile Include="src\AllegroFile.cpp" />

@@ -8,6 +8,8 @@ namespace AllegroDotNet::Wrapper
 	enum class DisplayOption;
 	enum class DisplayOrientation;
 	enum class Importance;
+	enum class KeyCode;
+	enum class KeyModFlags;
 	enum class PixelFormat;
 	enum class StandardPath;
 	enum class SystemID;
@@ -122,6 +124,16 @@ namespace AllegroDotNet::Wrapper
 		static void UnrefUserEvent(AllegroUserEvent^ userEvent);
 		static void UnregisterEventSource(AllegroEventQueue^ queue, AllegroEventSource^ source);
 		static void WaitForEvent(AllegroEventQueue^ queue, AllegroEvent^ retEvent);
+
+		// Keyboard routines - AlKeyboard.cpp
+		static AllegroEventSource^ GetKeyboardEventSource();
+		static Boolean InstallKeyboard();
+		static Boolean IsKeyboardInstalled();
+		static Boolean KeyDown(AllegroKeyboardState^ state, KeyCode keyCode);
+		static Boolean SetKeyboardLeds(KeyModFlags leds);
+		static String^ KeyCodeToName(KeyCode keyCode);
+		static void GetKeyboardState(AllegroKeyboardState^ retState);
+		static void UninstallKeyboard();
 
 		// System - AlSystem.cpp
 		static AllegroConfig^ GetSystemConfig();
