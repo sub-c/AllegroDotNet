@@ -53,6 +53,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\AllegroCond.h" />
+    <ClInclude Include="src\AllegroConfigEntry.h" />
+    <ClInclude Include="src\AllegroConfigSection.h" />
+    <ClInclude Include="src\AllegroFile.h" />
     <ClInclude Include="src\AllegroMutex.h" />
     <ClInclude Include="src\AllegroThread.h" />
     <ClInclude Include="src\AllegroEventQueue.h" />
@@ -91,7 +94,11 @@
     <ClInclude Include="src\AllegroUserEvent.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\AlConfig.cpp" />
     <ClCompile Include="src\AlDisplay.cpp" />
+    <ClCompile Include="src\AllegroConfigEntry.cpp" />
+    <ClCompile Include="src\AllegroConfigSection.cpp" />
+    <ClCompile Include="src\AllegroFile.cpp" />
     <ClCompile Include="src\AlTimer.cpp" />
     <ClCompile Include="src\AllegroCond.cpp" />
     <ClCompile Include="src\AllegroMutex.cpp" />

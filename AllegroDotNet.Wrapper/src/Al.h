@@ -14,10 +14,13 @@ namespace AllegroDotNet::Wrapper
 
 	ref class AllegroBitmap;
 	ref class AllegroConfig;
+	ref class AllegroConfigEntry;
+	ref class AllegroConfigSection;
 	ref class AllegroDisplay;
 	ref class AllegroEvent;
 	ref class AllegroEventQueue;
 	ref class AllegroEventSource;
+	ref class AllegroFile;
 	ref class AllegroKeyboardState;
 	ref class AllegroPath;
 	ref class AllegroTimeout;
@@ -25,10 +28,31 @@ namespace AllegroDotNet::Wrapper
 	ref class AllegroUserEvent;
 
 	using namespace System;
+	using namespace System::Runtime::InteropServices;
 
 	public ref class Al sealed
 	{
 	public:
+		// Configuration Files - AlConfig.cpp
+		static AllegroConfig^ CreateConfig();
+		static AllegroConfig^ LoadConfigFile(String^ filename);
+		static AllegroConfig^ LoadConfigFileF(AllegroFile^ file);
+		static AllegroConfig^ MergeConfig(AllegroConfig^ config1, AllegroConfig^ config2);
+		static Boolean RemoveConfigKey(AllegroConfig^ config, String^ section, String^ key);
+		static Boolean RemoveConfigSection(AllegroConfig^ config, String^ section);
+		static Boolean SaveConfigFile(String^ filename, AllegroConfig^ config);
+		static Boolean SaveConfigFileF(AllegroFile^ file, AllegroConfig^ config);
+		static String^ GetConfigValue(AllegroConfig^ config, String^ section, String^ key);
+		static String^ GetFirstConfigEntry(AllegroConfig^ config, String^ section, [OutAttribute] AllegroConfigEntry^% iterator);
+		static String^ GetFirstConfigSection(AllegroConfig^ config, [OutAttribute] AllegroConfigSection^% iterator);
+		static String^ GetNextConfigEntry(AllegroConfigEntry^ iterator);
+		static String^ GetNextConfigSection(AllegroConfigSection^ iterator);
+		static void AddConfigComment(AllegroConfig^ config, String^ section, String^ comment);
+		static void AddConfigSection(AllegroConfig^ config, String^ name);
+		static void DestroyConfig(AllegroConfig^ config);
+		static void MergeConfigInto(AllegroConfig^ master, AllegroConfig^ add);
+		static void SetConfigValue(AllegroConfig^ config, String^ section, String^ key, String^ value);
+
 		// Displays - AlDisplay.cpp
 		literal Int32 NewWindowTitleMaxSize = ALLEGRO_NEW_WINDOW_TITLE_MAX_SIZE;
 

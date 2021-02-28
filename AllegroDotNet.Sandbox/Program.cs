@@ -26,6 +26,10 @@ namespace AllegroDotNet.Sandbox
             Thread.Sleep(3000);
             Al.DestroyDisplay(display);
 
+            var config = Al.CreateConfig();
+            Al.SetConfigValue(config, "MainSection", "MainKey", "55");
+            var configSection = Al.GetFirstConfigEntry(config, "MainSection", out var iterator);
+
             Al.UninstallSystem();
             Console.WriteLine("Done.");
         }

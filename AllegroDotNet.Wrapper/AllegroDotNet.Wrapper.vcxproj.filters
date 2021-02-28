@@ -83,6 +83,18 @@
     <ClCompile Include="src\AlDisplay.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\AllegroConfigSection.cpp">
+      <Filter>Source Files\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AllegroConfigEntry.cpp">
+      <Filter>Source Files\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AllegroFile.cpp">
+      <Filter>Source Files\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AlConfig.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\PCH.h">
@@ -195,6 +207,15 @@
     </ClInclude>
     <ClInclude Include="src\PixelFormat.h">
       <Filter>Source Files\Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AllegroConfigSection.h">
+      <Filter>Source Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AllegroConfigEntry.h">
+      <Filter>Source Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AllegroFile.h">
+      <Filter>Source Files\Models</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
