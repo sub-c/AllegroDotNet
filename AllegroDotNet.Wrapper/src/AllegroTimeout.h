@@ -9,6 +9,8 @@ namespace AllegroDotNet::Wrapper
 	public ref class AllegroTimeout sealed : public NativePointer<ALLEGRO_TIMEOUT>
 	{
 	internal:
-		AllegroTimeout(ALLEGRO_TIMEOUT* nativeTimeout);
+		AllegroTimeout(ALLEGRO_TIMEOUT* nativeTimeout) : NativePointer(nativeTimeout)
+		{
+		}
 	};
 }

@@ -23,6 +23,8 @@ namespace AllegroDotNet::Wrapper
 	ref class AllegroEventQueue;
 	ref class AllegroEventSource;
 	ref class AllegroFile;
+	ref class AllegroJoystick;
+	ref class AllegroJoystickState;
 	ref class AllegroKeyboardState;
 	ref class AllegroPath;
 	ref class AllegroTimeout;
@@ -124,6 +126,9 @@ namespace AllegroDotNet::Wrapper
 		static void UnrefUserEvent(AllegroUserEvent^ userEvent);
 		static void UnregisterEventSource(AllegroEventQueue^ queue, AllegroEventSource^ source);
 		static void WaitForEvent(AllegroEventQueue^ queue, AllegroEvent^ retEvent);
+
+		// Joystick routines - AlJoystick.cpp
+
 
 		// Keyboard routines - AlKeyboard.cpp
 		static AllegroEventSource^ GetKeyboardEventSource();

@@ -9,6 +9,8 @@ namespace AllegroDotNet::Wrapper
 	public ref class AllegroDisplay sealed : NativePointer<ALLEGRO_DISPLAY>
 	{
 	internal:
-		AllegroDisplay(ALLEGRO_DISPLAY* nativeDisplay);
+		AllegroDisplay(ALLEGRO_DISPLAY* nativeDisplay) : NativePointer(nativeDisplay)
+		{
+		}
 	};
 }

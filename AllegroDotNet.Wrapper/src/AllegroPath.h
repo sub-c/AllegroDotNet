@@ -9,6 +9,8 @@ namespace AllegroDotNet::Wrapper
 	public ref class AllegroPath sealed : public NativePointer<ALLEGRO_PATH>
 	{
 	internal:
-		AllegroPath(ALLEGRO_PATH* nativePath);
+		AllegroPath(ALLEGRO_PATH* nativePath) : NativePointer(nativePath)
+		{
+		}
 	};
 }

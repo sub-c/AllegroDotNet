@@ -9,6 +9,8 @@ namespace AllegroDotNet::Wrapper
 	public ref class AllegroThread sealed : public NativePointer<ALLEGRO_THREAD>
 	{
 	internal:
-		AllegroThread(ALLEGRO_THREAD* nativeThread);
+		AllegroThread(ALLEGRO_THREAD* nativeThread) : NativePointer(nativeThread)
+		{
+		}
 	};
 }

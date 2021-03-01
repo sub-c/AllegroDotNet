@@ -9,6 +9,8 @@ namespace AllegroDotNet::Wrapper
 	public ref class AllegroCond sealed : public NativePointer<ALLEGRO_COND>
 	{
 	internal:
-		AllegroCond(ALLEGRO_COND* nativeCond);
+		AllegroCond(ALLEGRO_COND* nativeCond) : NativePointer(nativeCond)
+		{
+		}
 	};
 }

@@ -9,6 +9,8 @@ namespace AllegroDotNet::Wrapper
 	public ref class AllegroMutex sealed : public NativePointer<ALLEGRO_MUTEX>
 	{
 	internal:
-		AllegroMutex(ALLEGRO_MUTEX* nativeMutex);
+		AllegroMutex(ALLEGRO_MUTEX* nativeMutex) : NativePointer(nativeMutex)
+		{
+		}
 	};
 }

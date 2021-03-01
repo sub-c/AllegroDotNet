@@ -35,6 +35,8 @@ namespace AllegroDotNet::Wrapper
 		initonly Touch^ Touch { gcnew AllegroDotNet::Wrapper::Touch(this->GetNativePointer()) };
 		initonly AllegroUserEvent^ AllegroUserEvent { gcnew AllegroDotNet::Wrapper::AllegroUserEvent(this->GetNativePointer()) };
 
-		AllegroEvent();
+		AllegroEvent() : NativeDisposableStruct()
+		{
+		}
 	};
 }

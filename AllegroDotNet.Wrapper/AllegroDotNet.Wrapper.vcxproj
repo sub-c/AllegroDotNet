@@ -52,15 +52,18 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Button.h" />
     <ClInclude Include="src\AllegroCond.h" />
     <ClInclude Include="src\AllegroConfigEntry.h" />
     <ClInclude Include="src\AllegroConfigSection.h" />
     <ClInclude Include="src\AllegroFile.h" />
+    <ClInclude Include="src\AllegroJoystickState.h" />
     <ClInclude Include="src\AllegroMutex.h" />
     <ClInclude Include="src\AllegroThread.h" />
     <ClInclude Include="src\AllegroEventQueue.h" />
     <ClInclude Include="src\AllegroTimeout.h" />
     <ClInclude Include="src\Importance.h" />
+    <ClInclude Include="src\JoyFlags.h" />
     <ClInclude Include="src\KeyModFlags.h" />
     <ClInclude Include="src\AllegroBitmap.h" />
     <ClInclude Include="src\AllegroDisplay.h" />
@@ -92,30 +95,14 @@
     <ClInclude Include="src\Timer.h" />
     <ClInclude Include="src\Touch.h" />
     <ClInclude Include="src\AllegroUserEvent.h" />
+    <ClInclude Include="src\StickAxis.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\AlConfig.cpp" />
     <ClCompile Include="src\AlDisplay.cpp" />
     <ClCompile Include="src\AlKeyboard.cpp" />
-    <ClCompile Include="src\AllegroConfigEntry.cpp" />
-    <ClCompile Include="src\AllegroConfigSection.cpp" />
-    <ClCompile Include="src\AllegroFile.cpp" />
     <ClCompile Include="src\AlTimer.cpp" />
-    <ClCompile Include="src\AllegroCond.cpp" />
-    <ClCompile Include="src\AllegroMutex.cpp" />
-    <ClCompile Include="src\AllegroThread.cpp" />
     <ClCompile Include="src\AlEvent.cpp" />
-    <ClCompile Include="src\AllegroBitmap.cpp" />
-    <ClCompile Include="src\AllegroDisplay.cpp" />
-    <ClCompile Include="src\AllegroConfig.cpp" />
-    <ClCompile Include="src\AllegroEvent.cpp" />
-    <ClCompile Include="src\AllegroEventQueue.cpp" />
-    <ClCompile Include="src\AllegroEventSource.cpp" />
-    <ClCompile Include="src\AllegroJoystick.cpp" />
-    <ClCompile Include="src\AllegroKeyboardState.cpp" />
-    <ClCompile Include="src\AllegroPath.cpp" />
-    <ClCompile Include="src\AllegroTimeout.cpp" />
-    <ClCompile Include="src\AllegroTimer.cpp" />
     <ClCompile Include="src\AlNativeSystem.cpp" />
     <ClCompile Include="src\PCH.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>

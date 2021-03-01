@@ -21,16 +21,13 @@
     <Filter Include="Source Files\Models\Events">
       <UniqueIdentifier>{5b5d4844-b509-4fc9-95cb-c97f2ad8c609}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Models\Joysticks">
+      <UniqueIdentifier>{2022c73f-cc5d-4118-b8b3-e415797b0a7f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\PCH.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\AllegroPath.cpp">
-      <Filter>Source Files\Models</Filter>
-    </ClCompile>
-    <ClCompile Include="src\AllegroConfig.cpp">
-      <Filter>Source Files\Models</Filter>
     </ClCompile>
     <ClCompile Include="src\AlNativeSystem.cpp">
       <Filter>Source Files\Native</Filter>
@@ -38,59 +35,14 @@
     <ClCompile Include="src\AlSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\AllegroDisplay.cpp">
-      <Filter>Source Files\Models</Filter>
-    </ClCompile>
-    <ClCompile Include="src\AllegroBitmap.cpp">
-      <Filter>Source Files\Models</Filter>
-    </ClCompile>
-    <ClCompile Include="src\AllegroKeyboardState.cpp">
-      <Filter>Source Files\Models</Filter>
-    </ClCompile>
-    <ClCompile Include="src\AllegroEvent.cpp">
-      <Filter>Source Files\Models</Filter>
-    </ClCompile>
-    <ClCompile Include="src\AllegroEventSource.cpp">
-      <Filter>Source Files\Models</Filter>
-    </ClCompile>
-    <ClCompile Include="src\AllegroJoystick.cpp">
-      <Filter>Source Files\Models</Filter>
-    </ClCompile>
-    <ClCompile Include="src\AllegroTimer.cpp">
-      <Filter>Source Files\Models</Filter>
-    </ClCompile>
-    <ClCompile Include="src\AllegroEventQueue.cpp">
-      <Filter>Source Files\Models</Filter>
-    </ClCompile>
     <ClCompile Include="src\AlEvent.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\AllegroTimeout.cpp">
-      <Filter>Source Files\Models</Filter>
-    </ClCompile>
-    <ClCompile Include="src\AllegroThread.cpp">
-      <Filter>Source Files\Models</Filter>
-    </ClCompile>
-    <ClCompile Include="src\AllegroMutex.cpp">
-      <Filter>Source Files\Models</Filter>
-    </ClCompile>
-    <ClCompile Include="src\AllegroCond.cpp">
-      <Filter>Source Files\Models</Filter>
     </ClCompile>
     <ClCompile Include="src\AlTimer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\AlDisplay.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\AllegroConfigSection.cpp">
-      <Filter>Source Files\Models</Filter>
-    </ClCompile>
-    <ClCompile Include="src\AllegroConfigEntry.cpp">
-      <Filter>Source Files\Models</Filter>
-    </ClCompile>
-    <ClCompile Include="src\AllegroFile.cpp">
-      <Filter>Source Files\Models</Filter>
     </ClCompile>
     <ClCompile Include="src\AlConfig.cpp">
       <Filter>Source Files</Filter>
@@ -219,6 +171,18 @@
     </ClInclude>
     <ClInclude Include="src\AllegroFile.h">
       <Filter>Source Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="src\JoyFlags.h">
+      <Filter>Source Files\Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AllegroJoystickState.h">
+      <Filter>Source Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Button.h">
+      <Filter>Source Files\Models\Joysticks</Filter>
+    </ClInclude>
+    <ClInclude Include="src\StickAxis.h">
+      <Filter>Source Files\Models\Joysticks</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

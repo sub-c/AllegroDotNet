@@ -9,6 +9,8 @@ namespace AllegroDotNet::Wrapper
 	public ref class AllegroFile sealed : public NativePointer<ALLEGRO_FILE>
 	{
 	internal:
-		AllegroFile(ALLEGRO_FILE* newFile);
+		AllegroFile(ALLEGRO_FILE* newFile) : NativePointer(newFile)
+		{
+		}
 	};
 }
