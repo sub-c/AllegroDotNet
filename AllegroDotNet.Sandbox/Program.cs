@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading;
 using AllegroDotNet.Wrapper;
 
@@ -19,6 +18,9 @@ namespace AllegroDotNet.Sandbox
             Al.RegisterAssertHandler(HandleAssert);
             Al.RegisterTraceHandler(HandleTrace);
 
+            Console.WriteLine("Install Joystick: " + Al.InstallJoystick());
+            Console.WriteLine("Joysticks: " + Al.GetNumJoysticks());
+
             var allegroEvent = new AllegroEvent();
             var allegroEventQueue = Al.CreateEventQueue();
             Al.DestroyEventQueue(allegroEventQueue);
@@ -31,6 +33,7 @@ namespace AllegroDotNet.Sandbox
             Al.SetConfigValue(config, "MainSection", "MainKey", "55");
             var configSection = Al.GetFirstConfigEntry(config, "MainSection", out var iterator);
 
+            Al.UninstallJoystick();
             Al.UninstallSystem();
             Console.WriteLine("Done.");
         }

@@ -98,6 +98,7 @@
     <ClInclude Include="src\StickAxis.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\AlJoystick.cpp" />
     <ClCompile Include="src\AlConfig.cpp" />
     <ClCompile Include="src\AlDisplay.cpp" />
     <ClCompile Include="src\AlKeyboard.cpp" />

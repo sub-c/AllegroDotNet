@@ -8,6 +8,7 @@ namespace AllegroDotNet::Wrapper
 	enum class DisplayOption;
 	enum class DisplayOrientation;
 	enum class Importance;
+	enum class JoyFlags;
 	enum class KeyCode;
 	enum class KeyModFlags;
 	enum class PixelFormat;
@@ -128,7 +129,24 @@ namespace AllegroDotNet::Wrapper
 		static void WaitForEvent(AllegroEventQueue^ queue, AllegroEvent^ retEvent);
 
 		// Joystick routines - AlJoystick.cpp
-
+		static AllegroEventSource^ GetJoystickEventSource();
+		static AllegroJoystick^ GetJoystick(Int32 num);
+		static Boolean GetJoystickActive(AllegroJoystick^ joy);
+		static Boolean InstallJoystick();
+		static Boolean IsJoystickInstalled();
+		static Boolean ReconfigureJoysticks();
+		static Int32 GetJoystickNumAxes(AllegroJoystick^ joy, Int32 stick);
+		static Int32 GetJoystickNumButtons(AllegroJoystick^ joy);
+		static Int32 GetJoystickNumSticks(AllegroJoystick^ joy);
+		static Int32 GetNumJoysticks();
+		static JoyFlags GetJoystickStickFlags(AllegroJoystick^ joy, Int32 stick);
+		static String^ GetJoystickAxisName(AllegroJoystick^ joy, Int32 stick, Int32 axis);
+		static String^ GetJoystickButtonName(AllegroJoystick^ joy, Int32 button);
+		static String^ GetJoystickName(AllegroJoystick^ joy);
+		static String^ GetJoystickStickName(AllegroJoystick^ joy, Int32 stick);
+		static void GetJoystickState(AllegroJoystick^ joy, AllegroJoystickState^ retState);
+		static void ReleaseJoystick(AllegroJoystick^ joy);
+		static void UninstallJoystick();
 
 		// Keyboard routines - AlKeyboard.cpp
 		static AllegroEventSource^ GetKeyboardEventSource();
