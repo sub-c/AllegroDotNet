@@ -14,6 +14,7 @@ namespace AllegroDotNet::Wrapper
 	enum class PixelFormat;
 	enum class StandardPath;
 	enum class SystemID;
+	enum class SystemMouseCursor;
 
 	ref class AllegroBitmap;
 	ref class AllegroConfig;
@@ -27,6 +28,8 @@ namespace AllegroDotNet::Wrapper
 	ref class AllegroJoystick;
 	ref class AllegroJoystickState;
 	ref class AllegroKeyboardState;
+	ref class AllegroMouseCursor;
+	ref class AllegroMouseState;
 	ref class AllegroPath;
 	ref class AllegroTimeout;
 	ref class AllegroTimer;
@@ -158,6 +161,32 @@ namespace AllegroDotNet::Wrapper
 		static void GetKeyboardState(AllegroKeyboardState^ retState);
 		static void UninstallKeyboard();
 
+		// Mouse routines - AlMouse.cpp
+		static AllegroEventSource^ GetMouseEventSource();
+		static AllegroMouseCursor^ CreateMouseCursor(AllegroBitmap^ bmp, Int32 xFocus, Int32 yFocus);
+		static Boolean GetMouseCursorPosition(Int32^ retX, Int32^ retY);
+		static Boolean GrabMouse(AllegroDisplay^ display);
+		static Boolean HideMouseCursor(AllegroDisplay^ display);
+		static Boolean InstallMouse();
+		static Boolean IsMouseInstalled();
+		static Boolean MouseButtonDown(AllegroMouseState^ state, Int32 button);
+		static Boolean SetMouseAxis(Int32 which, Int32 value);
+		static Boolean SetMouseCursor(AllegroDisplay^ display, AllegroMouseCursor^ cursor);
+		static Boolean SetMouseW(Int32 w);
+		static Boolean SetMouseXY(AllegroDisplay^ display, Int32 x, Int32 y);
+		static Boolean SetMouseZ(Int32 z);
+		static Boolean SetSystemMouseCursor(AllegroDisplay^ display, SystemMouseCursor cursorId);
+		static Boolean ShowMouseCursor(AllegroDisplay^ display);
+		static Boolean UngrabMouse();
+		static Int32 GetMouseStateAxis(AllegroMouseState^ state, Int32 axis);
+		static Int32 GetMouseWheelPrecision();
+		static UInt32 GetMouseNumAxes();
+		static UInt32 GetMouseNumButtons();
+		static void DestroyMouseCursor(AllegroMouseCursor^ cursor);
+		static void GetMouseState(AllegroMouseState^ retState);
+		static void SetMouseWheelPrecision(Int32 precision);
+		static void UninstallMouse();
+
 		// System - AlSystem.cpp
 		static AllegroConfig^ GetSystemConfig();
 		static AllegroPath^ GetStandardPath(StandardPath id);
@@ -178,6 +207,11 @@ namespace AllegroDotNet::Wrapper
 
 		static Action<String^, String^, Int32, String^>^ ManagedAssertHandler = nullptr;
 		static Action<String^>^ ManagedTraceHandler = nullptr;
+
+		// Time routines - AlTime.cpp
+		static Double GetTime();
+		static void InitTimeout(AllegroTimeout^ timeout, Double seconds);
+		static void Rest(Double seconds);
 
 		// Timer routines - AlTimer.cpp
 		static AllegroEventSource^ GetTimerEventSource(AllegroTimer^ timer);

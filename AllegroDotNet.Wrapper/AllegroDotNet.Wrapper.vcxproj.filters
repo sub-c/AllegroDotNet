@@ -53,6 +53,12 @@
     <ClCompile Include="src\AlJoystick.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\AlTime.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AlMouse.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\PCH.h">
@@ -186,6 +192,15 @@
     </ClInclude>
     <ClInclude Include="src\StickAxis.h">
       <Filter>Source Files\Models\Joysticks</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AllegroMouseState.h">
+      <Filter>Source Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AllegroMouseCursor.h">
+      <Filter>Source Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SystemMouseCursor.h">
+      <Filter>Source Files\Enums</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

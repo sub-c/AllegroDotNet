@@ -52,6 +52,8 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\AllegroMouseCursor.h" />
+    <ClInclude Include="src\AllegroMouseState.h" />
     <ClInclude Include="src\Button.h" />
     <ClInclude Include="src\AllegroCond.h" />
     <ClInclude Include="src\AllegroConfigEntry.h" />
@@ -92,6 +94,7 @@
     <ClInclude Include="src\PixelFormat.h" />
     <ClInclude Include="src\StandardPath.h" />
     <ClInclude Include="src\SystemID.h" />
+    <ClInclude Include="src\SystemMouseCursor.h" />
     <ClInclude Include="src\Timer.h" />
     <ClInclude Include="src\Touch.h" />
     <ClInclude Include="src\AllegroUserEvent.h" />
@@ -102,6 +105,8 @@
     <ClCompile Include="src\AlConfig.cpp" />
     <ClCompile Include="src\AlDisplay.cpp" />
     <ClCompile Include="src\AlKeyboard.cpp" />
+    <ClCompile Include="src\AlMouse.cpp" />
+    <ClCompile Include="src\AlTime.cpp" />
     <ClCompile Include="src\AlTimer.cpp" />
     <ClCompile Include="src\AlEvent.cpp" />
     <ClCompile Include="src\AlNativeSystem.cpp" />

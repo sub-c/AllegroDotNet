@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading;
 using AllegroDotNet.Wrapper;
 
 namespace AllegroDotNet.Sandbox
@@ -26,7 +25,7 @@ namespace AllegroDotNet.Sandbox
             Al.DestroyEventQueue(allegroEventQueue);
 
             var display = Al.CreateDisplay(1280, 720);
-            Thread.Sleep(3000);
+            Al.Rest(3);
             Al.DestroyDisplay(display);
 
             var config = Al.CreateConfig();

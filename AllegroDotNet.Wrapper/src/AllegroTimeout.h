@@ -2,14 +2,14 @@
 
 #include "PCH.h"
 
-#include "NativePointer.h"
+#include "NativeDisposableStruct.h"
 
 namespace AllegroDotNet::Wrapper
 {
-	public ref class AllegroTimeout sealed : public NativePointer<ALLEGRO_TIMEOUT>
+	public ref class AllegroTimeout sealed : public NativeDisposableStruct<ALLEGRO_TIMEOUT>
 	{
-	internal:
-		AllegroTimeout(ALLEGRO_TIMEOUT* nativeTimeout) : NativePointer(nativeTimeout)
+	public:
+		AllegroTimeout() : NativeDisposableStruct()
 		{
 		}
 	};
