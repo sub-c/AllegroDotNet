@@ -59,6 +59,9 @@
     <ClCompile Include="src\AlMouse.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\AlFullscreen.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\PCH.h">
@@ -201,6 +204,9 @@
     </ClInclude>
     <ClInclude Include="src\SystemMouseCursor.h">
       <Filter>Source Files\Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AllegroDisplayMode.h">
+      <Filter>Source Files\Models</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

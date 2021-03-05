@@ -21,6 +21,7 @@ namespace AllegroDotNet::Wrapper
 	ref class AllegroConfigEntry;
 	ref class AllegroConfigSection;
 	ref class AllegroDisplay;
+	ref class AllegroDisplayMode;
 	ref class AllegroEvent;
 	ref class AllegroEventQueue;
 	ref class AllegroEventSource;
@@ -130,6 +131,10 @@ namespace AllegroDotNet::Wrapper
 		static void UnrefUserEvent(AllegroUserEvent^ userEvent);
 		static void UnregisterEventSource(AllegroEventQueue^ queue, AllegroEventSource^ source);
 		static void WaitForEvent(AllegroEventQueue^ queue, AllegroEvent^ retEvent);
+
+		// Fullscreen modes - AlFullscreen.cpp
+		static AllegroDisplayMode^ GetDisplayMode(Int32 index, AllegroDisplayMode^ mode);
+		static Int32 GetNumDisplayModes();
 
 		// Joystick routines - AlJoystick.cpp
 		static AllegroEventSource^ GetJoystickEventSource();

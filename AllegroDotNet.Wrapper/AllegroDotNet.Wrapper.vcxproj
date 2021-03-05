@@ -52,6 +52,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\AllegroDisplayMode.h" />
     <ClInclude Include="src\AllegroMouseCursor.h" />
     <ClInclude Include="src\AllegroMouseState.h" />
     <ClInclude Include="src\Button.h" />
@@ -101,6 +102,7 @@
     <ClInclude Include="src\StickAxis.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\AlFullscreen.cpp" />
     <ClCompile Include="src\AlJoystick.cpp" />
     <ClCompile Include="src\AlConfig.cpp" />
     <ClCompile Include="src\AlDisplay.cpp" />
