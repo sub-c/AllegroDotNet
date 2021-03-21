@@ -25,7 +25,12 @@ namespace AllegroDotNet.Sandbox
             Al.DestroyEventQueue(allegroEventQueue);
 
             var display = Al.CreateDisplay(1280, 720);
+
+            AllegroColor color = Al.MapRgb(200, 50, 100);
+            Al.ClearToColor(color);
+            Al.FlipDisplay();
             Al.Rest(3);
+
             Al.DestroyDisplay(display);
 
             var config = Al.CreateConfig();

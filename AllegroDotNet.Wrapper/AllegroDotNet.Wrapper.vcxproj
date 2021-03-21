@@ -52,9 +52,16 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\AllegroColor.h" />
     <ClInclude Include="src\AllegroDisplayMode.h" />
+    <ClInclude Include="src\AllegroLockedRegion.h" />
     <ClInclude Include="src\AllegroMouseCursor.h" />
     <ClInclude Include="src\AllegroMouseState.h" />
+    <ClInclude Include="src\BitmapFlags.h" />
+    <ClInclude Include="src\BitmapFlip.h" />
+    <ClInclude Include="src\BitmapLoadFlags.h" />
+    <ClInclude Include="src\BlenderFactor.h" />
+    <ClInclude Include="src\BlenderOperation.h" />
     <ClInclude Include="src\Button.h" />
     <ClInclude Include="src\AllegroCond.h" />
     <ClInclude Include="src\AllegroConfigEntry.h" />
@@ -87,12 +94,15 @@
     <ClInclude Include="src\Joystick.h" />
     <ClInclude Include="src\Keyboard.h" />
     <ClInclude Include="src\KeyCode.h" />
+    <ClInclude Include="src\LockFlags.h" />
     <ClInclude Include="src\Mouse.h" />
     <ClInclude Include="src\NativeDisposableStruct.h" />
     <ClInclude Include="src\NativePointer.h" />
     <ClInclude Include="src\PCH.h" />
     <ClInclude Include="src\Al.h" />
     <ClInclude Include="src\PixelFormat.h" />
+    <ClInclude Include="src\RenderFunction.h" />
+    <ClInclude Include="src\RenderState.h" />
     <ClInclude Include="src\StandardPath.h" />
     <ClInclude Include="src\SystemID.h" />
     <ClInclude Include="src\SystemMouseCursor.h" />
@@ -103,6 +113,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\AlFullscreen.cpp" />
+    <ClCompile Include="src\AlGraphics.cpp" />
     <ClCompile Include="src\AlJoystick.cpp" />
     <ClCompile Include="src\AlConfig.cpp" />
     <ClCompile Include="src\AlDisplay.cpp" />

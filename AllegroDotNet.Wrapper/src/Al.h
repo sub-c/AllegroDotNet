@@ -2,8 +2,35 @@
 
 #include "PCH.h"
 
+// Enumerations
+#include "BitmapFlags.h"
+#include "BitmapFlip.h"
+#include "BitmapLoadFlags.h"
+#include "BlenderFactor.h"
+#include "BlenderOperation.h"
+#include "DisplayFlags.h"
+#include "DisplayOption.h"
+#include "DisplayOrientation.h"
+#include "EventType.h"
+#include "Importance.h"
+#include "JoyFlags.h"
+#include "KeyCode.h"
+#include "KeyModFlags.h"
+#include "LockFlags.h"
+#include "PixelFormat.h"
+#include "RenderFunction.h"
+#include "RenderState.h"
+#include "StandardPath.h"
+#include "SystemID.h"
+#include "SystemMouseCursor.h"
+
 namespace AllegroDotNet::Wrapper
 {
+	enum class BitmapFlags;
+	enum class BitmapFlip;
+	enum class BitmapLoadFlags;
+	enum class BlenderFactor;
+	enum class BlenderOperation;
 	enum class DisplayFlags;
 	enum class DisplayOption;
 	enum class DisplayOrientation;
@@ -11,12 +38,18 @@ namespace AllegroDotNet::Wrapper
 	enum class JoyFlags;
 	enum class KeyCode;
 	enum class KeyModFlags;
+	enum class LockFlags;
 	enum class PixelFormat;
+	enum class RenderFunction;
+	enum class RenderState;
+	enum class RenderState;
 	enum class StandardPath;
 	enum class SystemID;
 	enum class SystemMouseCursor;
 
 	ref class AllegroBitmap;
+	ref class AllegroColor;
+	ref class AllegroCond;
 	ref class AllegroConfig;
 	ref class AllegroConfigEntry;
 	ref class AllegroConfigSection;
@@ -29,6 +62,7 @@ namespace AllegroDotNet::Wrapper
 	ref class AllegroJoystick;
 	ref class AllegroJoystickState;
 	ref class AllegroKeyboardState;
+	ref class AllegroLockedRegion;
 	ref class AllegroMouseCursor;
 	ref class AllegroMouseState;
 	ref class AllegroPath;
@@ -42,7 +76,7 @@ namespace AllegroDotNet::Wrapper
 	public ref class Al sealed
 	{
 	public:
-		// Configuration Files - AlConfig.cpp
+		// Configuration Files - AlConfig.cpp =================================
 		static AllegroConfig^ CreateConfig();
 		static AllegroConfig^ LoadConfigFile(String^ filename);
 		static AllegroConfig^ LoadConfigFileF(AllegroFile^ file);
@@ -62,7 +96,7 @@ namespace AllegroDotNet::Wrapper
 		static void MergeConfigInto(AllegroConfig^ master, AllegroConfig^ add);
 		static void SetConfigValue(AllegroConfig^ config, String^ section, String^ key, String^ value);
 
-		// Displays - AlDisplay.cpp
+		// Displays - AlDisplay.cpp ===========================================
 		literal Int32 NewWindowTitleMaxSize = ALLEGRO_NEW_WINDOW_TITLE_MAX_SIZE;
 
 		static AllegroBitmap^ GetBackbuffer(AllegroDisplay^ display);
@@ -108,8 +142,8 @@ namespace AllegroDotNet::Wrapper
 		static void SetWindowPosition(AllegroDisplay^ display, Int32 x, Int32 y);
 		static void SetWindowTitle(AllegroDisplay^ display, String^ title);
 		static void UpdateDisplayRegion(Int32 x, Int32 y, Int32 width, Int32 height);
-		
-		// Event system and events - AlEvent.cpp
+
+		// Event system and events - AlEvent.cpp ====================================
 		static AllegroEventQueue^ CreateEventQueue();
 		static Boolean DropNextEvent(AllegroEventQueue^ queue);
 		static Boolean EmitUserEvent(AllegroEventSource^ source, AllegroEvent^ event, Action<AllegroUserEvent^>^ dtor);
@@ -132,11 +166,125 @@ namespace AllegroDotNet::Wrapper
 		static void UnregisterEventSource(AllegroEventQueue^ queue, AllegroEventSource^ source);
 		static void WaitForEvent(AllegroEventQueue^ queue, AllegroEvent^ retEvent);
 
-		// Fullscreen modes - AlFullscreen.cpp
+		// Fullscreen modes - AlFullscreen.cpp ======================================
 		static AllegroDisplayMode^ GetDisplayMode(Int32 index, AllegroDisplayMode^ mode);
 		static Int32 GetNumDisplayModes();
 
-		// Joystick routines - AlJoystick.cpp
+		// Graphics routines - AlGraphics.cpp =======================================
+		// colors
+		static AllegroColor^ MapRgb(Byte r, Byte g, Byte b);
+		static AllegroColor^ MapRgbA(Byte r, Byte g, Byte b, Byte a);
+		static AllegroColor^ MapRgbAF(Single r, Single g, Single b, Single a);
+		static AllegroColor^ MapRgbF(Single r, Single g, Single b);
+		static AllegroColor^ PremulRgbA(Byte r, Byte g, Byte b, Byte a);
+		static AllegroColor^ PremulRgbAF(Single r, Single g, Single b, Single a);
+		static void UnmapRgb(AllegroColor^ color, Byte% r, Byte% g, Byte% b);
+		static void UnmapRgbA(AllegroColor^ color, Byte% r, Byte% g, Byte% b, Byte% a);
+		static void UnmapRgbAF(AllegroColor^ color, Single% r, Single% g, Single% b, Single% a);
+		static void UnmapRgbF(AllegroColor^ color, Single% r, Single% g, Single% b);
+
+		// locking and pixel formats
+		static AllegroLockedRegion^ LockBitmap(AllegroBitmap^ bitmap, PixelFormat format, LockFlags flags);
+		static AllegroLockedRegion^ LockBitmapBlocked(AllegroBitmap^ bitmap, LockFlags flags);
+		static AllegroLockedRegion^ LockBitmapRegion(AllegroBitmap^ bitmap, Int32 x, Int32 y, Int32 width, Int32 height, PixelFormat format, LockFlags flags);
+		static AllegroLockedRegion^ LockBitmapRegionBlocked(AllegroBitmap^ bitmap, Int32 xBlock, Int32 yBlock, Int32 widthBlock, Int32 heightBlock, LockFlags flags);
+		static Int32 GetPixelBlockHeight(PixelFormat format);
+		static Int32 GetPixelBlockSize(PixelFormat format);
+		static Int32 GetPixelBlockWidth(PixelFormat format);
+		static Int32 GetPixelFormatBits(PixelFormat format);
+		static Int32 GetPixelSize(PixelFormat format);
+		static void UnlockBitmap(AllegroBitmap^ bitmap);
+
+		// bitmap creation
+		static AllegroBitmap^ CloneBitmap(AllegroBitmap^ bitmap);
+		static AllegroBitmap^ CreateBitmap(Int32 w, Int32 h);
+		static AllegroBitmap^ CreateSubBitmap(AllegroBitmap^ parent, Int32 x, Int32 y, Int32 w, Int32 h);
+		static BitmapFlags GetNewBitmapFlags();
+		static PixelFormat GetNewBitmapFormat();
+		static void AddNewBitmapFlag(BitmapFlags flag);
+		static void ConvertBitmap(AllegroBitmap^ bitmap);
+		static void ConvertMemoryBitmaps();
+		static void DestroyBitmap(AllegroBitmap^ bitmap);
+		static void SetNewBitmapFlags(BitmapFlags flags);
+		static void SetNewBitmapFormat(PixelFormat format);
+
+		// bitmap properties
+		static AllegroBitmap^ GetParentBitmap(AllegroBitmap^ bitmap);
+		static AllegroColor^ GetPixel(AllegroBitmap^ bitmap, Int32 x, Int32 y);
+		static BitmapFlags GetBitmapFlags(AllegroBitmap^ bitmap);
+		static Boolean IsBitmapLocked(AllegroBitmap^ bitmap);
+		static Boolean IsCompatibleBitmap(AllegroBitmap^ bitmap);
+		static Boolean IsSubBitmap(AllegroBitmap^ bitmap);
+		static Int32 GetBitmapHeight(AllegroBitmap^ bitmap);
+		static Int32 GetBitmapWidth(AllegroBitmap^ bitmap);
+		static Int32 GetBitmapX(AllegroBitmap^ bitmap);
+		static Int32 GetBitmapY(AllegroBitmap^ bitmap);
+		static PixelFormat GetBitmapFormat(AllegroBitmap^ bitmap);
+		static void ReparentBitmap(AllegroBitmap^ bitmap, AllegroBitmap^ parent, Int32 x, Int32 y, Int32 w, Int32 h);
+
+		// drawing operations
+		static AllegroBitmap^ GetTargetBitmap();
+		static void ClearDepthBuffer(Single z);
+		static void ClearToColor(AllegroColor^ color);
+		static void DrawBitmap(AllegroBitmap^ bitmap, Single dx, Single dy, BitmapFlip flags);
+		static void DrawBitmapRegion(AllegroBitmap^ bitmap, Single sx, Single sy, Single sw, Single sh, Single dx, Single dy, BitmapFlip flags);
+		static void DrawPixel(Single x, Single y, AllegroColor^ color);
+		static void DrawRotatedBitmap(AllegroBitmap^ bitmap, Single cx, Single cy, Single dx, Single dy, Single angle, BitmapFlip flags);
+		static void DrawScaledBitmap(AllegroBitmap^ bitmap, Single sx, Single sy, Single sw, Single sh, Single dx, Single dy, Single dw, Single dh, BitmapFlip flags);
+		static void DrawScaledRotatedBitmap(AllegroBitmap^ bitmap, Single cx, Single cy, Single dx, Single dy, Single xScale, Single yScale, Single angle, BitmapFlip flags);
+		static void DrawTintedBitmap(AllegroBitmap^ bitmap, AllegroColor^ tint, Single dx, Single dy, BitmapFlip flags);
+		static void DrawTintedBitmapRegion(AllegroBitmap^ bitmap, AllegroColor^ tint, Single sx, Single sy, Single sw, Single sh, Single dx, Single dy, BitmapFlip flags);
+		static void DrawTintedRotatedBitmap(AllegroBitmap^ bitmap, AllegroColor^ tint, Single cx, Single cy, Single dx, Single dy, Single angle, BitmapFlip flags);
+		static void DrawTintedScaledBitmap(AllegroBitmap^ bitmap, AllegroColor^ tint, Single sx, Single sy, Single sw, Single sh, Single dx, Single dy, Single dw, Single dh, BitmapFlip flags);
+		static void DrawTintedScaledRotatedBitmap(AllegroBitmap^ bitmap, AllegroColor^ tint, Single cx, Single cy, Single dx, Single dy, Single xScale, Single yScale, Single angle, BitmapFlip flags);
+		static void DrawTintedScaledRotatedBitmapRegion(AllegroBitmap^ bitmap, Single sx, Single sy, Single sw, Single sh, AllegroColor^ tint, Single cx, Single cy, Single dx, Single dy, Single xScale, Single yScale, Single angle, BitmapFlip flags);
+		static void PutBlendedPixel(Int32 x, Int32 y, AllegroColor^ color);
+		static void PutPixel(Int32 x, Int32 y, AllegroColor^ color);
+
+		// target bitmap
+		static AllegroDisplay^ GetCurrentDisplay();
+		static void SetTargetBackbuffer(AllegroDisplay^ display);
+		static void SetTargetBitmap(AllegroBitmap^ bitmap);
+
+		// blending modes
+		static AllegroColor^ GetBlendColor();
+		static void GetBlender([Out] BlenderOperation% op, [Out] BlenderFactor% src, [Out] BlenderFactor% dst);
+		static void GetSeparateBlender([Out] BlenderOperation% op, [Out] BlenderFactor% src, [Out] BlenderFactor% dst, [Out] BlenderOperation% alphaOp, [Out] BlenderFactor% alphaSrc, [Out] BlenderFactor% alphaDst);
+		static void SetBlender(BlenderOperation op, BlenderFactor src, BlenderFactor dst);
+		static void SetBlendColor(AllegroColor^ color);
+		static void SetSeparateBlender(BlenderOperation op, BlenderFactor src, BlenderFactor dst, BlenderOperation alphaOp, BlenderFactor alphaSrc, BlenderFactor alphaDst);
+
+		// clipping
+		static void GetClippingRectangle([Out] Int32% x, [Out] Int32% y, [Out] Int32% w, [Out] Int32% h);
+		static void ResetClippingRectangle();
+		static void SetClippingRectangle(Int32 x, Int32 y, Int32 w, Int32 h);
+
+		// graphics utility functions
+		static void ConvertMaskToAlpha(AllegroBitmap^ bitmap, AllegroColor^ maskColor);
+
+		// deferred drawing
+		static Boolean IsBitmapDrawingHeld();
+		static void HoldBitmapDrawing(Boolean hold);
+
+		// image I/O
+		static AllegroBitmap^ LoadBitmapA(String^ filename);
+		static AllegroBitmap^ LoadBitmapF(AllegroFile^ fp, String^ ident);
+		static AllegroBitmap^ LoadBitmapFlags(String^ filename, BitmapLoadFlags flags);
+		static AllegroBitmap^ LoadBitmapFlagsF(AllegroFile^ fp, String^ ident, BitmapLoadFlags flags);
+		static Boolean RegisterBitmapIdentifier(String^ extension, Func<AllegroFile^, Boolean>^ identifier);
+		static Boolean RegisterBitmapLoader(String^ extension, Func<String^, Int32, AllegroBitmap^>^ loader);
+		static Boolean RegisterBitmapLoaderF(String^ extension, Func<AllegroFile^, Int32, AllegroBitmap^>^ loader);
+		static Boolean RegisterBitmapSaver(String^ extension, Func<String^, Int32, Boolean>^ saver);
+		static Boolean RegisterBitmapSaverF(String^ extension, Func<AllegroFile^, AllegroBitmap^, Boolean>^ saver);
+		static Boolean SaveBitmap(String^ filename, AllegroBitmap^ bitmap);
+		static Boolean SaveBitmapF(AllegroFile^ fp, String^ ident, AllegroBitmap^ bitmap);
+		static String^ IdentifyBitmap(String^ filename);
+		static String^ IdentifyBitmapF(AllegroFile^ fp);
+
+		// render state
+		static void SetRenderState(RenderState state, Int32 value);
+
+		// Joystick routines - AlJoystick.cpp =======================================
 		static AllegroEventSource^ GetJoystickEventSource();
 		static AllegroJoystick^ GetJoystick(Int32 num);
 		static Boolean GetJoystickActive(AllegroJoystick^ joy);
@@ -156,7 +304,7 @@ namespace AllegroDotNet::Wrapper
 		static void ReleaseJoystick(AllegroJoystick^ joy);
 		static void UninstallJoystick();
 
-		// Keyboard routines - AlKeyboard.cpp
+		// Keyboard routines - AlKeyboard.cpp =======================================
 		static AllegroEventSource^ GetKeyboardEventSource();
 		static Boolean InstallKeyboard();
 		static Boolean IsKeyboardInstalled();
@@ -166,7 +314,7 @@ namespace AllegroDotNet::Wrapper
 		static void GetKeyboardState(AllegroKeyboardState^ retState);
 		static void UninstallKeyboard();
 
-		// Mouse routines - AlMouse.cpp
+		// Mouse routines - AlMouse.cpp =======================================
 		static AllegroEventSource^ GetMouseEventSource();
 		static AllegroMouseCursor^ CreateMouseCursor(AllegroBitmap^ bmp, Int32 xFocus, Int32 yFocus);
 		static Boolean GetMouseCursorPosition(Int32^ retX, Int32^ retY);
@@ -192,7 +340,7 @@ namespace AllegroDotNet::Wrapper
 		static void SetMouseWheelPrecision(Int32 precision);
 		static void UninstallMouse();
 
-		// System - AlSystem.cpp
+		// System - AlSystem.cpp ==============================================
 		static AllegroConfig^ GetSystemConfig();
 		static AllegroPath^ GetStandardPath(StandardPath id);
 		static Boolean Init();
@@ -213,12 +361,12 @@ namespace AllegroDotNet::Wrapper
 		static Action<String^, String^, Int32, String^>^ ManagedAssertHandler = nullptr;
 		static Action<String^>^ ManagedTraceHandler = nullptr;
 
-		// Time routines - AlTime.cpp
+		// Time routines - AlTime.cpp =========================================
 		static Double GetTime();
 		static void InitTimeout(AllegroTimeout^ timeout, Double seconds);
 		static void Rest(Double seconds);
 
-		// Timer routines - AlTimer.cpp
+		// Timer routines - AlTimer.cpp =============================================
 		static AllegroEventSource^ GetTimerEventSource(AllegroTimer^ timer);
 		static AllegroTimer^ CreateTimer(Double speedSecs);
 		static Boolean GetTimerStarted(AllegroTimer^ timer);

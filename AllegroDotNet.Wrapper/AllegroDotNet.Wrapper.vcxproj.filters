@@ -62,6 +62,9 @@
     <ClCompile Include="src\AlFullscreen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\AlGraphics.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\PCH.h">
@@ -207,6 +210,36 @@
     </ClInclude>
     <ClInclude Include="src\AllegroDisplayMode.h">
       <Filter>Source Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AllegroColor.h">
+      <Filter>Source Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AllegroLockedRegion.h">
+      <Filter>Source Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="src\RenderState.h">
+      <Filter>Source Files\Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="src\RenderFunction.h">
+      <Filter>Source Files\Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="src\LockFlags.h">
+      <Filter>Source Files\Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BitmapFlags.h">
+      <Filter>Source Files\Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BitmapFlip.h">
+      <Filter>Source Files\Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BlenderOperation.h">
+      <Filter>Source Files\Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BlenderFactor.h">
+      <Filter>Source Files\Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BitmapLoadFlags.h">
+      <Filter>Source Files\Enums</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
