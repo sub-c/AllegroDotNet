@@ -1,3 +1,5 @@
+#pragma once
+
 #include "PCH.h"
 
 #include "PixelFormat.h"

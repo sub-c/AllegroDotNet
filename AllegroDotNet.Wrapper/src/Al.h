@@ -24,29 +24,34 @@
 #include "SystemID.h"
 #include "SystemMouseCursor.h"
 
+// Classes
+//#include "AllegroBitmap.h"
+//#include "AllegroColor.h"
+//#include "AllegroCond.h"
+//#include "AllegroConfig.h"
+//#include "AllegroConfigEntry.h"
+//#include "AllegroConfigSection.h"
+//#include "AllegroDisplay.h"
+//#include "AllegroDisplayMode.h"
+//#include "AllegroEvent.h"
+//#include "AllegroEventQueue.h"
+//#include "AllegroEventSource.h"
+//#include "AllegroFile.h"
+//#include "AllegroJoystick.h"
+//#include "AllegroJoystickState.h"
+//#include "AllegroKeyboardState.h"
+//#include "AllegroLockedRegion.h"
+//#include "AllegroMouseCursor.h"
+//#include "AllegroMouseState.h"
+//#include "AllegroMutex.h"
+//#include "AllegroPath.h"
+//#include "AllegroThread.h"
+//#include "AllegroTimeout.h"
+//#include "AllegroTimer.h"
+//#include "AllegroUserEvent.h"
+
 namespace AllegroDotNet::Wrapper
 {
-	enum class BitmapFlags;
-	enum class BitmapFlip;
-	enum class BitmapLoadFlags;
-	enum class BlenderFactor;
-	enum class BlenderOperation;
-	enum class DisplayFlags;
-	enum class DisplayOption;
-	enum class DisplayOrientation;
-	enum class Importance;
-	enum class JoyFlags;
-	enum class KeyCode;
-	enum class KeyModFlags;
-	enum class LockFlags;
-	enum class PixelFormat;
-	enum class RenderFunction;
-	enum class RenderState;
-	enum class RenderState;
-	enum class StandardPath;
-	enum class SystemID;
-	enum class SystemMouseCursor;
-
 	ref class AllegroBitmap;
 	ref class AllegroColor;
 	ref class AllegroCond;
@@ -76,6 +81,8 @@ namespace AllegroDotNet::Wrapper
 	public ref class Al sealed
 	{
 	public:
+		static Int32 test() { return ALLEGRO_VERSION_INT; }
+
 		// Configuration Files - AlConfig.cpp =================================
 		static AllegroConfig^ CreateConfig();
 		static AllegroConfig^ LoadConfigFile(String^ filename);
@@ -361,12 +368,14 @@ namespace AllegroDotNet::Wrapper
 		static Action<String^, String^, Int32, String^>^ ManagedAssertHandler = nullptr;
 		static Action<String^>^ ManagedTraceHandler = nullptr;
 
+		// Threads - AlThreads.cpp ============================================
+
 		// Time routines - AlTime.cpp =========================================
 		static Double GetTime();
 		static void InitTimeout(AllegroTimeout^ timeout, Double seconds);
 		static void Rest(Double seconds);
 
-		// Timer routines - AlTimer.cpp =============================================
+		// Timer routines - AlTimer.cpp =======================================
 		static AllegroEventSource^ GetTimerEventSource(AllegroTimer^ timer);
 		static AllegroTimer^ CreateTimer(Double speedSecs);
 		static Boolean GetTimerStarted(AllegroTimer^ timer);

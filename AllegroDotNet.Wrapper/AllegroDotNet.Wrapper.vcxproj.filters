@@ -24,6 +24,9 @@
     <Filter Include="Source Files\Models\Joysticks">
       <UniqueIdentifier>{2022c73f-cc5d-4118-b8b3-e415797b0a7f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core">
+      <UniqueIdentifier>{aa8b82e2-2bad-4d31-a605-7ab573a0f9d7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\PCH.cpp">
