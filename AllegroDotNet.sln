@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AllegroDotNet.Sandbox", "Al
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AllegroDotNet.Models", "AllegroDotNet.Models\AllegroDotNet.Models.csproj", "{18DDC7F3-58C4-491F-9F41-CA942054553F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AllegroDotNet", "AllegroDotNet.Core\AllegroDotNet.csproj", "{C99DEAF2-40C3-40E9-B6DD-3B718031C21D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{18DDC7F3-58C4-491F-9F41-CA942054553F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{18DDC7F3-58C4-491F-9F41-CA942054553F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{18DDC7F3-58C4-491F-9F41-CA942054553F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C99DEAF2-40C3-40E9-B6DD-3B718031C21D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C99DEAF2-40C3-40E9-B6DD-3B718031C21D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C99DEAF2-40C3-40E9-B6DD-3B718031C21D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C99DEAF2-40C3-40E9-B6DD-3B718031C21D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
