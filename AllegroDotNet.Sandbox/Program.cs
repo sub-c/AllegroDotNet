@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading;
-using AllegroDotNet.Models;
+using AllegroDotNet.Models.Enums;
 
 namespace AllegroDotNet.Sandbox
 {
@@ -16,6 +16,8 @@ namespace AllegroDotNet.Sandbox
             Al.SetOrgName("fart");
             Console.WriteLine("AppName: " + Al.GetAppName());
             Console.WriteLine("OrgName: " + Al.GetOrgName());
+
+            Console.WriteLine("SystemID: " + Al.GetSystemID());
 
             Al.UninstallSystem();
             Console.WriteLine("Done.");

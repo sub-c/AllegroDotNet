@@ -1,4 +1,4 @@
-﻿namespace AllegroDotNet.Models
+﻿namespace AllegroDotNet.Models.Enums
 {
     public enum StandardPath : int
     {

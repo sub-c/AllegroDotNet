@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using AllegroDotNet.Models;
+using AllegroDotNet.Models.Enums;
 
 namespace AllegroDotNet
 {
@@ -8,7 +9,7 @@ namespace AllegroDotNet
     {
         #region Managed Methods
         /// <summary>
-        /// Gets the compiled version of the ALlegro library.
+        /// Gets the compiled version of the Allegro library.
         /// </summary>
         /// <returns>
         /// Returns the (compiled) version of the Allegro library, packed into a single integer as groups of 8 bits in the form (major << 24) |
@@ -51,6 +52,28 @@ namespace AllegroDotNet
             {
                 NativeIntPtr = al_get_standard_path((int)standardPath)
             };
+
+        /// <summary>
+        /// Gets the system configuration that configures Allegro and its addons. You may populate this configuration before Allegro is initialized
+        /// to control things like logging and system drivers (DirectX vs OpenGL, etc).
+        /// </summary>
+        /// <returns>
+        /// Returns the system configuration structure. The returned configuration should not be destroyed with al_destroy_config. This is mainly
+        /// used for configuring Allegro and its addons. You may populate this configuration before Allegro is installed to control things like
+        /// the logging levels and other features.
+        /// </returns>
+        public static AllegroConfig GetSystemConfig()
+            => new AllegroConfig
+            {
+                NativeIntPtr = al_get_system_config()
+            };
+
+        /// <summary>
+        /// Gets the platform that Allegro is running on.
+        /// </summary>
+        /// <returns>Returns the platform that Allegro is running on.</returns>
+        public static SystemID GetSystemID()
+            => (SystemID)al_get_system_id();
 
         /// <summary>
         /// Initialize the Allegro system. No other Allegro functions can be called before this (with one or two exceptions).
@@ -134,6 +157,12 @@ namespace AllegroDotNet
 
         [DllImport(Constants.AllegroCoreDllFilename)]
         private static extern IntPtr al_get_standard_path(int id);
+
+        [DllImport(Constants.AllegroCoreDllFilename)]
+        private static extern IntPtr al_get_system_config();
+
+        [DllImport(Constants.AllegroCoreDllFilename)]
+        private static extern int al_get_system_id();
 
         [DllImport(Constants.AllegroCoreDllFilename)]
         private static extern bool al_install_system(int version, IntPtr atExitPtr);
