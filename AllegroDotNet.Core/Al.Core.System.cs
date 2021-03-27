@@ -2,12 +2,15 @@
 using System.Runtime.InteropServices;
 using AllegroDotNet.Models;
 using AllegroDotNet.Models.Enums;
+using static AllegroDotNet.Models.Delegates;
 
 namespace AllegroDotNet
 {
+    /// <summary>
+    /// Allegro game library Core methods.
+    /// </summary>
     public static partial class Al
     {
-        #region Managed Methods
         /// <summary>
         /// Gets the compiled version of the Allegro library.
         /// </summary>
@@ -29,6 +32,26 @@ namespace AllegroDotNet
         }
 
         /// <summary>
+        /// Gets the number of CPU cores that the system Allegro is running on has and which could be detected, or a negative number if detection
+        /// failed. Even if a positive number is returned, it might be that it is not correct. For example, Allegro running on a virtual machine will
+        /// return the amount of CPU's of the VM, and not that of the underlying system.
+        /// 
+        /// Furthermore even if the number is correct, this only gives you information about the total CPU cores of the system Allegro runs on.The
+        /// amount of cores available to your program may be less due to circumstances such as programs that are currently running.
+        /// 
+        /// Therefore, it's best to use this for advisory purposes only. It is certainly a bad idea to make your program exclusive to systems for
+        /// which this function returns a certain "desirable" number.
+        /// 
+        /// This function may be called prior to al_install_system or al_init.
+        /// </summary>
+        /// <returns>
+        /// Returns the number of CPU cores that the system Allegro is running on has and which could be detected, or a negative number if detection
+        /// failed.
+        /// </returns>
+        public static int GetCpuCount()
+            => al_get_cpu_count();
+
+        /// <summary>
         /// Gets the global organization name string.
         /// </summary>
         /// <returns>Returns the global organization name string.</returns>
@@ -37,6 +60,27 @@ namespace AllegroDotNet
             var nativeStringPtr = al_get_org_name();
             return Marshal.PtrToStringAnsi(nativeStringPtr);
         }
+
+        /// <summary>
+        /// Gets the size in MB of the random access memory that the system Allegro is running on has and which could be detected, or a negative
+        /// number if detection failed. Even if a positive number is returned, it might be that it is not correct. For example, Allegro running on a
+        /// virtual machine will return the amount of RAM of the VM, and not that of the underlying system.
+        ///
+        /// Furthermore even if the number is correct, this only gives you information about the total physical memory of the system Allegro runs on.
+        /// The memory available to your program may be less or more than what this function returns due to circumstances such as virtual memory, and
+        /// other programs that are currently running.
+        ///
+        /// Therefore, it's best to use this for advisory purposes only. It is certainly a bad idea to make your program exclusive to systems for
+        /// which this function returns a certain "desirable" number.
+        ///
+        /// This function may be called prior to al_install_system or al_init.
+        /// </summary>
+        /// <returns>
+        /// Returns the size in MB of the random access memory that the system Allegro is running on has and which could be detected, or a negative
+        /// number if detection failed.
+        /// </returns>
+        public static int GetRamSize()
+            => al_get_ram_size();
 
         /// <summary>
         /// Gets a system path, depending on the id parameter. Some of these paths may be affected by the organization and application name, so
@@ -106,10 +150,26 @@ namespace AllegroDotNet
             => al_is_system_installed();
 
         /// <summary>
+        /// Register a function to be called when an internal Allegro assertion fails.
+        /// Pass NULL to reset to the default behaviour, which is to do whatever the standard assert() macro does.
+        /// </summary>
+        /// <param name="assertHandler">Method to be called when an internal Allegor assertion fails.</param>
+        public static void RegisterAssertHandler(AssertHandler assertHandler)
+            => al_register_assert_handler(assertHandler);
+
+        /// <summary>
+        /// Register a callback which is called whenever Allegro writes something to its log files. The default logging to allegro.log is disabled
+        /// while this callback is active. Pass NULL to revert to the default logging.
+        /// This function may be called prior to al_install_system.
+        /// See the example allegro5.cfg for documentation on how to configure the used debug channels, logging levels and trace format.
+        /// </summary>
+        /// <param name="traceHandler">Method to be called when Allegro would write something to its log files.</param>
+        public static void RegisterTraceHandler(TraceHandler traceHandler)
+            => al_register_trace_handler(traceHandler);
+
+        /// <summary>
         /// Sets the global application name.
-        ///
         /// The application name is used by <see cref="GetStandardPath(StandardPath)"/> to build the full path to an application's files.
-        ///
         /// This function may be called before <see cref="Init()"/> or <see cref="InstallSystem(int)"/>.
         /// </summary>
         /// <param name="appName">The new application name.</param>
@@ -119,7 +179,6 @@ namespace AllegroDotNet
         /// <summary>
         /// This override the executable name used by <see cref="GetStandardPath(StandardPath)"/> for <see cref="StandardPath.ExeNamePath"/>
         /// and <see cref="StandardPath.ResourcesPath"/>.
-        ///
         /// One possibility where changing this can be useful is if you use the Python wrapper. Allegro would then by default think that the system's
         /// Python executable is the current executable - but you can set it to the .py file being executed instead.
         /// </summary>
@@ -143,7 +202,6 @@ namespace AllegroDotNet
         /// </summary>
         public static void UninstallSystem()
             => al_uninstall_system();
-        #endregion
 
         #region P/Invokes
         [DllImport(Constants.AllegroCoreDllFilename)]
@@ -153,7 +211,13 @@ namespace AllegroDotNet
         private static extern IntPtr al_get_app_name();
 
         [DllImport(Constants.AllegroCoreDllFilename)]
+        private static extern int al_get_cpu_count();
+
+        [DllImport(Constants.AllegroCoreDllFilename)]
         private static extern IntPtr al_get_org_name();
+
+        [DllImport(Constants.AllegroCoreDllFilename)]
+        private static extern int al_get_ram_size();
 
         [DllImport(Constants.AllegroCoreDllFilename)]
         private static extern IntPtr al_get_standard_path(int id);
@@ -169,6 +233,12 @@ namespace AllegroDotNet
 
         [DllImport(Constants.AllegroCoreDllFilename)]
         private static extern bool al_is_system_installed();
+
+        [DllImport(Constants.AllegroCoreDllFilename, CharSet = CharSet.Ansi)]
+        private static extern void al_register_assert_handler(AssertHandler assertHandler);
+
+        [DllImport(Constants.AllegroCoreDllFilename, CharSet = CharSet.Ansi)]
+        private static extern void al_register_trace_handler(TraceHandler traceHandler);
 
         [DllImport(Constants.AllegroCoreDllFilename, CharSet = CharSet.Ansi)]
         private static extern void al_set_app_name([MarshalAs(UnmanagedType.LPStr)] string name);

@@ -18,6 +18,12 @@ namespace AllegroDotNet.Sandbox
             Console.WriteLine("OrgName: " + Al.GetOrgName());
 
             Console.WriteLine("SystemID: " + Al.GetSystemID());
+            Console.WriteLine("CPUs: " + Al.GetCpuCount());
+            Console.WriteLine("RAM: " + Al.GetRamSize());
+
+            var display = Al.CreateDisplay(1920, 1080);
+            Thread.Sleep(1000);
+            Al.DestroyDisplay(display);
 
             Al.UninstallSystem();
             Console.WriteLine("Done.");
