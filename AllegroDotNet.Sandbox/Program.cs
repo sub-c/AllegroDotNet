@@ -21,7 +21,14 @@ namespace AllegroDotNet.Sandbox
             Console.WriteLine("CPUs: " + Al.GetCpuCount());
             Console.WriteLine("RAM: " + Al.GetRamSize());
 
+            Console.WriteLine("GetNewDisplayOption: " + Al.GetNewDisplayOption(DisplayOption.OpenGLMajorVersion, out var importance));
+            Al.SetNewDisplayFlags(DisplayFlags.Windowed | DisplayFlags.Resizable);
+            Console.WriteLine("GetNewDisplayFlags: " + Al.GetNewDisplayFlags());
+
             var display = Al.CreateDisplay(1920, 1080);
+
+            var clipboardText = Al.GetClipboardText(display);
+
             Thread.Sleep(1000);
             Al.DestroyDisplay(display);
 

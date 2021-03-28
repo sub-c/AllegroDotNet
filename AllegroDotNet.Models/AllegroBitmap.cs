@@ -1,12 +1,9 @@
-﻿using System;
-
-namespace AllegroDotNet.Models
+﻿namespace AllegroDotNet.Models
 {
     /// <summary>
     /// Abstract type representing a bitmap (2D image).
     /// </summary>
-    public sealed class AllegroBitmap
+    public sealed class AllegroBitmap : NativePointerWrapper
     {
-        internal IntPtr NativeBitmap = IntPtr.Zero;
     }
 }
