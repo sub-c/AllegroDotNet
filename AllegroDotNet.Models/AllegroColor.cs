@@ -1,4 +1,4 @@
-﻿using System.Runtime.InteropServices;
+﻿using AllegroDotNet.Models.Native;
 
 namespace AllegroDotNet.Models
 {
@@ -7,12 +7,6 @@ namespace AllegroDotNet.Models
     /// </summary>
     public sealed class AllegroColor
     {
-        internal NativeAllegroColor native = new NativeAllegroColor();
-
-        [StructLayout(LayoutKind.Sequential)]
-        internal struct NativeAllegroColor
-        {
-            float r, g, b, a;
-        }
+        internal NativeAllegroColor Native = new NativeAllegroColor();
     }
 }
