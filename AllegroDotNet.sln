@@ -3,24 +3,30 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30907.101
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AllegroDotNet.Wrapper", "AllegroDotNet.Wrapper\AllegroDotNet.Wrapper.vcxproj", "{CE24A822-3986-41CA-A452-4784FF70AE13}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AllegroDotNet.Sandbox", "AllegroDotNet.Sandbox\AllegroDotNet.Sandbox.csproj", "{986E40E1-5B6D-487E-B91D-CC6C318EDEE7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AllegroDotNet.Sandbox", "AllegroDotNet.Sandbox\AllegroDotNet.Sandbox.csproj", "{6260E801-3C0D-40B5-92ED-BD7BF6D1F892}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AllegroDotNet.Models", "AllegroDotNet.Models\AllegroDotNet.Models.csproj", "{18DDC7F3-58C4-491F-9F41-CA942054553F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AllegroDotNet", "AllegroDotNet\AllegroDotNet.csproj", "{C99DEAF2-40C3-40E9-B6DD-3B718031C21D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|x64 = Debug|x64
-		Release|x64 = Release|x64
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{CE24A822-3986-41CA-A452-4784FF70AE13}.Debug|x64.ActiveCfg = Release|x64
-		{CE24A822-3986-41CA-A452-4784FF70AE13}.Debug|x64.Build.0 = Release|x64
-		{CE24A822-3986-41CA-A452-4784FF70AE13}.Release|x64.ActiveCfg = Release|x64
-		{CE24A822-3986-41CA-A452-4784FF70AE13}.Release|x64.Build.0 = Release|x64
-		{6260E801-3C0D-40B5-92ED-BD7BF6D1F892}.Debug|x64.ActiveCfg = Debug|x64
-		{6260E801-3C0D-40B5-92ED-BD7BF6D1F892}.Debug|x64.Build.0 = Debug|x64
-		{6260E801-3C0D-40B5-92ED-BD7BF6D1F892}.Release|x64.ActiveCfg = Release|x64
-		{6260E801-3C0D-40B5-92ED-BD7BF6D1F892}.Release|x64.Build.0 = Release|x64
+		{986E40E1-5B6D-487E-B91D-CC6C318EDEE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{986E40E1-5B6D-487E-B91D-CC6C318EDEE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{986E40E1-5B6D-487E-B91D-CC6C318EDEE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{986E40E1-5B6D-487E-B91D-CC6C318EDEE7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{18DDC7F3-58C4-491F-9F41-CA942054553F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18DDC7F3-58C4-491F-9F41-CA942054553F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18DDC7F3-58C4-491F-9F41-CA942054553F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18DDC7F3-58C4-491F-9F41-CA942054553F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C99DEAF2-40C3-40E9-B6DD-3B718031C21D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C99DEAF2-40C3-40E9-B6DD-3B718031C21D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C99DEAF2-40C3-40E9-B6DD-3B718031C21D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C99DEAF2-40C3-40E9-B6DD-3B718031C21D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
