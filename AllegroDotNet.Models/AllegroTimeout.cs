@@ -4,6 +4,6 @@ namespace AllegroDotNet.Models
 {
     public sealed class AllegroTimeout
     {
-        internal NativeAllegroTimeout native = new NativeAllegroTimeout();
+        internal NativeAllegroTimeout NativeTimeout = new NativeAllegroTimeout();
     }
 }

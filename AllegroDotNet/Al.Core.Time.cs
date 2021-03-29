@@ -27,7 +27,7 @@ namespace AllegroDotNet
         /// <param name="timeout">The timeout to initialize.</param>
         /// <param name="seconds">The seconds for the timeout after the function call.</param>
         public static void InitTimeout(ref AllegroTimeout timeout, double seconds)
-            => al_init_timeout(ref timeout.native, seconds);
+            => al_init_timeout(ref timeout.NativeTimeout, seconds);
 
         /// <summary>
         /// Waits for the specified number of seconds. This tells the system to pause the current thread for the given

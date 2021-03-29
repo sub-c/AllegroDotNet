@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using AllegroDotNet.Models;
 using AllegroDotNet.Models.Enums;
 
 namespace AllegroDotNet.Sandbox
@@ -26,10 +27,18 @@ namespace AllegroDotNet.Sandbox
             Console.WriteLine("GetNewDisplayFlags: " + Al.GetNewDisplayFlags());
 
             var display = Al.CreateDisplay(1920, 1080);
+            var eventQueue = Al.CreateEventQueue();
+            Al.RegisterEventSource(eventQueue, Al.GetDisplayEventSource(display));
+            AllegroEvent allegroEvent = new AllegroEvent();
+            while (true)
+            {
+                Al.WaitForEvent(eventQueue, ref allegroEvent);
+                if (allegroEvent.Type == EventType.DisplayClose)
+                {
+                    break;
+                }
+            }
 
-            var clipboardText = Al.GetClipboardText(display);
-
-            Thread.Sleep(1000);
             Al.DestroyDisplay(display);
 
             Al.UninstallSystem();

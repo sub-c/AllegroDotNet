@@ -2,7 +2,6 @@
 using System.Runtime.InteropServices;
 using AllegroDotNet.Models;
 using AllegroDotNet.Models.Enums;
-using static AllegroDotNet.Models.Delegates;
 
 namespace AllegroDotNet
 {
@@ -148,7 +147,7 @@ namespace AllegroDotNet
         /// Pass NULL to reset to the default behaviour, which is to do whatever the standard assert() macro does.
         /// </summary>
         /// <param name="assertHandler">Method to be called when an internal Allegor assertion fails.</param>
-        public static void RegisterAssertHandler(AssertHandler assertHandler)
+        public static void RegisterAssertHandler(Delegates.AssertHandler assertHandler)
             => al_register_assert_handler(assertHandler);
 
         /// <summary>
@@ -158,7 +157,7 @@ namespace AllegroDotNet
         /// See the example allegro5.cfg for documentation on how to configure the used debug channels, logging levels and trace format.
         /// </summary>
         /// <param name="traceHandler">Method to be called when Allegro would write something to its log files.</param>
-        public static void RegisterTraceHandler(TraceHandler traceHandler)
+        public static void RegisterTraceHandler(Delegates.TraceHandler traceHandler)
             => al_register_trace_handler(traceHandler);
 
         /// <summary>
@@ -229,10 +228,10 @@ namespace AllegroDotNet
         private static extern bool al_is_system_installed();
 
         [DllImport(Constants.AllegroCoreDllFilename, CharSet = CharSet.Ansi)]
-        private static extern void al_register_assert_handler(AssertHandler assertHandler);
+        private static extern void al_register_assert_handler(Delegates.AssertHandler assertHandler);
 
         [DllImport(Constants.AllegroCoreDllFilename, CharSet = CharSet.Ansi)]
-        private static extern void al_register_trace_handler(TraceHandler traceHandler);
+        private static extern void al_register_trace_handler(Delegates.TraceHandler traceHandler);
 
         [DllImport(Constants.AllegroCoreDllFilename, CharSet = CharSet.Ansi)]
         private static extern void al_set_app_name([MarshalAs(UnmanagedType.LPStr)] string name);
