@@ -1,10 +1,13 @@
-﻿namespace AllegroDotNet.Models
+﻿using System;
+
+namespace AllegroDotNet.Models
 {
     public sealed class AllegroEvent_Joystick
     {
         public int Axis => _allegroEvent.NativeEvent.joystick.axis;
         public int Button => _allegroEvent.NativeEvent.joystick.button;
-        public AllegroJoystick ID => new AllegroJoystick(_allegroEvent.NativeEvent.joystick.id);
+        public AllegroJoystick ID
+            => _allegroEvent.NativeEvent.joystick.id == IntPtr.Zero ? null : new AllegroJoystick { NativeIntPtr = _allegroEvent.NativeEvent.joystick.id };
         public float Pos => _allegroEvent.NativeEvent.joystick.pos;
         public int Stick => _allegroEvent.NativeEvent.joystick.stick;
 

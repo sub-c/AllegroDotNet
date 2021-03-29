@@ -5,5 +5,8 @@
     /// </summary>
     public sealed class AllegroBitmap : NativePointerWrapper
     {
+        internal AllegroBitmap()
+        {
+        }
     }
 }

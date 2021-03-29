@@ -1,15 +1,12 @@
-﻿using System;
-
-namespace AllegroDotNet.Models
+﻿namespace AllegroDotNet.Models
 {
     /// <summary>
     /// An opaque structure used for iterating across sections in a configuration structure.
     /// </summary>
     public sealed class AllegroConfigSection : NativePointerWrapper
     {
-        internal AllegroConfigSection(IntPtr nativeIntPtr)
+        internal AllegroConfigSection()
         {
-            NativeIntPtr = nativeIntPtr;
         }
     }
 }

@@ -91,7 +91,10 @@ namespace AllegroDotNet
         /// <param name="standardPath">The path to get.</param>
         /// <returns>An <see cref="AllegroPath"/> to the requested standard path.</returns>
         public static AllegroPath GetStandardPath(StandardPath standardPath)
-            => new AllegroPath(al_get_standard_path((int)standardPath));
+        {
+            var nativePath = al_get_standard_path((int)standardPath);
+            return nativePath == IntPtr.Zero ? null : new AllegroPath { NativeIntPtr = nativePath };
+        }
 
         /// <summary>
         /// Gets the system configuration that configures Allegro and its addons. You may populate this configuration before Allegro is initialized
@@ -103,7 +106,10 @@ namespace AllegroDotNet
         /// the logging levels and other features.
         /// </returns>
         public static AllegroConfig GetSystemConfig()
-            => new AllegroConfig(al_get_system_config());
+        {
+            var nativeConfig = al_get_system_config();
+            return nativeConfig == IntPtr.Zero ? null : new AllegroConfig { NativeIntPtr = nativeConfig };
+        }
 
         /// <summary>
         /// Gets the platform that Allegro is running on.

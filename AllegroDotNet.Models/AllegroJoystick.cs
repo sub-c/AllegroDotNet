@@ -7,9 +7,8 @@ namespace AllegroDotNet.Models
     /// </summary>
     public sealed class AllegroJoystick : NativePointerWrapper
     {
-        internal AllegroJoystick(IntPtr nativeIntPtr)
+        internal AllegroJoystick()
         {
-            NativeIntPtr = nativeIntPtr;
         }
     }
 }

@@ -1,12 +1,9 @@
-﻿using System;
-
-namespace AllegroDotNet.Models
+﻿namespace AllegroDotNet.Models
 {
     public sealed class AllegroPath : NativePointerWrapper
     {
-        internal AllegroPath(IntPtr nativeIntPtr)
+        internal AllegroPath()
         {
-            NativeIntPtr = nativeIntPtr;
         }
     }
 }

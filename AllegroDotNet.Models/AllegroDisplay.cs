@@ -5,5 +5,8 @@
     /// </summary>
     public sealed class AllegroDisplay : NativePointerWrapper
     {
+        internal AllegroDisplay()
+        {
+        }
     }
 }

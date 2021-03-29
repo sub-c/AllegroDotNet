@@ -7,7 +7,7 @@
 
         private readonly AllegroEvent _allegroEvent = null;
 
-        public AllegroEvent_All(AllegroEvent allegroEvent)
+        internal AllegroEvent_All(AllegroEvent allegroEvent)
         {
             _allegroEvent = allegroEvent;
         }
