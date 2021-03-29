@@ -138,7 +138,10 @@ namespace AllegroDotNet
         /// <param name="display">The display to retrieve the event source from.</param>
         /// <returns>The event source of the given display.</returns>
         public static AllegroEventSource GetDisplayEventSource(AllegroDisplay display)
-            => new AllegroEventSource(al_get_display_event_source(display.NativeIntPtr));
+        {
+            var nativeEventSource = al_get_display_event_source(display.NativeIntPtr);
+            return nativeEventSource == IntPtr.Zero ? null : new AllegroEventSource { NativeIntPtr = nativeEventSource };
+        }
 
         /// <summary>
         /// Return a special bitmap representing the back-buffer of the display.

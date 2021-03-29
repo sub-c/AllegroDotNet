@@ -28,7 +28,10 @@ namespace AllegroDotNet.Sandbox
 
             var display = Al.CreateDisplay(1920, 1080);
             var eventQueue = Al.CreateEventQueue();
+            var timer = Al.CreateTimer(1);
+            Al.RegisterEventSource(eventQueue, Al.GetTimerEventSource(timer));
             Al.RegisterEventSource(eventQueue, Al.GetDisplayEventSource(display));
+            Al.StartTimer(timer);
             AllegroEvent allegroEvent = new AllegroEvent();
             while (true)
             {
@@ -37,8 +40,14 @@ namespace AllegroDotNet.Sandbox
                 {
                     break;
                 }
+                else if (allegroEvent.Type == EventType.Timer)
+                {
+                    Console.WriteLine("Timer elapsed one sec");
+                }
             }
 
+            Al.DestroyTimer(timer);
+            Al.DestroyEventQueue(eventQueue);
             Al.DestroyDisplay(display);
 
             Al.UninstallSystem();

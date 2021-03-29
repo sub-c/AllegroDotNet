@@ -6,6 +6,22 @@
     public static class Macros
     {
         /// <summary>
+        /// Convert beats per minute to seconds.
+        /// </summary>
+        /// <param name="bpm">Beats per minute.</param>
+        /// <returns>Converted seconds.</returns>
+        public static double BpmToSecs(double bpm)
+            => 60.0 / bpm;
+
+        /// <summary>
+        /// Converts beats per second to seconds.
+        /// </summary>
+        /// <param name="bps">Beats per second.</param>
+        /// <returns>Converted seconds.</returns>
+        public static double BpsToSecs(double bps)
+            => 1.0 / bps;
+
+        /// <summary>
         /// Make an event type identifier, which is a 32-bit integer. Usually, but not necessarily, this will be made
         /// from four 8-bit character codes, for example:
         /// <para>
@@ -27,5 +43,21 @@
         /// <returns>A identifer, for user events.</returns>
         public static int GetEventType(char a, char b, char c, char d)
             => ((a) << 24) | ((b) << 16) | ((c) << 8) | (d);
+
+        /// <summary>
+        /// Convert milliseconds to seconds.
+        /// </summary>
+        /// <param name="msecs">Amount of milliseconds.</param>
+        /// <returns>Converted seconds.</returns>
+        public static double MSecsToSecs(double msecs)
+            => msecs / 1000.0;
+
+        /// <summary>
+        /// Convert microseconds to seconds.
+        /// </summary>
+        /// <param name="usecs">Amount of microseconds.</param>
+        /// <returns>Converted seconds.</returns>
+        public static double USecsToSecs(double usecs)
+            => usecs / 1000000.0;
     }
 }

@@ -11,9 +11,8 @@ namespace AllegroDotNet.Models
     /// </summary>
     public sealed class AllegroEventSource : NativePointerWrapper
     {
-        internal AllegroEventSource(IntPtr nativeIntPtr)
+        internal AllegroEventSource()
         {
-            NativeIntPtr = nativeIntPtr;
         }
     }
 }
