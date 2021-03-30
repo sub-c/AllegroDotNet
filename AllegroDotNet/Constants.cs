@@ -1,5 +1,8 @@
 ﻿namespace AllegroDotNet
 {
+    /// <summary>
+    /// Constants values for <c>#define</c> Allegro constants, as well as AllegroDotNet specific settings.
+    /// </summary>
     internal static class Constants
     {
         #region Allegro
@@ -8,7 +11,14 @@
         #endregion
 
         #region AllegroDotNet
+        /// <summary>
+        /// The library filename where all Allegro (including addon) functions can be found.
+        /// </summary>
         public const string AllegroMonolithDllFilename = "allegro_monolith-5.2.dll";
+
+        /// <summary>
+        /// The library filename where core Allegro (non-addon) functions can be found.
+        /// </summary>
         public const string AllegroCoreDllFilename = "allegro-5.2.dll";
         #endregion
     }

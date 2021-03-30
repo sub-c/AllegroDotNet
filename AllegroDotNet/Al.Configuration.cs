@@ -5,7 +5,7 @@ using AllegroDotNet.Models;
 namespace AllegroDotNet
 {
     /// <summary>
-    /// Allegro game library Core methods.
+    /// Allegro game library methods.
     /// </summary>
     public static partial class Al
     {
