@@ -26,6 +26,11 @@ namespace AllegroDotNet.Sandbox
             Al.SetNewDisplayFlags(DisplayFlags.Windowed | DisplayFlags.Resizable);
             Console.WriteLine("GetNewDisplayFlags: " + Al.GetNewDisplayFlags());
 
+            var config = Al.CreateConfig();
+            Al.SetConfigValue(config, "TestSection", "TestKey", "TestValue");
+            Console.WriteLine("Get config value: " + Al.GetConfigValue(config, "TestSection", "TestKey"));
+            Al.DestroyConfig(config);
+
             var display = Al.CreateDisplay(1920, 1080);
             var eventQueue = Al.CreateEventQueue();
             var timer = Al.CreateTimer(1);
