@@ -144,6 +144,24 @@ namespace AllegroDotNet
 
         [DllImport(Constants.AllegroCoreDllFilename)]
         private static extern void al_clear_to_color(NativeAllegroColor color);
+
+        [DllImport(Constants.AllegroCoreDllFilename)]
+        private static extern void al_clear_depth_buffer(float z);
+
+        [DllImport(Constants.AllegroCoreDllFilename)]
+        private static extern void al_draw_bitmap(IntPtr bitmap, float dx, float dy, int flags);
+
+        [DllImport(Constants.AllegroCoreDllFilename)]
+        private static extern void al_draw_tinted_bitmap(IntPtr bitmap, NativeAllegroColor tint, float dx, float dy, int flags);
+
+        [DllImport(Constants.AllegroCoreDllFilename)]
+        private static extern void al_draw_bitmap_region(IntPtr bitmap, float sx, float sy, float sw, float sh, float dx, float dy, int flags);
+
+        [DllImport(Constants.AllegroCoreDllFilename)]
+        private static extern void al_draw_tinted_bitmap_region(IntPtr bitmap, NativeAllegroColor tint, float sx, float sy, float sw, float sh, float dx, float dy, int flags);
+
+        [DllImport(Constants.AllegroCoreDllFilename)]
+        private static extern void al_draw_pixel(float x, float y, NativeAllegroColor color);
         #endregion
     }
 }
