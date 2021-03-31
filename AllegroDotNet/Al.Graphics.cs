@@ -162,6 +162,132 @@ namespace AllegroDotNet
 
         [DllImport(Constants.AllegroCoreDllFilename)]
         private static extern void al_draw_pixel(float x, float y, NativeAllegroColor color);
+
+        [DllImport(Constants.AllegroCoreDllFilename)]
+        private static extern void al_draw_rotated_bitmap(IntPtr bitmap, float cx, float cy, float dx, float dy, float angle, int flags);
+
+        [DllImport(Constants.AllegroCoreDllFilename)]
+        private static extern void al_draw_tinted_rotated_bitmap(IntPtr bitmap, NativeAllegroColor tint, float cx, float cy, float dx, float dy, float angle, int flags);
+
+        [DllImport(Constants.AllegroCoreDllFilename)]
+        private static extern void al_draw_tinted_scaled_rotated_bitmap(IntPtr bitmap, NativeAllegroColor tint, float cx, float cy, float dx, float dy, float xscale, float yscale, float angle, int flags);
+
+        [DllImport(Constants.AllegroCoreDllFilename)]
+        private static extern void al_draw_tinted_scaled_rotated_bitmap_region(IntPtr bitmap, float sx, float sy, float sw, float sh, NativeAllegroColor tint, float cx, float cy, float dx, float dy, float xscale, float yscale, float angle, int flags);
+
+        [DllImport(Constants.AllegroCoreDllFilename)]
+        private static extern void al_draw_scaled_bitmap(IntPtr bitmap, float sx, float sy, float sw, float sh, float dx, float dy, float dw, float dh, int flags);
+
+        [DllImport(Constants.AllegroCoreDllFilename)]
+        private static extern void al_draw_tinted_scaled_bitmap(IntPtr bitmap, NativeAllegroColor tint, float sx, float sy, float sw, float sh, float dx, float dy, float dw, float dh, int flags);
+
+        [DllImport(Constants.AllegroCoreDllFilename)]
+        private static extern IntPtr al_get_target_bitmap();
+
+        [DllImport(Constants.AllegroCoreDllFilename)]
+        private static extern void al_put_pixel(int x, int y, NativeAllegroColor color);
+
+        [DllImport(Constants.AllegroCoreDllFilename)]
+        private static extern void al_put_blended_pixel(int x, int y, NativeAllegroColor color);
+
+        [DllImport(Constants.AllegroCoreDllFilename)]
+        private static extern void al_set_target_bitmap(IntPtr bitmap);
+
+        [DllImport(Constants.AllegroCoreDllFilename)]
+        private static extern void al_set_target_backbuffer(IntPtr display);
+
+        [DllImport(Constants.AllegroCoreDllFilename)]
+        private static extern IntPtr al_get_current_display();
+
+        [DllImport(Constants.AllegroCoreDllFilename)]
+        private static extern void al_get_blender(ref int op, ref int src, ref int dst);
+
+        [DllImport(Constants.AllegroCoreDllFilename)]
+        private static extern void al_get_separate_blender(ref int op, ref int src, ref int dst, ref int alphaOp, ref int alphaSrc, ref int alphaDst);
+
+        [DllImport(Constants.AllegroCoreDllFilename)]
+        private static extern NativeAllegroColor al_get_blend_color();
+
+        [DllImport(Constants.AllegroCoreDllFilename)]
+        private static extern void al_set_blender(int op, int src, int dst);
+
+        [DllImport(Constants.AllegroCoreDllFilename)]
+        private static extern void al_separate_blender(int op, int src, int dst, int alphaOp, int alphaSrc, int alphaDst);
+
+        [DllImport(Constants.AllegroCoreDllFilename)]
+        private static extern void al_set_blend_color(NativeAllegroColor color);
+
+        [DllImport(Constants.AllegroCoreDllFilename)]
+        private static extern void al_get_clipping_rectangle(ref int x, ref int y, ref int w, ref int h);
+
+        [DllImport(Constants.AllegroCoreDllFilename)]
+        private static extern void al_set_clipping_rectangle(int x, int y, int width, int height);
+
+        [DllImport(Constants.AllegroCoreDllFilename)]
+        private static extern void al_reset_clipping_rectangle();
+
+        [DllImport(Constants.AllegroCoreDllFilename)]
+        private static extern void al_convert_mask_to_alpha(IntPtr bitmap, NativeAllegroColor maskColor);
+
+        [DllImport(Constants.AllegroCoreDllFilename)]
+        private static extern void al_hold_bitmap_drawing(bool hold);
+
+        [DllImport(Constants.AllegroCoreDllFilename)]
+        private static extern bool al_is_bitmap_drawing_held();
+
+        [DllImport(Constants.AllegroCoreDllFilename)]
+        private static extern bool al_register_bitmap_loader(IntPtr extension, IntPtr loader);
+
+        [DllImport(Constants.AllegroCoreDllFilename)]
+        private static extern bool al_register_bitmap_saver(IntPtr extension, IntPtr saver);
+
+        [DllImport(Constants.AllegroCoreDllFilename)]
+        private static extern bool al_register_bitmap_loader_f(IntPtr extension, IntPtr fsLoader);
+
+        [DllImport(Constants.AllegroCoreDllFilename)]
+        private static extern bool al_register_bitmap_saver_f(IntPtr extension, IntPtr fsSaver);
+
+        [DllImport(Constants.AllegroCoreDllFilename)]
+        private static extern IntPtr al_load_bitmap([MarshalAs(UnmanagedType.LPStr)] string filename);
+
+        [DllImport(Constants.AllegroCoreDllFilename)]
+        private static extern IntPtr al_load_bitmap_flags(
+            [MarshalAs(UnmanagedType.LPStr)] string filename,
+            int flags);
+
+        [DllImport(Constants.AllegroCoreDllFilename)]
+        private static extern IntPtr al_load_bitmap_f(IntPtr fp, [MarshalAs(UnmanagedType.LPStr)] string ident);
+
+        [DllImport(Constants.AllegroCoreDllFilename)]
+        private static extern IntPtr al_load_bitmap_flags_f(
+            IntPtr fp,
+            [MarshalAs(UnmanagedType.LPStr)] string ident,
+            int flags);
+
+        [DllImport(Constants.AllegroCoreDllFilename)]
+        private static extern bool al_save_bitmap(
+            [MarshalAs(UnmanagedType.LPStr)] string filename,
+            IntPtr bitmap);
+
+        [DllImport(Constants.AllegroCoreDllFilename)]
+        private static extern bool al_save_bitmap_f(
+            IntPtr fp,
+            [MarshalAs(UnmanagedType.LPStr)] string ident,
+            IntPtr bitmap);
+
+        [DllImport(Constants.AllegroCoreDllFilename)]
+        private static extern bool al_register_bitmap_identifier(
+            [MarshalAs(UnmanagedType.LPStr)] string extension,
+            IntPtr identifier);
+
+        [DllImport(Constants.AllegroCoreDllFilename)]
+        private static extern IntPtr al_identify_bitmap([MarshalAs(UnmanagedType.LPStr)] string filename);
+
+        [DllImport(Constants.AllegroCoreDllFilename)]
+        private static extern IntPtr al_identify_bitmap_f(IntPtr fp);
+
+        [DllImport(Constants.AllegroCoreDllFilename)]
+        private static extern void al_set_render_state(IntPtr state, int value);
         #endregion
     }
 }
