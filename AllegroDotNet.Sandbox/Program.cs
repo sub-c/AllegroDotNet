@@ -38,6 +38,8 @@ namespace AllegroDotNet.Sandbox
             Al.RegisterEventSource(eventQueue, Al.GetDisplayEventSource(display));
             Al.StartTimer(timer);
             AllegroEvent allegroEvent = new AllegroEvent();
+            var aColor = Al.MapRgb(255, 64, 128);
+
             while (true)
             {
                 Al.WaitForEvent(eventQueue, ref allegroEvent);

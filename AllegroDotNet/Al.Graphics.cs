@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
+using AllegroDotNet.Models;
 using AllegroDotNet.Models.Enums;
 using AllegroDotNet.Models.Native;
 
