@@ -13,6 +13,80 @@ namespace AllegroDotNet
     /// </summary>
     public static partial class Al
     {
+        /// <summary>
+        /// Convert r, g, b (ranging from 0-255) into an <see cref="AllegroColor"/>, using 255 for alpha.
+        /// </summary>
+        /// <param name="r">Amount of red (0-255).</param>
+        /// <param name="g">Amount of green (0-255).</param>
+        /// <param name="b">Amount of blue (0-255).</param>
+        /// <returns>Instance of the specified color.</returns>
+        public static AllegroColor MapRgb(byte r, byte g, byte b)
+            => new AllegroColor { Native = al_map_rgb(r, g, b) };
+
+        /// <summary>
+        /// Convert r, g, b, (ranging from 0.0f-1.0f) into an ALLEGRO_COLOR, using 1.0f for alpha.
+        /// </summary>
+        /// <param name="r">Amount of red (0.0-1.0).</param>
+        /// <param name="g">Amount of green (0.0-1.0).</param>
+        /// <param name="b">Amount of blue (0.0-1.0).</param>
+        /// <returns>Instance of the specified color.</returns>
+        public static AllegroColor MapRgbF(float r, float g, float b)
+            => new AllegroColor { Native = al_map_rgb_f(r, g, b) };
+
+        /// <summary>
+        /// Convert r, g, b (ranging from 0-255) into an <see cref="AllegroColor"/>, using 255 for alpha.
+        /// </summary>
+        /// <param name="r">Amount of red (0-255).</param>
+        /// <param name="g">Amount of green (0-255).</param>
+        /// <param name="b">Amount of blue (0-255).</param>
+        /// <param name="a">Amount of alpha (0-255).</param>
+        /// <returns>Instance of the specified color.</returns>
+        public static AllegroColor MapRgbA(byte r, byte g, byte b, byte a)
+            => new AllegroColor { Native = al_map_rgba(r, g, b, a) };
+
+        /// <summary>
+        /// By default Allegro uses pre-multiplied alpha for transparent blending of bitmaps and primitives
+        /// (see al_load_bitmap_flags for a discussion of that feature). This means that if you want
+        /// to tint a bitmap or primitive to be transparent you need to multiply the color components by the alpha
+        /// components when you pass them to this function.
+        /// </summary>
+        /// <param name="r">Amount of red (0-255).</param>
+        /// <param name="g">Amount of green (0-255).</param>
+        /// <param name="b">Amount of blue (0-255).</param>
+        /// <param name="a">Amount of alpha (0-255).</param>
+        /// <returns>Instance of the specified color.</returns>
+        public static AllegroColor PremulRgbA(byte r, byte g, byte b, byte a)
+            => new AllegroColor { Native = al_map_rgba(
+                Convert.ToByte(r * a / 255),
+                Convert.ToByte(g * a / 255),
+                Convert.ToByte(b * a / 255),
+                a) };
+
+        /// <summary>
+        /// Convert r, g, b, a (ranging from 0.0f-1.0f) into an <see cref="AllegroColor"/>.
+        /// </summary>
+        /// <param name="r">Amount of red (0.0-1.0).</param>
+        /// <param name="g">Amount of green (0.0-1.0).</param>
+        /// <param name="b">Amount of blue (0.0-1.0).</param>
+        /// <param name="a">Amount of alpha (0.0-1.0).</param>
+        /// <returns>Instance of the specified color.</returns>
+        public static AllegroColor MapRgbAF(float r, float g, float b, float a)
+            => new AllegroColor { Native = al_map_rgba_f(r, g, b, a) };
+
+        /// <summary>
+        /// By default Allegro uses pre-multiplied alpha for transparent blending of bitmaps and primitives
+        /// (see al_load_bitmap_flags for a discussion of that feature). This means that if you want
+        /// to tint a bitmap or primitive to be transparent you need to multiply the color components by the alpha
+        /// components when you pass them to this function.
+        /// </summary>
+        /// <param name="r">Amount of red (0.0-1.0).</param>
+        /// <param name="g">Amount of green (0.0-1.0).</param>
+        /// <param name="b">Amount of blue (0.0-1.0).</param>
+        /// <param name="a">Amount of alpha (0.0-1.0).</param>
+        /// <returns>Instance of the specified color.</returns>
+        public static AllegroColor PremulRgbAF(float r, float g, float b, float a)
+            => new AllegroColor { Native = al_map_rgba_f(r * a, g * a, b * a, a) };
+
         #region P/Invokes
         [DllImport(Constants.AllegroCoreDllFilename)]
         private static extern NativeAllegroColor al_map_rgb(byte r, byte g, byte b);
