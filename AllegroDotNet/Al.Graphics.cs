@@ -87,6 +87,181 @@ namespace AllegroDotNet
         public static AllegroColor PremulRgbAF(float r, float g, float b, float a)
             => new AllegroColor { Native = al_map_rgba_f(r * a, g * a, b * a, a) };
 
+        /// <summary>
+        /// Retrieves components of an ALLEGRO_COLOR, ignoring alpha. Components will range from 0-255.
+        /// </summary>
+        /// <param name="color">The color to pull the RGB values from.</param>
+        /// <param name="r">Amount of red (0-255).</param>
+        /// <param name="g">Amount of green (0-255).</param>
+        /// <param name="b">Amount of blue (0-255).</param>
+        public static void UnmapRgb(AllegroColor color, ref byte r, ref byte g, ref byte b)
+            => al_unmap_rgb(color.Native, ref r, ref g, ref b);
+
+        /// <summary>
+        /// Retrieves components of an ALLEGRO_COLOR, ignoring alpha. Components will range from 0.0f-1.0f.
+        /// </summary>
+        /// <param name="color">The color to pull the RGB values from.</param>
+        /// <param name="r">Amount of red (0.0-1.0).</param>
+        /// <param name="g">Amount of green (0.0-1.0).</param>
+        /// <param name="b">Amount of blue (0.0-1.0).</param>
+        public static void UnmapRgbF(AllegroColor color, ref float r, ref float g, ref float b)
+            => al_unmap_rgb_f(color.Native, ref r, ref g, ref b);
+
+        /// <summary>
+        /// Retrieves components of an ALLEGRO_COLOR. Components will range from 0-255.
+        /// </summary>
+        /// <param name="color">The color to pull the RGB values from.</param>
+        /// <param name="r">Amount of red (0-255).</param>
+        /// <param name="g">Amount of green (0-255).</param>
+        /// <param name="b">Amount of blue (0-255).</param>
+        /// <param name="a">Amount of alpha (0-255).</param>
+        public static void UnmapRgbA(AllegroColor color, ref byte r, ref byte g, ref byte b, ref byte a)
+            => al_unmap_rgba(color.Native, ref r, ref g, ref b, ref a);
+
+        /// <summary>
+        /// Retrieves components of an ALLEGRO_COLOR. Components will range from 0.0f-1.0f.
+        /// </summary>
+        /// <param name="color">The color to pull the RGB values from.</param>
+        /// <param name="r">Amount of red (0-255).</param>
+        /// <param name="g">Amount of green (0-255).</param>
+        /// <param name="b">Amount of blue (0-255).</param>
+        /// <param name="a">Amount of alpha (0-255).</param>
+        public static void UnmapRgbAF(AllegroColor color, ref float r, ref float g, ref float b, ref float a)
+            => al_unmap_rgba_f(color.Native, ref r, ref g, ref b, ref a);
+
+        /// <summary>
+        /// Return the number of bytes that a pixel of the given format occupies. For blocked pixel formats (e.g.
+        /// compressed formats), this returns 0.
+        /// </summary>
+        /// <param name="format">The pixel format.</param>
+        /// <returns>The amount of bytes for a pixel in the given pixel format.</returns>
+        public static int GetPixelSize(PixelFormat format)
+            => al_get_pixel_size((int)format);
+
+        /// <summary>
+        /// Return the number of bits that a pixel of the given format occupies. For blocked pixel formats (e.g.
+        /// compressed formats), this returns 0.
+        /// </summary>
+        /// <param name="format">The pixel format.</param>
+        /// <returns>The amount of bits for a pixel in the given pixel format.</returns>
+        public static int GetPixelFormatBits(PixelFormat format)
+            => al_get_pixel_format_bits((int)format);
+
+        /// <summary>
+        /// Return the number of bytes that a block of pixels with this format occupies.
+        /// </summary>
+        /// <param name="format">The pixel format.</param>
+        /// <returns>The number of bytes that a block of pixels with this format occupies.</returns>
+        public static int GetPixelBlockSize(PixelFormat format)
+            => al_get_pixel_block_size((int)format);
+
+        /// <summary>
+        /// Return the width of the the pixel block for this format.
+        /// </summary>
+        /// <param name="format">The pixel format.</param>
+        /// <returns>The width of the the pixel block for this format.</returns>
+        public static int GetPixelBlockWidth(PixelFormat format)
+            => al_get_pixel_block_width((int)format);
+
+        /// <summary>
+        /// Return the height of the the pixel block for this format.
+        /// </summary>
+        /// <param name="format">The pixel format.</param>
+        /// <returns>The height of the the pixel block for this format.</returns>
+        public static int GetPixelBlockHeight(PixelFormat format)
+            => al_get_pixel_block_height((int)format);
+
+        /// <summary>
+        /// Lock an entire bitmap for reading or writing. If the bitmap is a display bitmap it will be updated from
+        /// system memory after the bitmap is unlocked (unless locked read only). Returns NULL if the bitmap cannot be
+        /// locked, e.g. the bitmap was locked previously and not unlocked. This function also returns NULL if the
+        /// format is a compressed format.
+        /// <para>
+        /// format indicates the pixel format that the returned buffer will be in. To lock in the same format as the
+        /// bitmap stores its data internally, call with al_get_bitmap_format(bitmap) as the format or use
+        /// ALLEGRO_PIXEL_FORMAT_ANY. Locking in the native format will usually be faster. If the bitmap format is
+        /// compressed, using ALLEGRO_PIXEL_FORMAT_ANY will choose an implementation defined non-compressed format.
+        /// </para>
+        /// <para>
+        /// On some platforms, Allegro automatically backs up the contents of video bitmaps because they may be
+        /// occasionally lost (see discussion in al_create_bitmap's documentation). If you're completely recreating
+        /// the bitmap contents often (e.g. every frame) then you will get much better performance by creating the
+        /// target bitmap with ALLEGRO_NO_PRESERVE_TEXTURE flag.
+        /// </para>
+        /// <para>
+        /// Note: While a bitmap is locked, you can not use any drawing operations on it (with the sole exception of
+        /// al_put_pixel and al_put_blended_pixel).
+        /// </para>
+        /// </summary>
+        /// <param name="bitmap">The bitmap to lock.</param>
+        /// <param name="format">The pixel format to return the locked region as.</param>
+        /// <param name="flags">The read/write flag for the returned region.</param>
+        /// <returns>A locked bitmap.</returns>
+        public static AllegroLockedRegion LockBitmap(AllegroBitmap bitmap, PixelFormat format, LockFlags flags)
+            => new AllegroLockedRegion
+            {
+                Native = al_lock_bitmap(bitmap.NativeIntPtr, (int)format, (int)flags)
+            };
+
+        /// <summary>
+        /// Like al_lock_bitmap, but only locks a specific area of the bitmap. If the bitmap is a video bitmap, only
+        /// that area of the texture will be updated when it is unlocked. Locking only the region you indend to modify
+        /// will be faster than locking the whole bitmap.
+        /// </summary>
+        /// <param name="bitmap">The bitmap to lock.</param>
+        /// <param name="x">The X position to lock.</param>
+        /// <param name="y">The Y position to lock.</param>
+        /// <param name="width">The width to lock.</param>
+        /// <param name="height">The height position to lock.</param>
+        /// <param name="format">The pixel format to return the locked region as.</param>
+        /// <param name="flags">The read/write flag for the returned region.</param>
+        /// <returns>A locked bitmap region.</returns>
+        public static AllegroLockedRegion LockBitmapRegion(AllegroBitmap bitmap, int x, int y, int width, int height, PixelFormat format, LockFlags flags)
+            => new AllegroLockedRegion
+            {
+                Native = al_lock_bitmap_region(bitmap.NativeIntPtr, x, y, width, height, (int)format, (int)flags)
+            };
+
+        /// <summary>
+        /// Unlock a previously locked bitmap or bitmap region. If the bitmap is a video bitmap, the texture will be
+        /// updated to match the system memory copy (unless it was locked read only).
+        /// </summary>
+        /// <param name="bitmap">The bitmap to unlock.</param>
+        public static void UnlockBitmap(AllegroBitmap bitmap)
+            => al_unlock_bitmap(bitmap.NativeIntPtr);
+
+        /// <summary>
+        /// Like al_lock_bitmap, but allows locking bitmaps with a blocked pixel format (i.e. a format for which
+        /// al_get_pixel_block_width or al_get_pixel_block_height do not return 1) in that format. To that end,
+        /// this function also does not allow format conversion. For bitmap formats with a block size of 1, this
+        /// function is identical to calling al_lock_bitmap(bmp, al_get_bitmap_format(bmp), flags).
+        /// </summary>
+        /// <param name="bitmap">The bitmap to lock.</param>
+        /// <param name="flags">The read/write flag.</param>
+        /// <returns>The locked blocked bitmap.</returns>
+        public static AllegroLockedRegion LockBitmapBlocked(AllegroBitmap bitmap, LockFlags flags)
+            => new AllegroLockedRegion
+            {
+                Native = al_lock_bitmap_blocked(bitmap.NativeIntPtr, (int)flags)
+            };
+
+        /// <summary>
+        /// Like al_lock_bitmap_blocked, but allows locking a sub-region, for performance. Unlike al_lock_bitmap_region
+        /// the region specified in terms of blocks and not pixels.
+        /// </summary>
+        /// <param name="bitmap">The bitmap to lock.</param>
+        /// <param name="xBlock">The X position to lock.</param>
+        /// <param name="yBlock">The Y position to lock.</param>
+        /// <param name="widthBlock">The width to lock.</param>
+        /// <param name="heightBlock">The height to lock.</param>
+        /// <param name="flags">The read/write flag.</param>
+        /// <returns>The locked blocked bitmap region.</returns>
+        public static AllegroLockedRegion LockBitmapRegionBlocked(AllegroBitmap bitmap, int xBlock, int yBlock, int widthBlock, int heightBlock, LockFlags flags)
+            => new AllegroLockedRegion
+            {
+                Native = al_lock_bitmap_region_blocked(bitmap.NativeIntPtr, xBlock, yBlock, widthBlock, heightBlock, (int)flags)
+            };
+
         #region P/Invokes
         [DllImport(Constants.AllegroCoreDllFilename)]
         private static extern NativeAllegroColor al_map_rgb(byte r, byte g, byte b);
@@ -134,19 +309,19 @@ namespace AllegroDotNet
         private static extern int al_get_pixel_block_height(int format);
 
         [DllImport(Constants.AllegroCoreDllFilename)]
-        private static extern IntPtr al_lock_bitmap(IntPtr bitmap, int format, int flags);
+        private static extern NativeLockedRegion al_lock_bitmap(IntPtr bitmap, int format, int flags);
 
         [DllImport(Constants.AllegroCoreDllFilename)]
-        private static extern IntPtr al_lock_bitmap_region(IntPtr bitmap, int x, int y, int width, int height, int format, int flags);
+        private static extern NativeLockedRegion al_lock_bitmap_region(IntPtr bitmap, int x, int y, int width, int height, int format, int flags);
 
         [DllImport(Constants.AllegroCoreDllFilename)]
         private static extern void al_unlock_bitmap(IntPtr bitmap);
 
         [DllImport(Constants.AllegroCoreDllFilename)]
-        private static extern IntPtr al_lock_bitmap_blocked(IntPtr bitmap, int flags);
+        private static extern NativeLockedRegion al_lock_bitmap_blocked(IntPtr bitmap, int flags);
 
         [DllImport(Constants.AllegroCoreDllFilename)]
-        private static extern IntPtr al_lock_bitmap_region_blocked(IntPtr bitmap, int x, int y, int width, int height, int flags);
+        private static extern NativeLockedRegion al_lock_bitmap_region_blocked(IntPtr bitmap, int x, int y, int width, int height, int flags);
 
         [DllImport(Constants.AllegroCoreDllFilename)]
         private static extern IntPtr al_create_bitmap(int w, int h);

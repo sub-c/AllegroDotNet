@@ -1,19 +1,18 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿using AllegroDotNet.Models.Native;
 
-namespace AllegroDotNet.Models.Native
+namespace AllegroDotNet.Models
 {
     /// <summary>
     /// Users who wish to manually edit or read from a bitmap are required to lock it first. The ALLEGRO_LOCKED_REGION
     /// structure represents the locked region of the bitmap. This call will work with any bitmap, including memory
     /// bitmaps.
     /// </summary>
-    [StructLayout(LayoutKind.Sequential)]
-    public struct AllegroLockedRegion
+    public sealed class AllegroLockedRegion
     {
-        IntPtr data;
-        int format;
-        int pitch;
-        int pixel_size;
+        internal NativeLockedRegion Native = new NativeLockedRegion();
+
+        internal AllegroLockedRegion()
+        {
+        }
     }
 }
