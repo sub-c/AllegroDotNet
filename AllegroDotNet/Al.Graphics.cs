@@ -262,6 +262,327 @@ namespace AllegroDotNet
                 Native = al_lock_bitmap_region_blocked(bitmap.NativeIntPtr, xBlock, yBlock, widthBlock, heightBlock, (int)flags)
             };
 
+        /// <summary>
+        /// Creates a new bitmap using the bitmap format and flags for the current thread. Blitting between bitmaps of
+        /// differing formats, or blitting between memory bitmaps and display bitmaps may be slow.
+        /// <para>
+        /// Unless you set the ALLEGRO_MEMORY_BITMAP flag, the bitmap is created for the current display.Blitting to
+        /// another display may be slow.
+        /// </para>
+        /// <para>
+        /// If a display bitmap is created, there may be limitations on the allowed dimensions.For example a DirectX or
+        /// OpenGL backend usually has a maximum allowed texture size - so if bitmap creation fails for very large
+        /// dimensions, you may want to re-try with a smaller bitmap. Some platforms also dictate a minimum texture
+        /// size, which is relevant if you plan to use this bitmap with the primitives addon.If you try to create a
+        /// bitmap smaller than this, this call will not fail but the returned bitmap will be a section of a larger
+        /// bitmap with the minimum size. The minimum size that will work on all platforms is 32 by 32. There is an
+        /// experimental switch to turns this padding off by editing the system configuration (see min_bitmap_size
+        /// key in al_get_system_config).
+        /// </para>
+        /// <para>
+        /// Some platforms do not directly support display bitmaps whose dimensions are not powers of two. Allegro
+        /// handles this by creating a larger bitmap that has dimensions that are powers of two and then returning
+        /// a section of that bitmap with the dimensions you requested. This can be relevant if you plan to use this
+        /// bitmap with the primitives addon but shouldn’t be an issue otherwise.
+        /// </para>
+        /// <para>
+        /// If you create a bitmap without ALLEGRO_MEMORY_BITMAP set but there is no current display, a temporary
+        /// memory bitmap will be created instead. You can later convert all such bitmap to video bitmap and assign
+        /// to a display by calling al_convert_memory_bitmaps.
+        /// </para>
+        /// <para>
+        /// On some platforms the contents of video bitmaps may be lost when your application loses focus. Allegro
+        /// has an internal mechanism to restore the contents of these video bitmaps, but it is not foolproof
+        /// (sometimes bitmap contents can get lost permanently) and has performance implications.If you are using
+        /// a bitmap as an intermediate buffer this mechanism may be wasteful. In this case, if you do not want
+        /// Allegro to manage the bitmap contents for you, you can disable this mechanism by creating the bitmap
+        /// with the ALLEGRO_NO_PRESERVE_TEXTURE flag.The bitmap contents are lost when you get the
+        /// ALLEGRO_EVENT_DISPLAY_LOST and ALLEGRO_EVENT_DISPLAY_HALT_DRAWING and a should be restored when you
+        /// get the ALLEGRO_EVENT_DISPLAY_FOUND and when you call al_acknowledge_drawing_resume (after
+        /// ALLEGRO_EVENT_DISPLAY_RESUME_DRAWING event). You can use those events to implement your own bitmap
+        /// content restoration mechanism if Allegro’s does not work well enough for you (for example, you can
+        /// reload them all from disk).
+        /// </para>
+        /// <para>
+        /// Note: The contents of a newly created bitmap are undefined - you need to clear the bitmap or make sure
+        /// all pixels get overwritten before drawing it.
+        /// </para>
+        /// <para>
+        /// When you are done with using the bitmap you must call al_destroy_bitmap on it to free any resources
+        /// allocated for it.
+        /// </para>
+        /// </summary>
+        /// <param name="w">Width of bitmap.</param>
+        /// <param name="h">Height of bitmap.</param>
+        /// <returns>The created bitmap instance, otherwise null.</returns>
+        public static AllegroBitmap CreateBitmap(int w, int h)
+        {
+            var nativeBitmap = al_create_bitmap(w, h);
+            return nativeBitmap == IntPtr.Zero ? null : new AllegroBitmap { NativeIntPtr = nativeBitmap };
+        }
+
+        /// <summary>
+        /// Creates a sub-bitmap of the parent, at the specified coordinates and of the specified size. A sub-bitmap
+        /// is a bitmap that shares drawing memory with a pre-existing (parent) bitmap, but possibly with a different
+        /// size and clipping settings.
+        /// <para>
+        /// The sub-bitmap may originate off or extend past the parent bitmap.
+        /// </para>
+        /// <para>
+        /// See the discussion in al_get_backbuffer about using sub-bitmaps of the backbuffer.
+        /// </para>
+        /// <para>
+        /// The parent bitmap’s clipping rectangles are ignored.
+        /// </para>
+        /// <para>
+        /// If a sub-bitmap was not or cannot be created then NULL is returned.
+        /// </para>
+        /// <para>
+        /// When you are done with using the sub-bitmap you must call al_destroy_bitmap on it to free any resources
+        /// allocated for it.
+        /// </para>
+        /// <para>
+        /// Note that destroying parents of sub-bitmaps will not destroy the sub-bitmaps; instead the sub-bitmaps
+        /// become invalid and should no longer be used for drawing - they still must be destroyed with
+        /// al_destroy_bitmap however.It does not matter whether you destroy a sub-bitmap before or after its parent
+        /// otherwise.
+        /// </para>
+        /// </summary>
+        /// <param name="parent">The parent bitmap.</param>
+        /// <param name="x">The X position.</param>
+        /// <param name="y">The Y position.</param>
+        /// <param name="w">The width.</param>
+        /// <param name="h">The height.</param>
+        /// <returns>A new instance of a sub-bitmap from the parent, otherwise null.</returns>
+        public static AllegroBitmap CreateSubBitmap(AllegroBitmap parent, int x, int y, int w, int h)
+        {
+            var nativeBitmap = al_create_sub_bitmap(parent.NativeIntPtr, x, y, w, h);
+            return nativeBitmap == IntPtr.Zero ? null : new AllegroBitmap { NativeIntPtr = nativeBitmap };
+        }
+
+        /// <summary>
+        /// Create a new bitmap with al_create_bitmap, and copy the pixel data from the old bitmap across. The newly
+        /// created bitmap will be created with the current new bitmap flags, and not the ones that were used to create
+        /// the original bitmap. If the new bitmap is a memory bitmap, its projection bitmap is reset to be
+        /// orthographic.
+        /// </summary>
+        /// <param name="bitmap">The bitmap to clone.</param>
+        /// <returns>The cloned bitmap, otherwise null.</returns>
+        public static AllegroBitmap CloneBitmap(AllegroBitmap bitmap)
+        {
+            var nativeBitmap = al_clone_bitmap(bitmap.NativeIntPtr);
+            return nativeBitmap == IntPtr.Zero ? null : new AllegroBitmap { NativeIntPtr = nativeBitmap };
+        }
+
+        /// <summary>
+        /// Converts the bitmap to the current bitmap flags and format. The bitmap will be as if it was created anew
+        /// with al_create_bitmap but retain its contents. All of this bitmap’s sub-bitmaps are also converted. If
+        /// the new bitmap type is memory, then the bitmap’s projection bitmap is reset to be orthographic.
+        /// <para>
+        /// If this bitmap is a sub-bitmap, then it, its parent and all the sibling sub-bitmaps are also converted.
+        /// </para>
+        /// </summary>
+        /// <param name="bitmap">The bitmap to convert.</param>
+        public static void ConvertBitmap(AllegroBitmap bitmap)
+            => al_convert_bitmap(bitmap.NativeIntPtr);
+
+        /// <summary>
+        /// If you create a bitmap when there is no current display (for example because you have not called
+        /// al_create_display in the current thread) and are using the ALLEGRO_CONVERT_BITMAP bitmap flag (which
+        /// is set by default) then the bitmap will be created successfully, but as a memory bitmap. This function
+        /// converts all such bitmaps to proper video bitmaps belonging to the current display.
+        /// <para>
+        /// Note that video bitmaps get automatically converted back to memory bitmaps when the last display is destroyed.
+        /// </para>
+        /// <para>
+        /// This operation will preserve all bitmap flags except ALLEGRO_VIDEO_BITMAP and ALLEGRO_MEMORY_BITMAP.
+        /// </para>
+        /// </summary>
+        public static void ConvertMemoryBitmaps()
+            => al_convert_memory_bitmaps();
+
+        /// <summary>
+        /// Destroys the given bitmap, freeing all resources used by it. This function does nothing if the bitmap
+        /// argument is NULL.
+        /// <para>
+        /// As a convenience, if the calling thread is currently targeting the bitmap then the bitmap will be
+        /// untargeted first. The new target bitmap is unspecified.
+        /// </para>
+        /// <para>
+        /// Otherwise, it is an error to destroy a bitmap while it (or a sub-bitmap) is the target bitmap of any
+        /// thread.
+        /// </para>
+        /// </summary>
+        /// <param name="bitmap">The bitmap to destroy.</param>
+        public static void DestroyBitmap(AllegroBitmap bitmap)
+            => al_destroy_bitmap(bitmap.NativeIntPtr);
+
+        /// <summary>
+        /// Returns the flags used for newly created bitmaps.
+        /// </summary>
+        /// <returns>The flags used for newly created bitmaps.</returns>
+        public static BitmapFlags GetNewBitmapFlags()
+            => (BitmapFlags)al_get_new_bitmap_flags();
+
+        /// <summary>
+        /// Returns the format used for newly created bitmaps.
+        /// </summary>
+        /// <returns>The format used for newly created bitmaps.</returns>
+        public static PixelFormat GetNewBitmapFormat()
+            => (PixelFormat)al_get_new_bitmap_format();
+
+        /// <summary>
+        /// Sets the flags to use for newly created bitmaps.
+        /// </summary>
+        /// <param name="flags">Flags for newly created bitmaps.</param>
+        public static void SetNewBitmapFlags(BitmapFlags flags)
+            => al_set_new_bitmap_flags((int)flags);
+
+        /// <summary>
+        /// A convenience function which does the same as:
+        /// <para>
+        /// <c>al_set_new_bitmap_flags(al_get_new_bitmap_flags() | flag);</c>
+        /// </para>
+        /// </summary>
+        /// <param name="flag">The flag to set.</param>
+        public static void AddNewBitmapFlag(BitmapFlags flag)
+            => al_add_new_bitmap_flag((int)flag);
+
+        /// <summary>
+        /// Sets the pixel format (<see cref="PixelFormat"/>) for newly created bitmaps. The default format is 0
+        /// and means the display driver will choose the best format.
+        /// </summary>
+        /// <param name="format">The pixel format.</param>
+        public static void SetNewBitmapFormat(PixelFormat format)
+            => al_set_new_bitmap_format((int)format);
+
+        /// <summary>
+        /// Return the flags used to create the bitmap.
+        /// </summary>
+        /// <param name="bitmap">The bitmap to get the flags of.</param>
+        /// <returns>The flags used to create the bitmap.</returns>
+        public static BitmapFlags GetBitmapFlags(AllegroBitmap bitmap)
+            => (BitmapFlags)al_get_bitmap_flags(bitmap.NativeIntPtr);
+
+        /// <summary>
+        /// Returns the pixel format of a bitmap.
+        /// </summary>
+        /// <param name="bitmap">The bitmap to get the pixel format of.</param>
+        /// <returns>The pixel format of a bitmap.</returns>
+        public static PixelFormat GetBitmapFormat(AllegroBitmap bitmap)
+            => (PixelFormat)al_get_bitmap_format(bitmap.NativeIntPtr);
+
+        /// <summary>
+        /// Returns the height of a bitmap in pixels.
+        /// </summary>
+        /// <param name="bitmap">The bitmap to get the height of.</param>
+        /// <returns>The height of a bitmap in pixels.</returns>
+        public static int GetBitmapHeight(AllegroBitmap bitmap)
+            => al_get_bitmap_height(bitmap.NativeIntPtr);
+
+        /// <summary>
+        /// Returns the width of a bitmap in pixels.
+        /// </summary>
+        /// <param name="bitmap">The bitmap to get the width of.</param>
+        /// <returns>The width of a bitmap in pixels.</returns>
+        public static int GetBitmapWidth(AllegroBitmap bitmap)
+            => al_get_bitmap_width(bitmap.NativeIntPtr);
+
+        /// <summary>
+        /// Get a pixel’s color value from the specified bitmap. This operation is slow on non-memory bitmaps.
+        /// Consider locking the bitmap if you are going to use this function multiple times on the same bitmap.
+        /// </summary>
+        /// <param name="bitmap">The bitmap to get the color from.</param>
+        /// <param name="x">The x coordinate of the color.</param>
+        /// <param name="y">the y coordinate of the color.</param>
+        /// <returns>The color of the location of the bitmap.</returns>
+        public static AllegroColor GetPixel(AllegroBitmap bitmap, int x, int y)
+            => new AllegroColor
+            {
+                Native = al_get_pixel(bitmap.NativeIntPtr, x, y)
+            };
+
+        /// <summary>
+        /// Returns whether or not a bitmap is already locked.
+        /// </summary>
+        /// <param name="bitmap">The bitmap to see if it is locked.</param>
+        /// <returns>Whether or not a bitmap is already locked.</returns>
+        public static bool IsBitmapLocked(AllegroBitmap bitmap)
+            => al_is_bitmap_locked(bitmap.NativeIntPtr);
+
+        /// <summary>
+        /// D3D and OpenGL allow sharing a texture in a way so it can be used for multiple windows. Each
+        /// ALLEGRO_BITMAP created with al_create_bitmap however is usually tied to a single ALLEGRO_DISPLAY.
+        /// This function can be used to know if the bitmap is compatible with the given display, even if it is a
+        /// different display to the one it was created with. It returns true if the bitmap is compatible (things
+        /// like a cached texture version can be used) and false otherwise (blitting in the current display will
+        /// be slow).
+        /// <para>
+        /// The only time this function is useful is if you are using multiple windows and need accelerated blitting
+        /// of the same bitmaps to both.
+        /// </para>
+        /// </summary>
+        /// <param name="bitmap">The bitmap to see if it is compatible.</param>
+        /// <returns>
+        /// Returns true if the bitmap is compatible with the current display, false otherwise.
+        /// If there is no current display, false is returned.
+        /// </returns>
+        public static bool IsCompatibleBitmap(AllegroBitmap bitmap)
+            => al_is_compatible_bitmap(bitmap.NativeIntPtr);
+
+        /// <summary>
+        /// Returns true if the specified bitmap is a sub-bitmap, false otherwise.
+        /// </summary>
+        /// <param name="bitmap">The bitmap to check if it is a sub-bitmap.</param>
+        /// <returns>True if the specified bitmap is a sub-bitmap, false otherwise.</returns>
+        public static bool IsSubBitmap(AllegroBitmap bitmap)
+            => al_is_sub_bitmap(bitmap.NativeIntPtr);
+
+        /// <summary>
+        /// Returns the bitmap this bitmap is a sub-bitmap of. Returns NULL if this bitmap is not a sub-bitmap.
+        /// This function always returns the real bitmap, and never a sub-bitmap. This might NOT match what was
+        /// passed to al_create_sub_bitmap.
+        /// </summary>
+        /// <param name="bitmap">The bitmap to get the parent of.</param>
+        /// <returns>Bitmap that the given bitmap is a sub-bitmap of, otherwise null.</returns>
+        public static AllegroBitmap GetParentBitmap(AllegroBitmap bitmap)
+        {
+            var nativeBitmap = al_get_parent_bitmap(bitmap.NativeIntPtr);
+            return nativeBitmap == IntPtr.Zero ? null : new AllegroBitmap { NativeIntPtr = nativeBitmap };
+        }
+
+        /// <summary>
+        /// For a sub-bitmap, return it’s x position within the parent.
+        /// </summary>
+        /// <param name="bitmap">Bitmap with a parent.</param>
+        /// <returns>X position within the parent.</returns>
+        public static int GetBitmapX(AllegroBitmap bitmap)
+            => al_get_bitmap_x(bitmap.NativeIntPtr);
+
+        /// <summary>
+        /// For a sub-bitmap, return it’s y position within the parent.
+        /// </summary>
+        /// <param name="bitmap">Bitmap with a parent.</param>
+        /// <returns>Y position within the parent.</returns>
+        public static int GetBitmapY(AllegroBitmap bitmap)
+            => al_get_bitmap_y(bitmap.NativeIntPtr);
+
+        /// <summary>
+        /// For a sub-bitmap, changes the parent, position and size. This is the same as destroying the bitmap and
+        /// re-creating it with al_create_sub_bitmap - except the bitmap pointer stays the same. This has many uses,
+        /// for example an animation player could return a single bitmap which can just be re-parented to different
+        /// animation frames without having to re-draw the contents. Or a sprite atlas could re-arrange its sprites
+        /// without having to invalidate all existing bitmaps.
+        /// </summary>
+        /// <param name="bitmap">Bitmap to change the parent of.</param>
+        /// <param name="parent">Bitmap to become the parent.</param>
+        /// <param name="x">X position in the parent.</param>
+        /// <param name="y">Y position in the parent.</param>
+        /// <param name="w">Width in the parent.</param>
+        /// <param name="h">Height in the parent.</param>
+        public static void ReparentBitmap(AllegroBitmap bitmap, AllegroBitmap parent, int x, int y, int w, int h)
+            => al_reparent_bitmap(bitmap.NativeIntPtr, parent.NativeIntPtr, x, y, w, h);
+
         #region P/Invokes
         [DllImport(Constants.AllegroCoreDllFilename)]
         private static extern NativeAllegroColor al_map_rgb(byte r, byte g, byte b);
