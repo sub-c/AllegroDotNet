@@ -602,7 +602,27 @@ namespace AllegroDotNet
         public static void ClearDepthBuffer(float z)
             => al_clear_depth_buffer(z);
 
-        public static void DrawBitmap(AllegroBitmap bitmap, float dx, float dy, )
+        /// <summary>
+        /// Draws an unscaled, unrotated bitmap at the given position to the current target bitmap (see
+        /// al_set_target_bitmap).
+        /// <para>
+        /// Note: The current target bitmap must be a different bitmap. Drawing a bitmap to itself (or to a sub-bitmap
+        /// of itself) or drawing a sub-bitmap to its parent (or another sub-bitmap of its parent) are not currently
+        /// supported. To copy part of a bitmap into the same bitmap simply use a temporary bitmap instead.
+        /// </para>
+        /// <para>
+        /// Note: The backbuffer (or a sub-bitmap thereof) can not be transformed, blended or tinted. If you need to
+        /// draw the backbuffer draw it to a temporary bitmap first with no active transformation (except translation).
+        /// Blending and tinting settings/parameters will be ignored. This does not apply when drawing into a memory
+        /// bitmap.
+        /// </para>
+        /// </summary>
+        /// <param name="bitmap">The bitmap to draw to the target.</param>
+        /// <param name="dx">The x position of the destination.</param>
+        /// <param name="dy">The y position of the destination.</param>
+        /// <param name="flags">The flip flags.</param>
+        public static void DrawBitmap(AllegroBitmap bitmap, float dx, float dy, FlipFlags flags)
+            => al_draw_bitmap(bitmap.NativeIntPtr, dx, dy, (int)flags);
 
         #region P/Invokes
         [DllImport(Constants.AllegroCoreDllFilename)]
