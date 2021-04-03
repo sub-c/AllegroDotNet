@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
 using AllegroDotNet.Models;
 using AllegroDotNet.Models.Enums;
 using AllegroDotNet.Models.Native;
@@ -582,6 +580,29 @@ namespace AllegroDotNet
         /// <param name="h">Height in the parent.</param>
         public static void ReparentBitmap(AllegroBitmap bitmap, AllegroBitmap parent, int x, int y, int w, int h)
             => al_reparent_bitmap(bitmap.NativeIntPtr, parent.NativeIntPtr, x, y, w, h);
+
+        /// <summary>
+        /// Clear the complete target bitmap, but confined by the clipping rectangle.
+        /// </summary>
+        /// <param name="color">The color to clear to.</param>
+        public static void ClearToColor(AllegroColor color)
+            => al_clear_to_color(color.Native);
+
+        /// <summary>
+        /// Clear the depth buffer (confined by the clipping rectangle) to the given value. A depth buffer is only
+        /// available if it was requested with al_set_new_display_option and the requirement could be met by the
+        /// al_create_display call creating the current display. Operations involving the depth buffer are also
+        /// affected by al_set_render_state.
+        /// <para>
+        /// For example, if ALLEGRO_DEPTH_FUNCTION is set to ALLEGRO_RENDER_LESS then depth buffer value of 1
+        /// represents infinite distance, and thus is a good value to use when clearing the depth buffer.
+        /// </para>
+        /// </summary>
+        /// <param name="z">The z depth.</param>
+        public static void ClearDepthBuffer(float z)
+            => al_clear_depth_buffer(z);
+
+        public static void DrawBitmap(AllegroBitmap bitmap, float dx, float dy, )
 
         #region P/Invokes
         [DllImport(Constants.AllegroCoreDllFilename)]
