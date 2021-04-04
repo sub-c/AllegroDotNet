@@ -47,6 +47,9 @@ namespace AllegroDotNet.Sandbox
             Al.InstallKeyboard();
             var keyboardState = new AllegroKeyboardState();
 
+            Al.InstallMouse();
+            var mouseState = new AllegroMouseState();
+
             while (true)
             {
                 Al.WaitForEvent(eventQueue, ref allegroEvent);
@@ -56,8 +59,10 @@ namespace AllegroDotNet.Sandbox
                 }
                 else if (allegroEvent.Type == EventType.Timer)
                 {
+                    Al.GetMouseState(mouseState);
+
                     Al.ClearToColor(Al.MapRgb(32, 32, 32));
-                    Al.DrawBitmap(bitmap, 0, 0, FlipFlags.None);
+                    Al.DrawBitmap(bitmap, mouseState.X, mouseState.Y, FlipFlags.None);
                     Al.FlipDisplay();
                     Console.WriteLine("Timer elapsed one sec");
 
