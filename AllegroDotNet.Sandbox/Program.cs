@@ -44,6 +44,9 @@ namespace AllegroDotNet.Sandbox
             Al.ClearToColor(aColor);
             Al.SetTargetBackbuffer(display);
 
+            Al.InstallKeyboard();
+            var keyboardState = new AllegroKeyboardState();
+
             while (true)
             {
                 Al.WaitForEvent(eventQueue, ref allegroEvent);
@@ -57,8 +60,16 @@ namespace AllegroDotNet.Sandbox
                     Al.DrawBitmap(bitmap, 0, 0, FlipFlags.None);
                     Al.FlipDisplay();
                     Console.WriteLine("Timer elapsed one sec");
+
+                    Al.GetKeyboardState(keyboardState);
+                    if (Al.KeyDown(keyboardState, KeyCode.KeyD))
+                    {
+                        break;
+                    }
                 }
             }
+
+            Al.UninstallKeyboard();
 
             Al.DestroyBitmap(bitmap);
             Al.DestroyTimer(timer);
