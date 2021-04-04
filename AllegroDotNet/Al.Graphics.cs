@@ -624,6 +624,298 @@ namespace AllegroDotNet
         public static void DrawBitmap(AllegroBitmap bitmap, float dx, float dy, FlipFlags flags)
             => al_draw_bitmap(bitmap.NativeIntPtr, dx, dy, (int)flags);
 
+        /// <summary>
+        /// Like al_draw_bitmap but multiplies all colors in the bitmap with the given color.
+        /// </summary>
+        /// <param name="bitmap">The bitmap to draw to the target.</param>
+        /// <param name="tint">The color to tint the bitmap.</param>
+        /// <param name="dx">The x position of the destination.</param>
+        /// <param name="dy">The y position of the destination.</param>
+        /// <param name="flags">The flip flags.</param>
+        public static void DrawTintedBitmap(AllegroBitmap bitmap, AllegroColor tint, float dx, float dy, FlipFlags flags)
+            => al_draw_tinted_bitmap(bitmap.NativeIntPtr, tint.Native, dx, dy, (int)flags);
+
+        /// <summary>
+        /// Draws a region of the given bitmap to the target bitmap.
+        /// </summary>
+        /// <param name="bitmap">The bitmap to draw to the target.</param>
+        /// <param name="sx">Source X position.</param>
+        /// <param name="sy">Source Y position.</param>
+        /// <param name="sw">Source width.</param>
+        /// <param name="sh">Source height.</param>
+        /// <param name="dx">Destination X position.</param>
+        /// <param name="dy">Destination Y position.</param>
+        /// <param name="flags">The flip flags.</param>
+        public static void DrawBitmapRegion(AllegroBitmap bitmap, float sx, float sy, float sw, float sh, float dx, float dy, FlipFlags flags)
+            => al_draw_bitmap_region(bitmap.NativeIntPtr, sx, sy, sw, sh, dx, dy, (int)flags);
+
+        /// <summary>
+        /// Like al_draw_bitmap_region but multiplies all colors in the bitmap with the given color.
+        /// </summary>
+        /// <param name="bitmap">The bitmap to draw to the target.</param>
+        /// <param name="tint">The tint color.</param>
+        /// <param name="sx">Source X position.</param>
+        /// <param name="sy">Source Y position.</param>
+        /// <param name="sw">Source width.</param>
+        /// <param name="sh">Source height.</param>
+        /// <param name="dx">Destination X position.</param>
+        /// <param name="dy">Destination Y position.</param>
+        /// <param name="flags">The flip flags.</param>
+        public static void DrawTintedBitmapRegion(AllegroBitmap bitmap, AllegroColor tint, float sx, float sy, float sw, float sh, float dx, float dy, FlipFlags flags)
+            => al_draw_tinted_bitmap_region(bitmap.NativeIntPtr, tint.Native, sx, sy, sw, sh, dx, dy, (int)flags);
+
+        /// <summary>
+        /// Draws a single pixel at x, y. This function, unlike al_put_pixel, does blending and, unlike
+        /// al_put_blended_pixel, respects the transformations (that is, the pixel’s position is transformed, but
+        /// its size is unaffected - it remains a pixel). This function can be slow if called often; if you need
+        /// to draw a lot of pixels consider using al_draw_prim with ALLEGRO_PRIM_POINT_LIST from the primitives
+        /// addon.
+        /// <para>
+        /// Note: This function may not draw exactly where you expect it to. See the pixel-precise output section on
+        /// the primitives addon documentation for details on how to control exactly where the pixel is drawn.
+        /// </para>
+        /// </summary>
+        /// <param name="x">The X position.</param>
+        /// <param name="y">The Y position.</param>
+        /// <param name="color">The pixel color to draw.</param>
+        public static void DrawPixel(float x, float y, AllegroColor color)
+            => al_draw_pixel(x, y, color.Native);
+
+        /// <summary>
+        /// Draws a rotated version of the given bitmap to the target bitmap. The bitmap is rotated by ‘angle’ radians
+        /// clockwise.
+        /// <para>
+        /// The point at cx/cy relative to the upper left corner of the bitmap will be drawn at dx/dy and the bitmap is
+        /// rotated around this point. If cx,cy is 0,0 the bitmap will rotate around its upper left corner.
+        /// </para>
+        /// </summary>
+        /// <param name="bitmap">The bitmap to draw.</param>
+        /// <param name="cx">The center X position.</param>
+        /// <param name="cy">The center Y position.</param>
+        /// <param name="dx">The destination X position.</param>
+        /// <param name="dy">The destination Y position.</param>
+        /// <param name="angle">The angle in radians (clockwise).</param>
+        /// <param name="flags">The flip flags.</param>
+        public static void DrawRotatedBitmap(AllegroBitmap bitmap, float cx, float cy, float dx, float dy, float angle, FlipFlags flags)
+            => al_draw_rotated_bitmap(bitmap.NativeIntPtr, cx, cy, dx, dy, angle, (int)flags);
+
+        /// <summary>
+        /// Like al_draw_rotated_bitmap but multiplies all colors in the bitmap with the given color.
+        /// <para>
+        /// See al_draw_bitmap for a note on restrictions on which bitmaps can be drawn where.
+        /// </para>
+        /// </summary>
+        /// <param name="bitmap">The bitmap to draw.</param>
+        /// <param name="tint">The color tint.</param>
+        /// <param name="cx">The center X position.</param>
+        /// <param name="cy">The center Y position.</param>
+        /// <param name="dx">The destination X position.</param>
+        /// <param name="dy">The destination Y position.</param>
+        /// <param name="angle">The angle in radians (clockwise).</param>
+        /// <param name="flags">The flip flags.</param>
+        public static void DrawTintedRotatedBitmap(AllegroBitmap bitmap, AllegroColor tint, float cx, float cy, float dx, float dy, float angle, FlipFlags flags)
+            => al_draw_tinted_rotated_bitmap(bitmap.NativeIntPtr, tint.Native, cx, cy, dx, dy, angle, (int)flags);
+
+        /// <summary>
+        /// Like al_draw_rotated_bitmap, but can also scale the bitmap.
+        /// <para>
+        /// The point at cx/cy in the bitmap will be drawn at dx/dy and the bitmap is rotated and scaled around this point.
+        /// </para>
+        /// </summary>
+        /// <param name="bitmap">The bitmap to draw.</param>
+        /// <param name="cx">The center X position.</param>
+        /// <param name="cy">The center Y position.</param>
+        /// <param name="dx">The destination X position.</param>
+        /// <param name="dy">The destination Y position.</param>
+        /// <param name="xScale">The X axis scale (ex: 2 for twice the size).</param>
+        /// <param name="yScale">the Y axis scale (ex: 2 for twice the size).</param>
+        /// <param name="angle">The angle in radians (clockwise).</param>
+        /// <param name="flags">The flip flags.</param>
+        public static void DrawScaledRotatedBitmap(AllegroBitmap bitmap, float cx, float cy, float dx, float dy, float xScale, float yScale, float angle, FlipFlags flags)
+            => al_draw_scaled_rotated_bitmap(bitmap.NativeIntPtr, cx, cy, dx, dy, xScale, yScale, angle, (int)flags);
+
+        /// <summary>
+        /// Like al_draw_scaled_rotated_bitmap but multiplies all colors in the bitmap with the given color.
+        /// </summary>
+        /// <param name="bitmap">The bitmap to draw.</param>
+        /// <param name="tint">The tint color.</param>
+        /// <param name="cx">The center X position.</param>
+        /// <param name="cy">The center Y position.</param>
+        /// <param name="dx">The destination X position.</param>
+        /// <param name="dy">The destination Y position.</param>
+        /// <param name="xScale">The X axis scale (ex: 2 for twice the size).</param>
+        /// <param name="yScale">the Y axis scale (ex: 2 for twice the size).</param>
+        /// <param name="angle">The angle in radians (clockwise).</param>
+        /// <param name="flags">The flip flags.</param>
+        public static void DrawTintedScaledRotatedBitmap(AllegroBitmap bitmap, AllegroColor tint, float cx, float cy, float dx, float dy, float xScale, float yScale, float angle, FlipFlags flags)
+            => al_draw_tinted_scaled_rotated_bitmap(bitmap.NativeIntPtr, tint.Native, cx, cy, dx, dy, xScale, yScale, angle, (int)flags);
+
+        /// <summary>
+        /// Like al_draw_tinted_scaled_rotated_bitmap but you specify an area within the bitmap to be drawn.
+        /// </summary>
+        /// <param name="bitmap">The bitmap to draw.</param>
+        /// <param name="sx">Source X position.</param>
+        /// <param name="sy">Source Y position.</param>
+        /// <param name="sw">Source width.</param>
+        /// <param name="sh">Source height.</param>
+        /// <param name="tint">The tint color.</param>
+        /// <param name="cx">The center X position.</param>
+        /// <param name="cy">The center Y position.</param>
+        /// <param name="dx">The destination X position.</param>
+        /// <param name="dy">The destination Y position.</param>
+        /// <param name="xScale">The X axis scale (ex: 2 for twice the size).</param>
+        /// <param name="yScale">the Y axis scale (ex: 2 for twice the size).</param>
+        /// <param name="angle">The angle in radians (clockwise).</param>
+        /// <param name="flags">The flip flags.</param>
+        public static void DrawTintedScaledRotatedBitmapRegion(AllegroBitmap bitmap, float sx, float sy, float sw, float sh, AllegroColor tint, float cx, float cy, float dx, float dy, float xScale, float yScale, float angle, FlipFlags flags)
+            => al_draw_tinted_scaled_rotated_bitmap_region(bitmap.NativeIntPtr, sx, sy, sw, sh, tint.Native, cx, cy, dx, dy, xScale, yScale, angle, (int)flags);
+
+        /// <summary>
+        /// Draws a scaled version of the given bitmap to the target bitmap.
+        /// </summary>
+        /// <param name="bitmap">The bitmap to draw.</param>
+        /// <param name="sx">Source X position.</param>
+        /// <param name="sy">Source Y position.</param>
+        /// <param name="sw">Source width.</param>
+        /// <param name="sh">Source height.</param>
+        /// <param name="dx">The destination X position.</param>
+        /// <param name="dy">The destination Y position.</param>
+        /// <param name="dw">The destination width.</param>
+        /// <param name="dh">The destination height.</param>
+        /// <param name="flags">The flip flags.</param>
+        public static void DrawScaledBitmap(AllegroBitmap bitmap, float sx, float sy, float sw, float sh, float dx, float dy, float dw, float dh, FlipFlags flags)
+            => al_draw_scaled_bitmap(bitmap.NativeIntPtr, sx, sy, sw, sh, dx, dy, dw, dh, (int)flags);
+
+        /// <summary>
+        /// Like al_draw_scaled_bitmap but multiplies all colors in the bitmap with the given color.
+        /// </summary>
+        /// <param name="bitmap">The bitmap to draw.</param>
+        /// <param name="tint">The tint color</param>
+        /// <param name="sx">Source X position.</param>
+        /// <param name="sy">Source Y position.</param>
+        /// <param name="sw">Source width.</param>
+        /// <param name="sh">Source height.</param>
+        /// <param name="dx">The destination X position.</param>
+        /// <param name="dy">The destination Y position.</param>
+        /// <param name="dw">The destination width.</param>
+        /// <param name="dh">The destination height.</param>
+        /// <param name="flags">The flip flags.</param>
+        public static void DrawTintedScaledBitmap(AllegroBitmap bitmap, AllegroColor tint, float sx, float sy, float sw, float sh, float dx, float dy, float dw, float dh, FlipFlags flags)
+            => al_draw_tinted_scaled_bitmap(bitmap.NativeIntPtr, tint.Native, sx, sy, sw, sh, dx, dy, dw, dh, (int)flags);
+
+        /// <summary>
+        /// Return the target bitmap of the calling thread.
+        /// </summary>
+        /// <returns>The target bitmap of the calling thread.</returns>
+        public static AllegroBitmap GetTargetBitmap()
+        {
+            var nativeBitmap = al_get_target_bitmap();
+            return nativeBitmap == IntPtr.Zero ? null : new AllegroBitmap { NativeIntPtr = nativeBitmap };
+        }
+
+        /// <summary>
+        /// Draw a single pixel on the target bitmap. This operation is slow on non-memory bitmaps. Consider locking
+        /// the bitmap if you are going to use this function multiple times on the same bitmap. This function is not
+        /// affected by the transformations or the color blenders.
+        /// </summary>
+        /// <param name="x">The X position.</param>
+        /// <param name="y">The Y position.</param>
+        /// <param name="color">The color to put.</param>
+        public static void PutPixel(int x, int y, AllegroColor color)
+            => al_put_pixel(x, y, color.Native);
+
+        /// <summary>
+        /// Like al_put_pixel, but the pixel color is blended using the current blenders before being drawn.
+        /// </summary>
+        /// <param name="x">The X position.</param>
+        /// <param name="y">The Y position.</param>
+        /// <param name="color">The color to put that will be blended.</param>
+        public static void PutBlendedPixel(int x, int y, AllegroColor color)
+            => al_put_blended_pixel(x, y, color.Native);
+
+        /// <summary>
+        /// This function selects the bitmap to which all subsequent drawing operations in the calling thread
+        /// will draw to. To return to drawing to a display, set the backbuffer of the display as the target
+        /// bitmap, using al_get_backbuffer. As a convenience, you may also use al_set_target_backbuffer.
+        /// <para>
+        /// Each allegro bitmap maintains two transformation matrices associated with it for drawing onto the
+        /// bitmap. There is a view matrix and a projection matrix. When you call al_set_target_bitmap, these
+        /// will be made current for the bitmap, affecting global OpenGL and DirectX states depending on the
+        /// driver in use.
+        /// </para>
+        /// <para>
+        /// Each video bitmap is tied to a display. When a video bitmap is set to as the target bitmap, the display
+        /// that the bitmap belongs to is automatically made “current” for the calling thread (if it is not current
+        /// already). Then drawing other bitmaps which are tied to the same display can be hardware accelerated.
+        /// </para>
+        /// <para>
+        /// A single display cannot be current for multiple threads simultaneously. If you need to release a display,
+        /// so it is not current for the calling thread, call al_set_target_bitmap(NULL);
+        /// </para>
+        /// <para>
+        /// Setting a memory bitmap as the target bitmap will not change which display is current for the calling
+        /// thread.
+        /// </para>
+        /// <para>
+        /// On some platforms, Allegro automatically backs up the contents of video bitmaps because they may be
+        /// occasionally lost (see discussion in al_create_bitmap’s documentation). If you’re completely recreating
+        /// the bitmap contents often (e.g. every frame) then you will get much better performance by creating the
+        /// target bitmap with ALLEGRO_NO_PRESERVE_TEXTURE flag.
+        /// </para>
+        /// <para>
+        /// OpenGL Note: Framebuffer objects (FBOs) allow OpenGL to directly draw to a bitmap, which is very fast. When
+        /// using an OpenGL display, if all of the following conditions are met an FBO will be created for use with the
+        /// bitmap:
+        /// </para>
+        /// <para>
+        /// The GL_EXT_framebuffer_object OpenGL extension is available, The bitmap is not a memory bitmap, The bitmap
+        /// is not a memory bitmap.
+        /// </para>
+        /// <para>
+        /// In Allegro 5.0.0, you had to be careful as an FBO would be kept around until the bitmap is destroyed or you
+        /// explicitly called al_remove_opengl_fbo on the bitmap, wasting resources. In newer versions, FBOs will be
+        /// freed automatically when the bitmap is no longer the target bitmap, unless you have called
+        /// al_get_opengl_fbo to retrieve the FBO id.
+        /// </para>
+        /// </summary>
+        /// <param name="bitmap">The bitmap to set as the drawing target for the calling thread.</param>
+        public static void SetTargetBitmap(AllegroBitmap bitmap)
+            => al_set_target_bitmap(bitmap.NativeIntPtr);
+
+        /// <summary>
+        /// Same as al_set_target_bitmap(al_get_backbuffer(display));
+        /// </summary>
+        /// <param name="display">The display whose backbuffer will be set as the target for the calling thread.</param>
+        public static void SetTargetBackbuffer(AllegroDisplay display)
+            => al_set_target_backbuffer(display.NativeIntPtr);
+
+        /// <summary>
+        /// Return the display that is “current” for the calling thread, or NULL if there is none.
+        /// </summary>
+        /// <returns>The display that is “current” for the calling thread, or NULL if there is none.</returns>
+        public static AllegroDisplay GetCurrentDisplay()
+        {
+            var nativeDisplay = al_get_current_display();
+            return nativeDisplay == IntPtr.Zero ? null : new AllegroDisplay { NativeIntPtr = nativeDisplay };
+        }
+
+        /// <summary>
+        /// Returns the active blender for the current thread. You can pass NULL for values you are not interested in.
+        /// </summary>
+        /// <param name="operation">The blend operation.</param>
+        /// <param name="source">The blend mode for source.</param>
+        /// <param name="destination">The blend mode for destination.</param>
+        public static void GetBlender(ref BlendOperation operation, ref BlendMode source, ref BlendMode destination)
+        {
+            var nOp = (int)operation;
+            var nSrc = (int)source;
+            var nDst = (int)destination;
+            al_get_blender(ref nOp, ref nSrc, ref nDst);
+            operation = (BlendOperation)nOp;
+            source = (BlendMode)nSrc;
+            destination = (BlendMode)nDst;
+        }
+
         #region P/Invokes
         [DllImport(Constants.AllegroCoreDllFilename)]
         private static extern NativeAllegroColor al_map_rgb(byte r, byte g, byte b);
@@ -780,6 +1072,9 @@ namespace AllegroDotNet
 
         [DllImport(Constants.AllegroCoreDllFilename)]
         private static extern void al_draw_tinted_rotated_bitmap(IntPtr bitmap, NativeAllegroColor tint, float cx, float cy, float dx, float dy, float angle, int flags);
+
+        [DllImport(Constants.AllegroCoreDllFilename)]
+        private static extern void al_draw_scaled_rotated_bitmap(IntPtr bitmap, float cx, float cy, float dx, float dy, float xscale, float yscale, float angle, int flags);
 
         [DllImport(Constants.AllegroCoreDllFilename)]
         private static extern void al_draw_tinted_scaled_rotated_bitmap(IntPtr bitmap, NativeAllegroColor tint, float cx, float cy, float dx, float dy, float xscale, float yscale, float angle, int flags);
