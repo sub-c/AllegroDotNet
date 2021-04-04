@@ -6,6 +6,11 @@
     public enum BitmapLoadFlags
     {
         /// <summary>
+        /// Load the bitmap with defaults.
+        /// </summary>
+        None = 0,
+
+        /// <summary>
         /// Force the resulting <see cref="AllegroBitmap"/> to use the same format as the file.
         /// </summary>
         KeepBitmapFormat = 0x0002,

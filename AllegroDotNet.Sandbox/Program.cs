@@ -39,6 +39,10 @@ namespace AllegroDotNet.Sandbox
             Al.StartTimer(timer);
             AllegroEvent allegroEvent = new AllegroEvent();
             var aColor = Al.MapRgb(255, 64, 128);
+            var bitmap = Al.CreateBitmap(300, 300);
+            Al.SetTargetBitmap(bitmap);
+            Al.ClearToColor(aColor);
+            Al.SetTargetBackbuffer(display);
 
             while (true)
             {
@@ -49,10 +53,14 @@ namespace AllegroDotNet.Sandbox
                 }
                 else if (allegroEvent.Type == EventType.Timer)
                 {
+                    Al.ClearToColor(Al.MapRgb(32, 32, 32));
+                    Al.DrawBitmap(bitmap, 0, 0, FlipFlags.None);
+                    Al.FlipDisplay();
                     Console.WriteLine("Timer elapsed one sec");
                 }
             }
 
+            Al.DestroyBitmap(bitmap);
             Al.DestroyTimer(timer);
             Al.DestroyEventQueue(eventQueue);
             Al.DestroyDisplay(display);

@@ -916,6 +916,345 @@ namespace AllegroDotNet
             destination = (BlendMode)nDst;
         }
 
+        /// <summary>
+        /// Returns the active blender for the current thread. You can pass NULL for values you are not interested in.
+        /// </summary>
+        /// <param name="operation">The blend operation.</param>
+        /// <param name="source">The blend mode for source.</param>
+        /// <param name="destination">The blend mode for destination.</param>
+        /// <param name="alphaOp">The alpha blend operation.</param>
+        /// <param name="alphaSource">The blend mode for source alpha.</param>
+        /// <param name="alphaDestination">The blend mode for source alpha.</param>
+        public static void GetSeparateBlender(ref BlendOperation operation, ref BlendMode source, ref BlendMode destination, ref BlendOperation alphaOp, ref BlendMode alphaSource, ref BlendMode alphaDestination)
+        {
+            var nOp = (int)operation;
+            var nSrc = (int)source;
+            var nDst = (int)destination;
+            var nAlphaOp = (int)alphaOp;
+            var nAlphaSrc = (int)alphaSource;
+            var nAlphaDst = (int)alphaDestination;
+            al_get_separate_blender(ref nOp, ref nSrc, ref nDst, ref nAlphaOp, ref nAlphaSrc, ref nAlphaDst);
+            operation = (BlendOperation)nOp;
+            source = (BlendMode)nSrc;
+            destination = (BlendMode)nDst;
+            alphaOp = (BlendOperation)nAlphaOp;
+            alphaSource = (BlendMode)nAlphaSrc;
+            alphaDestination = (BlendMode)nAlphaDst;
+        }
+
+        /// <summary>
+        /// Returns the color currently used for constant color blending (white by default).
+        /// </summary>
+        /// <returns>The color currently used for constant color blending (white by default).</returns>
+        public static AllegroColor GetBlendColor()
+            => new AllegroColor { Native = al_get_blend_color() };
+
+        /// <summary>
+        /// Sets the function to use for blending for the current thread. Blending means, the source and destination
+        /// colors are combined in drawing operations.
+        /// </summary>
+        /// <param name="operation">The blend operation.</param>
+        /// <param name="source">The blend mode for source.</param>
+        /// <param name="destination">The blend mode for destination.</param>
+        public static void SetBlender(BlendOperation operation, BlendMode source, BlendMode destination)
+            => al_set_blender((int)operation, (int)source, (int)destination);
+
+        /// <summary>
+        /// Like al_set_blender, but allows specifying a separate blending operation for the alpha channel. This is
+        /// useful if your target bitmap also has an alpha channel and the two alpha channels need to be combined
+        /// in a different way than the color components.
+        /// </summary>
+        /// <param name="operation">The blend operation.</param>
+        /// <param name="source">The blend mode for source.</param>
+        /// <param name="destination">The blend mode for destination.</param>
+        /// <param name="alphaOp">The alpha blend operation.</param>
+        /// <param name="alphaSource">The blend mode for source alpha.</param>
+        /// <param name="alphaDestination">The blend mode for source alpha.</param>
+        public static void SetSeparateBlender(BlendOperation operation, BlendMode source, BlendMode destination, BlendOperation alphaOperation, BlendMode alphaSource, BlendMode alphaDestination)
+            => al_set_separate_blender((int)operation, (int)source, (int)destination, (int)alphaOperation, (int)alphaSource, (int)alphaDestination);
+
+        /// <summary>
+        /// Sets the color to use for blending when using the ALLEGRO_CONST_COLOR or ALLEGRO_INVERSE_CONST_COLOR
+        /// blend functions. See al_set_blender for more information.
+        /// </summary>
+        /// <param name="color">The color to use for blending.</param>
+        public static void SetBlendColor(AllegroColor color)
+            => al_set_blend_color(color.Native);
+
+        /// <summary>
+        /// Gets the clipping rectangle of the target bitmap.
+        /// </summary>
+        /// <param name="x">X position.</param>
+        /// <param name="y">Y position.</param>
+        /// <param name="w">Width.</param>
+        /// <param name="h">Height.</param>
+        public static void GetClippingRectangle(ref int x, ref int y, ref int w, ref int h)
+            => al_get_clipping_rectangle(ref x, ref y, ref w, ref h);
+
+        /// <summary>
+        /// Set the region of the target bitmap or display that pixels get clipped to. The default is to clip pixels to the entire bitmap.
+        /// </summary>
+        /// <param name="x">X position.</param>
+        /// <param name="y">Y position.</param>
+        /// <param name="width">Width.</param>
+        /// <param name="height">Height.</param>
+        public static void SetClippingRectangle(int x, int y, int width, int height)
+            => al_set_clipping_rectangle(x, y, width, height);
+
+        /// <summary>
+        /// Equivalent to calling `al_set_clipping_rectangle(0, 0, w, h)’ where w and h are the width and height
+        /// of the target bitmap respectively.
+        /// </summary>
+        public static void ResetClippingRectangle()
+            => al_reset_clipping_rectangle();
+
+        /// <summary>
+        /// Convert the given mask color to an alpha channel in the bitmap. Can be used to convert older 4.2-style
+        /// bitmaps with magic pink to alpha-ready bitmaps.
+        /// </summary>
+        /// <param name="bitmap">The bitmap to add an alpha mask to.</param>
+        /// <param name="maskColor">The color to make the alpha mask from.</param>
+        public static void ConvertMaskToAlpha(AllegroBitmap bitmap, AllegroColor maskColor)
+            => al_convert_mask_to_alpha(bitmap.NativeIntPtr, maskColor.Native);
+
+        /// <summary>
+        /// Enables or disables deferred bitmap drawing. This allows for efficient drawing of many bitmaps that share
+        /// a parent bitmap, such as sub-bitmaps from a tilesheet or simply identical bitmaps. Drawing bitmaps that
+        /// do not share a parent is less efficient, so it is advisable to stagger bitmap drawing calls such that the
+        /// parent bitmap is the same for large number of those calls. While deferred bitmap drawing is enabled, the
+        /// only functions that can be used are the bitmap drawing functions and font drawing functions. Changing the
+        /// state such as the blending modes will result in undefined behaviour. One exception to this rule are the
+        /// non-projection transformations. It is possible to set a new transformation while the drawing is held.
+        /// <para>
+        /// No drawing is guaranteed to take place until you disable the hold. Thus, the idiom of this function’s
+        /// usage is to enable the deferred bitmap drawing, draw as many bitmaps as possible, taking care to stagger
+        /// bitmaps that share parent bitmaps, and then disable deferred drawing. As mentioned above, this function
+        /// also works with bitmap and truetype fonts, so if multiple lines of text need to be drawn, this function
+        /// can speed things up.
+        /// </para>
+        /// </summary>
+        /// <param name="hold">True to enable holding, false to disable.</param>
+        public static void HoldBitmapDrawing(bool hold)
+            => al_hold_bitmap_drawing(hold);
+
+        /// <summary>
+        /// Returns whether the deferred bitmap drawing mode is turned on or off.
+        /// </summary>
+        /// <returns>Whether the deferred bitmap drawing mode is turned on or off.</returns>
+        public static bool IsBitmapDrawingHeld()
+            => al_is_bitmap_drawing_held();
+
+        /// <summary>
+        /// Register a handler for al_load_bitmap. The given function will be used to handle the loading of bitmaps
+        /// files with the given extension.
+        /// <para>
+        /// The extension should include the leading dot (‘.’) character. It will be matched case-insensitively.
+        /// The loader argument may be NULL to unregister an entry.
+        /// Returns true on success, false on error. Returns false if unregistering an entry that doesn’t exist.
+        /// </para>
+        /// </summary>
+        /// <param name="extension">The extension of the bitmap file.</param>
+        /// <param name="loader">The method to load the bitmap file type.</param>
+        /// <returns>True on success, false on error. Returns false if unregistering an entry that doesn’t exist.</returns>
+        public static bool RegisterBitmapLoader(string extension, IntPtr loader)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Register a handler for al_save_bitmap. The given function will be used to handle the saving of bitmaps
+        /// files with the given extension.
+        /// <para>
+        /// The extension should include the leading dot (‘.’) character. It will be matched case-insensitively.
+        /// The saver argument may be NULL to unregister an entry.
+        /// Returns true on success, false on error. Returns false if unregistering an entry that doesn’t exist.
+        /// </para>
+        /// </summary>
+        /// <param name="extension">The extension of the bitmap file.</param>
+        /// <param name="saver">The method to save the bitmap file type.</param>
+        /// <returns>True on success, false on error. Returns false if unregistering an entry that doesn’t exist.</returns>
+        public static bool RegisterBitmapSaver(string extension, IntPtr saver)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Register a handler for al_load_bitmap. The given function will be used to handle the loading of bitmaps
+        /// files with the given extension.
+        /// <para>
+        /// The extension should include the leading dot (‘.’) character. It will be matched case-insensitively.
+        /// The loader argument may be NULL to unregister an entry.
+        /// Returns true on success, false on error. Returns false if unregistering an entry that doesn’t exist.
+        /// </para>
+        /// </summary>
+        /// <param name="extension">The extension of the bitmap file.</param>
+        /// <param name="loader">The method to load the bitmap file type.</param>
+        /// <returns>True on success, false on error. Returns false if unregistering an entry that doesn’t exist.</returns>
+        public static bool RegisterBitmapLoaderF(string extension, IntPtr loader)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Register a handler for al_save_bitmap. The given function will be used to handle the saving of bitmaps
+        /// files with the given extension.
+        /// <para>
+        /// The extension should include the leading dot (‘.’) character. It will be matched case-insensitively.
+        /// The saver argument may be NULL to unregister an entry.
+        /// Returns true on success, false on error. Returns false if unregistering an entry that doesn’t exist.
+        /// </para>
+        /// </summary>
+        /// <param name="extension">The extension of the bitmap file.</param>
+        /// <param name="saver">The method to save the bitmap file type.</param>
+        /// <returns>True on success, false on error. Returns false if unregistering an entry that doesn’t exist.</returns>
+        public static bool RegisterBitmapSaverF(string extension, IntPtr saver)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Loads an image file into a new ALLEGRO_BITMAP. The file type is determined by the extension, except if the
+        /// file has no extension in which case al_identify_bitmap is used instead.
+        /// <para>
+        /// This is the same as calling al_load_bitmap_flags with a flags parameter of 0.
+        /// Note: the core Allegro library does not support any image file formats by default. You must use the
+        /// allegro_image addon, or register your own format handler.
+        /// </para>
+        /// </summary>
+        /// <param name="filename">The filename to load.</param>
+        /// <returns>Null on error, otherwise the loaded bitma instance.</returns>
+        public static AllegroBitmap LoadBitmap(string filename)
+        {
+            var nativeBitmap = al_load_bitmap(filename);
+            return nativeBitmap == IntPtr.Zero ? null : new AllegroBitmap { NativeIntPtr = nativeBitmap };
+        }
+
+        /// <summary>
+        /// Loads an image file into a new ALLEGRO_BITMAP. The file type is determined by the extension, except if
+        /// the file has no extension in which case al_identify_bitmap is used instead.
+        /// </summary>
+        /// <param name="filename">The filename to load.</param>
+        /// <param name="flags">The flag to load the bitmap.</param>
+        /// <returns>Null on error, otherwise the loaded bitmap instance..</returns>
+        public static AllegroBitmap LoadBitmapFlags(string filename, BitmapLoadFlags flags)
+        {
+            var nativeBitmap = al_load_bitmap_flags(filename, (int)flags);
+            return nativeBitmap == IntPtr.Zero ? null : new AllegroBitmap { NativeIntPtr = nativeBitmap };
+        }
+
+        /// <summary>
+        /// Loads an image from an ALLEGRO_FILE stream into a new ALLEGRO_BITMAP. The file type is determined by the
+        /// passed ‘ident’ parameter, which is a file name extension including the leading dot. If (and only if)
+        /// ‘ident’ is NULL, the file type is determined with al_identify_bitmap_f instead.
+        /// <para>
+        /// This is the same as calling al_load_bitmap_flags_f with 0 for the flags parameter.
+        /// </para>
+        /// </summary>
+        /// <param name="file">The <see cref="AllegroFile"/> instance to a file.</param>
+        /// <param name="identity">The extension of the file type, including the leading dot.</param>
+        /// <returns>Null on error, otherwise the loaded bitmap instance.</returns>
+        public static AllegroBitmap LoadBitmapF(AllegroFile file, string identity)
+        {
+            var nativeBitmap = al_load_bitmap_f(file.NativeIntPtr, identity);
+            return nativeBitmap == IntPtr.Zero ? null : new AllegroBitmap { NativeIntPtr = nativeBitmap };
+        }
+
+        /// <summary>
+        /// Loads an image from an ALLEGRO_FILE stream into a new ALLEGRO_BITMAP. The file type is determined by
+        /// the passed ‘ident’ parameter, which is a file name extension including the leading dot. If (and only if)
+        /// ‘ident’ is NULL, the file type is determined with al_identify_bitmap_f instead.
+        /// <para>
+        /// The flags parameter is the same as for al_load_bitmap_flags.
+        /// </para>
+        /// <para>
+        /// Returns NULL on error. The file remains open afterwards.
+        /// </para>
+        /// </summary>
+        /// <param name="file">The <see cref="AllegroFile"/> instance to a file.</param>
+        /// <param name="identity">The extension of the file type, including the leading dot.</param>
+        /// <param name="flags">The flag to load the bitmap.</param>
+        /// <returns>Null on error, otherwise the loaded bitmap instance.</returns>
+        public static AllegroBitmap LoadBitmapFlagsF(AllegroFile file, string identity, BitmapLoadFlags flags)
+        {
+            var nativeBitmap = al_load_bitmap_flags_f(file.NativeIntPtr, identity, (int)flags);
+            return nativeBitmap == IntPtr.Zero ? null : new AllegroBitmap { NativeIntPtr = nativeBitmap };
+        }
+
+        /// <summary>
+        /// Saves an ALLEGRO_BITMAP to an image file. The file type is determined by the extension.
+        /// </summary>
+        /// <param name="filename">The filename to save the bitmap to.</param>
+        /// <param name="bitmap">The bitmap instance to save.</param>
+        /// <returns>True on success, false on error.</returns>
+        public static bool SaveBitmap(string filename, AllegroBitmap bitmap)
+            => al_save_bitmap(filename, bitmap.NativeIntPtr);
+
+        /// <summary>
+        /// Saves an ALLEGRO_BITMAP to an ALLEGRO_FILE stream. The file type is determined by the passed ‘ident’
+        /// parameter, which is a file name extension including the leading dot.
+        /// </summary>
+        /// <param name="file">The <see cref="AllegroFile"/> instance to a file.</param>
+        /// <param name="identity">The extension of the file type, including the leading dot.</param>
+        /// <param name="bitmap">The bitmap instance to save.</param>
+        /// <returns>True on success, false on error. The file remains open afterwards.</returns>
+        public static bool SaveBitmapF(AllegroFile file, string identity, AllegroBitmap bitmap)
+            => al_save_bitmap_f(file.NativeIntPtr, identity, bitmap.NativeIntPtr);
+
+        /// <summary>
+        /// Register an identify handler for al_identify_bitmap. The given function will be used to detect files for
+        /// the given extension. It will be called with a single argument of type ALLEGRO_FILE which is a file handle
+        /// opened for reading and located at the first byte of the file. The handler should try to read as few
+        /// bytes as possible to safely determine if the given file contents correspond to the type with the extension
+        /// and return true in that case, false otherwise. The file handle must not be closed but there is no need to
+        /// reset it to the beginning.
+        /// <para>
+        /// The extension should include the leading dot (‘.’) character. It will be matched case-insensitively.
+        /// </para>
+        /// <para>
+        /// The identifier argument may be NULL to unregister an entry.
+        /// </para>
+        /// </summary>
+        /// <param name="extension">The extension of the bitmap.</param>
+        /// <param name="identifier">The method to identify a bitmap.</param>
+        /// <returns>True on success, false on error. Returns false if unregistering an entry that doesn’t exist.</returns>
+        public static bool RegisterBitmapIdentifier(string extension, IntPtr identifier)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// This works exactly as al_identify_bitmap_f but you specify the filename of the file for which to detect the
+        /// type and not a file handle. The extension, if any, of the passed filename is not taken into account - only
+        /// the file contents.
+        /// </summary>
+        /// <param name="filename">The filename.</param>
+        /// <returns>The bitmap identity.</returns>
+        public static string IdentifyBitmap(string filename)
+            => Marshal.PtrToStringAnsi(al_identify_bitmap(filename));
+
+        /// <summary>
+        /// Tries to guess the bitmap file type of the open ALLEGRO_FILE by reading the first few bytes. By default
+        /// Allegro cannot recognize any file types, but calling al_init_image_addon will add detection of (some of)
+        /// the types it can read. You can also use al_register_bitmap_identifier to add identification for custom file
+        /// types.
+        /// </summary>
+        /// <param name="file">The file instance to identify the bitmap from.</param>
+        /// <returns>
+        /// Returns a pointer to a static string with a file extension for the type, including the leading
+        /// dot. For example “.png” or “.jpg”. Returns NULL if the bitmap type cannot be determined.
+        /// </returns>
+        public static string IdentifyBitmapF(AllegroFile file)
+            => Marshal.PtrToStringAnsi(al_identify_bitmap_f(file.NativeIntPtr));
+
+        /// <summary>
+        /// Set one of several render attributes; see ALLEGRO_RENDER_STATE for details.
+        /// This function does nothing if the target bitmap is a memory bitmap.
+        /// </summary>
+        /// <param name="state">The render state.</param>
+        /// <param name="value">The value of the render state.</param>
+        public static void SetRenderState(RenderState state, int value)
+            => al_set_render_state((int)state, value);
+
         #region P/Invokes
         [DllImport(Constants.AllegroCoreDllFilename)]
         private static extern NativeAllegroColor al_map_rgb(byte r, byte g, byte b);
@@ -1119,7 +1458,7 @@ namespace AllegroDotNet
         private static extern void al_set_blender(int op, int src, int dst);
 
         [DllImport(Constants.AllegroCoreDllFilename)]
-        private static extern void al_separate_blender(int op, int src, int dst, int alphaOp, int alphaSrc, int alphaDst);
+        private static extern void al_set_separate_blender(int op, int src, int dst, int alphaOp, int alphaSrc, int alphaDst);
 
         [DllImport(Constants.AllegroCoreDllFilename)]
         private static extern void al_set_blend_color(NativeAllegroColor color);
@@ -1194,7 +1533,7 @@ namespace AllegroDotNet
         private static extern IntPtr al_identify_bitmap_f(IntPtr fp);
 
         [DllImport(Constants.AllegroCoreDllFilename)]
-        private static extern void al_set_render_state(IntPtr state, int value);
+        private static extern void al_set_render_state(int state, int value);
         #endregion
     }
 }
