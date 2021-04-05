@@ -6,9 +6,15 @@
     internal static class Constants
     {
         #region Allegro
+        public const int AllegroMaxJoystickAxes = 3;
+        public const int AllegroMaxJoystickButtons = 32;
+        public const int AllegroMaxJoystickSticks = 16;
+
         public const char AllegroNativeDriveSep = ':'; // Windows
         public const char AllegroNativePathSep = '\\'; // Windows
+
         public const int AllegroNewWindowTitleMaxSize = 255;
+
         public const int AllegroVersionInt = 84019200; // 5.2.8 (Git)
         #endregion
 

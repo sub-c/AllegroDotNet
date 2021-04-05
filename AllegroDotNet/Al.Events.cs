@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using AllegroDotNet.Models;
-using AllegroDotNet.Models.Native;
+using AllegroDotNet.Native;
 
 namespace AllegroDotNet
 {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 using AllegroDotNet.Models;
-using AllegroDotNet.Models.Enums;
+using AllegroDotNet.Enums;
 
 namespace AllegroDotNet.Sandbox
 {
@@ -83,7 +83,7 @@ namespace AllegroDotNet.Sandbox
 
             Al.UninstallSystem();
             Console.WriteLine("Done.");
-            Thread.Sleep(2000);
+            Thread.Sleep(1000);
         }
     }
 }

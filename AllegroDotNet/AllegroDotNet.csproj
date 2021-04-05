@@ -5,8 +5,4 @@
     <Platforms>x64</Platforms>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\AllegroDotNet.Models\AllegroDotNet.Models.csproj" />
-  </ItemGroup>
-
 </Project>

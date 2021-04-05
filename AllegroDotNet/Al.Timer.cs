@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using AllegroDotNet.Models;
-using AllegroDotNet.Models.Enums;
+using AllegroDotNet.Enums;
 
 namespace AllegroDotNet
 {

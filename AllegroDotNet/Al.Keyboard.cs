@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using AllegroDotNet.Models;
-using AllegroDotNet.Models.Enums;
-using AllegroDotNet.Models.Native;
+using AllegroDotNet.Enums;
+using AllegroDotNet.Native;
 
 namespace AllegroDotNet
 {
