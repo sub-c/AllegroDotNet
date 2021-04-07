@@ -10,6 +10,6 @@ namespace AllegroDotNet.Models
     {
         public int[] Button => Native.button;
 
-        internal NativeJoystickState Native = new NativeJoystickState();
+        internal NativeJoystickState Native = new NativeJoystickState(initialize: true);
     }
 }
