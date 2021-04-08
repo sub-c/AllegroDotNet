@@ -50,6 +50,11 @@ namespace AllegroDotNet.Sandbox
             Al.InstallMouse();
             var mouseState = new AllegroMouseState();
 
+            Al.InstallJoystick();
+            Console.WriteLine("Joysticks: " + Al.GetNumJoysticks());
+
+            var shaderSource = Al.GetDefaultShaderSource(ShaderPlatform.Auto, ShaderType.PixelShader);
+
             while (true)
             {
                 Al.WaitForEvent(eventQueue, ref allegroEvent);
@@ -74,6 +79,8 @@ namespace AllegroDotNet.Sandbox
                 }
             }
 
+            Al.UninstallJoystick();
+            Al.UninstallMouse();
             Al.UninstallKeyboard();
 
             Al.DestroyBitmap(bitmap);
