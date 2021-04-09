@@ -6,6 +6,8 @@
     internal static class Constants
     {
         #region Allegro
+        public const int AllegroDefaultDisplayAdapter = -1;
+
         public const int AllegroMaxJoystickAxes = 3;
         public const int AllegroMaxJoystickButtons = 32;
         public const int AllegroMaxJoystickSticks = 16;

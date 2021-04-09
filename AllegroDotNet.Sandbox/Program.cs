@@ -53,7 +53,9 @@ namespace AllegroDotNet.Sandbox
             Al.InstallJoystick();
             Console.WriteLine("Joysticks: " + Al.GetNumJoysticks());
 
-            var shaderSource = Al.GetDefaultShaderSource(ShaderPlatform.Auto, ShaderType.PixelShader);
+            Console.WriteLine("Shader Source:\n" + Al.GetDefaultShaderSource(ShaderPlatform.Auto, ShaderType.PixelShader));
+
+            Console.WriteLine("Video adapters: " + Al.GetNumVideoAdapters());
 
             while (true)
             {
