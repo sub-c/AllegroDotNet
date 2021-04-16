@@ -33,7 +33,7 @@ namespace AllegroDotNet.Sandbox
 
             var display = Al.CreateDisplay(1920, 1080);
             var eventQueue = Al.CreateEventQueue();
-            var timer = Al.CreateTimer(1);
+            var timer = Al.CreateTimer(Macros.BpsToSecs(60));
             Al.RegisterEventSource(eventQueue, Al.GetTimerEventSource(timer));
             Al.RegisterEventSource(eventQueue, Al.GetDisplayEventSource(display));
             Al.StartTimer(timer);
@@ -71,7 +71,6 @@ namespace AllegroDotNet.Sandbox
                     Al.ClearToColor(Al.MapRgb(32, 32, 32));
                     Al.DrawBitmap(bitmap, mouseState.X, mouseState.Y, FlipFlags.None);
                     Al.FlipDisplay();
-                    Console.WriteLine("Timer elapsed one sec");
 
                     Al.GetKeyboardState(keyboardState);
                     if (Al.KeyDown(keyboardState, KeyCode.KeyD))
