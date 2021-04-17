@@ -11,6 +11,7 @@ namespace AllegroDotNet.Sandbox
         {
             Console.WriteLine("Starting.");
             Console.WriteLine("Al.Init(): " + Al.Init());
+            Console.WriteLine("Al.InitImageAddon(): " + Al.InitImageAddon());
 
             Console.WriteLine("ExeNamePath #: " + (int)StandardPath.ExeNamePath);
             var exeNamePath = Al.GetStandardPath(StandardPath.ExeNamePath);
