@@ -12,6 +12,16 @@ namespace AllegroDotNet.Sandbox
             Console.WriteLine("Starting.");
             Console.WriteLine("Al.Init(): " + Al.Init());
             Console.WriteLine("Al.InitImageAddon(): " + Al.InitImageAddon());
+            Console.WriteLine("Al.InstallAudio(): " + Al.InstallAudio());
+            Console.WriteLine("Al.InitACodecAddon(): " + Al.InitACodecAddon());
+
+            Console.WriteLine("Al.ReserveSamples(8): " + Al.ReserveSamples(8));
+            var sample = Al.LoadSample(@"E:\Videos\Assets\Golden Mission OP-98.ogg");
+            if (sample != null )
+            { 
+                Console.WriteLine("Loaded Sample!");
+                //Al.PlaySample(sample, 1, 0, 1, PlayMode.Once, null);
+            }
 
             Console.WriteLine("ExeNamePath #: " + (int)StandardPath.ExeNamePath);
             var exeNamePath = Al.GetStandardPath(StandardPath.ExeNamePath);
@@ -79,6 +89,11 @@ namespace AllegroDotNet.Sandbox
                         break;
                     }
                 }
+            }
+
+            if (sample != null)
+            {
+                Al.DestroySample(sample);
             }
 
             Al.UninstallJoystick();

@@ -1,4 +1,6 @@
-﻿namespace AllegroDotNet
+﻿using System.Collections.Generic;
+
+namespace AllegroDotNet
 {
     /// <summary>
     /// Constants values for <c>#define</c> Allegro constants, as well as AllegroDotNet specific settings.
@@ -6,6 +8,8 @@
     internal static class Constants
     {
         #region Allegro
+        public const float AllegroAudioPanNone = -1000.0f;
+
         public const int AllegroDefaultDisplayAdapter = -1;
 
         public const int AllegroMaxJoystickAxes = 3;
@@ -41,6 +45,23 @@
         /// The library filename where all Allegro (including addon) functions can be found.
         /// </summary>
         public const string AllegroMonolithDllFilename = "allegro_monolith-5.2.dll";
+
+        public static readonly IEnumerable<string> DependencyDllFilenames = new List<string>
+        {
+            "allegro_monolith-5.2.dll",
+            "brotlicommon.dll",
+            "brotlidec.dll",
+            "bz2.dll",
+            "FLAC.dll",
+            "freetype.dll",
+            "libpng16.dll",
+            "ogg.dll",
+            "physfs.dll",
+            "vorbis.dll",
+            "vorbisfile.dll",
+            "webp.dll",
+            "zlib1.dll"
+        };
 #endregion
     }
 }
