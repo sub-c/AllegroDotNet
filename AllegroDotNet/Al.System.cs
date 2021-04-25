@@ -14,8 +14,8 @@ namespace AllegroDotNet
         /// Gets the compiled version of the Allegro library.
         /// </summary>
         /// <returns>
-        /// Returns the (compiled) version of the Allegro library, packed into a single integer as groups of 8 bits in the form (major << 24) |
-        /// (minor << 16) | (revision << 8) | release.
+        /// Returns the (compiled) version of the Allegro library, packed into a single integer as groups of 8 bits in
+        /// the form (major << 24) | (minor << 16) | (revision << 8) | release.
         /// </returns>
         public static int GetAllegroVersion()
             => al_get_allegro_version();
@@ -127,12 +127,12 @@ namespace AllegroDotNet
         /// with the version of the shared libraries that were found on the system.
         /// </returns>
         public static bool Init()
-            => al_install_system(Constants.AllegroVersionInt, IntPtr.Zero);
+            => al_install_system(AlConstants.AllegroVersionInt, IntPtr.Zero);
 
         /// <summary>
         /// Initialize the Allegro system. No other Allegro functions can be called before this (with one or two exceptions).
         /// </summary>
-        /// <param name="allegroVersionInt">The version field should always be set to <see cref="Constants.AllegroVersionInt"/>.</param>
+        /// <param name="allegroVersionInt">The version field should always be set to <see cref="AlConstants.AllegroVersionInt"/>.</param>
         /// <returns>
         /// Returns true if Allegro was successfully initialized by this function call (or already was initialized previously), false if Allegro
         /// cannot be used. A common reason for this function to fail is when the version of Allegro you compiled your game against is not compatible
@@ -203,52 +203,52 @@ namespace AllegroDotNet
             => al_uninstall_system();
 
         #region P/Invokes
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         private static extern int al_get_allegro_version();
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         private static extern IntPtr al_get_app_name();
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         private static extern int al_get_cpu_count();
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         private static extern IntPtr al_get_org_name();
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         private static extern int al_get_ram_size();
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         private static extern IntPtr al_get_standard_path(int id);
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         private static extern IntPtr al_get_system_config();
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         private static extern int al_get_system_id();
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         private static extern bool al_install_system(int version, IntPtr atExitPtr);
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         private static extern bool al_is_system_installed();
 
-        [DllImport(Constants.AllegroCoreDllFilename, CharSet = CharSet.Ansi)]
+        [DllImport(AlConstants.AllegroCoreDllFilename, CharSet = CharSet.Ansi)]
         private static extern void al_register_assert_handler(Delegates.AssertHandler assertHandler);
 
-        [DllImport(Constants.AllegroCoreDllFilename, CharSet = CharSet.Ansi)]
+        [DllImport(AlConstants.AllegroCoreDllFilename, CharSet = CharSet.Ansi)]
         private static extern void al_register_trace_handler(Delegates.TraceHandler traceHandler);
 
-        [DllImport(Constants.AllegroCoreDllFilename, CharSet = CharSet.Ansi)]
+        [DllImport(AlConstants.AllegroCoreDllFilename, CharSet = CharSet.Ansi)]
         private static extern void al_set_app_name([MarshalAs(UnmanagedType.LPStr)] string name);
 
-        [DllImport(Constants.AllegroCoreDllFilename, CharSet = CharSet.Ansi)]
+        [DllImport(AlConstants.AllegroCoreDllFilename, CharSet = CharSet.Ansi)]
         private static extern void al_set_exe_name([MarshalAs(UnmanagedType.LPStr)] string name);
 
-        [DllImport(Constants.AllegroCoreDllFilename, CharSet = CharSet.Ansi)]
+        [DllImport(AlConstants.AllegroCoreDllFilename, CharSet = CharSet.Ansi)]
         private static extern void al_set_org_name([MarshalAs(UnmanagedType.LPStr)] string name);
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         private static extern void al_uninstall_system();
         #endregion
     }

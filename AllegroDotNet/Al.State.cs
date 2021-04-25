@@ -41,16 +41,16 @@ namespace AllegroDotNet
             => al_set_errno(errNum);
 
         #region P/Invokes
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         private static extern void al_restore_state(ref NativeState state);
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         private static extern void al_store_state(ref NativeState state, int flags);
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         private static extern int al_get_errno();
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         private static extern void al_set_errno(int errnum);
         #endregion
     }

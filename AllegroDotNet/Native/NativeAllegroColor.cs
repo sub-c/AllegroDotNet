@@ -2,7 +2,7 @@
 
 namespace AllegroDotNet.Native
 {
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Sequential, Pack = 16)]
     internal struct NativeAllegroColor
     {
         public float r, g, b, a;

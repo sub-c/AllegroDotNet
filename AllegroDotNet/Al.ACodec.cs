@@ -52,13 +52,13 @@ namespace AllegroDotNet
             => al_get_allegro_acodec_version();
 
         #region P/Invokes
-        [DllImport(Constants.AllegroACodecAddonDllFilename)]
+        [DllImport(AlConstants.AllegroACodecAddonDllFilename)]
         private static extern bool al_init_acodec_addon();
 
-        [DllImport(Constants.AllegroACodecAddonDllFilename)]
+        [DllImport(AlConstants.AllegroACodecAddonDllFilename)]
         private static extern bool al_is_acodec_addon_initialized();
 
-        [DllImport(Constants.AllegroACodecAddonDllFilename)]
+        [DllImport(AlConstants.AllegroACodecAddonDllFilename)]
         private static extern uint al_get_allegro_acodec_version();
         #endregion
     }

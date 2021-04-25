@@ -237,76 +237,76 @@ namespace AllegroDotNet
         public static bool UngrabMouse()
             => al_ungrab_mouse();
         #region P/Invokes
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         private static extern bool al_install_mouse();
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         private static extern bool al_is_mouse_installed();
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         private static extern void al_uninstall_mouse();
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         private static extern uint al_get_mouse_num_axes();
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         private static extern uint al_get_mouse_num_buttons();
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         private static extern void al_get_mouse_state(ref NativeMouseState retState);
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         private static extern int al_get_mouse_state_axis(ref NativeMouseState state, int axis);
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         private static extern bool al_mouse_button_down(ref NativeMouseState state, int button);
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         private static extern bool al_set_mouse_xy(IntPtr display, int x, int y);
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         private static extern bool al_set_mouse_z(int z);
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         private static extern bool al_set_mouse_w(int w);
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         private static extern bool al_set_mouse_axis(int which, int value);
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         private static extern IntPtr al_get_mouse_event_source();
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         private static extern void al_set_mouse_wheel_precision(int precision);
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         private static extern int al_get_mouse_wheel_precision();
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         private static extern IntPtr al_create_mouse_cursor(IntPtr bmp, int xFocus, int yFocus);
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         private static extern void al_destroy_mouse_cursor(IntPtr cursor);
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         private static extern bool al_set_mouse_cursor(IntPtr display, IntPtr cursor);
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         private static extern bool al_set_system_mouse_cursor(IntPtr display, int cursorId);
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         private static extern bool al_get_mouse_cursor_position(ref int retX, ref int retY);
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         private static extern bool al_hide_mouse_cursor(IntPtr display);
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         private static extern bool al_show_mouse_cursor(IntPtr display);
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         private static extern bool al_grab_mouse(IntPtr display);
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         private static extern bool al_ungrab_mouse();
         #endregion
     }

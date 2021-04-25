@@ -11,11 +11,11 @@ namespace AllegroDotNet
     {
         /// <summary>
         /// Gets the video adapter index where new displays will be created by the calling thread, if previously set
-        /// with al_set_new_display_adapter. Otherwise returns <see cref="Constants.AllegroDefaultDisplayAdapter"/>.
+        /// with al_set_new_display_adapter. Otherwise returns <see cref="AlConstants.AllegroDefaultDisplayAdapter"/>.
         /// </summary>
         /// <returns>
         /// Index where new displays are created by the calling thread, or
-        /// <see cref="Constants.AllegroDefaultDisplayAdapter"/>.
+        /// <see cref="AlConstants.AllegroDefaultDisplayAdapter"/>.
         /// </returns>
         public static int GetNewDisplayAdapter()
             => al_get_new_display_adapter();
@@ -26,7 +26,7 @@ namespace AllegroDotNet
         /// al_get_num_video_adapters and al_get_monitor_info.
         /// </summary>
         /// <param name="adapter">
-        /// The adapter to use for new displays, or <see cref="Constants.AllegroDefaultDisplayAdapter"/> to
+        /// The adapter to use for new displays, or <see cref="AlConstants.AllegroDefaultDisplayAdapter"/> to
         /// return to default behavior.
         /// </param>
         public static void SetNewDisplayAdapter(int adapter)
@@ -79,22 +79,22 @@ namespace AllegroDotNet
             => al_get_monitor_refresh_rate(adapter);
 
         #region P/Invokes
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         private static extern int al_get_new_display_adapter();
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         private static extern void al_set_new_display_adapter(int adapter);
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         private static extern bool al_get_monitor_info(int adapter, ref NativeMonitorInfo info);
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         private static extern int al_get_monitor_dpi(int adapter);
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         private static extern int al_get_num_video_adapters();
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         private static extern int al_get_monitor_refresh_rate(int adapter);
         #endregion
     }

@@ -3,7 +3,7 @@
     /// <summary>
     /// Useful functions from Allegro that natively were implemented as C macros.
     /// </summary>
-    public static class Macros
+    public static class AlMacros
     {
         /// <summary>
         /// Convert beats per minute to seconds.

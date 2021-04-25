@@ -23,16 +23,16 @@ namespace AllegroDotNet
             => al_get_allegro_image_version();
 
         #region P/Invokes
-        [DllImport(Constants.AllegroImageAddonDllFilename)]
+        [DllImport(AlConstants.AllegroImageAddonDllFilename)]
         private static extern bool al_init_image_addon();
 
-        [DllImport(Constants.AllegroImageAddonDllFilename)]
+        [DllImport(AlConstants.AllegroImageAddonDllFilename)]
         private static extern bool al_is_image_addon_initialized();
 
-        [DllImport(Constants.AllegroImageAddonDllFilename)]
+        [DllImport(AlConstants.AllegroImageAddonDllFilename)]
         private static extern void al_shutdown_image_addon();
 
-        [DllImport(Constants.AllegroImageAddonDllFilename)]
+        [DllImport(AlConstants.AllegroImageAddonDllFilename)]
         private static extern uint al_get_allegro_image_version();
         #endregion
     }

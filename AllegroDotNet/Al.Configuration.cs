@@ -235,78 +235,78 @@ namespace AllegroDotNet
             => al_merge_config_into(master.NativeIntPtr, configAdd.NativeIntPtr);
 
         #region P/Invokes
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         private static extern IntPtr al_create_config();
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         private static extern void al_destroy_config(IntPtr config);
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         private static extern IntPtr al_load_config_file([MarshalAs(UnmanagedType.LPStr)] string filename);
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         private static extern IntPtr al_load_config_file_f(IntPtr file);
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         private static extern bool al_save_config_file(
             [MarshalAs(UnmanagedType.LPStr)] string filename,
             IntPtr config);
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         private static extern bool al_save_config_file_f(IntPtr file, IntPtr config);
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         private static extern void al_add_config_section(IntPtr config, [MarshalAs(UnmanagedType.LPStr)] string name);
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         private static extern bool al_remove_config_section(
             IntPtr config,
             [MarshalAs(UnmanagedType.LPStr)] string section);
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         private static extern void al_add_config_comment(
             IntPtr config,
             [MarshalAs(UnmanagedType.LPStr)] string section,
             [MarshalAs(UnmanagedType.LPStr)] string comment);
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         private static extern IntPtr al_get_config_value(
             IntPtr config,
             [MarshalAs(UnmanagedType.LPStr)] string section,
             [MarshalAs(UnmanagedType.LPStr)] string key);
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         private static extern void al_set_config_value(
             IntPtr config,
             [MarshalAs(UnmanagedType.LPStr)] string section,
             [MarshalAs(UnmanagedType.LPStr)] string key,
             [MarshalAs(UnmanagedType.LPStr)] string value);
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         private static extern bool al_remove_config_key(
             IntPtr config,
             [MarshalAs(UnmanagedType.LPStr)] string section,
             [MarshalAs(UnmanagedType.LPStr)] string key);
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         private static extern IntPtr al_get_first_config_section(IntPtr config, ref IntPtr iterator);
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         private static extern IntPtr al_get_next_config_section(ref IntPtr iterator);
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         private static extern IntPtr al_get_first_config_entry(
             IntPtr config,
             [MarshalAs(UnmanagedType.LPStr)] string section,
             ref IntPtr iterator);
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         private static extern IntPtr al_get_next_config_entry(ref IntPtr iterator);
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         private static extern IntPtr al_merge_config(IntPtr config1, IntPtr config2);
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         private static extern void al_merge_config_into(IntPtr configMaster, IntPtr configAdd);
         #endregion
     }

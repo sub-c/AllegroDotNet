@@ -5,7 +5,7 @@ namespace AllegroDotNet
     /// <summary>
     /// Constants values for <c>#define</c> Allegro constants, as well as AllegroDotNet specific settings.
     /// </summary>
-    internal static class Constants
+    public static class AlConstants
     {
         #region Allegro
         public const float AllegroAudioPanNone = -1000.0f;
@@ -26,7 +26,7 @@ namespace AllegroDotNet
 
         public const int AllegroNewWindowTitleMaxSize = 255;
 
-        public const int AllegroVersionInt = 84019200; // 5.2.8 (Git)
+        public const int AllegroVersionInt = 84018945; // 5.2.7.0 (release)
         #endregion
 
         #region AllegroDotNet
@@ -42,9 +42,9 @@ namespace AllegroDotNet
         public const string AllegroImageAddonDllFilename = AllegroMonolithDllFilename; // "allegro_image-5.2.dll";
 
         /// <summary>
-        /// The library filename where all Allegro (including addon) functions can be found.
+        /// The library filename where all Allegro (including addons) functions can be found.
         /// </summary>
-        public const string AllegroMonolithDllFilename = "allegro_monolith-5.2.dll";
+        public const string AllegroMonolithDllFilename = "allegro_monolith-debug-5.2.dll";
 
         public static readonly IEnumerable<string> DependencyDllFilenames = new List<string>
         {

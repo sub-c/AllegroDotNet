@@ -442,70 +442,70 @@ namespace AllegroDotNet
             => al_save_sample_f(fp.NativeIntPtr, ident, sample.NativeIntPtr);
 
         #region P/Invokes
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern bool al_install_audio();
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern void al_uninstall_audio();
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern bool al_is_audio_installed();
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern bool al_reserve_samples(int reserve_samples);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern uint al_get_allegro_audio_version();
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern UIntPtr al_get_audio_depth_size(int depth);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern UIntPtr al_get_channel_count(int conf);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern void al_fill_silence(IntPtr buf, uint samples, int depth, int chan_conf);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern IntPtr al_create_voice(uint freq, int depth, int chan_conf);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern void al_destroy_voice(IntPtr voice);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern void al_detach_voice(IntPtr voice);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern bool al_attach_audio_stream_to_voice(IntPtr stream, IntPtr voice);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern bool al_attach_mixer_to_voice(IntPtr mixer, IntPtr voice);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern bool al_attach_sample_instance_to_voice(IntPtr spl, IntPtr voice);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern uint al_get_voice_frequency(IntPtr voice);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern int al_get_voice_channels(IntPtr voice);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern int al_get_voice_depth(IntPtr voice);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern bool al_get_voice_playing(IntPtr voice);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern bool al_set_voice_playing(IntPtr voice, bool val);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern uint al_get_voice_position(IntPtr voice);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern bool al_set_voice_position(IntPtr voice, uint val);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern IntPtr al_create_sample(
             ref byte[] buf,
             uint samples,
@@ -514,325 +514,325 @@ namespace AllegroDotNet
             int chan_conf,
             bool free_buf);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern void al_destroy_sample(IntPtr spl);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern bool al_play_sample(IntPtr spl, float gain, float pan, float speed, int loop, IntPtr ret_id);
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern bool al_play_sample(IntPtr spl, float gain, float pan, float speed, int loop, ref NativeSampleId ret_id);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern void al_stop_sample(ref NativeSampleId spl_id);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern void al_stop_samples();
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern int al_get_sample_channels(IntPtr spl);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern int al_get_sample_depth(IntPtr spl);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern uint al_get_sample_frequency(IntPtr spl);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern uint al_get_sample_length(IntPtr spl);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern IntPtr al_get_sample_data(IntPtr spl);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern IntPtr al_create_sample_instance(IntPtr sample_data);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern void al_destroy_sample_instance(IntPtr spl);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern bool al_play_sample_instance(IntPtr spl);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern bool al_stop_sample_instance(IntPtr spl);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern int al_get_sample_instance_channels(IntPtr spl);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern int al_get_sample_instance_depth(IntPtr spl);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern uint al_get_sample_instance_frequency(IntPtr spl);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern uint al_get_sample_instance_length(IntPtr spl);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern bool al_set_sample_instance_length(IntPtr spl, uint val);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern uint al_get_sample_instance_position(IntPtr spl);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern bool al_set_sample_instance_position(IntPtr spl, uint val);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern float al_get_sample_instance_speed(IntPtr spl);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern bool al_set_sample_instance_speed(IntPtr spl, float val);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern float al_get_sample_instance_gain(IntPtr spl);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern bool al_set_sample_instance_gain(IntPtr spl, float val);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern float al_get_sample_instance_pan(IntPtr spl);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern bool al_set_sample_instance_pan(IntPtr spl, float val);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern float al_get_sample_instance_time(IntPtr spl);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern int al_get_sample_instance_playmode(IntPtr spl);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern bool al_set_sample_instance_playmode(IntPtr spl, int val);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern bool al_get_sample_instance_playing(IntPtr spl);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern bool al_set_sample_instance_playing(IntPtr spl, bool val);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern bool al_get_sample_instance_attached(IntPtr spl);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern bool al_detach_sample_instance(IntPtr spl);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern IntPtr al_get_sample(IntPtr spl);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern bool al_set_sample(IntPtr spl, IntPtr data);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern IntPtr al_create_mixer(uint freq, int depth, int chan_conf);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern void al_destroy_mixer(IntPtr mixer);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern IntPtr al_get_default_mixer();
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern bool al_set_default_mixer(IntPtr mixer);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern bool al_restore_default_mixer();
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern IntPtr al_get_default_voice();
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern void al_set_default_voice(IntPtr voice);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern bool al_attach_mixer_to_mixer(IntPtr stream, IntPtr mixer);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern bool al_attach_sample_instance_to_mixer(IntPtr spl, IntPtr mixer);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern bool al_attach_audio_stream_to_mixer(IntPtr stream, IntPtr mixer);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern uint al_get_mixer_frequency(IntPtr mixer);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern bool al_set_mixer_frequency(IntPtr mixer, uint val);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern int al_get_mixer_channels(IntPtr mixer);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern int al_get_mixer_depth(IntPtr mixer);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern float al_get_mixer_gain(IntPtr mixer);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern bool al_set_mixer_gain(IntPtr mixer, float new_gain);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern int al_get_mixer_quality(IntPtr mixer);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern bool al_set_mixer_quality(IntPtr mixer, int new_quality);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern bool al_get_mixer_playing(IntPtr mixer);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern bool al_set_mixer_playing(IntPtr mixer, bool val);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern bool al_get_mixer_attached(IntPtr mixer);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern bool al_detach_mixer(IntPtr mixer);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern bool al_set_mixer_postprocess_callback(IntPtr mixer, IntPtr pp_callback, IntPtr pp_callback_userdata);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern IntPtr al_create_audio_stream(UIntPtr fragment_count, uint frag_samples, uint freq, int depth, int chan_conf);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern void al_destroy_audio_stream(IntPtr stream);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern IntPtr al_get_audio_stream_event_source(IntPtr stream);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern void al_drain_audio_stream(IntPtr stream);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern bool al_rewind_audio_stream(IntPtr stream);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern uint al_get_audio_stream_frequency(IntPtr stream);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern int al_get_audio_stream_channels(IntPtr stream);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern int al_get_audio_stream_depth(IntPtr stream);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern uint al_get_audio_stream_length(IntPtr stream);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern float al_get_audio_stream_speed(IntPtr stream);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern bool al_set_audio_stream_speed(IntPtr stream, float val);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern float al_get_audio_stream_gain(IntPtr stream);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern bool al_set_audio_stream_gain(IntPtr stream, float val);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern float al_get_audio_stream_pan(IntPtr stream);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern bool al_set_audio_stream_pan(IntPtr stream, float val);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern bool al_get_audio_stream_playing(IntPtr stream);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern bool al_set_audio_stream_playing(IntPtr stream, bool val);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern int al_get_audio_stream_playmode(IntPtr stream);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern bool al_set_audio_stream_playmode(IntPtr stream, int val);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern bool al_get_audio_stream_attached(IntPtr stream);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern bool al_detach_audio_stream(IntPtr stream);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern ulong al_get_audio_stream_played_samples(IntPtr stream);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern IntPtr al_get_audio_stream_fragment(IntPtr stream);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern bool al_set_audio_stream_fragment(IntPtr stream, IntPtr val);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern uint al_get_audio_stream_fragments(IntPtr stream);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern uint al_get_available_audio_stream_fragments(IntPtr stream);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern bool al_seek_audio_stream_secs(IntPtr stream, double time);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern double al_get_audio_stream_position_secs(IntPtr stream);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern double al_get_audio_stream_length_secs(IntPtr stream);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern bool al_set_audio_stream_loop_secs(IntPtr stream, double start, double end);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern bool al_register_sample_loader(
             [MarshalAs(UnmanagedType.LPStr)] string ext,
             IntPtr loader);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern bool al_register_sample_loader_f(
             [MarshalAs(UnmanagedType.LPStr)] string ext,
             IntPtr loader);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern bool al_register_sample_saver(
             [MarshalAs(UnmanagedType.LPStr)] string ext,
             IntPtr saver);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern bool al_register_sample_saver_f(
             [MarshalAs(UnmanagedType.LPStr)] string ext,
             IntPtr saver);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern bool al_register_audio_stream_loader(
             [MarshalAs(UnmanagedType.LPStr)] string ext,
             IntPtr stream_loader);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern bool al_register_audio_stream_loader_f(
             [MarshalAs(UnmanagedType.LPStr)] string ext,
             IntPtr stream_loader);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern IntPtr al_load_sample([MarshalAs(UnmanagedType.LPStr)] string filename);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern IntPtr al_load_sample_f(IntPtr fp, [MarshalAs(UnmanagedType.LPStr)] string ident);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern IntPtr al_load_audio_stream(
             [MarshalAs(UnmanagedType.LPStr)] string filename,
             UIntPtr buffer_count,
             uint samples);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern IntPtr al_load_audio_stream_f(
             IntPtr fp,
             [MarshalAs(UnmanagedType.LPStr)] string ident,
             UIntPtr buffer_count,
             uint samples);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern bool al_save_sample([MarshalAs(UnmanagedType.LPStr)] string filename, IntPtr spl);
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern bool al_save_sample_f(
             IntPtr fp,
             [MarshalAs(UnmanagedType.LPStr)] string ident,

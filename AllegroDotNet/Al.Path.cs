@@ -280,76 +280,76 @@ namespace AllegroDotNet
             => al_make_path_canonical(path.NativeIntPtr);
 
         #region P/Invokes
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         public static extern IntPtr al_create_path([MarshalAs(UnmanagedType.LPStr)] string str);
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         public static extern IntPtr al_create_path_for_directory([MarshalAs(UnmanagedType.LPStr)] string str);
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         public static extern void al_destroy_path(IntPtr path);
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         public static extern IntPtr al_clone_path(IntPtr path);
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         public static extern bool al_join_paths(IntPtr path, IntPtr tail);
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         public static extern bool al_rebase_path(IntPtr head, IntPtr tail);
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         public static extern IntPtr al_get_path_drive(IntPtr path);
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         public static extern int al_get_path_num_components(IntPtr path);
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         public static extern IntPtr al_get_path_component(IntPtr path, int i);
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         public static extern IntPtr al_get_path_tail(IntPtr path);
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         public static extern IntPtr al_get_path_filename(IntPtr path);
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         public static extern IntPtr al_get_path_basename(IntPtr path);
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         public static extern IntPtr al_get_path_extension(IntPtr path);
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         public static extern void al_set_path_drive(IntPtr path, [MarshalAs(UnmanagedType.LPStr)] string drive);
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         public static extern void al_append_path_component(IntPtr path, [MarshalAs(UnmanagedType.LPStr)] string s);
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         public static extern void al_insert_path_component(IntPtr path, int i, [MarshalAs(UnmanagedType.LPStr)] string s);
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         public static extern void al_replace_path_component(IntPtr path, int i, [MarshalAs(UnmanagedType.LPStr)] string s);
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         public static extern void al_remove_path_component(IntPtr path, int i);
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         public static extern void al_drop_path_tail(IntPtr path);
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         public static extern void al_set_path_filename(IntPtr path, [MarshalAs(UnmanagedType.LPStr)] string filename);
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         public static extern bool al_set_path_extension(IntPtr path, [MarshalAs(UnmanagedType.LPStr)] string extension);
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         public static extern IntPtr al_path_cstr(IntPtr path, char delim);
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         public static extern IntPtr al_path_ustr(IntPtr path, char delim);
 
-        [DllImport(Constants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroCoreDllFilename)]
         public static extern bool al_make_path_canonical(IntPtr path);
         #endregion
     }

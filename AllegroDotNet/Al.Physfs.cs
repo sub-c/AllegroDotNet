@@ -38,10 +38,10 @@ namespace AllegroDotNet
             => al_get_allegro_physfs_version();
 
         #region P/Invokes
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern void al_set_physfs_file_interface();
 
-        [DllImport(Constants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern uint al_get_allegro_physfs_version();
         #endregion
     }
