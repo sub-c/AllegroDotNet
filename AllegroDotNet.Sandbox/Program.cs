@@ -21,6 +21,11 @@ namespace AllegroDotNet.Sandbox
             Console.WriteLine("Al.InstallAudio(): " + Al.InstallAudio());
             Console.WriteLine("Al.InitACodecAddon(): " + Al.InitACodecAddon());
             Console.WriteLine("Al.InitFontAddon(): " + Al.InitFontAddon());
+            Console.WriteLine("Al.al_init_native_dialog_addon(): " + Al.InitNativeDialogAddon());
+
+            //var messageBoxReturn = Al.ShowNativeMessageBox(null, "myTitle", "myHeading", "myText", "Button!", MessageBoxFlags.Question | MessageBoxFlags.YesNo);
+            var textLog = Al.OpenNativeTextLog("AllegroDotNet Test Text Log", TextLogFlags.Monospace | TextLogFlags.NoClose);
+            Al.AppendNativeTextLog(textLog, "ALLEGRODOTNET - Some message here.");
 
             Console.WriteLine("Al.ReserveSamples(8): " + Al.ReserveSamples(8));
             //var sample = Al.LoadSample(@"E:\Videos\Assets\Golden Mission OP-98.ogg");
@@ -133,6 +138,9 @@ namespace AllegroDotNet.Sandbox
             //    Al.DestroySample(sample);
             //}
 
+            Al.CloseNativeTextLog(textLog);
+
+            Al.ShutdownNativeDialogAddon();
             Al.ShutdownFontAddon();
             Al.UninstallJoystick();
             Al.UninstallMouse();
