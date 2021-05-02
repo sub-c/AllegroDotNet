@@ -1,5 +1,5 @@
 # AllegroDotNet
-The AllegroDotNet projects aims to make the original Allegro game programming library (written in C) to be useable from C# and feel somewhat .NET-like.
+The AllegroDotNet projects aims to make the original [Allegro game programming library](https://liballeg.org/) (written in C) to be useable from C# and feel somewhat .NET-like.
 It achieves this goal by wrapping the native C function calls with platform-invoke calls in C#. Additional wrapping is done to not expose any native pointer types, so what was an ALLEGRO_BITMAP* struct-pointer in C is now an AllegroBitmap class in C#.
 
 The current supported requirements:
