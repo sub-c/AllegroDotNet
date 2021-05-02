@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AllegroDotNet.Sandbox", "Al
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AllegroDotNet", "AllegroDotNet\AllegroDotNet.csproj", "{C99DEAF2-40C3-40E9-B6DD-3B718031C21D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AllegroDotNet.Dependencies", "AllegroDotNet.Dependencies\AllegroDotNet.Dependencies.csproj", "{C1F185D3-D0CF-4B04-8C6F-258DF3537374}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +23,10 @@ Global
 		{C99DEAF2-40C3-40E9-B6DD-3B718031C21D}.Debug|x64.Build.0 = Debug|x64
 		{C99DEAF2-40C3-40E9-B6DD-3B718031C21D}.Release|x64.ActiveCfg = Release|x64
 		{C99DEAF2-40C3-40E9-B6DD-3B718031C21D}.Release|x64.Build.0 = Release|x64
+		{C1F185D3-D0CF-4B04-8C6F-258DF3537374}.Debug|x64.ActiveCfg = Debug|x64
+		{C1F185D3-D0CF-4B04-8C6F-258DF3537374}.Debug|x64.Build.0 = Debug|x64
+		{C1F185D3-D0CF-4B04-8C6F-258DF3537374}.Release|x64.ActiveCfg = Release|x64
+		{C1F185D3-D0CF-4B04-8C6F-258DF3537374}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

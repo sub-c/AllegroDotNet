@@ -203,52 +203,52 @@ namespace AllegroDotNet
             => al_uninstall_system();
 
         #region P/Invokes
-        [DllImport(AlConstants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern int al_get_allegro_version();
 
-        [DllImport(AlConstants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern IntPtr al_get_app_name();
 
-        [DllImport(AlConstants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern int al_get_cpu_count();
 
-        [DllImport(AlConstants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern IntPtr al_get_org_name();
 
-        [DllImport(AlConstants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern int al_get_ram_size();
 
-        [DllImport(AlConstants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern IntPtr al_get_standard_path(int id);
 
-        [DllImport(AlConstants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern IntPtr al_get_system_config();
 
-        [DllImport(AlConstants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern int al_get_system_id();
 
-        [DllImport(AlConstants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern bool al_install_system(int version, IntPtr atExitPtr);
 
-        [DllImport(AlConstants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern bool al_is_system_installed();
 
-        [DllImport(AlConstants.AllegroCoreDllFilename, CharSet = CharSet.Ansi)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename, CharSet = CharSet.Ansi)]
         private static extern void al_register_assert_handler(Delegates.AssertHandler assertHandler);
 
-        [DllImport(AlConstants.AllegroCoreDllFilename, CharSet = CharSet.Ansi)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename, CharSet = CharSet.Ansi)]
         private static extern void al_register_trace_handler(Delegates.TraceHandler traceHandler);
 
-        [DllImport(AlConstants.AllegroCoreDllFilename, CharSet = CharSet.Ansi)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename, CharSet = CharSet.Ansi)]
         private static extern void al_set_app_name([MarshalAs(UnmanagedType.LPStr)] string name);
 
-        [DllImport(AlConstants.AllegroCoreDllFilename, CharSet = CharSet.Ansi)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename, CharSet = CharSet.Ansi)]
         private static extern void al_set_exe_name([MarshalAs(UnmanagedType.LPStr)] string name);
 
-        [DllImport(AlConstants.AllegroCoreDllFilename, CharSet = CharSet.Ansi)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename, CharSet = CharSet.Ansi)]
         private static extern void al_set_org_name([MarshalAs(UnmanagedType.LPStr)] string name);
 
-        [DllImport(AlConstants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern void al_uninstall_system();
         #endregion
     }

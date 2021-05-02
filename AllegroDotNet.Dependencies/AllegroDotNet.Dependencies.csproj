@@ -1,0 +1,51 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Platforms>x64</Platforms>
+    <AssemblyName>AllegroDotNet.Dependencies</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="DLLs\allegro_monolith-debug-5.2.dll" />
+    <None Remove="DLLs\brotlicommon.dll" />
+    <None Remove="DLLs\brotlidec.dll" />
+    <None Remove="DLLs\bz2.dll" />
+    <None Remove="DLLs\FLAC++.dll" />
+    <None Remove="DLLs\FLAC.dll" />
+    <None Remove="DLLs\freetype.dll" />
+    <None Remove="DLLs\libpng16.dll" />
+    <None Remove="DLLs\ogg.dll" />
+    <None Remove="DLLs\opus.dll" />
+    <None Remove="DLLs\physfs.dll" />
+    <None Remove="DLLs\theora.dll" />
+    <None Remove="DLLs\theoradec.dll" />
+    <None Remove="DLLs\theoraenc.dll" />
+    <None Remove="DLLs\vorbis.dll" />
+    <None Remove="DLLs\vorbisenc.dll" />
+    <None Remove="DLLs\vorbisfile.dll" />
+    <None Remove="DLLs\zlib1.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="DLLs\allegro_monolith-debug-5.2.dll" />
+    <EmbeddedResource Include="DLLs\brotlicommon.dll" />
+    <EmbeddedResource Include="DLLs\brotlidec.dll" />
+    <EmbeddedResource Include="DLLs\bz2.dll" />
+    <EmbeddedResource Include="DLLs\FLAC++.dll" />
+    <EmbeddedResource Include="DLLs\FLAC.dll" />
+    <EmbeddedResource Include="DLLs\freetype.dll" />
+    <EmbeddedResource Include="DLLs\libpng16.dll" />
+    <EmbeddedResource Include="DLLs\ogg.dll" />
+    <EmbeddedResource Include="DLLs\opus.dll" />
+    <EmbeddedResource Include="DLLs\physfs.dll" />
+    <EmbeddedResource Include="DLLs\theora.dll" />
+    <EmbeddedResource Include="DLLs\theoradec.dll" />
+    <EmbeddedResource Include="DLLs\theoraenc.dll" />
+    <EmbeddedResource Include="DLLs\vorbis.dll" />
+    <EmbeddedResource Include="DLLs\vorbisenc.dll" />
+    <EmbeddedResource Include="DLLs\vorbisfile.dll" />
+    <EmbeddedResource Include="DLLs\zlib1.dll" />
+  </ItemGroup>
+
+</Project>

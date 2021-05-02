@@ -3,6 +3,8 @@ using System.Threading;
 using AllegroDotNet.Models;
 using AllegroDotNet.Enums;
 using System.IO;
+using AllegroDotNet.Dependencies;
+using System.Diagnostics;
 
 namespace AllegroDotNet.Sandbox
 {
@@ -12,6 +14,10 @@ namespace AllegroDotNet.Sandbox
         {
             var isAllegroDllFound = File.Exists("allegro_monolith-debug-5.2.dll");
             Console.WriteLine("Is Allegro DLL found: " + isAllegroDllFound);
+
+            AlDependencyManager.ExtractAllegroDotNetDlls();
+            //AlDependencyManager.ExtractAllegroDlls(Directory.GetCurrentDirectory());
+            //AlDependencyManager.ExtractThirdPartyDlls(Directory.GetCurrentDirectory());
 
             Console.WriteLine("Starting.");
             //Console.WriteLine("Al.Init(): " + Al.Init());
@@ -140,18 +146,18 @@ namespace AllegroDotNet.Sandbox
 
             Al.CloseNativeTextLog(textLog);
 
-            Al.ShutdownNativeDialogAddon();
-            Al.ShutdownFontAddon();
-            Al.UninstallJoystick();
-            Al.UninstallMouse();
-            Al.UninstallKeyboard();
-
             Al.DestroyBitmap(bitmap);
             Al.DestroyTimer(timer);
             Al.DestroyEventQueue(eventQueue);
             Al.DestroyDisplay(display);
 
+            Al.ShutdownNativeDialogAddon();
+            Al.ShutdownFontAddon();
+            Al.UninstallJoystick();
+            Al.UninstallMouse();
+            Al.UninstallKeyboard();
             Al.UninstallSystem();
+
             Console.WriteLine("Done.");
             Thread.Sleep(1000);
         }

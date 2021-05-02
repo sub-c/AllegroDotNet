@@ -45,13 +45,13 @@ namespace AllegroDotNet
             => al_rest(seconds);
 
         #region P/Invokes
-        [DllImport(AlConstants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern double al_get_time();
 
-        [DllImport(AlConstants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern void al_init_timeout(ref NativeAllegroTimeout timeout, double seconds);
 
-        [DllImport(AlConstants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern void al_rest(double seconds);
         #endregion
     }

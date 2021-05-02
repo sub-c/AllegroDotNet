@@ -244,52 +244,52 @@ namespace AllegroDotNet
         }
 
         #region P/Invokes
-        [DllImport(AlConstants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern IntPtr al_create_shader(ShaderPlatform platform);
 
-        [DllImport(AlConstants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern bool al_attach_shader_source(IntPtr shader, ShaderType type, [MarshalAs(UnmanagedType.LPStr)] string source);
 
-        [DllImport(AlConstants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern bool al_attach_shader_source_file(IntPtr shader, ShaderType type, [MarshalAs(UnmanagedType.LPStr)] string filename);
 
-        [DllImport(AlConstants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern bool al_build_shader(IntPtr shader);
 
-        [DllImport(AlConstants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern IntPtr al_get_shader_log(IntPtr shader);
 
-        [DllImport(AlConstants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern ShaderPlatform al_get_shader_platform(IntPtr shader);
 
-        [DllImport(AlConstants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern bool al_use_shader(IntPtr shader);
 
-        [DllImport(AlConstants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern void al_destroy_shader(IntPtr shader);
 
-        [DllImport(AlConstants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern bool al_set_shader_sampler([MarshalAs(UnmanagedType.LPStr)] string name, IntPtr bitmap, int unit);
 
-        [DllImport(AlConstants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern bool al_set_shader_matrix([MarshalAs(UnmanagedType.LPStr)] string name, ref NativeTransform matrix);
 
-        [DllImport(AlConstants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern bool al_set_shader_int([MarshalAs(UnmanagedType.LPStr)] string name, int i);
 
-        [DllImport(AlConstants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern bool al_set_shader_float([MarshalAs(UnmanagedType.LPStr)] string name, float f);
 
-        [DllImport(AlConstants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern bool al_set_shader_bool([MarshalAs(UnmanagedType.LPStr)] string name, bool b);
 
-        [DllImport(AlConstants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern bool al_set_shader_int_vector([MarshalAs(UnmanagedType.LPStr)] string name, int num_components, ref int i, int num_elems);
 
-        [DllImport(AlConstants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern bool al_set_shader_float_vector([MarshalAs(UnmanagedType.LPStr)] string name, int num_components, ref float f, int num_elems);
 
-        [DllImport(AlConstants.AllegroCoreDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilename)]
         private static extern IntPtr al_get_default_shader_source(ShaderPlatform platform, ShaderType type);
         #endregion
     }

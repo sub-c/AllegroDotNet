@@ -30,38 +30,10 @@ namespace AllegroDotNet
         #endregion
 
         #region AllegroDotNet
-        public const string AllegroACodecAddonDllFilename = AllegroMonolithDllFilename; // "allegro_acodec-5.2.dll";
-
-        public const string AllegroAudioAddonDllFilename = AllegroMonolithDllFilename; // "allegro_audio-5.2.dll";
-
-        /// <summary>
-        /// The library filename where core Allegro (non-addon) functions can be found.
-        /// </summary>
-        public const string AllegroCoreDllFilename = AllegroMonolithDllFilename; //"allegro-5.2.dll";
-
-        public const string AllegroImageAddonDllFilename = AllegroMonolithDllFilename; // "allegro_image-5.2.dll";
-
         /// <summary>
         /// The library filename where all Allegro (including addons) functions can be found.
         /// </summary>
         public const string AllegroMonolithDllFilename = "allegro_monolith-debug-5.2.dll";
-
-        public static readonly IEnumerable<string> DependencyDllFilenames = new List<string>
-        {
-            "allegro_monolith-5.2.dll",
-            "brotlicommon.dll",
-            "brotlidec.dll",
-            "bz2.dll",
-            "FLAC.dll",
-            "freetype.dll",
-            "libpng16.dll",
-            "ogg.dll",
-            "physfs.dll",
-            "vorbis.dll",
-            "vorbisfile.dll",
-            "webp.dll",
-            "zlib1.dll"
-        };
 #endregion
     }
 }
