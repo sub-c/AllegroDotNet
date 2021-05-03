@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Threading;
-using AllegroDotNet.Models;
-using AllegroDotNet.Enums;
 using System.IO;
+using System.Threading;
 using AllegroDotNet.Dependencies;
-using System.Diagnostics;
+using AllegroDotNet.Enums;
+using AllegroDotNet.Models;
 
 namespace AllegroDotNet.Sandbox
 {
@@ -16,11 +15,8 @@ namespace AllegroDotNet.Sandbox
             Console.WriteLine("Is Allegro DLL found: " + isAllegroDllFound);
 
             AlDependencyManager.ExtractAllegroDotNetDlls();
-            //AlDependencyManager.ExtractAllegroDlls(Directory.GetCurrentDirectory());
-            //AlDependencyManager.ExtractThirdPartyDlls(Directory.GetCurrentDirectory());
 
             Console.WriteLine("Starting.");
-            //Console.WriteLine("Al.Init(): " + Al.Init());
             Console.WriteLine("Al.InstallSystem(): " + Al.InstallSystem(AlConstants.AllegroVersionInt));
             Console.WriteLine("Last Error: " + Al.GetErrNo());
             Console.WriteLine("Al.InitImageAddon(): " + Al.InitImageAddon());
@@ -29,20 +25,12 @@ namespace AllegroDotNet.Sandbox
             Console.WriteLine("Al.InitFontAddon(): " + Al.InitFontAddon());
             Console.WriteLine("Al.al_init_native_dialog_addon(): " + Al.InitNativeDialogAddon());
 
-            //var messageBoxReturn = Al.ShowNativeMessageBox(null, "myTitle", "myHeading", "myText", "Button!", MessageBoxFlags.Question | MessageBoxFlags.YesNo);
             var textLog = Al.OpenNativeTextLog("AllegroDotNet Test Text Log", TextLogFlags.Monospace | TextLogFlags.NoClose);
             Al.AppendNativeTextLog(textLog, "ALLEGRODOTNET - Some message here.");
 
             Console.WriteLine("Al.ReserveSamples(8): " + Al.ReserveSamples(8));
-            //var sample = Al.LoadSample(@"E:\Videos\Assets\Golden Mission OP-98.ogg");
-            //if (sample != null )
-            //{ 
-            //    Console.WriteLine("Loaded Sample!");
-            //    //Al.PlaySample(sample, 1, 0, 1, PlayMode.Once, null);
-            //}
 
             Console.WriteLine("ExeNamePath #: " + (int)StandardPath.ExeNamePath);
-            //var exeNamePath = Al.GetStandardPath(StandardPath.ExeNamePath);
             Al.SetOrgName("fart");
             Console.WriteLine("AppName: " + Al.GetAppName());
             Console.WriteLine("OrgName: " + Al.GetOrgName());
@@ -138,11 +126,6 @@ namespace AllegroDotNet.Sandbox
             {
                 Al.DestroyFont(builtinFont);
             }
-
-            //if (sample != null)
-            //{
-            //    Al.DestroySample(sample);
-            //}
 
             Al.CloseNativeTextLog(textLog);
 
