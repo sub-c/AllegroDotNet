@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <AssemblyName>Example.Cpu</AssemblyName>
+    <RootNamespace>AllegroDotNet.Example.Cpu</RootNamespace>
+    <StartupObject>AllegroDotNet.Example.Cpu.Program</StartupObject>
+    <Platforms>AnyCPU;x64</Platforms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AllegroDotNet.Dependencies\AllegroDotNet.Dependencies.csproj" />
+    <ProjectReference Include="..\AllegroDotNet\AllegroDotNet.csproj" />
+  </ItemGroup>
+
+</Project>

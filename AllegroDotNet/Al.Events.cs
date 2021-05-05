@@ -135,7 +135,7 @@ namespace AllegroDotNet
         /// </summary>
         /// <param name="eventQueue">The event queue to wait for an event from.</param>
         /// <param name="retEvent">The next event in the event queue.</param>
-        public static void WaitForEvent(AllegroEventQueue eventQueue, ref AllegroEvent retEvent)
+        public static void WaitForEvent(AllegroEventQueue eventQueue, AllegroEvent retEvent)
             => al_wait_for_event(eventQueue.NativeIntPtr, ref retEvent.NativeEvent);
 
         /// <summary>
@@ -154,7 +154,7 @@ namespace AllegroDotNet
         /// <param name="retEvent">The returned event from the event queue.</param>
         /// <param name="seconds">The approximate seconds to wait for an event.</param>
         /// <returns>True if the call did not time out, otherwise false.</returns>
-        public static bool WaitForEventTimed(AllegroEventQueue eventQueue, ref AllegroEvent retEvent, float seconds)
+        public static bool WaitForEventTimed(AllegroEventQueue eventQueue, AllegroEvent retEvent, float seconds)
             => al_wait_for_event_timed(eventQueue.NativeIntPtr, ref retEvent.NativeEvent, seconds);
 
         /// <summary>
@@ -173,7 +173,7 @@ namespace AllegroDotNet
         /// <param name="retEvent">The returned event from the event queue.</param>
         /// <param name="timeout">The approximate timeout to wait for an event.</param>
         /// <returns>True if the call did not time out, otherwise false.</returns>
-        public static bool WaitForEventUntil(AllegroEventQueue eventQueue, ref AllegroEvent retEvent, ref AllegroTimeout timeout)
+        public static bool WaitForEventUntil(AllegroEventQueue eventQueue, AllegroEvent retEvent, ref AllegroTimeout timeout)
             => al_wait_for_event_until(eventQueue.NativeIntPtr, ref retEvent.NativeEvent, ref timeout.NativeTimeout);
 
         /// <summary>
