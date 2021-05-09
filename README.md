@@ -9,13 +9,13 @@ The current supported requirements:
 
 Changing the IDE or target platform is certainly possible given platform-invoke is part of .NET and not Windows-specific, but is not officially supported *at this time*.
 
-# Quick Start
-1) Get the latest release
-2) Make a new .NET Core 3.1+ console/Windows application in VS2019
-3) Right-click your project, then click "Add Reference..."
-4) Click "Browse" and add "AllegroDotNet" and "AllegroDotNet.Dependencies" DLL files from the latest release you unzipped
+# Quick Start (Windows)
+1) Make a new .NET Core 3.1 console project in Visual Studio 2019+
+2) Right-click your project in the solution explorer, and pick "Manage Nuget packages..."
+3) Click the "Browse" tab, then search for "AllegroDotNet"
+4) Install "AllegroDotNet" and "AllegroDotNet.Dependencies" Nuget packages
 
-Then try adding this code below:
+Then try adding this code below in your Program.cs file:
 
 - (in your using statements:)
 
