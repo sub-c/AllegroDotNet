@@ -37,7 +37,7 @@ Al.DestroyDisplay(display);
 Al.UninstallSystem();
 ```
 
-If you can't tell, AllegroDotNet mimics original Allegro function calls by putting them all in the __Al__ namespace. For example, the original Allegro function `al_init_image_addon()` is now `Al.InitImageAddon()`.
+If you can't tell, AllegroDotNet mimics original Allegro function calls by putting them all in the __Al__ namespace. For example, the original Allegro function `al_init_image_addon()` is now `Al.InitImageAddon()`. You can use the [offical Allegro documentation](https://liballeg.org/a5docs/trunk/) as documentation for AllegroDotNet: if the method is implemented in AllegroDotNet, then take the native Allegro method, drop the 'al_' and turn it into 'Al.', then turn the rest of the method into pascal-casing without any underscores.
 
 # Dependencies
 
