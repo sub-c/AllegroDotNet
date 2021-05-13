@@ -6,6 +6,12 @@
 	<IsWindows Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Windows)))' == 'true'">true</IsWindows>
 	<IsOSX Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))' == 'true'">true</IsOSX>
 	<IsLinux Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' == 'true'">true</IsLinux>
+	<Version>0.1.0</Version>
+	<Authors>Sub-C</Authors>
+	<Description>A platform-invoke library for C# projects using the Allegro game programming library.</Description>
+	<RepositoryUrl>https://github.com/sub-c/AllegroDotNet</RepositoryUrl>
+	<PackageProjectUrl>https://github.com/sub-c/AllegroDotNet</PackageProjectUrl>
+	<PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
 	<PropertyGroup Condition="'$(IsWindows)'=='true'">

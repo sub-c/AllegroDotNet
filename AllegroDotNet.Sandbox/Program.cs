@@ -93,7 +93,7 @@ namespace AllegroDotNet.Sandbox
 
             while (true)
             {
-                Al.WaitForEvent(eventQueue, ref allegroEvent);
+                Al.WaitForEvent(eventQueue, allegroEvent);
                 if (allegroEvent.Type == EventType.DisplayClose)
                 {
                     break;

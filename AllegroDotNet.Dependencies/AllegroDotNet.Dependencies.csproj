@@ -4,6 +4,12 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <Platforms>x64</Platforms>
     <AssemblyName>AllegroDotNet.Dependencies</AssemblyName>
+    <Authors>Sub-C</Authors>
+    <PackageProjectUrl>https://github.com/sub-c/AllegroDotNet</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/sub-c/AllegroDotNet</RepositoryUrl>
+    <Version>0.1.0</Version>
+    <Description>The native dependencies needed for AllegroDotNet projects that target Windows x64.</Description>
+    <PackageLicenseExpression>Zlib</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup>

@@ -11,24 +11,65 @@ namespace AllegroDotNet
     /// </summary>
     public static partial class Al
     {
+        /// <summary>
+        /// Install the audio subsystem.
+        /// <para>
+        /// Note: most users will call <see cref="ReserveSamples(int)"/> and <see cref="InitACodecAddon"/> after this.
+        /// </para>
+        /// </summary>
+        /// <returns>True on success, false on failure.</returns>
         public static bool InstallAudio()
             => al_install_audio();
 
+        /// <summary>
+        /// Uninstalls the audio subsystem.
+        /// </summary>
         public static void UninstallAudio()
             => al_uninstall_audio();
 
+        /// <summary>
+        /// Returns true if <see cref="InstallAudio"/> was called previously and returned successfully.
+        /// </summary>
+        /// <returns>True if audio is already installed, otherwise false.</returns>
         public static bool IsAudioInstalled()
             => al_is_audio_installed();
 
+        /// <summary>
+        /// Reserves a number of sample instances, attaching them to the default mixer. If no default mixer is set
+        /// when this function is called, then it will create one and attach it to the default voice. If no default
+        /// voice has been set, it, too, will be created.
+        /// <para>
+        /// If you call this function a second time with a smaller number of samples, then the excess internal sample
+        /// instances will be destroyed causing some sounds to stop.
+        /// </para>
+        /// </summary>
+        /// <param name="samples">The amount of sample instances to reserve.</param>
+        /// <returns>True on success, false on error. <see cref="InstallAudio"/> must have been called first.</returns>
         public static bool ReserveSamples(int samples)
             => al_reserve_samples(samples);
 
+        /// <summary>
+        /// Returns the (compiled) version of the addon, in the same format as <see cref="GetAllegroVersion"/>.
+        /// </summary>
+        /// <returns>The (compiled) version of the audio addon.</returns>
         public static uint GetAllegroAudioVersion()
             => al_get_allegro_audio_version();
 
+        /// <summary>
+        /// Return the size of a sample, in bytes, for the given format. The format is one of the values listed under
+        /// <see cref="AudioDepth"/>.
+        /// </summary>
+        /// <param name="depth">The audio format.</param>
+        /// <returns>The amount of bytes for a sample in the given format.</returns>
         public static ulong GetAudioDepthSize(AudioDepth depth)
             => (ulong)al_get_audio_depth_size((int)depth);
 
+        /// <summary>
+        /// Return the number of channels for the given channel configuration, which is one of the values listed under
+        /// <see cref="ChannelConf"/>.
+        /// </summary>
+        /// <param name="conf">The channel configuration.</param>
+        /// <returns>The number of channels for the given channel configuration.</returns>
         public static ulong GetChannelCount(ChannelConf conf)
             => (ulong)al_get_channel_count((int)conf);
 
