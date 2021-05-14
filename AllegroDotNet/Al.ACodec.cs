@@ -8,29 +8,32 @@ namespace AllegroDotNet
     public static partial class Al
     {
         /// <summary>
-        /// This function registers all the known audio file type handlers for al_load_sample, al_save_sample,
-        /// al_load_audio_stream, etc.
+        /// This function registers all the known audio file type handlers for
+        /// <see cref="LoadSample(string)"/>, <see cref="SaveSample(string, Models.AllegroSample)"/>,
+        /// <see cref="LoadAudioStream(string, ulong, uint)"/>, etc.
         /// <para>
-        /// Depending on what libraries are available, the full set of recognised extensions is: .wav, .flac, .ogg,
-        /// .opus, .it, .mod, .s3m, .xm, .voc.
+        /// Depending on what libraries are available, the full set of recognised extensions is: <c>.wav, .flac, .ogg,
+        /// .opus, .it, .mod, .s3m, .xm, .voc</c>.
         /// </para>
         /// <para>
         /// Limitations:
         /// </para>
         /// <para>
-        ///  Saving is only supported for wav files.
+        ///  Saving is only supported for <c>wav</c> files.
         /// </para>
         /// <para>
         ///  The wav file loader currently only supports 8/16 bit little endian PCM files. 16 bits are used when saving
-        ///  wav files.Use flac files if more precision is required.
+        ///  <c>wav</c> files. Use <c>flac</c> files if more precision is required.
         /// </para>
         /// <para>
-        ///  Module files (.it, .mod, .s3m, .xm) are often composed with streaming in mind, and sometimes cannot be
-        ///  easily rendered into a finite length sample.Therefore they cannot be loaded with al_load_sample /
-        ///  al_load_sample_f and must be streamed with al_load_audio_stream or al_load_audio_stream_f.
+        ///  Module files (<c>.it, .mod, .s3m, .xm</c>) are often composed with streaming in mind, and sometimes cannot be
+        ///  easily rendered into a finite length sample. Therefore they cannot be loaded with
+        ///  <see cref="LoadSample(string)"/> / <see cref="LoadSampleF(Models.AllegroFile, string)"/> and must be
+        ///  streamed with <see cref="LoadAudioStream(string, ulong, uint)"/> or
+        ///  <see cref="LoadAudioStreamF(Models.AllegroFile, string, ulong, uint)"/>.
         /// </para>
         /// <para>
-        /// .voc file streaming is unimplemented.
+        /// <c>.voc</c> file streaming is unimplemented.
         /// </para>
         /// </summary>
         /// <returns>True on success, otherwise false.</returns>
@@ -45,7 +48,7 @@ namespace AllegroDotNet
             => al_is_acodec_addon_initialized();
 
         /// <summary>
-        /// Returns the (compiled) version of the addon, in the same format as al_get_allegro_version.
+        /// Returns the (compiled) version of the addon, in the same format as <see cref="GetAllegroVersion"/>.
         /// </summary>
         /// <returns>The (compiled) version of the addon.</returns>
         public static uint GetAllegroACodecVersion()
