@@ -73,53 +73,170 @@ namespace AllegroDotNet
         public static ulong GetChannelCount(ChannelConf conf)
             => (ulong)al_get_channel_count((int)conf);
 
+        /// <summary>
+        /// Fill a buffer with silence, for the given format and channel configuration. The buffer must have enough
+        /// space for the given number of samples, and be properly aligned.
+        /// </summary>
+        /// <param name="samples">Amount of samples.</param>
+        /// <param name="depth">The audio format.</param>
+        /// <param name="channelConf">The channel configuration.</param>
         public static void FillSilence(uint samples, AudioDepth depth, ChannelConf channelConf)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Creates a voice structure and allocates a voice from the digital sound driver. The passed frequency
+        /// (in Hz), sample format and channel configuration are used as a hint to what kind of data will be sent
+        /// to the voice. However, the underlying sound driver is free to use non-matching values. For example,
+        /// it may be the native format of the sound hardware.
+        /// <para>
+        /// If a mixer is attached to the voice, the mixer will handle the conversion of all its input streams
+        /// to the voice format and care does not have to be taken for this. However if you access the voice
+        /// directly, make sure to not rely on the parameters passed to this function, but instead query the
+        /// returned voice for the actual settings.
+        /// </para>
+        /// </summary>
+        /// <param name="freq">The frequency in Hz.</param>
+        /// <param name="depth">The audio format.</param>
+        /// <param name="channelConf">The channel configuration.</param>
+        /// <returns>The voice from the digital sound driver on success, otherwise <c>null</c>.</returns>
         public static AllegroVoice CreateVoice(uint freq, AudioDepth depth, ChannelConf channelConf)
         {
             var nativeVoice = al_create_voice(freq, (int)depth, (int)channelConf);
             return nativeVoice == IntPtr.Zero ? null : new AllegroVoice { NativeIntPtr = nativeVoice };
         }
 
+        /// <summary>
+        /// Destroys the voice and deallocates it from the digital driver. Does nothing if the voice is <c>null</c>.
+        /// </summary>
+        /// <param name="voice">The voice instance.</param>
         public static void DestroyVoice(AllegroVoice voice)
-            => al_destroy_voice(voice.NativeIntPtr);
+        {
+            var nativeVoice = voice == null ? IntPtr.Zero : voice.NativeIntPtr;
+            al_destroy_voice(nativeVoice);
+        }
 
+        /// <summary>
+        /// Detaches the mixer, sample instance or audio stream from the voice.
+        /// </summary>
+        /// <param name="voice">The voice instance.</param>
         public static void DetachVoice(AllegroVoice voice)
            => al_detach_voice(voice.NativeIntPtr);
 
+        /// <summary>
+        /// Attaches an audio stream to a voice. The same rules as
+        /// <see cref="AttachSampleInstanceToVoice(AllegroSampleInstance, AllegroVoice)"/> apply. This may fail if
+        /// the driver can’t create a voice with the buffer count and buffer size the stream uses.
+        /// <para>
+        /// An audio stream attached directly to a voice has a number of limitations: The audio stream plays
+        /// immediately and cannot be stopped. The stream position, speed, gain and panning cannot be changed. At this
+        /// time, we don’t recommend attaching audio streams directly to voices. Use a mixer inbetween.
+        /// </para>
+        /// </summary>
+        /// <param name="stream">The stream instance.</param>
+        /// <param name="voice">The voice instance.</param>
+        /// <returns>True on success, false on failure.</returns>
         public static bool AttachAudioStreamToVoice(AllegroAudioStream stream, AllegroVoice voice)
             => al_attach_audio_stream_to_voice(stream.NativeIntPtr, voice.NativeIntPtr);
 
+        /// <summary>
+        /// Attaches a mixer to a voice. It must have the same frequency and channel configuration, but the depth may
+        /// be different.
+        /// </summary>
+        /// <param name="mixer">The mixer instance.</param>
+        /// <param name="voice">The voice instance.</param>
+        /// <returns>True on success, false on failure.</returns>
         public static bool AttachMixerToVoice(AllegroMixer mixer, AllegroVoice voice)
             => al_attach_mixer_to_voice(mixer.NativeIntPtr, voice.NativeIntPtr);
 
-        public static bool AttachSampleInstanceToVoice(AllegroSampleInstance instance, AllegroVoice voice)
-            => al_attach_sample_instance_to_voice(instance.NativeIntPtr, voice.NativeIntPtr);
+        /// <summary>
+        /// Attaches a sample instance to a voice, and allows it to play. The instance’s gain and loop mode will be
+        /// ignored, and it must have the same frequency, channel configuration and depth (including signed-ness) as
+        /// the voice. This function may fail if the selected driver doesn’t support preloading sample data.
+        /// <para>
+        /// At this time, we don’t recommend attaching sample instances directly to voices. Use a mixer inbetween.
+        /// </para>
+        /// </summary>
+        /// <param name="sample">The sample instance.</param>
+        /// <param name="voice">The voice instance.</param>
+        /// <returns>True on success, false on failure.</returns>
+        public static bool AttachSampleInstanceToVoice(AllegroSampleInstance sample, AllegroVoice voice)
+            => al_attach_sample_instance_to_voice(sample.NativeIntPtr, voice.NativeIntPtr);
 
+        /// <summary>
+        /// Return the frequency of the voice (in Hz), e.g. 44100.
+        /// </summary>
+        /// <param name="voice">The voice instance.</param>
+        /// <returns>The frequency of the voice.</returns>
         public static uint GetVoiceFrequency(AllegroVoice voice)
             => al_get_voice_frequency(voice.NativeIntPtr);
 
+        /// <summary>
+        /// Return the channel configuration of the voice.
+        /// </summary>
+        /// <param name="voice">The voice instance.</param>
+        /// <returns>The channel configuration of the voice.</returns>
         public static ChannelConf GetVoiceChannels(AllegroVoice voice)
             => (ChannelConf)al_get_voice_channels(voice.NativeIntPtr);
 
+        /// <summary>
+        /// Return the audio depth of the voice.
+        /// </summary>
+        /// <param name="voice">The voice instance.</param>
+        /// <returns>Audio depth of the voice.</returns>
         public static AudioDepth GetVoiceDepth(AllegroVoice voice)
             => (AudioDepth)al_get_voice_depth(voice.NativeIntPtr);
 
+        /// <summary>
+        /// Return true if the voice is currently playing.
+        /// </summary>
+        /// <param name="voice">The voice instance.</param>
+        /// <returns>True if the voice is playing, otherwise false.</returns>
         public static bool GetVoicePlaying(AllegroVoice voice)
             => al_get_voice_playing(voice.NativeIntPtr);
 
+        /// <summary>
+        /// Change whether a voice is playing or not. This can only work if the voice has a non-streaming object
+        /// attached to it, e.g. a sample instance. On success the voice’s current sample position is reset.
+        /// </summary>
+        /// <param name="voice">The voice instance.</param>
+        /// <param name="val">The value to set the playing status to.</param>
+        /// <returns>True on success, false on failure.</returns>
         public static bool SetVoicePlaying(AllegroVoice voice, bool val)
             => al_set_voice_playing(voice.NativeIntPtr, val);
 
+        /// <summary>
+        /// When the voice has a non-streaming object attached to it, e.g. a sample, returns the voice’s current sample
+        /// position. Otherwise, returns zero.
+        /// </summary>
+        /// <param name="voice">The voice instance.</param>
+        /// <returns>Returns the voice’s current sample position. Otherwise, returns zero.</returns>
         public static uint GetVoicePosition(AllegroVoice voice)
             => al_get_voice_position(voice.NativeIntPtr);
 
+        /// <summary>
+        /// Set the voice position. This can only work if the voice has a non-streaming object attached to it, e.g.
+        /// a sample instance.
+        /// </summary>
+        /// <param name="voice">The voice instance.</param>
+        /// <param name="val">The value to set the position to.</param>
+        /// <returns>True on success, otherwise false.</returns>
         public static bool SetVoicePosition(AllegroVoice voice, uint val)
             => al_set_voice_position(voice.NativeIntPtr, val);
 
+        /// <summary>
+        /// Create a sample data structure from the supplied buffer. If <c>freeBuf</c> is true then the buffer will
+        /// be freed with al_free when the sample data structure is destroyed. For portability (especially Windows),
+        /// the buffer should have been allocated with al_malloc. Otherwise you should free the sample data yourself.
+        /// </summary>
+        /// <param name="buf"></param>
+        /// <param name="samples"></param>
+        /// <param name="freq"></param>
+        /// <param name="depth"></param>
+        /// <param name="channelConf"></param>
+        /// <param name="freeBuf"></param>
+        /// <returns></returns>
         public static AllegroSample CreateSample(ref byte[] buf, uint samples, uint freq, AudioDepth depth, ChannelConf channelConf, bool freeBuf)
         {
             var nativeSample = al_create_sample(ref buf, samples, freq, (int)depth, (int)channelConf, freeBuf);
