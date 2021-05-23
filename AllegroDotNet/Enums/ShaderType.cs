@@ -1,4 +1,4 @@
-﻿namespace AllegroDotNet.Enums
+﻿namespace SubC.AllegroDotNet.Enums
 {
     /// <summary>
     /// Used with al_attach_shader_source and al_attach_shader_source_file to specify how to interpret the attached

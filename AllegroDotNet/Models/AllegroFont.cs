@@ -1,4 +1,4 @@
-﻿namespace AllegroDotNet.Models
+﻿namespace SubC.AllegroDotNet.Models
 {
     /// <summary>
     /// A handle identifying any kind of font. Usually you will create it with al_load_font which supports loading

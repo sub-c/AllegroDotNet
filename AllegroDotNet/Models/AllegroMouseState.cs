@@ -1,7 +1,7 @@
 ﻿using System;
-using AllegroDotNet.Native;
+using SubC.AllegroDotNet.Native;
 
-namespace AllegroDotNet.Models
+namespace SubC.AllegroDotNet.Models
 {
     /// <summary>
     /// The state of the mouse at a point in time.

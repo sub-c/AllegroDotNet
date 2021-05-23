@@ -1,4 +1,4 @@
-﻿namespace AllegroDotNet.Models
+﻿namespace SubC.AllegroDotNet.Models
 {
     public sealed class AllegroEvent_Touch
     {

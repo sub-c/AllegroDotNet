@@ -1,6 +1,6 @@
-﻿using AllegroDotNet.Native;
+﻿using SubC.AllegroDotNet.Native;
 
-namespace AllegroDotNet.Models
+namespace SubC.AllegroDotNet.Models
 {
     /// <summary>
     /// This is a structure that is used to hold a “snapshot” of a joystick’s axes and buttons at a particular

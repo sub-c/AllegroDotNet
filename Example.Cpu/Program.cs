@@ -1,6 +1,7 @@
-﻿using AllegroDotNet.Dependencies;
-using AllegroDotNet.Enums;
-using AllegroDotNet.Models;
+﻿using SubC.AllegroDotNet;
+using SubC.AllegroDotNet.Dependencies;
+using SubC.AllegroDotNet.Enums;
+using SubC.AllegroDotNet.Models;
 
 namespace AllegroDotNet.Example.Cpu
 {

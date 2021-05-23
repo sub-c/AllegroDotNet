@@ -1,4 +1,4 @@
-﻿namespace AllegroDotNet.Enums
+﻿namespace SubC.AllegroDotNet.Enums
 {
     /// <summary>
     /// Defines what part of the state of the current thread is stored in a given ALLEGRO_STATE object.

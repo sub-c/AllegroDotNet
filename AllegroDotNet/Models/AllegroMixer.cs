@@ -1,4 +1,4 @@
-﻿namespace AllegroDotNet.Models
+﻿namespace SubC.AllegroDotNet.Models
 {
     /// <summary>
     /// A mixer mixes together attached streams into a single buffer. In the process, it converts channel

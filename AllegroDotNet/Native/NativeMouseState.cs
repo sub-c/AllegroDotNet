@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AllegroDotNet.Native
+namespace SubC.AllegroDotNet.Native
 {
     internal struct NativeMouseState
     {

@@ -2,7 +2,7 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace AllegroDotNet
+namespace SubC.AllegroDotNet
 {
     /// <summary>
     /// Allegro game library methods.

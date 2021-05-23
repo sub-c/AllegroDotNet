@@ -1,4 +1,4 @@
-﻿namespace AllegroDotNet.Models
+﻿namespace SubC.AllegroDotNet.Models
 {
     /// <summary>
     /// An ALLEGRO_SHADER is a program that runs on the GPU. It combines both a vertex and a pixel shader.

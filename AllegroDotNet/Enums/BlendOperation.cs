@@ -1,4 +1,4 @@
-﻿namespace AllegroDotNet.Enums
+﻿namespace SubC.AllegroDotNet.Enums
 {
     /// <summary>
     /// The conceptional formula used by Allegro to draw any pixel in blending modes.

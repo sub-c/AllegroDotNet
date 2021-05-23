@@ -1,4 +1,4 @@
-﻿namespace AllegroDotNet.Enums
+﻿namespace SubC.AllegroDotNet.Enums
 {
     /// <summary>
     /// Indicates what properties of <see cref="AllegroEvent"/> are filled out, based on the event that occurred.

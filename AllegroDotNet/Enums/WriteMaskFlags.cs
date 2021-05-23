@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AllegroDotNet.Enums
+namespace SubC.AllegroDotNet.Enums
 {
     /// <summary>
     /// Each enabled bit means the corresponding value is written, a disabled bit means it is not.

@@ -1,4 +1,4 @@
-﻿namespace AllegroDotNet.Enums
+﻿namespace SubC.AllegroDotNet.Enums
 {
     /// <summary>
     /// Cursors to be used by the mouse.

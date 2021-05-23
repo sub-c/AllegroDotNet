@@ -1,4 +1,4 @@
-﻿namespace AllegroDotNet
+﻿namespace SubC.AllegroDotNet
 {
     /// <summary>
     /// Useful functions from Allegro that natively were implemented as C macros.

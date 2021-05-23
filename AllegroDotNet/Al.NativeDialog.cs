@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using AllegroDotNet.Enums;
-using AllegroDotNet.Models;
+using SubC.AllegroDotNet.Enums;
+using SubC.AllegroDotNet.Models;
 
-namespace AllegroDotNet
+namespace SubC.AllegroDotNet
 {
     /// <summary>
     /// Allegro game library methods.

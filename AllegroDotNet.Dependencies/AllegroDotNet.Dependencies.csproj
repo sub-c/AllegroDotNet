@@ -10,6 +10,7 @@
     <Version>0.1.0</Version>
     <Description>The native dependencies needed for AllegroDotNet projects that target Windows x64.</Description>
     <PackageLicenseExpression>Zlib</PackageLicenseExpression>
+    <RootNamespace>SubC.AllegroDotNet.Dependencies</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

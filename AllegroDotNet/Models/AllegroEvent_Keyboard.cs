@@ -1,6 +1,6 @@
-﻿using AllegroDotNet.Enums;
+﻿using SubC.AllegroDotNet.Enums;
 
-namespace AllegroDotNet.Models
+namespace SubC.AllegroDotNet.Models
 {
     public sealed class AllegroEvent_Keyboard
     {

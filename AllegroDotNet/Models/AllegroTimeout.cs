@@ -1,6 +1,6 @@
-﻿using AllegroDotNet.Native;
+﻿using SubC.AllegroDotNet.Native;
 
-namespace AllegroDotNet.Models
+namespace SubC.AllegroDotNet.Models
 {
     public sealed class AllegroTimeout
     {

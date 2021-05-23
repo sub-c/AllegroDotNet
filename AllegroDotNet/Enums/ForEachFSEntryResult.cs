@@ -1,4 +1,4 @@
-﻿namespace AllegroDotNet.Enums
+﻿namespace SubC.AllegroDotNet.Enums
 {
     /// <summary>
     /// Return values for the callbacks of <see cref="Al.ForEachFsEntry"/> and for that function itself.

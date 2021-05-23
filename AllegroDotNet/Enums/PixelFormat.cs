@@ -1,4 +1,4 @@
-﻿namespace AllegroDotNet.Enums
+﻿namespace SubC.AllegroDotNet.Enums
 {
     /// <summary>
     /// Pixel formats. Each pixel format specifies the exact size and bit layout of a pixel in memory. Components are

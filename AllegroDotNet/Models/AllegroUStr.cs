@@ -1,4 +1,4 @@
-﻿namespace AllegroDotNet.Models
+﻿namespace SubC.AllegroDotNet.Models
 {
     /// <summary>
     /// An opaque type representing a string. ALLEGRO_USTRs normally contain UTF-8 encoded strings, but they may be

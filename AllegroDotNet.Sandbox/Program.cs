@@ -1,11 +1,11 @@
 ﻿using System;
 using System.IO;
 using System.Threading;
-using AllegroDotNet.Dependencies;
-using AllegroDotNet.Enums;
-using AllegroDotNet.Models;
+using SubC.AllegroDotNet.Dependencies;
+using SubC.AllegroDotNet.Enums;
+using SubC.AllegroDotNet.Models;
 
-namespace AllegroDotNet.Sandbox
+namespace SubC.AllegroDotNet.Sandbox
 {
     internal static class Program
     {

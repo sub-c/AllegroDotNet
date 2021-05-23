@@ -3,8 +3,9 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <StartupObject>AllegroDotNet.Sandbox.Program</StartupObject>
+    <StartupObject>SubC.AllegroDotNet.Sandbox.Program</StartupObject>
     <Platforms>x64</Platforms>
+    <RootNamespace>SubC.AllegroDotNet.Sandbox</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

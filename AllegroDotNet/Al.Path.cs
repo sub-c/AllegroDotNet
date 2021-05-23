@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using AllegroDotNet.Models;
+using SubC.AllegroDotNet.Models;
 
-namespace AllegroDotNet
+namespace SubC.AllegroDotNet
 {
     /// <summary>
     /// Allegro game library methods.
@@ -178,7 +178,7 @@ namespace AllegroDotNet
         /// <summary>
         /// Insert a directory component at index i. If the index is negative then count from the right, i.e. -1
         /// refers to the last path component. It is an error to pass an index i which is not within these bounds:
-        /// 0 <= i <= al_get_path_num_components(path).
+        /// 0 &lt;= i &lt;= <see cref="GetPathNumComponents(AllegroPath)"/>.
         /// </summary>
         /// <param name="path">The path instance.</param>
         /// <param name="i">The component index.</param>

@@ -1,17 +1,18 @@
-﻿namespace AllegroDotNet.Enums
+﻿namespace SubC.AllegroDotNet.Enums
 {
     public enum StandardPath : int
     {
         /// <summary>
         /// If you bundle data in a location relative to your executable, then you should use this path to locate that data. On most platforms,
         /// this is the directory that contains the executable file.
-        /// 
-        /// If called from an OS X app bundle, then this will point to the internal resource directory (<bundle.app>/Contents/Resources). To maintain
+        /// <para>
+        /// If called from an OS X app bundle, then this will point to the internal resource directory (&lt;bundle.app&gt;/Contents/Resources). To maintain
         /// consistency, if you put your resources into a directory called "data" beneath the executable on some other platform (like Windows), then
         /// you should also create a directory called "data" under the OS X app bundle's resource folder.
-        /// 
+        /// </para>
+        /// <para>
         /// You should not try to write to this path, as it is very likely read-only.
-        ///
+        ///</para>
         /// If you install your resources in some other system directory (e.g., in /usr/share or C:\ProgramData), then you are responsible for
         /// keeping track of that yourself.
         /// </summary>

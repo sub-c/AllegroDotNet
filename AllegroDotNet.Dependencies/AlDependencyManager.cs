@@ -4,7 +4,7 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-namespace AllegroDotNet.Dependencies
+namespace SubC.AllegroDotNet.Dependencies
 {
     /// <summary>
     /// This class allows extracting the native DLLs needed by AllegroDotNet to a folder and making them available

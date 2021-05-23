@@ -1,4 +1,4 @@
-﻿namespace AllegroDotNet.Enums
+﻿namespace SubC.AllegroDotNet.Enums
 {
     /// <summary>
     /// The underlying platform which the ALLEGRO_SHADER is built on top of, which dictates the language
