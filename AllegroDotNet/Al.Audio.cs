@@ -230,13 +230,13 @@ namespace AllegroDotNet
         /// be freed with al_free when the sample data structure is destroyed. For portability (especially Windows),
         /// the buffer should have been allocated with al_malloc. Otherwise you should free the sample data yourself.
         /// </summary>
-        /// <param name="buf"></param>
-        /// <param name="samples"></param>
-        /// <param name="freq"></param>
-        /// <param name="depth"></param>
-        /// <param name="channelConf"></param>
-        /// <param name="freeBuf"></param>
-        /// <returns></returns>
+        /// <param name="buf">Buffer.</param>
+        /// <param name="samples">Amount of samples.</param>
+        /// <param name="freq">Frequency of sample.</param>
+        /// <param name="depth">Size of sample.</param>
+        /// <param name="channelConf">Channel configuration.</param>
+        /// <param name="freeBuf">If the buffer should be freed when sample is destroyed.</param>
+        /// <returns>Sample instance on success, otherwise null.</returns>
         public static AllegroSample CreateSample(ref byte[] buf, uint samples, uint freq, AudioDepth depth, ChannelConf channelConf, bool freeBuf)
         {
             var nativeSample = al_create_sample(ref buf, samples, freq, (int)depth, (int)channelConf, freeBuf);
