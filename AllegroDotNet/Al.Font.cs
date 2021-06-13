@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Security;
-using AllegroDotNet.Enums;
-using AllegroDotNet.Models;
-using AllegroDotNet.Native;
+using SubC.AllegroDotNet.Enums;
+using SubC.AllegroDotNet.Models;
+using SubC.AllegroDotNet.Native;
 
-namespace AllegroDotNet
+namespace SubC.AllegroDotNet
 {
     /// <summary>
     /// Allegro game library methods.

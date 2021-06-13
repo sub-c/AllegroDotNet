@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using AllegroDotNet.Enums;
-using AllegroDotNet.Models;
-using AllegroDotNet.Native;
+using SubC.AllegroDotNet.Enums;
+using SubC.AllegroDotNet.Models;
+using SubC.AllegroDotNet.Native;
 
-namespace AllegroDotNet
+namespace SubC.AllegroDotNet
 {
     /// <summary>
     /// Allegro game library methods.
@@ -243,6 +243,15 @@ namespace AllegroDotNet
             return nativeSample == IntPtr.Zero ? null : new AllegroSample { NativeIntPtr = nativeSample };
         }
 
+        /// <summary>
+        /// Free the sample data structure. If it was created with the <c>buf</c> parameter set to <c>true</c>, then
+        /// the buffer will be freed with <see cref="Free(IntPtr, int, string, string)"/>.
+        /// <para>
+        /// This function will stop any sample instances which may be playing the buffer referenced by the
+        /// <see cref="AllegroSample"/>.
+        /// </para>
+        /// </summary>
+        /// <param name="sample">The sample instance to destroy.</param>
         public static void DestroySample(AllegroSample sample)
             => al_destroy_sample(sample.NativeIntPtr);
 

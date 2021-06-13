@@ -7,9 +7,15 @@
     <Authors>Sub-C</Authors>
     <PackageProjectUrl>https://github.com/sub-c/AllegroDotNet</PackageProjectUrl>
     <RepositoryUrl>https://github.com/sub-c/AllegroDotNet</RepositoryUrl>
-    <Version>0.1.0</Version>
+    <Version>0.2.0</Version>
     <Description>The native dependencies needed for AllegroDotNet projects that target Windows x64.</Description>
     <PackageLicenseExpression>Zlib</PackageLicenseExpression>
+    <RootNamespace>SubC.AllegroDotNet.Dependencies</RootNamespace>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <DocumentationFile>obj\x64\Release\netstandard2.0\AllegroDotNet.Dependencies.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

@@ -1,6 +1,6 @@
-﻿using AllegroDotNet.Native;
+﻿using SubC.AllegroDotNet.Native;
 
-namespace AllegroDotNet.Models
+namespace SubC.AllegroDotNet.Models
 {
     /// <summary>
     /// Describes a monitor’s size and position relative to other monitors. x1, y1 will be 0, 0 on the primary display.

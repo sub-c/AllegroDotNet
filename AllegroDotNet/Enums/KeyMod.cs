@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AllegroDotNet.Enums
+namespace SubC.AllegroDotNet.Enums
 {
     /// <summary>
     /// The event field 'keyboard.modifiers' is a bitfield composed of these constants.

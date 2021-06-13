@@ -1,4 +1,4 @@
-﻿namespace AllegroDotNet.Enums
+﻿namespace SubC.AllegroDotNet.Enums
 {
 	/// <summary>
 	/// These are the list of key codes used by Allegro, which are returned in the

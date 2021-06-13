@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using AllegroDotNet.Enums;
-using AllegroDotNet.Models;
-using AllegroDotNet.Native;
+using SubC.AllegroDotNet.Enums;
+using SubC.AllegroDotNet.Models;
+using SubC.AllegroDotNet.Native;
 
-namespace AllegroDotNet
+namespace SubC.AllegroDotNet
 {
     /// <summary>
     /// Allegro game library methods.
@@ -28,7 +28,6 @@ namespace AllegroDotNet
         /// <para>
         /// </para>
         /// Returns the shader object on success. Otherwise, returns NULL.
-        /// <para>
         /// </summary>
         /// <param name="platform">The type of shader to create.</param>
         /// <returns>The shader object on success. Otherwise, returns NULL.</returns>

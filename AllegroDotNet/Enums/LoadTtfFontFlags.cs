@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AllegroDotNet.Enums
+namespace SubC.AllegroDotNet.Enums
 {
     [Flags]
     public enum LoadTtfFontFlags

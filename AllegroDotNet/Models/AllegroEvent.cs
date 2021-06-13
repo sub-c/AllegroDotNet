@@ -1,7 +1,7 @@
-﻿using AllegroDotNet.Enums;
-using AllegroDotNet.Native;
+﻿using SubC.AllegroDotNet.Enums;
+using SubC.AllegroDotNet.Native;
 
-namespace AllegroDotNet.Models
+namespace SubC.AllegroDotNet.Models
 {
     /// <summary>
     /// An <see cref="AllegroEvent"/> is a union of all builtin event structures, i.e. it is an object large enough to

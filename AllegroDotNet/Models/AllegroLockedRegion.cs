@@ -1,6 +1,6 @@
-﻿using AllegroDotNet.Native;
+﻿using SubC.AllegroDotNet.Native;
 
-namespace AllegroDotNet.Models
+namespace SubC.AllegroDotNet.Models
 {
     /// <summary>
     /// Users who wish to manually edit or read from a bitmap are required to lock it first. The ALLEGRO_LOCKED_REGION

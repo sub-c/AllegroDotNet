@@ -4,7 +4,7 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-namespace AllegroDotNet.Dependencies
+namespace SubC.AllegroDotNet.Dependencies
 {
     /// <summary>
     /// This class allows extracting the native DLLs needed by AllegroDotNet to a folder and making them available
@@ -20,24 +20,24 @@ namespace AllegroDotNet.Dependencies
 
         private static readonly IEnumerable<EmbeddedFileInfo> _embeddedDllFileInfos = new List<EmbeddedFileInfo>
         {
-            new EmbeddedFileInfo("allegro_monolith-debug-5.2.dll", "AllegroDotNet.Dependencies.DLLs.allegro_monolith-debug-5.2.dll"),
-            new EmbeddedFileInfo("brotlicommon.dll", "AllegroDotNet.Dependencies.DLLs.brotlicommon.dll"),
-            new EmbeddedFileInfo("brotlidec.dll", "AllegroDotNet.Dependencies.DLLs.brotlidec.dll"),
-            new EmbeddedFileInfo("bz2.dll", "AllegroDotNet.Dependencies.DLLs.bz2.dll"),
-            new EmbeddedFileInfo("FLAC.dll", "AllegroDotNet.Dependencies.DLLs.FLAC.dll"),
-            new EmbeddedFileInfo("FLAC++.dll", "AllegroDotNet.Dependencies.DLLs.FLAC++.dll"),
-            new EmbeddedFileInfo("freetype.dll", "AllegroDotNet.Dependencies.DLLs.freetype.dll"),
-            new EmbeddedFileInfo("libpng16.dll", "AllegroDotNet.Dependencies.DLLs.libpng16.dll"),
-            new EmbeddedFileInfo("ogg.dll", "AllegroDotNet.Dependencies.DLLs.ogg.dll"),
-            new EmbeddedFileInfo("opus.dll", "AllegroDotNet.Dependencies.DLLs.opus.dll"),
-            new EmbeddedFileInfo("physfs.dll", "AllegroDotNet.Dependencies.DLLs.physfs.dll"),
-            new EmbeddedFileInfo("theora.dll", "AllegroDotNet.Dependencies.DLLs.theora.dll"),
-            new EmbeddedFileInfo("theoradec.dll", "AllegroDotNet.Dependencies.DLLs.theoradec.dll"),
-            new EmbeddedFileInfo("theoraenc.dll", "AllegroDotNet.Dependencies.DLLs.theoraenc.dll"),
-            new EmbeddedFileInfo("vorbis.dll", "AllegroDotNet.Dependencies.DLLs.vorbis.dll"),
-            new EmbeddedFileInfo("vorbisenc.dll", "AllegroDotNet.Dependencies.DLLs.vorbisenc.dll"),
-            new EmbeddedFileInfo("vorbisfile.dll", "AllegroDotNet.Dependencies.DLLs.vorbisfile.dll"),
-            new EmbeddedFileInfo("zlib1.dll", "AllegroDotNet.Dependencies.DLLs.zlib1.dll")
+            new EmbeddedFileInfo("allegro_monolith-debug-5.2.dll", "SubC.AllegroDotNet.Dependencies.DLLs.allegro_monolith-debug-5.2.dll"),
+            new EmbeddedFileInfo("brotlicommon.dll", "SubC.AllegroDotNet.Dependencies.DLLs.brotlicommon.dll"),
+            new EmbeddedFileInfo("brotlidec.dll", "SubC.AllegroDotNet.Dependencies.DLLs.brotlidec.dll"),
+            new EmbeddedFileInfo("bz2.dll", "SubC.AllegroDotNet.Dependencies.DLLs.bz2.dll"),
+            new EmbeddedFileInfo("FLAC.dll", "SubC.AllegroDotNet.Dependencies.DLLs.FLAC.dll"),
+            new EmbeddedFileInfo("FLAC++.dll", "SubC.AllegroDotNet.Dependencies.DLLs.FLAC++.dll"),
+            new EmbeddedFileInfo("freetype.dll", "SubC.AllegroDotNet.Dependencies.DLLs.freetype.dll"),
+            new EmbeddedFileInfo("libpng16.dll", "SubC.AllegroDotNet.Dependencies.DLLs.libpng16.dll"),
+            new EmbeddedFileInfo("ogg.dll", "SubC.AllegroDotNet.Dependencies.DLLs.ogg.dll"),
+            new EmbeddedFileInfo("opus.dll", "SubC.AllegroDotNet.Dependencies.DLLs.opus.dll"),
+            new EmbeddedFileInfo("physfs.dll", "SubC.AllegroDotNet.Dependencies.DLLs.physfs.dll"),
+            new EmbeddedFileInfo("theora.dll", "SubC.AllegroDotNet.Dependencies.DLLs.theora.dll"),
+            new EmbeddedFileInfo("theoradec.dll", "SubC.AllegroDotNet.Dependencies.DLLs.theoradec.dll"),
+            new EmbeddedFileInfo("theoraenc.dll", "SubC.AllegroDotNet.Dependencies.DLLs.theoraenc.dll"),
+            new EmbeddedFileInfo("vorbis.dll", "SubC.AllegroDotNet.Dependencies.DLLs.vorbis.dll"),
+            new EmbeddedFileInfo("vorbisenc.dll", "SubC.AllegroDotNet.Dependencies.DLLs.vorbisenc.dll"),
+            new EmbeddedFileInfo("vorbisfile.dll", "SubC.AllegroDotNet.Dependencies.DLLs.vorbisfile.dll"),
+            new EmbeddedFileInfo("zlib1.dll", "SubC.AllegroDotNet.Dependencies.DLLs.zlib1.dll")
         };
 
         /// <summary>

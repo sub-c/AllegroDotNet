@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using AllegroDotNet.Native;
+using SubC.AllegroDotNet.Native;
 
-namespace AllegroDotNet
+namespace SubC.AllegroDotNet
 {
     /// <summary>
     /// Allegro game library methods.

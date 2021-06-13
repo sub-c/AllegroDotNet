@@ -1,6 +1,6 @@
-﻿using AllegroDotNet.Native;
+﻿using SubC.AllegroDotNet.Native;
 
-namespace AllegroDotNet.Models
+namespace SubC.AllegroDotNet.Models
 {
     /// <summary>
     /// A structure that describes a color in a device independent way.

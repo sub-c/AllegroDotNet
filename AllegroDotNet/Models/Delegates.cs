@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace AllegroDotNet.Models
+namespace SubC.AllegroDotNet.Models
 {
     public static class Delegates
     {

@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace AllegroDotNet.Native
+namespace SubC.AllegroDotNet.Native
 {
     [StructLayout(LayoutKind.Sequential, Size = sizeof(float) * 4 * 4)]
     internal struct NativeTransform

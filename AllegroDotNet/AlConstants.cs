@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace AllegroDotNet
+namespace SubC.AllegroDotNet
 {
     /// <summary>
     /// Constants values for <c>#define</c> Allegro constants, as well as AllegroDotNet specific settings.

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace AllegroDotNet.Native
+namespace SubC.AllegroDotNet.Native
 {
     [StructLayout(LayoutKind.Sequential)]
     internal struct NativeKeyboardState

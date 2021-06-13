@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using AllegroDotNet.Models;
-using AllegroDotNet.Enums;
+using SubC.AllegroDotNet.Models;
+using SubC.AllegroDotNet.Enums;
 
-namespace AllegroDotNet
+namespace SubC.AllegroDotNet
 {
     /// <summary>
     /// Allegro game library methods.
@@ -15,7 +15,7 @@ namespace AllegroDotNet
         /// </summary>
         /// <returns>
         /// Returns the (compiled) version of the Allegro library, packed into a single integer as groups of 8 bits in
-        /// the form (major << 24) | (minor << 16) | (revision << 8) | release.
+        /// the form (major &lt;&lt; 24) | (minor &lt;&lt; 16) | (revision &lt;&lt; 8) | release.
         /// </returns>
         public static int GetAllegroVersion()
             => al_get_allegro_version();

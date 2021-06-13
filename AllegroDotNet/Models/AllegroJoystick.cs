@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AllegroDotNet.Models
+namespace SubC.AllegroDotNet.Models
 {
     /// <summary>
     /// This is an abstract data type representing a physical joystick or joystick-like device (such as a gamepad).

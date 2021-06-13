@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AllegroDotNet.Models
+namespace SubC.AllegroDotNet.Models
 {
     /// <summary>
     /// An event source is any object which can generate events. For example, an <see cref="AllegroDisplay"/> can generate events, and you can get

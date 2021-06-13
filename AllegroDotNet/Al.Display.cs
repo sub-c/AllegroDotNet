@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using AllegroDotNet.Models;
-using AllegroDotNet.Enums;
+using SubC.AllegroDotNet.Models;
+using SubC.AllegroDotNet.Enums;
 
-namespace AllegroDotNet
+namespace SubC.AllegroDotNet
 {
     /// <summary>
     /// Allegro game library methods.
@@ -13,15 +13,16 @@ namespace AllegroDotNet
     {
         /// <summary>
         /// Create a display, or window, with the specified dimensions. The parameters of the display are determined by the last calls to
-        /// <see cref="SetNewDisplayFlags()"/>, <see cref="SetNewDisplayOption()"/>, <see cref="SetNewDisplayRefreshRate()"/>,
-        /// <see cref="SetNewDisplayAdapter()"/>, and <see cref="SetNewWindowTitle()"/>. Default parameters are used if none are set explicitly.
+        /// <see cref="SetNewDisplayFlags(DisplayFlags)"/>, <see cref="SetNewDisplayOption(DisplayOption, int, Importance)"/>,
+        /// <see cref="SetNewDisplayRefreshRate(int)"/>, <see cref="SetNewDisplayAdapter(int)"/>, and
+        /// <see cref="SetNewWindowTitle(string)"/>. Default parameters are used if none are set explicitly.
         /// Creating a new display will automatically make it the active one, with the backbuffer selected for drawing.
         /// <para>
         /// Returns null on error.
         /// </para>
         /// <para>
         /// Each display that uses OpenGL as a backend has a distinct OpenGL rendering context associated with it. See
-        /// <see cref="SetTargetBitmap()"/> for the discussion about rendering contexts.
+        /// <see cref="SetTargetBitmap(AllegroBitmap)"/> for the discussion about rendering contexts.
         /// </para>
         /// </summary>
         /// <param name="width">Width of the display in pixels.</param>
@@ -36,12 +37,12 @@ namespace AllegroDotNet
         /// <summary>
         /// Destroy a display.
         /// <para>
-        /// If the target bitmap of the calling thread is tied to the display, then it implies a call to <see cref="SetTargetBitmap()"/> with null
-        /// before the display is destroyed.
+        /// If the target bitmap of the calling thread is tied to the display, then it implies a call to
+        /// <see cref="SetTargetBitmap(AllegroBitmap)"/> with null before the display is destroyed.
         /// </para>
         /// <para>
-        /// That special case notwithstanding, you should make sure no threads are currently targeting a bitmap which is tied to the display
-        /// before you destroy it.
+        /// That special case notwithstanding, you should make sure no threads are currently targeting a bitmap which
+        /// is tied to the display before you destroy it.
         /// </para>
         /// </summary>
         /// <param name="display">The display to destroy.</param>
@@ -63,7 +64,8 @@ namespace AllegroDotNet
             => al_set_new_display_flags((int)flags);
 
         /// <summary>
-        /// Retrieve an extra display setting which was previously set with <see cref="SetNewDisplayOption()"/>.
+        /// Retrieve an extra display setting which was previously set with
+        /// <see cref="SetNewDisplayOption(DisplayOption, int, Importance)"/>.
         /// </summary>
         /// <param name="option">Display option to get.</param>
         /// <param name="importance">The importance of that display option.</param>
@@ -123,7 +125,7 @@ namespace AllegroDotNet
         /// <summary>
         /// Sets the refresh rate to use when creating new displays on the calling thread. If the refresh rate is not available,
         /// <see cref="CreateDisplay(int, int)"/> will fail. A list of modes with refresh rates can be found with
-        /// <see cref="GetNumDisplayModes()"/> and <see cref="GetDisplayMode()"/>.
+        /// <see cref="GetNumDisplayModes()"/> and <see cref="GetDisplayMode(int, AllegroDisplayMode)"/>.
         /// <para>
         /// The default setting is zero (don't care).
         /// </para>
@@ -194,7 +196,7 @@ namespace AllegroDotNet
         /// <summary>
         /// Does the same as al_flip_display, but tries to update only the specified region. With many drivers this is not possible, but for some
         /// it can improve performance. If this is not supported, this function falls back to the behavior of <see cref="FlipDisplay"/>. You can
-        /// query the support for this function using <see cref="GetDisplayOption(display, DisplayOption.UpdateDisplayRegion"/>).
+        /// query the support for this function using <see cref="GetDisplayOption(AllegroDisplay, DisplayOption)"/>).
         /// </summary>
         /// <param name="x">The upper-left X position of the region.</param>
         /// <param name="y">The upper-left Y position of the region.</param>

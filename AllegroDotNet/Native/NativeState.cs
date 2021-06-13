@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace AllegroDotNet.Native
+namespace SubC.AllegroDotNet.Native
 {
     [StructLayout(LayoutKind.Sequential, Size = 1024)]
     internal struct NativeState

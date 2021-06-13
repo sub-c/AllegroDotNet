@@ -1,4 +1,4 @@
-﻿namespace AllegroDotNet.Dependencies
+﻿namespace SubC.AllegroDotNet.Dependencies
 {
     internal sealed class EmbeddedFileInfo
     {

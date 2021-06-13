@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AllegroDotNet.Enums
+namespace SubC.AllegroDotNet.Enums
 {
     /// <summary>
     /// Sample depth and type as well as signedness. Mixers only use 32-bit signed float (-1..+1), or 16-bit signed

@@ -1,4 +1,4 @@
-﻿namespace AllegroDotNet.Models
+﻿namespace SubC.AllegroDotNet.Models
 {
     /// <summary>
     /// An ALLEGRO_AUDIO_STREAM object is used to stream generated audio to the sound device, in real-time. This is
