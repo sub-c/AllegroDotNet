@@ -255,6 +255,22 @@ namespace SubC.AllegroDotNet
         public static void DestroySample(AllegroSample sample)
             => al_destroy_sample(sample.NativeIntPtr);
 
+        /// <summary>
+        /// Plays a sample on one of the sample instances created by <see cref="ReserveSamples(int)"/>.
+        /// Playback may fail because all the reserved sample instances are currently used.
+        /// </summary>
+        /// <param name="sample">The sample to play.</param>
+        /// <param name="gain">Relative volume at which the sample is played; 1.0 is normal.</param>
+        /// <param name="pan">0.0 is centred, -1.0 is left, 1.0 is right, or <see cref="AlConstants.AllegroAudioPanNone"/>.</param>
+        /// <param name="speed">Relative speed at which the sample is played; 1.0 is normal.</param>
+        /// <param name="loop">Play once, loop forever, or loop bi-directionally (forwards then backwards, repeating).</param>
+        /// <param name="retId">
+        /// If non-<c>null</c> the variable which this points to will be assigned an id representing the sample
+        /// being played. If <see cref="PlaySample(AllegroSample, float, float, float, PlayMode, AllegroSampleId)"/>
+        /// returns false, then the contents of <c>retId</c> are invalid and must not be used as argument to other
+        /// functions.
+        /// </param>
+        /// <returns>True on success, false on failure.</returns>
         public static bool PlaySample(AllegroSample sample, float gain, float pan, float speed, PlayMode loop, AllegroSampleId retId)
         {
             if (retId == null)
@@ -267,41 +283,99 @@ namespace SubC.AllegroDotNet
             }
         }
 
+        /// <summary>
+        /// Stop the sample started by
+        /// <see cref="PlaySample(AllegroSample, float, float, float, PlayMode, AllegroSampleId)"/>.
+        /// </summary>
+        /// <param name="sampleId">The sample ID to stop playing.</param>
         public static void StopSample(AllegroSampleId sampleId)
             => al_stop_sample(ref sampleId.Native);
 
+        /// <summary>
+        /// Stop all samples started by
+        /// <see cref="PlaySample(AllegroSample, float, float, float, PlayMode, AllegroSampleId)"/>.
+        /// </summary>
         public static void StopSamples()
             => al_stop_samples();
 
+        /// <summary>
+        /// Return the channel configuration of the sample.
+        /// </summary>
+        /// <param name="sample">The sample.</param>
+        /// <returns>The channel configuration.</returns>
         public static ChannelConf GetSampleChannels(AllegroSample sample)
             => (ChannelConf)al_get_sample_channels(sample.NativeIntPtr);
 
+        /// <summary>
+        /// Return the audio depth of the sample.
+        /// </summary>
+        /// <param name="sample">The sample.</param>
+        /// <returns>The audio depth.</returns>
         public static AudioDepth GetSampleDepth(AllegroSample sample)
             => (AudioDepth)al_get_sample_channels(sample.NativeIntPtr);
 
+        /// <summary>
+        /// Return the frequency (in Hz) of the sample.
+        /// </summary>
+        /// <param name="sample">The sample.</param>
+        /// <returns>The frequency.</returns>
         public static uint GetSampleFrequency(AllegroSample sample)
             => al_get_sample_frequency(sample.NativeIntPtr);
 
+        /// <summary>
+        /// Return the length of the sample in sample values.
+        /// </summary>
+        /// <param name="sample">The sample.</param>
+        /// <returns>The length in sample values.</returns>
         public static uint GetSampleLength(AllegroSample sample)
             => al_get_sample_length(sample.NativeIntPtr);
 
+        /// <summary>
+        /// Return a pointer to the raw sample data.
+        /// </summary>
+        /// <param name="sample">The sample.</param>
+        /// <returns>The raw sample data bytes.</returns>
         public static byte[] GetSampleData(AllegroSample sample)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Creates a sample instance, using the supplied sample data. The instance must be attached to a mixer
+        /// (or voice) in order to actually produce output.
+        /// <para>
+        /// The argument may be NULL. You can then set the sample data later with al_set_sample.
+        /// </para>
+        /// </summary>
+        /// <param name="sampleData">The sample.</param>
+        /// <returns>The created sample instance.</returns>
         public static AllegroSampleInstance CreateSampleInstance(AllegroSample sampleData)
         {
             var nativeSampleInstance = al_create_sample_instance(sampleData.NativeIntPtr);
             return nativeSampleInstance == IntPtr.Zero ? null : new AllegroSampleInstance { NativeIntPtr = nativeSampleInstance };
         }
 
+        /// <summary>
+        /// Detaches the sample instance from anything it may be attached to and frees it (the sample data, i.e. its
+        /// <see cref="AllegroSample"/>, is not freed!).
+        /// </summary>
+        /// <param name="sampleInstance">The sample instance.</param>
         public static void DestroySampleInstance(AllegroSampleInstance sampleInstance)
             => al_destroy_sample_instance(sampleInstance.NativeIntPtr);
 
+        /// <summary>
+        /// Play the sample instance.
+        /// </summary>
+        /// <param name="sampleInstance">The sample instance.</param>
+        /// <returns>Returns true on success, false on failure.</returns>
         public static bool PlaySampleInstance(AllegroSampleInstance sampleInstance)
             => al_play_sample_instance(sampleInstance.NativeIntPtr);
 
+        /// <summary>
+        /// Stop an sample instance playing.
+        /// </summary>
+        /// <param name="sampleInstance">The sample instance.</param>
+        /// <returns>Returns true on success, false on failure.</returns>
         public static bool StopSampleInstance(AllegroSampleInstance sampleInstance)
             => al_stop_sample_instance(sampleInstance.NativeIntPtr);
 
