@@ -13,7 +13,7 @@ Changing the IDE or target platform is certainly possible given platform-invoke 
 1) Make a new .NET Core 3.1 console project in Visual Studio 2019+
 2) Right-click your project in the solution explorer, and pick "Manage Nuget packages..."
 3) Click the "Browse" tab, then search for "AllegroDotNet"
-4) Install "AllegroDotNet" and "AllegroDotNet.Dependencies" Nuget packages
+4) Install [AllegroDotNet](https://www.nuget.org/packages/AllegroDotNet/) and [AllegroDotNet.Dependencies](https://www.nuget.org/packages/AllegroDotNet.Dependencies/) Nuget packages
 
 Then try adding this code below in your Program.cs file:
 
