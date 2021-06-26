@@ -8,6 +8,9 @@ namespace SubC.AllegroDotNet.Models
     /// </summary>
     public sealed class AllegroJoystickState
     {
+        /// <summary>
+        /// State of the joystick buttons.
+        /// </summary>
         public int[] Button => Native.button;
 
         internal NativeJoystickState Native = new NativeJoystickState(initialize: true);

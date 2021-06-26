@@ -2,6 +2,9 @@
 
 namespace SubC.AllegroDotNet.Models
 {
+    /// <summary>
+    /// An abstract class that wraps a native pointer.
+    /// </summary>
     public abstract class NativePointerWrapper
     {
         /// <summary>

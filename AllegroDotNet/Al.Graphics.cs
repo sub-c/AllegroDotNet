@@ -967,7 +967,7 @@ namespace SubC.AllegroDotNet
         /// <param name="operation">The blend operation.</param>
         /// <param name="source">The blend mode for source.</param>
         /// <param name="destination">The blend mode for destination.</param>
-        /// <param name="alphaOp">The alpha blend operation.</param>
+        /// <param name="alphaOperation">The alpha blend operation.</param>
         /// <param name="alphaSource">The blend mode for source alpha.</param>
         /// <param name="alphaDestination">The blend mode for source alpha.</param>
         public static void SetSeparateBlender(BlendOperation operation, BlendMode source, BlendMode destination, BlendOperation alphaOperation, BlendMode alphaSource, BlendMode alphaDestination)

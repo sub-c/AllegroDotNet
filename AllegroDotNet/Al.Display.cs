@@ -149,11 +149,11 @@ namespace SubC.AllegroDotNet
         /// Return a special bitmap representing the back-buffer of the display.
         /// <para>
         /// Care should be taken when using the backbuffer bitmap (and its sub-bitmaps) as the source bitmap (e.g as the bitmap argument to
-        /// <see cref="DrawBitmap()"/>). Only untransformed operations are hardware accelerated. These consist of
-        /// <see cref="DrawBitmap"/> and <see cref="DrawBitmapRegion()"/> when the current transformation is the identity. If the transformation is not
+        /// <see cref="DrawBitmap"/>). Only untransformed operations are hardware accelerated. These consist of
+        /// <see cref="DrawBitmap"/> and <see cref="DrawBitmapRegion"/> when the current transformation is the identity. If the transformation is not
         /// the identity, or some other drawing operation is used, the call will be routed through the memory bitmap routines, which are slow.
         /// If you need those operations to be accelerated, then first copy a region of the backbuffer into a temporary bitmap (via the 
-        /// <see cref="DrawBitmap"/> and <see cref="DrawBitmapRegion()"/>), and then use that temporary bitmap as the source bitmap.
+        /// <see cref="DrawBitmap"/> and <see cref="DrawBitmapRegion"/>), and then use that temporary bitmap as the source bitmap.
         /// </para>
         /// </summary>
         /// <param name="display">The display to get the backbuffer from.</param>
@@ -251,7 +251,7 @@ namespace SubC.AllegroDotNet
         /// let the graphics driver know that it can now resize the display. Returns true on success.
         /// <para>
         /// Adjusts the clipping rectangle to the full size of the backbuffer. This also resets the backbuffers projection transform to default
-        /// orthographic transform(see <see cref="UseProjectionTransform()"/>).
+        /// orthographic transform(see <see cref="UseProjectionTransform"/>).
         /// </para>
         /// <para>
         /// Note that a resize event may be outdated by the time you acknowledge it; there could be further resize events generated in the meantime.
@@ -296,7 +296,7 @@ namespace SubC.AllegroDotNet
         /// Constrains a non-fullscreen resizable display. The constraints are a hint only, and are not necessarily respected by
         /// the window environment. A value of 0 for any of the parameters indicates no constraint for that parameter.
         /// <para>
-        /// The constraints will be applied to a display only after the <see cref="ApplyWindowConstraints()"/> function call.
+        /// The constraints will be applied to a display only after the <see cref="ApplyWindowConstraints"/> function call.
         /// </para>
         /// </summary>
         /// <param name="display">The display to set the constraints of.</param>
@@ -445,7 +445,7 @@ namespace SubC.AllegroDotNet
             => Marshal.PtrToStringAnsi(al_get_new_window_title());
 
         /// <summary>
-        /// Changes the icon associated with the display (window). Same as <see cref="SetDisplayIcons()"/> with one
+        /// Changes the icon associated with the display (window). Same as <see cref="SetDisplayIcons"/> with one
         /// icon.
         /// </summary>
         /// <param name="display">The display to change the icon of.</param>
@@ -475,7 +475,7 @@ namespace SubC.AllegroDotNet
             => al_acknowledge_drawing_halt(display.NativeIntPtr);
 
         /// <summary>
-        /// Call this in response to the <see cref="EventTYpe.DisplayResumeDrawing"/> event.
+        /// Call this in response to the <see cref="EventType.DisplayResumeDrawing"/> event.
         /// </summary>
         /// <param name="display">The display to acknowledge the drawing resume event.</param>
         public static void AcknowledgeDrawingResume(AllegroDisplay display)

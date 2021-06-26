@@ -181,7 +181,7 @@ namespace SubC.AllegroDotNet
         /// been allocated.
         /// <para>
         /// The user event source will never be destroyed automatically. You must destroy it manually with
-        /// <see cref="DestroyUserEventSource()"/>.
+        /// <see cref="DestroyUserEventSource"/>.
         /// </para>
         /// </summary>
         /// <param name="eventSource">The user event source to be initialized.</param>

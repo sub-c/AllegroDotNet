@@ -5,6 +5,9 @@
     /// </summary>
     public sealed class AllegroFSInterface : NativePointerWrapper
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AllegroFSInterface"/> class.
+        /// </summary>
         public AllegroFSInterface()
         {
         }
