@@ -379,144 +379,463 @@ namespace SubC.AllegroDotNet
         public static bool StopSampleInstance(AllegroSampleInstance sampleInstance)
             => al_stop_sample_instance(sampleInstance.NativeIntPtr);
 
+        /// <summary>
+        /// Return the channel configuration of the sample instance’s sample data.
+        /// </summary>
+        /// <param name="sampleInstance">The sample instance.</param>
+        /// <returns>The channel configuration.</returns>
         public static ChannelConf GetSampleInstanceChannels(AllegroSampleInstance sampleInstance)
             => (ChannelConf)al_get_sample_instance_channels(sampleInstance.NativeIntPtr);
 
+        /// <summary>
+        /// Return the audio depth of the sample instance’s sample data.
+        /// </summary>
+        /// <param name="sampleInstance">The sample instance.</param>
+        /// <returns>The audio depth.</returns>
         public static AudioDepth GetSampleInstanceDepth(AllegroSampleInstance sampleInstance)
             => (AudioDepth)al_get_sample_instance_depth(sampleInstance.NativeIntPtr);
 
+        /// <summary>
+        /// Return the frequency (in Hz) of the sample instance’s sample data.
+        /// </summary>
+        /// <param name="sampleInstance">The sample instance.</param>
+        /// <returns>The frequency (in Hz) of the sample data.</returns>
         public static uint GetSampleInstanceFrequency(AllegroSampleInstance sampleInstance)
             => al_get_sample_instance_frequency(sampleInstance.NativeIntPtr);
 
+        /// <summary>
+        /// Return the length of the sample instance in sample values. This property may differ from the length of the
+        /// instance’s sample data.
+        /// </summary>
+        /// <param name="sampleInstance">The sample instance.</param>
+        /// <returns>Length in sample values.</returns>
         public static uint GetSampleInstanceLength(AllegroSampleInstance sampleInstance)
             => al_get_sample_instance_length(sampleInstance.NativeIntPtr);
 
+        /// <summary>
+        /// Set the length of the sample instance in sample values. This can be used to play only parts of the
+        /// underlying sample. Be careful not to exceed the actual length of the sample data, though.
+        /// </summary>
+        /// <param name="sampleInstance">The sample length.</param>
+        /// <param name="val">The new length in sample values.</param>
+        /// <returns>
+        /// True on success, false on failure. Will fail if the sample instance is currently playing.
+        /// </returns>
         public static bool SetSampleInstanceLength(AllegroSampleInstance sampleInstance, uint val)
             => al_set_sample_instance_length(sampleInstance.NativeIntPtr, val);
 
+        /// <summary>
+        /// Get the playback position of a sample instance.
+        /// </summary>
+        /// <param name="sampleInstance">The sample instance.</param>
+        /// <returns>The playback position.</returns>
         public static uint GetSampleInstancePosition(AllegroSampleInstance sampleInstance)
             => al_get_sample_instance_position(sampleInstance.NativeIntPtr);
 
+        /// <summary>
+        /// Set the playback position of a sample instance.
+        /// </summary>
+        /// <param name="sampleInstance">The sample instance.</param>
+        /// <param name="val">The playback position.</param>
+        /// <returns>True on success, false on failure.</returns>
         public static bool SetSampleInstancePosition(AllegroSampleInstance sampleInstance, uint val)
             => al_set_sample_instance_position(sampleInstance.NativeIntPtr, val);
 
+        /// <summary>
+        /// Return the relative playback speed of the sample instance.
+        /// </summary>
+        /// <param name="sampleInstance">The sample instance.</param>
+        /// <returns>Relative playback speed.</returns>
         public static float GetSampleInstanceSpeed(AllegroSampleInstance sampleInstance)
             => al_get_sample_instance_speed(sampleInstance.NativeIntPtr);
 
+        /// <summary>
+        /// Set the relative playback speed of the sample instance. 1.0 means normal speed.
+        /// </summary>
+        /// <param name="sampleInstance">The sample instance.</param>
+        /// <param name="val">The relative playback speed.</param>
+        /// <returns>
+        /// True on success, false on failure. Will fail if the sample instance is attached directly to a voice.
+        /// </returns>
         public static bool SetSampleInstanceSpeed(AllegroSampleInstance sampleInstance, float val)
             => al_set_sample_instance_speed(sampleInstance.NativeIntPtr, val);
 
+        /// <summary>
+        /// Return the playback gain of the sample instance.
+        /// </summary>
+        /// <param name="sampleInstance">The sample instance.</param>
+        /// <returns>The playback gain.</returns>
         public static float GetSampleInstanceGain(AllegroSampleInstance sampleInstance)
             => al_get_sample_instance_gain(sampleInstance.NativeIntPtr);
 
+        /// <summary>
+        /// Set the playback gain of the sample instance.
+        /// </summary>
+        /// <param name="sampleInstance">The sample instance.</param>
+        /// <param name="val">The playback gain.</param>
+        /// <returns>T
+        /// rue on success, false on failure. Will fail if the sample instance is attached directly to a voice.
+        /// </returns>
         public static bool SetSampleInstanceGain(AllegroSampleInstance sampleInstance, float val)
             => al_set_sample_instance_gain(sampleInstance.NativeIntPtr, val);
 
+        /// <summary>
+        /// Get the pan value of the sample instance.
+        /// </summary>
+        /// <param name="sampleInstance">The sample instance.</param>
+        /// <returns>The pan value.</returns>
         public static float GetSampleInstancePan(AllegroSampleInstance sampleInstance)
             => al_get_sample_instance_pan(sampleInstance.NativeIntPtr);
 
+        /// <summary>
+        /// Set the pan value on a sample instance. A value of -1.0 means to play the sample only through the left
+        /// speaker; +1.0 means only through the right speaker; 0.0 means the sample is centre balanced. A special
+        /// value <see cref="AlConstants.AllegroAudioPanNone"/> disables panning and plays the sample at its original
+        /// level. This will be louder than a pan value of 0.0.
+        /// </summary>
+        /// <param name="sampleInstance">The sample instance.</param>
+        /// <param name="val">The pan value.</param>
+        /// <returns>
+        /// True on success, false on failure. Will fail if the sample instance is attached directly to a voice.
+        /// </returns>
         public static bool SetSampleInstancePan(AllegroSampleInstance sampleInstance, float val)
             => al_set_sample_instance_pan(sampleInstance.NativeIntPtr, val);
 
+        /// <summary>
+        /// Return the length of the sample instance in seconds, assuming a playback speed of 1.0.
+        /// </summary>
+        /// <param name="sampleInstance">The sample instance.</param>
+        /// <returns>Length in seconds, assuming playback speed of 1.0.</returns>
         public static float GetSampleInstanceTime(AllegroSampleInstance sampleInstance)
             => al_get_sample_instance_time(sampleInstance.NativeIntPtr);
 
+        /// <summary>
+        /// Return the playback mode of the sample instance.
+        /// </summary>
+        /// <param name="sampleInstance">The sample instance.</param>
+        /// <returns>The playback mode.</returns>
         public static PlayMode GetSampleInstancePlaymode(AllegroSampleInstance sampleInstance)
             => (PlayMode)al_get_sample_instance_playmode(sampleInstance.NativeIntPtr);
 
+        /// <summary>
+        /// Set the playback mode of the sample instance.
+        /// </summary>
+        /// <param name="sampleInstance">The sample instance.</param>
+        /// <param name="val">The playmode mode.</param>
+        /// <returns>True on success, false on failure.</returns>
         public static bool SetSampleInstancePlayMode(AllegroSampleInstance sampleInstance, PlayMode val)
             => al_set_sample_instance_playmode(sampleInstance.NativeIntPtr, (int)val);
 
+        /// <summary>
+        /// Return true if the sample instance is in the playing state. This may be true even if the instance is
+        /// not attached to anything.
+        /// </summary>
+        /// <param name="sampleInstance">The sample instance.</param>
+        /// <returns>True if the sample is in the playing state, otherwise false.</returns>
         public static bool GetSampleInstancePlaying(AllegroSampleInstance sampleInstance)
             => al_get_sample_instance_playing(sampleInstance.NativeIntPtr);
 
+        /// <summary>
+        /// Change whether the sample instance is playing. The instance does not need to be attached to anything.
+        /// </summary>
+        /// <param name="sampleInstance">The sample instance.</param>
+        /// <param name="val">True is playing, false is not playing.</param>
+        /// <returns>True on success, otherwise false.</returns>
         public static bool SetSampleInstancePlaying(AllegroSampleInstance sampleInstance, bool val)
             => al_set_sample_instance_playing(sampleInstance.NativeIntPtr, val);
 
+        /// <summary>
+        /// Return whether the sample instance is attached to something.
+        /// </summary>
+        /// <param name="sampleInstance">The sample instance.</param>
+        /// <returns>True if attached to something, otherwise false.</returns>
         public static bool GetSampleInstanceAttached(AllegroSampleInstance sampleInstance)
             => al_get_sample_instance_attached(sampleInstance.NativeIntPtr);
 
+        /// <summary>
+        /// Detach the sample instance from whatever it’s attached to, if anything.
+        /// </summary>
+        /// <param name="sampleInstance">The sample instance.</param>
+        /// <returns>True on success, otherwise false.</returns>
         public static bool DetachSampleInstance(AllegroSampleInstance sampleInstance)
             => al_detach_sample_instance(sampleInstance.NativeIntPtr);
 
+        /// <summary>
+        /// Return the sample data that the sample instance plays.
+        /// <para>
+        /// Note this returns a pointer to an internal structure, not the <see cref="AllegroSample"/> that you may
+        /// have passed to <see cref="SetSample(AllegroSampleInstance, AllegroSample)"/>. However, the sample buffer
+        /// of the returned <see cref="AllegroSample"/> will be the same as the one that was used to create the sample
+        /// (passed to <see cref="CreateSample(ref byte[], uint, uint, AudioDepth, ChannelConf, bool)"/>). You can
+        /// use <see cref="GetSampleData(AllegroSample)"/> on the return value to retrieve and compare it.
+        /// </para>
+        /// </summary>
+        /// <param name="sampleInstance">The sample instance.</param>
+        /// <returns>The sample data from the sample instance, otherwise null.</returns>
         public static AllegroSample GetSample(AllegroSampleInstance sampleInstance)
         {
             var nativeSample = al_get_sample(sampleInstance.NativeIntPtr);
             return nativeSample == null ? null : new AllegroSample { NativeIntPtr = nativeSample };
         }
 
+        /// <summary>
+        /// Change the sample data that a sample instance plays. This can be quite an involved process.
+        /// <para>
+        /// First, the sample is stopped if it is not already.
+        /// </para>
+        /// <para>
+        /// Next, if data is <c>null</c>, the sample is detached from its parent (if any).
+        /// </para>
+        /// <para>
+        /// If data is not <c>null</c>, the sample may be detached and reattached to its parent(if any). This is not
+        /// necessary if the old sample data and new sample data have the same frequency, depth and channel
+        /// configuration. Reattaching may not always succeed.
+        /// </para>
+        /// <para>
+        /// On success, the sample remains stopped. The playback position and loop end points are reset to their
+        /// default values. The loop mode remains unchanged.
+        /// </para>
+        /// <para>
+        /// Returns true on success, false on failure. On failure, the sample will be stopped and detached from its
+        /// parent.
+        /// </para>
+        /// </summary>
+        /// <param name="sampleInstance">The sample instance.</param>
+        /// <param name="sample">The sample.</param>
+        /// <returns>
+        /// True on success, otherwise false. On failure, the sample will be stopped and detached from its parent.
+        /// </returns>
         public static bool SetSample(AllegroSampleInstance sampleInstance, AllegroSample sample)
             => al_set_sample(sampleInstance.NativeIntPtr, sample.NativeIntPtr);
 
+        /// <summary>
+        /// Creates a mixer to attach sample instances, audio streams, or other mixers to. It will mix into a buffer
+        /// at the requested frequency (in Hz) and channel count.
+        /// <para>
+        /// The only supported audio depths are <see cref="AudioDepth.Float32"/> and <see cref="AudioDepth.Int16"/>
+        /// (not yet complete).
+        /// </para>
+        /// <para>
+        /// To actually produce any output, the mixer will have to be attached to a voice using
+        /// <see cref="AttachMixerToVoice(AllegroMixer, AllegroVoice)"/>.
+        /// </para>
+        /// <para>
+        /// Reasonable default arguments are: <c>CreateMixer(44100, <see cref="AudioDepth.Float32"/>,
+        /// <see cref="ChannelConf.Conf2"/>)</c>
+        /// </para>
+        /// </summary>
+        /// <param name="freq">The frequency.</param>
+        /// <param name="depth">The sample depth.</param>
+        /// <param name="channelConf">The channel configuration.</param>
+        /// <returns>The mixer on success, otherwise null.</returns>
         public static AllegroMixer CreateMixer(uint freq, AudioDepth depth, ChannelConf channelConf)
         {
             var nativeMixer = al_create_mixer(freq, (int)depth, (int)channelConf);
-            return nativeMixer == null ? null : new AllegroMixer { NativeIntPtr = nativeMixer };
+            return nativeMixer == IntPtr.Zero ? null : new AllegroMixer { NativeIntPtr = nativeMixer };
         }
 
+        /// <summary>
+        /// Destroys the mixer.
+        /// </summary>
+        /// <param name="mixer">The mixer.</param>
         public static void DestroyMixer(AllegroMixer mixer)
             => al_destroy_mixer(mixer.NativeIntPtr);
 
+        /// <summary>
+        /// Return the default mixer, or <c>null</c> if one has not been set. Although different configurations of
+        /// mixers and voices can be used, in most cases a single mixer attached to a voice is what you want. The
+        /// default mixer is used by <see cref="PlaySample(AllegroSample, float, float, float, PlayMode, AllegroSampleId)"/>.
+        /// </summary>
+        /// <returns>The default mixer, or <c>null</c> if one has not been set.</returns>
+        public static AllegroMixer GetDefaultMixer()
+        {
+            var nativeMixer = al_get_default_mixer();
+            return nativeMixer == IntPtr.Zero ? null : new AllegroMixer { NativeIntPtr = nativeMixer };
+        }
+
+        /// <summary>
+        /// Sets the default mixer. All samples started with
+        /// <see cref="PlaySample(AllegroSample, float, float, float, PlayMode, AllegroSampleId)"/> will be stopped and
+        /// all sample instances returned by al_lock_sample_id (UNSTABLE API, NOT IN ALLEGRODOTNET) will be
+        /// invalidated. If you are using your own mixer, this should be called before
+        /// <see cref="ReserveSamples(int)"/>.
+        /// </summary>
+        /// <param name="mixer">The mixer.</param>
+        /// <returns>True on success, otherwise false.</returns>
         public static bool SetDefaultMixer(AllegroMixer mixer)
             => al_set_default_mixer(mixer.NativeIntPtr);
 
+        /// <summary>
+        /// Restores Allegro’s default mixer and attaches it to the default voice. If the default mixer hasn’t been
+        /// created before, it will be created. If the default voice hasn’t been set via
+        /// <see cref="SetDefaultVoice(AllegroVoice)"/> or created before, it will also be created. All samples
+        /// started with <see cref="PlaySample(AllegroSample, float, float, float, PlayMode, AllegroSampleId)"/>
+        /// will be stopped and all sample instances returned by al_lock_sample_id (UNSTABLE API, NOT IN
+        /// ALLEGRODOTNET) will be invalidated.
+        /// </summary>
+        /// <returns>True on success, otherwise false.</returns>
         public static bool RestoreDefaultMixer()
             => al_restore_default_mixer();
 
+        /// <summary>
+        /// Returns the default voice or <c>null</c> if there is none.
+        /// </summary>
+        /// <returns>The default voice, or <c>null</c> if none.</returns>
         public static AllegroVoice GetDefaultVoice()
         {
             var nativeVoice = al_get_default_voice();
             return nativeVoice == IntPtr.Zero ? null : new AllegroVoice { NativeIntPtr = nativeVoice };
         }
 
+        /// <summary>
+        /// You can call this before calling <see cref="RestoreDefaultMixer"/> to provide the voice which should be
+        /// used. Any previous voice will be destroyed. You can also pass <c>null</c> to destroy the current default
+        /// voice.
+        /// </summary>
+        /// <param name="voice"></param>
         public static void SetDefaultVoice(AllegroVoice voice)
             => al_set_default_voice(voice.NativeIntPtr);
 
+        /// <summary>
+        /// Attaches the mixer passed as the first argument onto the mixer passed as the second argument. The first
+        /// mixer (that is going to be attached) must not already be attached to anything. Both mixers must use the
+        /// same frequency, audio depth and channel configuration.
+        /// <para>
+        /// It is invalid to attach a mixer to itself.
+        /// </para>
+        /// </summary>
+        /// <param name="stream">The mixer to join to another.</param>
+        /// <param name="mixer">The mixer to be joined to.</param>
+        /// <returns>True on success, false on error.</returns>
         public static bool AttachMixerToMixer(AllegroMixer stream, AllegroMixer mixer)
             => al_attach_mixer_to_mixer(stream.NativeIntPtr, mixer.NativeIntPtr);
 
+        /// <summary>
+        /// Attach a sample instance to a mixer. The instance must not already be attached to anything.
+        /// </summary>
+        /// <param name="sampleInstance">The sample instance.</param>
+        /// <param name="mixer">The mixer.</param>
+        /// <returns>True on success, false on failure.</returns>
         public static bool AttachSampleInstanceToMixer(AllegroSampleInstance sampleInstance, AllegroMixer mixer)
             => al_attach_sample_instance_to_mixer(sampleInstance.NativeIntPtr, mixer.NativeIntPtr);
 
+        /// <summary>
+        /// Attach an audio stream to a mixer. The stream must not already be attached to anything.
+        /// </summary>
+        /// <param name="stream">The stream.</param>
+        /// <param name="mixer">The mixer.</param>
+        /// <returns>True on success, false on failure.</returns>
         public static bool AttachAudioStreamToMixer(AllegroAudioStream stream, AllegroMixer mixer)
             => al_attach_audio_stream_to_mixer(stream.NativeIntPtr, mixer.NativeIntPtr);
 
+        /// <summary>
+        /// Return the mixer frequency (in Hz).
+        /// </summary>
+        /// <param name="mixer">The mixer.</param>
+        /// <returns>The mixer frequency (in Hz).</returns>
         public static uint GetMixerFrequency(AllegroMixer mixer)
             => al_get_mixer_frequency(mixer.NativeIntPtr);
 
+        /// <summary>
+        /// Set the mixer frequency (in Hz). This will only work if the mixer is not attached to anything.
+        /// </summary>
+        /// <param name="mixer">The mixer.</param>
+        /// <param name="val">The frequency.</param>
+        /// <returns>True on success, otherwise false.</returns>
         public static bool SetMixerFrequency(AllegroMixer mixer, uint val)
             => al_set_mixer_frequency(mixer.NativeIntPtr, val);
 
+        /// <summary>
+        /// Return the mixer channel configuration.
+        /// </summary>
+        /// <param name="mixer">The mixer.</param>
+        /// <returns>The mixer channel configuration.</returns>
         public static ChannelConf GetMixerChannels(AllegroMixer mixer)
             => (ChannelConf)al_get_mixer_channels(mixer.NativeIntPtr);
 
+        /// <summary>
+        /// Return the mixer audio depth.
+        /// </summary>
+        /// <param name="mixer">The mixer.</param>
+        /// <returns>The mixer audio depth.</returns>
         public static AudioDepth GetMixerDepth(AllegroMixer mixer)
             => (AudioDepth)al_get_mixer_depth(mixer.NativeIntPtr);
 
+        /// <summary>
+        /// Return the mixer gain (amplification factor). The default is 1.0.
+        /// </summary>
+        /// <param name="mixer">The mixer.</param>
+        /// <returns>The mixer gain.</returns>
         public static float GetMixerGain(AllegroMixer mixer)
             => al_get_mixer_gain(mixer.NativeIntPtr);
 
+        /// <summary>
+        /// Set the mixer gain (amplification factor).
+        /// </summary>
+        /// <param name="mixer">The mixer.</param>
+        /// <param name="newGain">The gain (default is 1.0).</param>
+        /// <returns>True on success, false on failure.</returns>
         public static bool SetMixerGain(AllegroMixer mixer, float newGain)
             => al_set_mixer_gain(mixer.NativeIntPtr, newGain);
 
+        /// <summary>
+        /// Return the mixer quality.
+        /// </summary>
+        /// <param name="mixer">The mixer.</param>
+        /// <returns>The mixer quality.</returns>
         public static MixerQuality GetMixerQuality(AllegroMixer mixer)
             => (MixerQuality)al_get_mixer_quality(mixer.NativeIntPtr);
 
+        /// <summary>
+        /// Set the mixer quality. This can only succeed if the mixer does not have anything attached to it.
+        /// </summary>
+        /// <param name="mixer">The mixer.</param>
+        /// <param name="newQuality">The new mixer quality.</param>
+        /// <returns>True on success, false on failure.</returns>
         public static bool SetMixerQuality(AllegroMixer mixer, MixerQuality newQuality)
             => al_set_mixer_quality(mixer.NativeIntPtr, (int)newQuality);
 
+        /// <summary>
+        /// Return true if the mixer is playing.
+        /// </summary>
+        /// <param name="mixer">The mixer.</param>
+        /// <returns>True if the mixer is playing, otherwise false.</returns>
         public static bool GetMixerPlaying(AllegroMixer mixer)
             => al_get_mixer_playing(mixer.NativeIntPtr);
 
+        /// <summary>
+        /// Change whether the mixer is playing.
+        /// </summary>
+        /// <param name="mixer">The mixer.</param>
+        /// <param name="val">True for playing, false for not playing.</param>
+        /// <returns>True on success, false on failure.</returns>
         public static bool SetMixerPlaying(AllegroMixer mixer, bool val)
             => al_set_mixer_playing(mixer.NativeIntPtr, val);
 
+        /// <summary>
+        /// Return true if the mixer is attached to something.
+        /// </summary>
+        /// <param name="mixer">The mixer.</param>
+        /// <returns>True if the mixer is attached to something, otherwise null.</returns>
         public static bool GetMixerAttached(AllegroMixer mixer)
             => al_get_mixer_attached(mixer.NativeIntPtr);
 
+        /// <summary>
+        /// Detach the mixer from whatever it is attached to, if anything.
+        /// </summary>
+        /// <param name="mixer">The mixer.</param>
+        /// <returns>True if successful, otherwise null.</returns>
         public static bool DetachMixer(AllegroMixer mixer)
             => al_detach_mixer(mixer.NativeIntPtr);
 
+        /// <summary>
+        /// <para>(NOT IMPLEMENTED)</para>
+        /// Sets a post-processing filter function that’s called after the attached streams have been mixed.
+        /// The buffer’s format will be whatever the mixer was created with. The sample count and user-data
+        /// pointer is also passed.
+        /// </summary>
+        /// <param name="mixer">The mixer.</param>
+        /// <returns>True on success, false otherwise.</returns>
         public static bool SetMixerPostProcessCallback(AllegroMixer mixer)
         {
             throw new NotImplementedException();
