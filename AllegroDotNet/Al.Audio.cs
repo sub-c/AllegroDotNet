@@ -841,163 +841,517 @@ namespace SubC.AllegroDotNet
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Creates an <see cref="AllegroAudioStream"/>. The stream will be set to play by default. It will feed
+        /// audio data from a buffer, which is split into a number of fragments.
+        /// <para>
+        /// A sample that is referred to by the <c>fragSamples</c> parameter refers to a sequence channel intensities.
+        /// E.g. if you’re making a stereo stream with the frag_samples set to 4, then the layout of the data in the
+        /// fragment will be: <c>LRLRLRLR</c> Where L and R are the intensities for the left and right channels
+        /// respectively. A single sample, then, refers to the LR pair in this example.
+        /// </para>
+        /// <para>
+        /// The choice of <c>fragCount</c>, <c>fragSamples</c> and <c>freq</c> influences the audio delay. The
+        /// delay in seconds can be expressed as: <c>delay = fragment_count * frag_samples / freq</c>. This is only
+        /// the delay due to Allegro’s streaming, there may be additional delay caused by sound drivers and/or
+        /// hardware.
+        /// </para>
+        /// <para>
+        /// Unlike many Allegro objects, audio streams are not implicitly destroyed when Allegro is shut down.
+        /// You must destroy them manually with <see cref="DestroyAudioStream(AllegroAudioStream)"/> before the audio
+        /// system is shut down.
+        /// </para>
+        /// </summary>
+        /// <param name="fragCount">
+        /// How many fragments to use for the audio stream. Usually only two fragments are required - splitting
+        /// the audio buffer in two halves. But it means that the only time when new data can be supplied is whenever
+        /// one half has finished playing. When using many fragments, you usually will use fewer samples for one, so
+        /// there always will be (small) fragments available to be filled with new data.
+        /// </param>
+        /// <param name="fragSamples">The size of a fragment in samples.</param>
+        /// <param name="freq">The frequency, in Hertz.</param>
+        /// <param name="depth">Must be one of the values listed for <see cref="AudioDepth"/>.</param>
+        /// <param name="channelConf">Must be one of the values listed for <see cref="ChannelConf"/>.</param>
+        /// <returns>The audio stream on success, otherwise <c>null</c>.</returns>
         public static AllegroAudioStream CreateAudioStream(ulong fragCount, uint fragSamples, uint freq, AudioDepth depth, ChannelConf channelConf)
         {
             var nativeAudioStream = al_create_audio_stream(new UIntPtr(fragCount), fragSamples, freq, (int)depth, (int)channelConf);
             return nativeAudioStream == IntPtr.Zero ? null : new AllegroAudioStream { NativeIntPtr = nativeAudioStream };
         }
 
+        /// <summary>
+        /// Destroy an audio stream which was created with
+        /// <see cref="CreateAudioStream(ulong, uint, uint, AudioDepth, ChannelConf)"/> or
+        /// <see cref="LoadAudioStream(string, ulong, uint)"/>. If the stream is still attached to a mixer or voice,
+        /// <see cref="DetachAudioStream(AllegroAudioStream)"/> is automatically called on it first.
+        /// </summary>
+        /// <param name="stream">The audio stream.</param>
         public static void DestroyAudioStream(AllegroAudioStream stream)
             => al_destroy_audio_stream(stream.NativeIntPtr);
 
+        /// <summary>
+        /// Retrieve the associated event source. See <see cref="GetAudioStreamFragment(AllegroAudioStream)"/> for a
+        /// description of the <see cref="EventType.AudioStreamFragment"/> event that audio streams emit.
+        /// </summary>
+        /// <param name="stream">The audio stream.</param>
+        /// <returns>The event source.</returns>
         public static AllegroEventSource GetAudioStreamEventSource(AllegroAudioStream stream)
         {
             var nativeEventSource = al_get_audio_stream_event_source(stream.NativeIntPtr);
             return nativeEventSource == IntPtr.Zero ? null : new AllegroEventSource { NativeIntPtr = nativeEventSource };
         }
 
+        /// <summary>
+        /// You should call this to finalise an audio stream that you will no longer be feeding, to wait for all
+        /// pending buffers to finish playing. The stream’s playing state will change to false.
+        /// </summary>
+        /// <param name="stream">The audio stream.</param>
         public static void DrainAudioStream(AllegroAudioStream stream)
             => al_drain_audio_stream(stream.NativeIntPtr);
 
+        /// <summary>
+        /// Set the streaming file playing position to the beginning. Returns true on success. Currently this can only
+        /// be called on streams created with <see cref="LoadAudioStream(string, ulong, uint)"/>,
+        /// <see cref="LoadAudioStreamF(AllegroFile, string, ulong, uint)"/> and the format-specific functions
+        /// underlying those functions.
+        /// </summary>
+        /// <param name="stream">The audio stream.</param>
+        /// <returns>True on success, otherwise false.</returns>
         public static bool RewindAudioStream(AllegroAudioStream stream)
             => al_rewind_audio_stream(stream.NativeIntPtr);
 
+        /// <summary>
+        /// Return the stream frequency (in Hz).
+        /// </summary>
+        /// <param name="stream">The audio stream.</param>
+        /// <returns>The frequency in Hz.</returns>
         public static uint GetAudioStreamFrequency(AllegroAudioStream stream)
             => al_get_audio_stream_frequency(stream.NativeIntPtr);
 
+        /// <summary>
+        /// Return the stream channel configuration.
+        /// </summary>
+        /// <param name="stream">The audio stream.</param>
+        /// <returns>The channel configuration.</returns>
         public static ChannelConf GetAudioStreamChannels(AllegroAudioStream stream)
             => (ChannelConf)al_get_audio_stream_channels(stream.NativeIntPtr);
 
+        /// <summary>
+        /// Return the stream audio depth.
+        /// </summary>
+        /// <param name="stream">The audio stream.</param>
+        /// <returns>The audio depth.</returns>
         public static AudioDepth GetAudioStreamDepth(AllegroAudioStream stream)
             => (AudioDepth)al_get_audio_stream_depth(stream.NativeIntPtr);
 
+        /// <summary>
+        /// Return the stream length in samples.
+        /// </summary>
+        /// <param name="stream">The audio stream.</param>
+        /// <returns>The length in samples.</returns>
         public static uint GetAudioStreamLength(AllegroAudioStream stream)
             => al_get_audio_stream_length(stream.NativeIntPtr);
 
+        /// <summary>
+        /// Return the relative playback speed of the stream.
+        /// </summary>
+        /// <param name="stream">The audio stream.</param>
+        /// <returns>The relative playback speed.</returns>
         public static float GetAudioStreamSpeed(AllegroAudioStream stream)
             => al_get_audio_stream_speed(stream.NativeIntPtr);
 
+        /// <summary>
+        /// Set the relative playback speed of the stream. 1.0 means normal speed.
+        /// </summary>
+        /// <param name="stream">The audio stream.</param>
+        /// <param name="val">The playback speed.</param>
+        /// <returns>
+        /// True on success, false on failure. Will fail if the audio stream is attached directly to a voice.
+        /// </returns>
         public static bool SetAudioStreamSpeed(AllegroAudioStream stream, float val)
             => al_set_audio_stream_speed(stream.NativeIntPtr, val);
 
+        /// <summary>
+        /// Return the playback gain of the stream.
+        /// </summary>
+        /// <param name="stream">The audio stream.</param>
+        /// <returns>The playback gain.</returns>
         public static float GetAudioStreamGain(AllegroAudioStream stream)
             => al_get_audio_stream_gain(stream.NativeIntPtr);
 
+        /// <summary>
+        /// Set the playback gain of the stream.
+        /// </summary>
+        /// <param name="stream">The audio stream.</param>
+        /// <param name="val">The playback gain.</param>
+        /// <returns>
+        /// True on success, false on failure. Will fail if the audio stream is attached directly to a voice.
+        /// </returns>
         public static bool SetAudioStreamGain(AllegroAudioStream stream, float val)
             => al_set_audio_stream_gain(stream.NativeIntPtr, val);
 
+        /// <summary>
+        /// Get the pan value of the stream; 0.0 means center balanced, -1.0 is only left-speaker, 1.0 is only right.
+        /// </summary>
+        /// <param name="stream">The audio stream.</param>
+        /// <returns>The pan value.</returns>
         public static float GetAudioStreamPan(AllegroAudioStream stream)
             => al_get_audio_stream_pan(stream.NativeIntPtr);
 
+        /// <summary>
+        /// Set the pan value on an audio stream. A value of -1.0 means to play the stream only through the left
+        /// speaker; +1.0 means only through the right speaker; 0.0 means the sample is centre balanced. A
+        /// special value <see cref="AlConstants.AllegroAudioPanNone"/> disables panning and plays the stream at
+        /// its original level. This will be louder than a pan value of 0.0.
+        /// </summary>
+        /// <param name="stream">The audio stream.</param>
+        /// <param name="val">The pan value.</param>
+        /// <returns>
+        /// True on success, false on failure. Will fail if the audio stream is attached directly to a voice.
+        /// </returns>
         public static bool SetAudioStreamPan(AllegroAudioStream stream, float val)
             => al_set_audio_stream_pan(stream.NativeIntPtr, val);
 
+        /// <summary>
+        /// Return true if the stream is playing.
+        /// </summary>
+        /// <param name="stream">The audio stream.</param>
+        /// <returns>True if the stream is playing.</returns>
         public static bool GetAudioStreamPlaying(AllegroAudioStream stream)
             => al_get_audio_stream_playing(stream.NativeIntPtr);
 
+        /// <summary>
+        /// Change whether the stream is playing.
+        /// </summary>
+        /// <param name="stream">The audio stream.</param>
+        /// <param name="val">True to play, false to stop.</param>
+        /// <returns>True on success, false on failure.</returns>
         public static bool SetAudioStreamPlaying(AllegroAudioStream stream, bool val)
             => al_set_audio_stream_playing(stream.NativeIntPtr, val);
 
+        /// <summary>
+        /// Return the playback mode of the stream.
+        /// </summary>
+        /// <param name="stream">The audio stream.</param>
+        /// <returns>The playback mode of the stream.</returns>
         public static PlayMode GetAudioStreamPlaymode(AllegroAudioStream stream)
             => (PlayMode)al_get_audio_stream_playmode(stream.NativeIntPtr);
 
+        /// <summary>
+        /// Set the playback mode of the stream.
+        /// </summary>
+        /// <param name="stream">The audio stream.</param>
+        /// <param name="mode">The play mode.</param>
+        /// <returns>True on success, false on failure.</returns>
         public static bool SetAudioStreamPlaymode(AllegroAudioStream stream, PlayMode mode)
             => al_set_audio_stream_playmode(stream.NativeIntPtr, (int)mode);
 
+        /// <summary>
+        /// Return whether the stream is attached to something.
+        /// </summary>
+        /// <param name="stream">The audio stream.</param>
+        /// <returns>True if the stream is attached to something, otherwise false.</returns>
         public static bool GetAudioStreamAttached(AllegroAudioStream stream)
             => al_get_audio_stream_attached(stream.NativeIntPtr);
 
+        /// <summary>
+        /// Detach the stream from whatever it’s attached to, if anything.
+        /// </summary>
+        /// <param name="stream">The audio stream.</param>
+        /// <returns>True if the stream is still attached to something, otherwise false.</returns>
         public static bool DetachAudioStream(AllegroAudioStream stream)
             => al_detach_audio_stream(stream.NativeIntPtr);
 
+        /// <summary>
+        /// Get the number of samples consumed by the parent since the audio stream was started.
+        /// </summary>
+        /// <param name="stream">The audio stream.</param>
+        /// <returns>Number of samples consumed by the parent since started.</returns>
         public static ulong GetAudioStreamPlayedSamples(AllegroAudioStream stream)
             => al_get_audio_stream_played_samples(stream.NativeIntPtr);
 
+        /// <summary>
+        /// When using Allegro’s audio streaming, you will use this function to continuously provide new sample data
+        /// to a stream.
+        /// <para>
+        /// If the stream is ready for new data, the function will return the address of an internal buffer to be
+        /// filled with audio data. The length and format of the buffer are specified with
+        /// <see cref="CreateAudioStream(ulong, uint, uint, AudioDepth, ChannelConf)"/> or can be queried with the
+        /// various functions described here. Once the buffer is filled, you must signal this to Allegro by passing
+        /// the buffer to <see cref="SetAudioStreamFragment(AllegroAudioStream, byte[])"/>.
+        /// </para>
+        /// <para>
+        /// Note: If you listen to events from the stream, an <see cref="EventType.AudioStreamFragment"/> event will
+        /// be generated whenever a new fragment is ready. However, getting an event is not a guarantee that
+        /// <see cref="GetAudioStreamFragment(AllegroAudioStream)"/> will not return <c>null</c>, so you still must
+        /// check for it.
+        /// </para>
+        /// </summary>
+        /// <param name="stream">The audio stream.</param>
+        /// <returns>The audio stream fragment.</returns>
         public static byte[] GetAudioStreamFragment(AllegroAudioStream stream)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// This function needs to be called for every successful call of
+        /// <see cref="GetAudioStreamFragment(AllegroAudioStream)"/> to indicate that the buffer (pointed to by
+        /// val) is filled with new data.
+        /// </summary>
+        /// <param name="stream">The audio stream.</param>
+        /// <param name="val">The audio stream fragment data.</param>
+        /// <returns>True on success, otherwise false.</returns>
         public static bool SetAudioStreamFragment(AllegroAudioStream stream, byte[] val)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Returns the number of fragments this stream uses. This is the same value as passed to
+        /// <see cref="CreateAudioStream(ulong, uint, uint, AudioDepth, ChannelConf)"/> when a new stream is created.
+        /// </summary>
+        /// <param name="stream">The audio stream.</param>
+        /// <returns>The number of fragments in use.</returns>
         public static uint GetAudioStreamFragments(AllegroAudioStream stream)
             => al_get_audio_stream_fragments(stream.NativeIntPtr);
 
+        /// <summary>
+        /// Returns the number of available fragments in the stream, that is, fragments which are not currently
+        /// filled with data for playback.
+        /// </summary>
+        /// <param name="stream">The audio stream.</param>
+        /// <returns>The number of fragments not filled with data.</returns>
         public static uint GetAvailableAudioStreamFragments(AllegroAudioStream stream)
             => al_get_available_audio_stream_fragments(stream.NativeIntPtr);
 
+        /// <summary>
+        /// Set the streaming file playing position to time. Returns true on success. Currently this can only be called
+        /// on streams created with <see cref="LoadAudioStream(string, ulong, uint)"/>,
+        /// <see cref="LoadAudioStream(string, ulong, uint)"/> and the format-specific functions underlying those
+        /// functions.
+        /// </summary>
+        /// <param name="stream">The audio stream.</param>
+        /// <param name="time">The file playing position.</param>
+        /// <returns>True on success, otherwise false.</returns>
         public static bool SeekAudioStreamSecs(AllegroAudioStream stream, double time)
             => al_seek_audio_stream_secs(stream.NativeIntPtr, time);
 
+        /// <summary>
+        /// Return the position of the stream in seconds. Currently this can only be called on streams created with
+        /// <see cref="LoadAudioStream(string, ulong, uint)"/>.
+        /// </summary>
+        /// <param name="stream">The audio stream.</param>
+        /// <returns>The position of the stream in seconds.</returns>
         public static double GetAudioStreamPositionSecs(AllegroAudioStream stream)
             => al_get_audio_stream_position_secs(stream.NativeIntPtr);
 
+        /// <summary>
+        /// Currently this can only be called on streams created with
+        /// <see cref="LoadAudioStream(string, ulong, uint)"/>,
+        /// <see cref="LoadAudioStreamF(AllegroFile, string, ulong, uint)"/> and the format-specific functions
+        /// underlying those functions.
+        /// </summary>
+        /// <param name="stream">The audio stream.</param>
+        /// <returns>The length of the stream in seconds, if known. Otherwise returns zero.</returns>
         public static double GetAudioStreamLengthSecs(AllegroAudioStream stream)
             => al_get_audio_stream_length_secs(stream.NativeIntPtr);
 
+        /// <summary>
+        /// Sets the loop points for the stream in seconds. Currently this can only be called on streams created with
+        /// <see cref="LoadAudioStream(string, ulong, uint)"/>, 
+        /// <see cref="LoadAudioStreamF(AllegroFile, string, ulong, uint)"/> and the format-specific functions
+        /// underlying those functions.
+        /// </summary>
+        /// <param name="stream">The audio stream.</param>
+        /// <param name="start">The loop start point.</param>
+        /// <param name="end">The loop end point.</param>
+        /// <returns>True on success, otherwise false.</returns>
         public static bool SetAudioStreamLoopSecs(AllegroAudioStream stream, double start, double end)
             => al_set_audio_stream_loop_secs(stream.NativeIntPtr, start, end);
 
+        /// <summary>
+        /// NOT IMPLEMENTED
+        /// </summary>
+        /// <param name="ext"></param>
+        /// <param name="loader"></param>
+        /// <returns></returns>
         public static bool RegisterSampleLoader(string ext, Action loader)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// NOT IMPLEMENTED
+        /// </summary>
+        /// <param name="ext"></param>
+        /// <param name="loader"></param>
+        /// <returns></returns>
         public static bool RegisterSampleLoaderF(string ext, Action loader)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// NOT IMPLEMENTED
+        /// </summary>
+        /// <param name="ext"></param>
+        /// <param name="saver"></param>
+        /// <returns></returns>
         public static bool RegisterSampleSaver(string ext, Action saver)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// NOT IMPLEMENTED
+        /// </summary>
+        /// <param name="ext"></param>
+        /// <param name="saver"></param>
+        /// <returns></returns>
         public static bool RegisterSampleSaverF(string ext, Action saver)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// NOT IMPLEMENTED
+        /// </summary>
+        /// <param name="ext"></param>
+        /// <param name="streamLoader"></param>
+        /// <param name="bufferCount"></param>
+        /// <param name="samples"></param>
+        /// <returns></returns>
         public static bool RegisterAudioStreamLoader(string ext, Action streamLoader, ulong bufferCount, uint samples)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// NOT IMPLEMENTED
+        /// </summary>
+        /// <param name="ext"></param>
+        /// <param name="streamLoader"></param>
+        /// <param name="bufferCount"></param>
+        /// <param name="samples"></param>
+        /// <returns></returns>
         public static bool RegisterAudioStreamLoaderF(string ext, Action streamLoader, ulong bufferCount, uint samples)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Loads a few different audio file formats based on their extension. Note that this stores the entire file in
+        /// memory at once, which may be time consuming. To read the file as it is needed, use
+        /// <see cref="LoadAudioStream(string, ulong, uint)"/>.
+        /// </summary>
+        /// <param name="filename">The sample filename.</param>
+        /// <returns>The sample on success, NULL on failure.</returns>
         public static AllegroSample LoadSample(string filename)
         {
             var nativeSample = al_load_sample(filename);
             return nativeSample == IntPtr.Zero ? null : new AllegroSample { NativeIntPtr = nativeSample };
         }
 
+        /// <summary>
+        /// Loads an audio file from an <see cref="AllegroFile"/> stream into an <see cref="AllegroSample"/>. The file
+        /// type is determined by the passed ‘ident’ parameter, which is a file name extension including the leading
+        /// dot.
+        /// <para>
+        /// Note that this stores the entire file in memory at once, which may be time consuming. To read the file as
+        /// it is needed, use <see cref="LoadAudioStreamF(AllegroFile, string, ulong, uint)"/>.
+        /// </para>
+        /// <para>
+        /// Note: the allegro_audio library does not support any audio file formats by default. You must use the
+        /// Allegro ACodec addon, or register your own format handler.
+        /// </para>
+        /// </summary>
+        /// <param name="fp">The Allegro file.</param>
+        /// <param name="ident">The </param>
+        /// <returns>The sample on success, NULL on failure. The file remains open afterwards.</returns>
         public static AllegroSample LoadSampleF(AllegroFile fp, string ident)
         {
             var nativeSample = al_load_sample_f(fp.NativeIntPtr, ident);
             return nativeSample == IntPtr.Zero ? null : new AllegroSample { NativeIntPtr = nativeSample };
         }
 
+        /// <summary>
+        /// Loads an audio file from disk as it is needed.
+        /// <para>
+        /// Unlike regular streams, the one returned by this function need not be fed by the user; the library will
+        /// automatically read more of the file as it is needed. The stream will contain <c>bufferCount</c> buffers
+        /// with samples samples.
+        /// </para>
+        /// <para>
+        /// The audio stream will start in the playing state. It should be attached to a voice or mixer to generate
+        /// any output. See <see cref="AllegroAudioStream"/> for more details.
+        /// </para>
+        /// <para>
+        /// Note: the allegro_audio library does not support any audio file formats by default. You must use the
+        /// allegro_acodec addon, or register your own format handler.
+        /// </para>
+        /// </summary>
+        /// <param name="filename">The filename.</param>
+        /// <param name="bufferCount">The buffer count.</param>
+        /// <param name="samples">The amount of samples.</param>
+        /// <returns>The audio stream, or null on error.</returns>
         public static AllegroAudioStream LoadAudioStream(string filename, ulong bufferCount, uint samples)
         {
             var nativeStream = al_load_audio_stream(filename, new UIntPtr(bufferCount), samples);
             return nativeStream == IntPtr.Zero ? null : new AllegroAudioStream { NativeIntPtr = nativeStream };
         }
 
+        /// <summary>
+        /// Loads an audio file from <see cref="AllegroFile"/> stream as it is needed.
+        /// <para>
+        /// Unlike regular streams, the one returned by this function need not be fed by the user; the library will
+        /// automatically read more of the file as it is needed. The stream will contain <c>bufferCount</c> buffers
+        /// with samples samples.
+        /// </para>
+        /// <para>
+        /// The file type is determined by the passed ‘ident’ parameter, which is a file name extension including the
+        /// leading dot.
+        /// </para>
+        /// <para>
+        /// The audio stream will start in the playing state. It should be attached to a voice or mixer to generate any
+        /// output. See <see cref="AllegroAudioStream"/> for more details.
+        /// </para>
+        /// </summary>
+        /// <param name="fp">The Allegro file.</param>
+        /// <param name="ident">The identifying extension.</param>
+        /// <param name="bufferCount">The buffer count.</param>
+        /// <param name="samples">The amount of samples.</param>
+        /// <returns>
+        /// Returns the stream on success, NULL on failure. On success the file should be considered owned by the audio
+        /// stream, and will be closed when the audio stream is destroyed. On failure the file will be closed.
+        /// </returns>
         public static AllegroAudioStream LoadAudioStreamF(AllegroFile fp, string ident, ulong bufferCount, uint samples)
         {
             var nativeStream = al_load_audio_stream_f(fp.NativeIntPtr, ident, new UIntPtr(bufferCount), samples);
             return nativeStream == IntPtr.Zero ? null : new AllegroAudioStream { NativeIntPtr = nativeStream };
         }
 
+        /// <summary>
+        /// Writes a sample into a file. Currently, wav is the only supported format, and the extension must be “.wav”.
+        /// </summary>
+        /// <param name="filename">The filename</param>
+        /// <param name="sample">The sample.</param>
+        /// <returns>True on success, false on error.</returns>
         public static bool SaveSample(string filename, AllegroSample sample)
             => al_save_sample(filename, sample.NativeIntPtr);
 
+        /// <summary>
+        /// Writes a sample into a <see cref="AllegroFile"/> filestream. Currently, wav is the only supported format,
+        /// and the extension must be “.wav”.
+        /// <para>
+        /// Note: the allegro_audio library does not support any audio file formats by default. You must use the
+        /// allegro_acodec addon, or register your own format handler.
+        /// </para>
+        /// </summary>
+        /// <param name="fp">The Allegro file.</param>
+        /// <param name="ident">The identifying extension.</param>
+        /// <param name="sample">The sample.</param>
+        /// <returns>True on success, false on error. The file remains open afterwards.</returns>
         public static bool SaveSampleF(AllegroFile fp, string ident, AllegroSample sample)
             => al_save_sample_f(fp.NativeIntPtr, ident, sample.NativeIntPtr);
 

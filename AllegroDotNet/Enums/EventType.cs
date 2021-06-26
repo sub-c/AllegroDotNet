@@ -1,4 +1,6 @@
-﻿namespace SubC.AllegroDotNet.Enums
+﻿using SubC.AllegroDotNet.Models;
+
+namespace SubC.AllegroDotNet.Enums
 {
     /// <summary>
     /// Indicates what properties of <see cref="AllegroEvent"/> are filled out, based on the event that occurred.
@@ -196,6 +198,16 @@
         /// on most platforms, Allegro supports only a single physical display. However, on iOS, a secondary
         /// physical display is supported.
         /// </summary>
-        DisplayDisconnected = 61
+        DisplayDisconnected = 61,
+
+        /// <summary>
+        /// Sent when a stream fragment is ready to be filled in.
+        /// </summary>
+        AudioStreamFragment = 513,
+
+        /// <summary>
+        /// Sent when a stream is finished.
+        /// </summary>
+        AudioStreamFinished = 514
     }
 }
