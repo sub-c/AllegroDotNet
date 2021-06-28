@@ -272,67 +272,67 @@ namespace SubC.AllegroDotNet
         }
 
         #region P/Invokes
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern IntPtr al_create_event_queue();
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern void al_destroy_event_queue(IntPtr queue);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern void al_register_event_source(IntPtr queue, IntPtr source);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern void al_unregister_event_source(IntPtr queue, IntPtr source);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern bool al_is_event_source_registered(IntPtr queue, IntPtr source);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern void al_pause_event_queue(IntPtr queue, bool pause);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern bool al_is_event_queue_paused(IntPtr queue);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern bool al_is_event_queue_empty(IntPtr queue);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern bool al_get_next_event(IntPtr queue, ref NativeAllegroEvent retEvent);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern bool al_peek_next_event(IntPtr queue, ref NativeAllegroEvent retEvent);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern bool al_drop_next_event(IntPtr queue);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern void al_flush_event_queue(IntPtr queue);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern void al_wait_for_event(IntPtr queue, ref NativeAllegroEvent retEvent);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern bool al_wait_for_event_timed(IntPtr queue, ref NativeAllegroEvent retEvent, float seconds);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern bool al_wait_for_event_until(IntPtr queue, ref NativeAllegroEvent retEvent, ref NativeAllegroTimeout timeout);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern void al_init_user_event_source(IntPtr src);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern void al_destroy_user_event_source(IntPtr src);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern bool al_emit_user_event(IntPtr source, ref NativeAllegroEvent allegroEvent, IntPtr dtor);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern void al_unref_user_event(IntPtr source);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern IntPtr al_get_event_source_data(IntPtr source);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern void al_set_event_source_data(IntPtr source, IntPtr data);
         #endregion
     }

@@ -37,10 +37,10 @@ namespace SubC.AllegroDotNet
             => al_get_num_display_modes();
 
         #region P/Invokes
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern IntPtr al_get_display_mode(int index, ref NativeDisplayMode mode);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern int al_get_num_display_modes();
         #endregion
     }

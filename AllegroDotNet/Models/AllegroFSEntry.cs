@@ -1,4 +1,6 @@
-﻿namespace SubC.AllegroDotNet.Models
+﻿using SubC.AllegroDotNet.Native;
+
+namespace SubC.AllegroDotNet.Models
 {
     /// <summary>
     /// Opaque filesystem entry object. Represents a file or a directory (check with

@@ -130,40 +130,40 @@ namespace SubC.AllegroDotNet
         }
 
         #region P/Invokes
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern IntPtr al_create_timer(double speedSecs);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern void al_start_timer(IntPtr timer);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern void al_resume_timer(IntPtr timer);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern void al_stop_timer(IntPtr timer);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern bool al_get_timer_started(IntPtr timer);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern void al_destroy_timer(IntPtr timer);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern long al_get_timer_count(IntPtr timer);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern void al_set_timer_count(IntPtr timer, long newCount);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern void al_add_timer_count(IntPtr timer, long diff);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern double al_get_timer_speed(IntPtr timer);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern void al_set_timer_speed(IntPtr timer, double newSpeedSecs);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern IntPtr al_get_timer_event_source(IntPtr timer);
         #endregion
     }

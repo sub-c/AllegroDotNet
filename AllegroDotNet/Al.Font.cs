@@ -275,44 +275,44 @@ namespace SubC.AllegroDotNet
             => al_get_allegro_ttf_version();
 
         #region P/Invokes
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern bool al_init_font_addon();
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern bool al_is_font_addon_initialized();
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern void al_shutdown_font_addon();
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern IntPtr al_load_font([MarshalAs(UnmanagedType.LPStr)] string filename, int size, int flags);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern void al_destroy_font(IntPtr f);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern bool al_register_font_loader(
             [MarshalAs(UnmanagedType.LPStr)] string extension,
             LoadFontDelegate load_font,
             int size,
             int flags);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern int al_get_font_line_height(IntPtr f);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern int al_get_font_ascent(IntPtr f);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern int al_get_font_descent(IntPtr f);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern int al_get_text_width(IntPtr f, [MarshalAs(UnmanagedType.LPStr)] string str);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern int al_get_ustr_width(IntPtr f, IntPtr ustr);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         [SuppressUnmanagedCodeSecurity]
         private static extern void al_draw_text(
             IntPtr font,
@@ -322,7 +322,7 @@ namespace SubC.AllegroDotNet
             int flags,
             [MarshalAs(UnmanagedType.LPStr)] string text);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern void al_draw_ustr(
             IntPtr font,
             NativeAllegroColor color,
@@ -331,7 +331,7 @@ namespace SubC.AllegroDotNet
             int flags,
             IntPtr ustr);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern void al_draw_justified_text(
             IntPtr font,
             NativeAllegroColor color,
@@ -342,7 +342,7 @@ namespace SubC.AllegroDotNet
             int flags,
             [MarshalAs(UnmanagedType.LPStr)] string text);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern void al_draw_justified_ustr(
             IntPtr font,
             NativeAllegroColor color,
@@ -353,7 +353,7 @@ namespace SubC.AllegroDotNet
             int flags,
             IntPtr ustr);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern void al_draw_textf(
             IntPtr font,
             NativeAllegroColor color,
@@ -363,7 +363,7 @@ namespace SubC.AllegroDotNet
             [MarshalAs(UnmanagedType.LPStr)] string format,
             __arglist);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern void al_draw_justified_textf(
             IntPtr font,
             NativeAllegroColor color,
@@ -375,7 +375,7 @@ namespace SubC.AllegroDotNet
             [MarshalAs(UnmanagedType.LPStr)] string format,
             __arglist);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern void al_get_text_dimensions(
             IntPtr f,
             [MarshalAs(UnmanagedType.LPStr)] string text,
@@ -384,7 +384,7 @@ namespace SubC.AllegroDotNet
             ref int bbw,
             ref int bbh);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern void al_get_ustr_dimensions(
             IntPtr font,
             IntPtr ustr,
@@ -393,25 +393,25 @@ namespace SubC.AllegroDotNet
             ref int bbw,
             ref int bbh);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern uint al_get_allegro_font_version();
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern int al_get_font_ranges(IntPtr font, int rangesCount, ref int ranges);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern void al_set_fallback_font(IntPtr font, IntPtr fallback);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern IntPtr al_get_fallback_font(IntPtr font);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern void al_draw_glyph(IntPtr f, NativeAllegroColor color, float x, float y, int codepoint);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern int al_get_glyph_width(IntPtr f, int codepoint);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern bool al_get_glyph_dimensions(
             IntPtr f,
             int codepoint,
@@ -420,10 +420,10 @@ namespace SubC.AllegroDotNet
             ref int bbw,
             ref int bbh);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern int al_get_glyph_advance(IntPtr f, int codepoint1, int codepoint2);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern void al_draw_multiline_text(
             IntPtr font,
             NativeAllegroColor color,
@@ -432,7 +432,7 @@ namespace SubC.AllegroDotNet
             float max_width,
             float line_height);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern void al_draw_multiline_ustr(
             IntPtr font,
             NativeAllegroColor color,
@@ -443,7 +443,7 @@ namespace SubC.AllegroDotNet
             int flags,
             IntPtr ustr);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern void al_draw_multiline_textf(
             IntPtr font,
             NativeAllegroColor color,
@@ -455,7 +455,7 @@ namespace SubC.AllegroDotNet
             [MarshalAs(UnmanagedType.LPStr)] string format,
             __arglist);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern void al_do_multiline_text(
             IntPtr font,
             float max_width,
@@ -463,7 +463,7 @@ namespace SubC.AllegroDotNet
             IntPtr cb,
             IntPtr extra);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern void al_do_multiline_ustr(
             IntPtr font,
             float max_width,
@@ -471,48 +471,48 @@ namespace SubC.AllegroDotNet
             IntPtr cb,
             IntPtr extra);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern IntPtr al_grab_font_from_bitmap(IntPtr bmp, int ranges_n, int[] ranges);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern IntPtr al_load_bitmap_font([MarshalAs(UnmanagedType.LPStr)] string fname);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern IntPtr al_load_bitmap_font_flags([MarshalAs(UnmanagedType.LPStr)] string fname, int flags);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern IntPtr al_create_builtin_font();
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern bool al_init_ttf_addon();
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern bool al_is_ttf_addon_initialized();
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern void al_shutdown_ttf_addon();
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern IntPtr al_load_ttf_font(
             [MarshalAs(UnmanagedType.LPStr)] string filename,
             int size,
             int flags);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern IntPtr al_load_ttf_font_f(
             IntPtr file,
             [MarshalAs(UnmanagedType.LPStr)] string filename,
             int size,
             int flags);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern IntPtr al_load_ttf_font_stretch(
             [MarshalAs(UnmanagedType.LPStr)] string filename,
             int w,
             int h,
             int flags);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern IntPtr al_load_ttf_font_stretch_f(
             IntPtr file,
             [MarshalAs(UnmanagedType.LPStr)] string filename,
@@ -520,7 +520,7 @@ namespace SubC.AllegroDotNet
             int h,
             int flags);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern uint al_get_allegro_ttf_version();
         #endregion
     }

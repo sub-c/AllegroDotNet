@@ -1,4 +1,6 @@
-﻿namespace SubC.AllegroDotNet.Models
+﻿using SubC.AllegroDotNet.Native;
+
+namespace SubC.AllegroDotNet.Models
 {
     /// <summary>
     /// Opaque handle to a text log window.

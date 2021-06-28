@@ -1,5 +1,4 @@
-﻿using System;
-using SubC.AllegroDotNet.Native;
+﻿using SubC.AllegroDotNet.Native;
 
 namespace SubC.AllegroDotNet.Models
 {

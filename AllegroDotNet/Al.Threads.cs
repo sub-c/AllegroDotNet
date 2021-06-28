@@ -87,58 +87,58 @@ namespace SubC.AllegroDotNet
             => al_signal_cond(condition.NativeIntPtr);
 
         #region P/Invokes
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern IntPtr al_create_thread(ThreadProcessDelegate proc, IntPtr arg);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern void al_start_thread(IntPtr thread);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern void al_join_thread(IntPtr thread, ref IntPtr ret_value);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern void al_set_thread_should_stop(IntPtr thread);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern bool al_get_thread_should_stop(IntPtr thread);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern void al_destroy_thread(IntPtr thread);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern void al_run_detached_thread(DetachedThreadProcessDelegate proc, IntPtr arg);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern IntPtr al_create_mutex();
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern IntPtr al_create_mutex_recursive();
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern void al_lock_mutex(IntPtr mutex);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern void al_unlock_mutex(IntPtr mutex);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern void al_destroy_mutex(IntPtr mutex);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern IntPtr al_create_cond();
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern void al_destroy_cond(IntPtr cond);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern void al_wait_cond(IntPtr cond, IntPtr mutex);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern int al_wait_cond_until(IntPtr cond, IntPtr mutex, ref NativeAllegroTimeout timeout);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern void al_broadcast_cond(IntPtr cond);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern void al_signal_cond(IntPtr cond);
         #endregion
     }

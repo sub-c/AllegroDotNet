@@ -528,133 +528,133 @@ namespace SubC.AllegroDotNet
             => al_clipboard_has_text(display.NativeIntPtr);
 
         #region P/Invokes
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern IntPtr al_create_display(int w, int h);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern void al_destroy_display(IntPtr display);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern int al_get_new_display_flags();
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern void al_set_new_display_flags(int flags);
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern int al_get_new_display_option(int option, ref int importance);
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern void al_set_new_display_option(int option, int value, int importance);
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern void al_reset_new_display_options();
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern void al_get_new_window_position(ref int x, ref int y);
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern void al_set_new_window_position(int x, int y);
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern int al_get_new_display_refresh_rate();
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern void al_set_new_display_refresh_rate(int refresh_rate);
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern IntPtr al_get_display_event_source(IntPtr display);
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern IntPtr al_get_backbuffer(IntPtr display);
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern void al_flip_display();
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern void al_update_display_region(int x, int y, int width, int height);
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern bool al_wait_for_vsync();
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern int al_get_display_width(IntPtr display);
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern int al_get_display_height(IntPtr display);
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern bool al_resize_display(IntPtr display, int width, int height);
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern bool al_acknowledge_resize(IntPtr display);
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern void al_get_window_position(IntPtr display, ref int x, ref int y);
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern void al_set_window_position(IntPtr display, int x, int y);
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern bool al_get_window_constraints(IntPtr display, ref int min_w, ref int min_h, ref int max_w, ref int max_h);
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern bool al_set_window_constraints(IntPtr display, int min_w, int min_h, int max_w, int max_h);
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern void al_apply_window_constraints(IntPtr display, bool onOff);
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern int al_get_display_flags(IntPtr display);
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern bool al_set_display_flag(IntPtr display, int flag, bool onOff);
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern int al_get_display_option(IntPtr display, int options);
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern void al_set_display_option(IntPtr display, int option, int value);
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern int al_get_display_format(IntPtr display);
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern int al_get_display_orientation(IntPtr display);
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern int al_get_display_refresh_rate(IntPtr display);
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename, CharSet = CharSet.Ansi)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows, CharSet = CharSet.Ansi)]
         private static extern void al_set_window_title(IntPtr display, [MarshalAs(UnmanagedType.LPStr)] string title);
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename, CharSet = CharSet.Ansi)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows, CharSet = CharSet.Ansi)]
         private static extern void al_set_new_window_title([MarshalAs(UnmanagedType.LPStr)] string title);
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern IntPtr al_get_new_window_title();
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern void al_set_display_icon(IntPtr display, IntPtr icon);
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern void al_set_display_icons(IntPtr display, int num_icons, IntPtr bitmaps);
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern void al_acknowledge_drawing_halt(IntPtr display);
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern void al_acknowledge_drawing_resume(IntPtr display);
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern bool al_inhibit_screensaver(bool inhibit);
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern IntPtr al_get_clipboard_text(IntPtr display);
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename, CharSet = CharSet.Ansi)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows, CharSet = CharSet.Ansi)]
         private static extern bool al_set_clipboard_text(IntPtr display, [MarshalAs(UnmanagedType.LPStr)] string text);
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         private static extern bool al_clipboard_has_text(IntPtr display);
         #endregion
     }

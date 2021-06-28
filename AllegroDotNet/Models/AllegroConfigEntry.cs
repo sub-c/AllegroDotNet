@@ -1,4 +1,6 @@
-﻿namespace SubC.AllegroDotNet.Models
+﻿using SubC.AllegroDotNet.Native;
+
+namespace SubC.AllegroDotNet.Models
 {
     /// <summary>
     /// An opaque structure used for iterating across entries in a configuration section.

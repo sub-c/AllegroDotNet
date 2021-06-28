@@ -1,4 +1,6 @@
-﻿namespace SubC.AllegroDotNet.Models
+﻿using SubC.AllegroDotNet.Native;
+
+namespace SubC.AllegroDotNet.Models
 {
     /// <summary>
     /// This is an abstract data type representing a timer object.

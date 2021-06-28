@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SubC.AllegroDotNet.Models
+namespace SubC.AllegroDotNet.Native
 {
     /// <summary>
     /// An abstract class that wraps a native pointer.

@@ -33,7 +33,7 @@ namespace SubC.AllegroDotNet
         /// <summary>
         /// The library filename where all Allegro (including addons) functions can be found.
         /// </summary>
-        public const string AllegroMonolithDllFilename = "allegro_monolith-debug-5.2.dll";
+        public const string AllegroMonolithDllFilenameWindows = "allegro_monolith-debug-5.2.dll";
 #endregion
     }
 }

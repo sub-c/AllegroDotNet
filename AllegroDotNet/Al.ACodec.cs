@@ -1,4 +1,4 @@
-﻿using System.Runtime.InteropServices;
+﻿using SubC.AllegroDotNet.Native.Libraries;
 
 namespace SubC.AllegroDotNet
 {
@@ -37,32 +37,18 @@ namespace SubC.AllegroDotNet
         /// </para>
         /// </summary>
         /// <returns>True on success, otherwise false.</returns>
-        public static bool InitACodecAddon()
-            => al_init_acodec_addon();
+        public static bool InitACodecAddon() => AllegroLibrary.AlInitAcodecAddon();
 
         /// <summary>
         /// Returns true if the acodec addon is initialized, otherwise returns false.
         /// </summary>
         /// <returns>True if the acodec addon is initialized, otherwise returns false.</returns>
-        public static bool IsACodecAddonInitialized()
-            => al_is_acodec_addon_initialized();
+        public static bool IsACodecAddonInitialized() => AllegroLibrary.AlIsAcodecAddonInitialized();
 
         /// <summary>
         /// Returns the (compiled) version of the addon, in the same format as <see cref="GetAllegroVersion"/>.
         /// </summary>
         /// <returns>The (compiled) version of the addon.</returns>
-        public static uint GetAllegroACodecVersion()
-            => al_get_allegro_acodec_version();
-
-        #region P/Invokes
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_init_acodec_addon();
-
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_is_acodec_addon_initialized();
-
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern uint al_get_allegro_acodec_version();
-        #endregion
+        public static uint GetAllegroACodecVersion() => AllegroLibrary.AlGetAllegroAcodecVersion();
     }
 }

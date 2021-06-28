@@ -1,4 +1,6 @@
-﻿namespace SubC.AllegroDotNet.Models
+﻿using SubC.AllegroDotNet.Native;
+
+namespace SubC.AllegroDotNet.Models
 {
     /// <summary>
     /// An opaque object representing an open file. This could be a real file on disk or a virtual file.
