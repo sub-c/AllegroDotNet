@@ -7,10 +7,8 @@ namespace SubC.AllegroDotNet.Models
     /// structure represents the locked region of the bitmap. This call will work with any bitmap, including memory
     /// bitmaps.
     /// </summary>
-    public sealed class AllegroLockedRegion
+    public sealed class AllegroLockedRegion : NativePointerWrapper
     {
-        internal NativeLockedRegion Native = new NativeLockedRegion();
-
         internal AllegroLockedRegion()
         {
         }
