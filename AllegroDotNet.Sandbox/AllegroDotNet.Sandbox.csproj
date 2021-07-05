@@ -29,9 +29,6 @@
     <None Update="allegro_memfile-5.2.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="allegro_monolith-debug-5.2.dll">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
     <None Update="allegro_monolith-debug.pdb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -44,9 +41,6 @@
     <None Update="brotlicommon.dll">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
-    <None Update="brotlidec.dll">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
     <None Update="brotlienc.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -56,17 +50,11 @@
     <None Update="FLAC++.dll">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
-    <None Update="FLAC.dll">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
     <None Update="freeglut.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="FreeImagePlus.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="freetype.dll">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
     <None Update="Half-2_5.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -86,16 +74,10 @@
     <None Update="lzma.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="ogg.dll">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
     <None Update="OpenAL32.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="opus.dll">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="physfs.dll">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
     <None Update="raw_r.dll">
@@ -104,22 +86,13 @@
     <None Update="theora.dll">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
-    <None Update="theoradec.dll">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
     <None Update="theoraenc.dll">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
     <None Update="tiff.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="vorbis.dll">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
     <None Update="vorbisenc.dll">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="vorbisfile.dll">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
     <None Update="webp.dll">

@@ -2,6 +2,7 @@
 using System.Runtime.InteropServices;
 using SubC.AllegroDotNet.Models;
 using SubC.AllegroDotNet.Enums;
+using SubC.AllegroDotNet.Native.Libraries;
 
 namespace SubC.AllegroDotNet
 {
@@ -17,8 +18,8 @@ namespace SubC.AllegroDotNet
         /// Returns the (compiled) version of the Allegro library, packed into a single integer as groups of 8 bits in
         /// the form (major &lt;&lt; 24) | (minor &lt;&lt; 16) | (revision &lt;&lt; 8) | release.
         /// </returns>
-        public static int GetAllegroVersion()
-            => al_get_allegro_version();
+        public static int GetAllegroVersion() =>
+            AllegroLibrary.AlGetAllegroVersion();
 
         /// <summary>
         /// Gets the global application name string.
@@ -26,7 +27,7 @@ namespace SubC.AllegroDotNet
         /// <returns>Returns the global application name string.</returns>
         public static string GetAppName()
         {
-            var nativeStringPtr = al_get_app_name();
+            var nativeStringPtr = AllegroLibrary.AlGetAppName();
             return Marshal.PtrToStringAnsi(nativeStringPtr);
         }
 
@@ -47,8 +48,8 @@ namespace SubC.AllegroDotNet
         /// Returns the number of CPU cores that the system Allegro is running on has and which could be detected, or a negative number if detection
         /// failed.
         /// </returns>
-        public static int GetCpuCount()
-            => al_get_cpu_count();
+        public static int GetCpuCount() =>
+            AllegroLibrary.AlGetCpuCount();
 
         /// <summary>
         /// Gets the global organization name string.
@@ -56,7 +57,7 @@ namespace SubC.AllegroDotNet
         /// <returns>Returns the global organization name string.</returns>
         public static string GetOrgName()
         {
-            var nativeStringPtr = al_get_org_name();
+            var nativeStringPtr = AllegroLibrary.AlGetOrgName();
             return Marshal.PtrToStringAnsi(nativeStringPtr);
         }
 
@@ -78,8 +79,8 @@ namespace SubC.AllegroDotNet
         /// Returns the size in MB of the random access memory that the system Allegro is running on has and which could be detected, or a negative
         /// number if detection failed.
         /// </returns>
-        public static int GetRamSize()
-            => al_get_ram_size();
+        public static int GetRamSize() =>
+            AllegroLibrary.AlGetRamSize();
 
         /// <summary>
         /// Gets a system path, depending on the id parameter. Some of these paths may be affected by the organization and application name, so
@@ -92,7 +93,7 @@ namespace SubC.AllegroDotNet
         /// <returns>An <see cref="AllegroPath"/> to the requested standard path.</returns>
         public static AllegroPath GetStandardPath(StandardPath standardPath)
         {
-            var nativePath = al_get_standard_path((int)standardPath);
+            var nativePath = AllegroLibrary.AlGetStandardPath((int)standardPath);
             return nativePath == IntPtr.Zero ? null : new AllegroPath { NativeIntPtr = nativePath };
         }
 
@@ -107,7 +108,7 @@ namespace SubC.AllegroDotNet
         /// </returns>
         public static AllegroConfig GetSystemConfig()
         {
-            var nativeConfig = al_get_system_config();
+            var nativeConfig = AllegroLibrary.AlGetSystemConfig();
             return nativeConfig == IntPtr.Zero ? null : new AllegroConfig { NativeIntPtr = nativeConfig };
         }
 
@@ -115,8 +116,8 @@ namespace SubC.AllegroDotNet
         /// Gets the platform that Allegro is running on.
         /// </summary>
         /// <returns>Returns the platform that Allegro is running on.</returns>
-        public static SystemID GetSystemID()
-            => (SystemID)al_get_system_id();
+        public static SystemID GetSystemID() =>
+            (SystemID)AllegroLibrary.AlGetSystemID();
 
         /// <summary>
         /// Initialize the Allegro system. No other Allegro functions can be called before this (with one or two exceptions).
@@ -126,8 +127,8 @@ namespace SubC.AllegroDotNet
         /// cannot be used. A common reason for this function to fail is when the version of Allegro you compiled your game against is not compatible
         /// with the version of the shared libraries that were found on the system.
         /// </returns>
-        public static bool Init()
-            => al_install_system(AlConstants.AllegroVersionInt, IntPtr.Zero);
+        public static bool Init() =>
+            AllegroLibrary.AlInstallSystem(AlConstants.AllegroVersionInt, IntPtr.Zero);
 
         /// <summary>
         /// Initialize the Allegro system. No other Allegro functions can be called before this (with one or two exceptions).
@@ -138,23 +139,23 @@ namespace SubC.AllegroDotNet
         /// cannot be used. A common reason for this function to fail is when the version of Allegro you compiled your game against is not compatible
         /// with the version of the shared libraries that were found on the system.
         /// </returns>
-        public static bool InstallSystem(int allegroVersionInt)
-            => al_install_system(allegroVersionInt, IntPtr.Zero);
+        public static bool InstallSystem(int allegroVersionInt) =>
+            AllegroLibrary.AlInstallSystem(allegroVersionInt, IntPtr.Zero);
 
         /// <summary>
         /// Determines if Allegro has been initialized.
         /// </summary>
         /// <returns>Returns true if Allegro is initialized, otherwise returns false.</returns>
-        public static bool IsSystemInstalled()
-            => al_is_system_installed();
+        public static bool IsSystemInstalled() =>
+            AllegroLibrary.AlIsSystemInstalled();
 
         /// <summary>
         /// Register a function to be called when an internal Allegro assertion fails.
         /// Pass NULL to reset to the default behaviour, which is to do whatever the standard assert() macro does.
         /// </summary>
         /// <param name="assertHandler">Method to be called when an internal Allegor assertion fails.</param>
-        public static void RegisterAssertHandler(Delegates.AssertHandler assertHandler)
-            => al_register_assert_handler(assertHandler);
+        public static void RegisterAssertHandler(Delegates.AssertHandler assertHandler) =>
+            AllegroLibrary.AlRegisterAssertHandler(assertHandler);
 
         /// <summary>
         /// Register a callback which is called whenever Allegro writes something to its log files. The default logging to allegro.log is disabled
@@ -163,8 +164,8 @@ namespace SubC.AllegroDotNet
         /// See the example allegro5.cfg for documentation on how to configure the used debug channels, logging levels and trace format.
         /// </summary>
         /// <param name="traceHandler">Method to be called when Allegro would write something to its log files.</param>
-        public static void RegisterTraceHandler(Delegates.TraceHandler traceHandler)
-            => al_register_trace_handler(traceHandler);
+        public static void RegisterTraceHandler(Delegates.TraceHandler traceHandler) =>
+            AllegroLibrary.AlRegisterTraceHandler(traceHandler);
 
         /// <summary>
         /// Sets the global application name.
@@ -172,8 +173,8 @@ namespace SubC.AllegroDotNet
         /// This function may be called before <see cref="Init()"/> or <see cref="InstallSystem(int)"/>.
         /// </summary>
         /// <param name="appName">The new application name.</param>
-        public static void SetAppName(string appName)
-            => al_set_app_name(appName);
+        public static void SetAppName(string appName) =>
+            AllegroLibrary.AlSetAppName(appName);
 
         /// <summary>
         /// This override the executable name used by <see cref="GetStandardPath(StandardPath)"/> for <see cref="StandardPath.ExeNamePath"/>
@@ -182,8 +183,8 @@ namespace SubC.AllegroDotNet
         /// Python executable is the current executable - but you can set it to the .py file being executed instead.
         /// </summary>
         /// <param name="exeName">The new executable name.</param>
-        public static void SetExeName(string exeName)
-            => al_set_exe_name(exeName);
+        public static void SetExeName(string exeName) =>
+            AllegroLibrary.AlSetExeName(exeName);
 
         /// <summary>
         /// Sets the global organization name.
@@ -193,63 +194,63 @@ namespace SubC.AllegroDotNet
         /// This function may be called before <see cref="Init()"/> or <see cref="InstallSystem(int)"/>.
         /// </summary>
         /// <param name="orgName">The new org name.</param>
-        public static void SetOrgName(string orgName)
-            => al_set_org_name(orgName);
+        public static void SetOrgName(string orgName) =>
+            AllegroLibrary.AlSetOrgName(orgName);
 
         /// <summary>
         /// Closes down the Allegro system.
         /// </summary>
-        public static void UninstallSystem()
-            => al_uninstall_system();
+        public static void UninstallSystem() =>
+            AllegroLibrary.AlUninstallSystem();
 
         #region P/Invokes
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern int al_get_allegro_version();
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern int al_get_allegro_version();
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern IntPtr al_get_app_name();
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern IntPtr al_get_app_name();
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern int al_get_cpu_count();
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern int al_get_cpu_count();
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern IntPtr al_get_org_name();
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern IntPtr al_get_org_name();
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern int al_get_ram_size();
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern int al_get_ram_size();
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern IntPtr al_get_standard_path(int id);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern IntPtr al_get_standard_path(int id);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern IntPtr al_get_system_config();
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern IntPtr al_get_system_config();
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern int al_get_system_id();
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern int al_get_system_id();
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern bool al_install_system(int version, IntPtr atExitPtr);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_install_system(int version, IntPtr atExitPtr);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern bool al_is_system_installed();
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_is_system_installed();
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows, CharSet = CharSet.Ansi)]
-        private static extern void al_register_assert_handler(Delegates.AssertHandler assertHandler);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows, CharSet = CharSet.Ansi)]
+        //private static extern void al_register_assert_handler(Delegates.AssertHandler assertHandler);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows, CharSet = CharSet.Ansi)]
-        private static extern void al_register_trace_handler(Delegates.TraceHandler traceHandler);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows, CharSet = CharSet.Ansi)]
+        //private static extern void al_register_trace_handler(Delegates.TraceHandler traceHandler);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows, CharSet = CharSet.Ansi)]
-        private static extern void al_set_app_name([MarshalAs(UnmanagedType.LPStr)] string name);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows, CharSet = CharSet.Ansi)]
+        //private static extern void al_set_app_name([MarshalAs(UnmanagedType.LPStr)] string name);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows, CharSet = CharSet.Ansi)]
-        private static extern void al_set_exe_name([MarshalAs(UnmanagedType.LPStr)] string name);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows, CharSet = CharSet.Ansi)]
+        //private static extern void al_set_exe_name([MarshalAs(UnmanagedType.LPStr)] string name);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows, CharSet = CharSet.Ansi)]
-        private static extern void al_set_org_name([MarshalAs(UnmanagedType.LPStr)] string name);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows, CharSet = CharSet.Ansi)]
+        //private static extern void al_set_org_name([MarshalAs(UnmanagedType.LPStr)] string name);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern void al_uninstall_system();
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_uninstall_system();
         #endregion
     }
 }
