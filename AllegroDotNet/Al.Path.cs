@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using SubC.AllegroDotNet.Models;
+using SubC.AllegroDotNet.Native.Libraries;
 
 namespace SubC.AllegroDotNet
 {
@@ -18,7 +19,7 @@ namespace SubC.AllegroDotNet
         /// <returns>Null if error, otherwise the path instance.</returns>
         public static AllegroPath CreatePath(string pathString)
         {
-            var nativePath = al_create_path(pathString);
+            var nativePath = AllegroLibrary.AlCreatePath(pathString);
             return nativePath == IntPtr.Zero ? null : new AllegroPath { NativeIntPtr = nativePath };
         }
 
@@ -29,7 +30,7 @@ namespace SubC.AllegroDotNet
         /// <returns>Null if error, otherwise the path instance.</returns>
         public static AllegroPath CreatePathForDirectory(string pathString)
         {
-            var nativePath = al_create_path_for_directory(pathString);
+            var nativePath = AllegroLibrary.AlCreatePathForDirectory(pathString);
             return nativePath == IntPtr.Zero ? null : new AllegroPath { NativeIntPtr = nativePath };
         }
 
@@ -37,8 +38,8 @@ namespace SubC.AllegroDotNet
         /// Free a path structure.
         /// </summary>
         /// <param name="path">The path instance to destroy.</param>
-        public static void DestroyPath(AllegroPath path)
-            => al_destroy_path(path.NativeIntPtr);
+        public static void DestroyPath(AllegroPath path) =>
+            AllegroLibrary.AlDestroyPath(path.NativeIntPtr);
 
         /// <summary>
         /// Clones an <see cref="AllegroPath"/> structure.
@@ -47,7 +48,7 @@ namespace SubC.AllegroDotNet
         /// <returns>Null on failure, otherwise the clone path instance.</returns>
         public static AllegroPath ClonePath(AllegroPath path)
         {
-            var nativePath = al_clone_path(path.NativeIntPtr);
+            var nativePath = AllegroLibrary.AlClonePath(path.NativeIntPtr);
             return nativePath == IntPtr.Zero ? null : new AllegroPath { NativeIntPtr = nativePath };
         }
 
@@ -67,8 +68,8 @@ namespace SubC.AllegroDotNet
         /// <returns>
         /// True if ‘tail’ was a relative path and so concatenated to ‘path’, otherwise returns false.
         /// </returns>
-        public static bool JoinPaths(AllegroPath path, AllegroPath tail)
-            => al_join_paths(path.NativeIntPtr, tail.NativeIntPtr);
+        public static bool JoinPaths(AllegroPath path, AllegroPath tail) =>
+            AllegroLibrary.AlJoinPaths(path.NativeIntPtr, tail.NativeIntPtr);
 
         /// <summary>
         /// Concatenate two path structures, modifying the second path structure. If tail is an absolute path,
@@ -82,8 +83,8 @@ namespace SubC.AllegroDotNet
         /// <param name="head">The head of the path.</param>
         /// <param name="tail">The path to add to the head.</param>
         /// <returns>True if successful, otherwise false.</returns>
-        public static bool RebasePath(AllegroPath head, AllegroPath tail)
-            => al_rebase_path(head.NativeIntPtr, tail.NativeIntPtr);
+        public static bool RebasePath(AllegroPath head, AllegroPath tail) =>
+            AllegroLibrary.AlRebasePath(head.NativeIntPtr, tail.NativeIntPtr);
 
         /// <summary>
         /// Return the drive letter on a path, or the empty string if there is none.
@@ -92,8 +93,8 @@ namespace SubC.AllegroDotNet
         /// </summary>
         /// <param name="path">The path instance.</param>
         /// <returns>Empty string if no drive in the path, otherwise the drive letter on the path.</returns>
-        public static string GetPathDrive(AllegroPath path)
-            => Marshal.PtrToStringAnsi(al_get_path_drive(path.NativeIntPtr));
+        public static string GetPathDrive(AllegroPath path) =>
+            Marshal.PtrToStringAnsi(AllegroLibrary.AlGetPathDrive(path.NativeIntPtr));
 
         /// <summary>
         /// Return the number of directory components in a path.
@@ -101,8 +102,8 @@ namespace SubC.AllegroDotNet
         /// </summary>
         /// <param name="path">The path instance.</param>
         /// <returns>The number of directory components.</returns>
-        public static int GetPathNumComponents(AllegroPath path)
-            => al_get_path_num_components(path.NativeIntPtr);
+        public static int GetPathNumComponents(AllegroPath path) =>
+            AllegroLibrary.AlGetPathNumComponents(path.NativeIntPtr);
 
         /// <summary>
         /// Return the i’th directory component of a path, counting from zero. If the index is negative then count
@@ -112,16 +113,16 @@ namespace SubC.AllegroDotNet
         /// <param name="path">The path instance.</param>
         /// <param name="i">The component index, starting from zero.</param>
         /// <returns>The path component as a string.</returns>
-        public static string GetPathComponent(AllegroPath path, int i)
-            => Marshal.PtrToStringAnsi(al_get_path_component(path.NativeIntPtr, i));
+        public static string GetPathComponent(AllegroPath path, int i) =>
+            Marshal.PtrToStringAnsi(AllegroLibrary.AlGetPathComponent(path.NativeIntPtr, i));
 
         /// <summary>
         /// Returns the last directory component, or NULL if there are no directory components.
         /// </summary>
         /// <param name="path">The path component.</param>
         /// <returns>Null if no directory components, otherwise the last directory component.</returns>
-        public static string GetPathTail(AllegroPath path)
-            => Marshal.PtrToStringAnsi(al_get_path_tail(path.NativeIntPtr));
+        public static string GetPathTail(AllegroPath path) =>
+            Marshal.PtrToStringAnsi(AllegroLibrary.AlGetPathTail(path.NativeIntPtr));
 
         /// <summary>
         /// Return the filename part of the path, or the empty string if there is none. The returned pointer is
@@ -129,8 +130,8 @@ namespace SubC.AllegroDotNet
         /// </summary>
         /// <param name="path">The path instance.</param>
         /// <returns>Empty string if no filename in path, otherwise the filename of the path.</returns>
-        public static string GetPathFilename(AllegroPath path)
-            => Marshal.PtrToStringAnsi(al_get_path_filename(path.NativeIntPtr));
+        public static string GetPathFilename(AllegroPath path) =>
+            Marshal.PtrToStringAnsi(AllegroLibrary.AlGetPathFilename(path.NativeIntPtr));
 
         /// <summary>
         /// Return the basename, i.e. filename with the extension removed. If the filename doesn’t have an extension,
@@ -142,8 +143,8 @@ namespace SubC.AllegroDotNet
         /// </summary>
         /// <param name="path">The path instance.</param>
         /// <returns>The filename with extension renmoved, otherwise an empty string.</returns>
-        public static string GetPathBasename(AllegroPath path)
-            => Marshal.PtrToStringAnsi(al_get_path_basename(path.NativeIntPtr));
+        public static string GetPathBasename(AllegroPath path) =>
+            Marshal.PtrToStringAnsi(AllegroLibrary.AlGetPathBasename(path.NativeIntPtr));
 
         /// <summary>
         /// Return a pointer to the start of the extension of the filename, i.e. everything from the final dot (‘.’)
@@ -155,8 +156,8 @@ namespace SubC.AllegroDotNet
         /// </summary>
         /// <param name="path">The path instance.</param>
         /// <returns>The filename with only the extension, otherwise an empty string.</returns>
-        public static string GetPathExtension(AllegroPath path)
-            => Marshal.PtrToStringAnsi(al_get_path_extension(path.NativeIntPtr));
+        public static string GetPathExtension(AllegroPath path) =>
+            Marshal.PtrToStringAnsi(AllegroLibrary.AlGetPathExtension(path.NativeIntPtr));
 
         /// <summary>
         /// Set the drive string on a path. The drive may be NULL, which is equivalent to setting the drive
@@ -164,16 +165,16 @@ namespace SubC.AllegroDotNet
         /// </summary>
         /// <param name="path">The path instance.</param>
         /// <param name="drive">The drive to set.</param>
-        public static void SetPathDrive(AllegroPath path, string drive)
-            => al_set_path_drive(path.NativeIntPtr, drive);
+        public static void SetPathDrive(AllegroPath path, string drive) =>
+            AllegroLibrary.AlSetPathDrive(path.NativeIntPtr, drive);
 
         /// <summary>
         /// Append a directory component.
         /// </summary>
         /// <param name="path">The path instance.</param>
         /// <param name="componentString">The component string to append.</param>
-        public static void AppendPathComponent(AllegroPath path, string componentString)
-            => al_append_path_component(path.NativeIntPtr, componentString);
+        public static void AppendPathComponent(AllegroPath path, string componentString) =>
+            AllegroLibrary.AlAppendPathComponent(path.NativeIntPtr, componentString);
 
         /// <summary>
         /// Insert a directory component at index i. If the index is negative then count from the right, i.e. -1
@@ -183,8 +184,8 @@ namespace SubC.AllegroDotNet
         /// <param name="path">The path instance.</param>
         /// <param name="i">The component index.</param>
         /// <param name="componentString">The component to insert.</param>
-        public static void InsertPathComponent(AllegroPath path, int i, string componentString)
-            => al_insert_path_component(path.NativeIntPtr, i, componentString);
+        public static void InsertPathComponent(AllegroPath path, int i, string componentString) =>
+            AllegroLibrary.AlInsertPathComponent(path.NativeIntPtr, i, componentString);
 
         /// <summary>
         /// Replace the i’th directory component by another string. If the index is negative then count from the right,
@@ -193,8 +194,8 @@ namespace SubC.AllegroDotNet
         /// <param name="path">The path instance.</param>
         /// <param name="i">The index to replace over.</param>
         /// <param name="componentString">The component to replace with.</param>
-        public static void ReplacePathComponent(AllegroPath path, int i, string componentString)
-            => al_replace_path_component(path.NativeIntPtr, i, componentString);
+        public static void ReplacePathComponent(AllegroPath path, int i, string componentString) =>
+            AllegroLibrary.AlReplacePathComponent(path.NativeIntPtr, i, componentString);
 
         /// <summary>
         /// Delete the i’th directory component. If the index is negative then count from the right, i.e. -1 refers to
@@ -202,15 +203,15 @@ namespace SubC.AllegroDotNet
         /// </summary>
         /// <param name="path">The path instance.</param>
         /// <param name="i">The index to delete.</param>
-        public static void RemovePathComponent(AllegroPath path, int i)
-            => al_remove_path_component(path.NativeIntPtr, i);
+        public static void RemovePathComponent(AllegroPath path, int i) =>
+            AllegroLibrary.AlRemovePathComponent(path.NativeIntPtr, i);
 
         /// <summary>
         /// Remove the last directory component, if any.
         /// </summary>
         /// <param name="path">The path instance.</param>
-        public static void DropPathTail(AllegroPath path)
-            => al_drop_path_tail(path.NativeIntPtr);
+        public static void DropPathTail(AllegroPath path) =>
+            AllegroLibrary.AlDropPathTail(path.NativeIntPtr);
 
         /// <summary>
         /// Set the optional filename part of the path. The filename may be NULL, which is equivalent to setting
@@ -218,8 +219,8 @@ namespace SubC.AllegroDotNet
         /// </summary>
         /// <param name="path">The path instance.</param>
         /// <param name="filename">The filename to set.</param>
-        public static void SetPathFilename(AllegroPath path, string filename)
-            => al_set_path_filename(path.NativeIntPtr, filename);
+        public static void SetPathFilename(AllegroPath path, string filename) =>
+            AllegroLibrary.AlSetPathFilename(path.NativeIntPtr, filename);
 
         /// <summary>
         /// Replaces the extension of the path with the given one, i.e. replaces everything from the final dot (‘.’)
@@ -229,8 +230,8 @@ namespace SubC.AllegroDotNet
         /// <param name="path">The path instance.</param>
         /// <param name="extension">The extension to set.</param>
         /// <returns>False if the path contains no filename part, i.e. the filename part is the empty string.</returns>
-        public static bool SetPathExtension(AllegroPath path, string extension)
-            => al_set_path_extension(path.NativeIntPtr, extension);
+        public static bool SetPathExtension(AllegroPath path, string extension) =>
+            AllegroLibrary.AlSetPathExtension(path.NativeIntPtr, extension);
 
         /// <summary>
         /// Convert a path to its string representation, i.e. optional drive, followed by directory components
@@ -245,7 +246,7 @@ namespace SubC.AllegroDotNet
         /// <returns>The string version of the path.</returns>
         public static string PathCStr(AllegroPath path, char delim)
         {
-            var nativeString = al_path_cstr(path.NativeIntPtr, delim);
+            var nativeString = AllegroLibrary.AlPathCstr(path.NativeIntPtr, delim);
             return nativeString == IntPtr.Zero ? null : Marshal.PtrToStringAnsi(nativeString);
         }
 
@@ -262,7 +263,7 @@ namespace SubC.AllegroDotNet
         /// <returns>The string version of the path.</returns>
         public static string PathUStr(AllegroPath path, char delim)
         {
-            var nativeString = al_path_ustr(path.NativeIntPtr, delim);
+            var nativeString = AllegroLibrary.AlPathUstr(path.NativeIntPtr, delim);
             return nativeString == IntPtr.Zero ? null : Marshal.PtrToStringUni(nativeString);
         }
 
@@ -276,81 +277,81 @@ namespace SubC.AllegroDotNet
         /// </summary>
         /// <param name="path">The path instance.</param>
         /// <returns>True if successful, otherwise false.</returns>
-        public static bool MakePathCanonical(AllegroPath path)
-            => al_make_path_canonical(path.NativeIntPtr);
+        public static bool MakePathCanonical(AllegroPath path) =>
+            AllegroLibrary.AlMakePathCanonical(path.NativeIntPtr);
 
         #region P/Invokes
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        public static extern IntPtr al_create_path([MarshalAs(UnmanagedType.LPStr)] string str);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //public static extern IntPtr al_create_path([MarshalAs(UnmanagedType.LPStr)] string str);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        public static extern IntPtr al_create_path_for_directory([MarshalAs(UnmanagedType.LPStr)] string str);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //public static extern IntPtr al_create_path_for_directory([MarshalAs(UnmanagedType.LPStr)] string str);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        public static extern void al_destroy_path(IntPtr path);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //public static extern void al_destroy_path(IntPtr path);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        public static extern IntPtr al_clone_path(IntPtr path);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //public static extern IntPtr al_clone_path(IntPtr path);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        public static extern bool al_join_paths(IntPtr path, IntPtr tail);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //public static extern bool al_join_paths(IntPtr path, IntPtr tail);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        public static extern bool al_rebase_path(IntPtr head, IntPtr tail);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //public static extern bool al_rebase_path(IntPtr head, IntPtr tail);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        public static extern IntPtr al_get_path_drive(IntPtr path);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //public static extern IntPtr al_get_path_drive(IntPtr path);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        public static extern int al_get_path_num_components(IntPtr path);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //public static extern int al_get_path_num_components(IntPtr path);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        public static extern IntPtr al_get_path_component(IntPtr path, int i);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //public static extern IntPtr al_get_path_component(IntPtr path, int i);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        public static extern IntPtr al_get_path_tail(IntPtr path);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //public static extern IntPtr al_get_path_tail(IntPtr path);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        public static extern IntPtr al_get_path_filename(IntPtr path);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //public static extern IntPtr al_get_path_filename(IntPtr path);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        public static extern IntPtr al_get_path_basename(IntPtr path);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //public static extern IntPtr al_get_path_basename(IntPtr path);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        public static extern IntPtr al_get_path_extension(IntPtr path);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //public static extern IntPtr al_get_path_extension(IntPtr path);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        public static extern void al_set_path_drive(IntPtr path, [MarshalAs(UnmanagedType.LPStr)] string drive);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //public static extern void al_set_path_drive(IntPtr path, [MarshalAs(UnmanagedType.LPStr)] string drive);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        public static extern void al_append_path_component(IntPtr path, [MarshalAs(UnmanagedType.LPStr)] string s);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //public static extern void al_append_path_component(IntPtr path, [MarshalAs(UnmanagedType.LPStr)] string s);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        public static extern void al_insert_path_component(IntPtr path, int i, [MarshalAs(UnmanagedType.LPStr)] string s);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //public static extern void al_insert_path_component(IntPtr path, int i, [MarshalAs(UnmanagedType.LPStr)] string s);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        public static extern void al_replace_path_component(IntPtr path, int i, [MarshalAs(UnmanagedType.LPStr)] string s);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //public static extern void al_replace_path_component(IntPtr path, int i, [MarshalAs(UnmanagedType.LPStr)] string s);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        public static extern void al_remove_path_component(IntPtr path, int i);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //public static extern void al_remove_path_component(IntPtr path, int i);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        public static extern void al_drop_path_tail(IntPtr path);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //public static extern void al_drop_path_tail(IntPtr path);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        public static extern void al_set_path_filename(IntPtr path, [MarshalAs(UnmanagedType.LPStr)] string filename);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //public static extern void al_set_path_filename(IntPtr path, [MarshalAs(UnmanagedType.LPStr)] string filename);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        public static extern bool al_set_path_extension(IntPtr path, [MarshalAs(UnmanagedType.LPStr)] string extension);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //public static extern bool al_set_path_extension(IntPtr path, [MarshalAs(UnmanagedType.LPStr)] string extension);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        public static extern IntPtr al_path_cstr(IntPtr path, char delim);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //public static extern IntPtr al_path_cstr(IntPtr path, char delim);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        public static extern IntPtr al_path_ustr(IntPtr path, char delim);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //public static extern IntPtr al_path_ustr(IntPtr path, char delim);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        public static extern bool al_make_path_canonical(IntPtr path);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //public static extern bool al_make_path_canonical(IntPtr path);
         #endregion
     }
 }

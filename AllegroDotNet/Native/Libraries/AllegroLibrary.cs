@@ -689,6 +689,128 @@ namespace SubC.AllegroDotNet.Native.Libraries
             NativeLibrary.LoadNativeFunction<al_set_render_state>(_nativeAllegroLibrary, "al_set_render_state");
         #endregion
 
+        #region Path structures
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_create_path([MarshalAs(UnmanagedType.LPStr)] string str);
+        public static al_create_path AlCreatePath =
+            NativeLibrary.LoadNativeFunction<al_create_path>(_nativeAllegroLibrary, "al_create_path");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_create_path_for_directory([MarshalAs(UnmanagedType.LPStr)] string str);
+        public static al_create_path_for_directory AlCreatePathForDirectory =
+            NativeLibrary.LoadNativeFunction<al_create_path_for_directory>(_nativeAllegroLibrary, "al_create_path_for_directory");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_destroy_path(IntPtr path);
+        public static al_destroy_path AlDestroyPath =
+            NativeLibrary.LoadNativeFunction<al_destroy_path>(_nativeAllegroLibrary, "al_destroy_path");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_clone_path(IntPtr path);
+        public static al_clone_path AlClonePath =
+            NativeLibrary.LoadNativeFunction<al_clone_path>(_nativeAllegroLibrary, "al_clone_path");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_join_paths(IntPtr path, IntPtr tail);
+        public static al_join_paths AlJoinPaths =
+            NativeLibrary.LoadNativeFunction<al_join_paths>(_nativeAllegroLibrary, "al_join_paths");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_rebase_path(IntPtr head, IntPtr tail);
+        public static al_rebase_path AlRebasePath =
+            NativeLibrary.LoadNativeFunction<al_rebase_path>(_nativeAllegroLibrary, "al_rebase_path");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_get_path_drive(IntPtr path);
+        public static al_get_path_drive AlGetPathDrive =
+            NativeLibrary.LoadNativeFunction<al_get_path_drive>(_nativeAllegroLibrary, "al_get_path_drive");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate int al_get_path_num_components(IntPtr path);
+        public static al_get_path_num_components AlGetPathNumComponents =
+            NativeLibrary.LoadNativeFunction<al_get_path_num_components>(_nativeAllegroLibrary, "al_get_path_num_components");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_get_path_component(IntPtr path, int i);
+        public static al_get_path_component AlGetPathComponent =
+            NativeLibrary.LoadNativeFunction<al_get_path_component>(_nativeAllegroLibrary, "al_get_path_component");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_get_path_tail(IntPtr path);
+        public static al_get_path_tail AlGetPathTail =
+            NativeLibrary.LoadNativeFunction<al_get_path_tail>(_nativeAllegroLibrary, "al_get_path_tail");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_get_path_filename(IntPtr path);
+        public static al_get_path_filename AlGetPathFilename =
+            NativeLibrary.LoadNativeFunction<al_get_path_filename>(_nativeAllegroLibrary, "al_get_path_filename");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_get_path_basename(IntPtr path);
+        public static al_get_path_basename AlGetPathBasename =
+            NativeLibrary.LoadNativeFunction<al_get_path_basename>(_nativeAllegroLibrary, "al_get_path_basename");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_get_path_extension(IntPtr path);
+        public static al_get_path_extension AlGetPathExtension =
+            NativeLibrary.LoadNativeFunction<al_get_path_extension>(_nativeAllegroLibrary, "al_get_path_extension");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_set_path_drive(IntPtr path, [MarshalAs(UnmanagedType.LPStr)] string drive);
+        public static al_set_path_drive AlSetPathDrive =
+            NativeLibrary.LoadNativeFunction<al_set_path_drive>(_nativeAllegroLibrary, "al_set_path_drive");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_append_path_component(IntPtr path, [MarshalAs(UnmanagedType.LPStr)] string s);
+        public static al_append_path_component AlAppendPathComponent =
+            NativeLibrary.LoadNativeFunction<al_append_path_component>(_nativeAllegroLibrary, "al_append_path_component");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_insert_path_component(IntPtr path, int i, [MarshalAs(UnmanagedType.LPStr)] string s);
+        public static al_insert_path_component AlInsertPathComponent =
+            NativeLibrary.LoadNativeFunction<al_insert_path_component>(_nativeAllegroLibrary, "al_insert_path_component");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_replace_path_component(IntPtr path, int i, [MarshalAs(UnmanagedType.LPStr)] string s);
+        public static al_replace_path_component AlReplacePathComponent =
+            NativeLibrary.LoadNativeFunction<al_replace_path_component>(_nativeAllegroLibrary, "al_replace_path_component");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_remove_path_component(IntPtr path, int i);
+        public static al_remove_path_component AlRemovePathComponent =
+            NativeLibrary.LoadNativeFunction<al_remove_path_component>(_nativeAllegroLibrary, "al_remove_path_component");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_drop_path_tail(IntPtr path);
+        public static al_drop_path_tail AlDropPathTail =
+            NativeLibrary.LoadNativeFunction<al_drop_path_tail>(_nativeAllegroLibrary, "al_drop_path_tail");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_set_path_filename(IntPtr path, [MarshalAs(UnmanagedType.LPStr)] string filename);
+        public static al_set_path_filename AlSetPathFilename =
+            NativeLibrary.LoadNativeFunction<al_set_path_filename>(_nativeAllegroLibrary, "al_set_path_filename");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_set_path_extension(IntPtr path, [MarshalAs(UnmanagedType.LPStr)] string extension);
+        public static al_set_path_extension AlSetPathExtension =
+            NativeLibrary.LoadNativeFunction<al_set_path_extension>(_nativeAllegroLibrary, "al_set_path_extension");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_path_cstr(IntPtr path, char delim);
+        public static al_path_cstr AlPathCstr =
+            NativeLibrary.LoadNativeFunction<al_path_cstr>(_nativeAllegroLibrary, "al_path_cstr");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_path_ustr(IntPtr path, char delim);
+        public static al_path_ustr AlPathUstr =
+            NativeLibrary.LoadNativeFunction<al_path_ustr>(_nativeAllegroLibrary, "al_path_ustr");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_make_path_canonical(IntPtr path);
+        public static al_make_path_canonical AlMakePathCanonical =
+            NativeLibrary.LoadNativeFunction<al_make_path_canonical>(_nativeAllegroLibrary, "al_make_path_canonical");
+        #endregion
+
         #region PhysicsFS integration
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate void al_set_physfs_file_interface();
