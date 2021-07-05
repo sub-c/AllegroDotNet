@@ -1,4 +1,4 @@
-﻿using System.Runtime.InteropServices;
+﻿using SubC.AllegroDotNet.Native.Libraries;
 
 namespace SubC.AllegroDotNet
 {
@@ -27,22 +27,22 @@ namespace SubC.AllegroDotNet
         /// will not be preserved.
         /// </para>
         /// </summary>
-        public static void SetPhysfsFileInterface()
-            => al_set_physfs_file_interface();
+        public static void SetPhysfsFileInterface() =>
+            AllegroLibrary.AlSetPhysfsFileInterface();
 
         /// <summary>
         /// Returns the (compiled) version of the addon, in the same format as al_get_allegro_version.
         /// </summary>
         /// <returns>The (compiled) version of the addon, in the same format as al_get_allegro_version.</returns>
-        public static uint GetAllegroPhysfsVersion()
-            => al_get_allegro_physfs_version();
+        public static uint GetAllegroPhysfsVersion() =>
+            AllegroLibrary.AlGetAllegroPhysfsVersion();
 
         #region P/Invokes
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern void al_set_physfs_file_interface();
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_set_physfs_file_interface();
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern uint al_get_allegro_physfs_version();
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern uint al_get_allegro_physfs_version();
         #endregion
     }
 }

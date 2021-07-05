@@ -689,6 +689,18 @@ namespace SubC.AllegroDotNet.Native.Libraries
             NativeLibrary.LoadNativeFunction<al_set_render_state>(_nativeAllegroLibrary, "al_set_render_state");
         #endregion
 
+        #region PhysicsFS integration
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_set_physfs_file_interface();
+        public static al_set_physfs_file_interface AlSetPhysfsFileInterface =
+            NativeLibrary.LoadNativeFunction<al_set_physfs_file_interface>(_nativeAllegroLibrary, "al_set_physfs_file_interface");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate uint al_get_allegro_physfs_version();
+        public static al_get_allegro_physfs_version AlGetAllegroPhysfsVersion =
+            NativeLibrary.LoadNativeFunction<al_get_allegro_physfs_version>(_nativeAllegroLibrary, "al_get_allegro_physfs_version");
+        #endregion
+
         #region System routines
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate int al_get_allegro_version();
