@@ -7,28 +7,35 @@ namespace SubC.AllegroDotNet.Native.Libraries
     {
         public static IntPtr LoadAllegroLibrary()
         {
+            IntPtr nativeLibrary;
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                return Windows.LoadLibraryW(AlConstants.AllegroMonolithDllFilenameWindows);
+                nativeLibrary = Windows.LoadLibraryW(AlConstants.AllegroMonolithDllFilenameWindows);
             }
-            throw new NotSupportedException("Only Windows is currently supported.");
+            else
+            {
+                throw new NotSupportedException("Only Windows is currently supported.");
+            }
+            return nativeLibrary == IntPtr.Zero
+                ? throw new BadImageFormatException("Could not load/find the Allegro library.")
+                : nativeLibrary;
         }
 
         public static T LoadNativeFunction<T>(IntPtr library, string functionName)
         {
-            IntPtr functionPointer;
+            IntPtr nativeFunction;
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                functionPointer = Windows.GetProcAddress(library, functionName);
+                nativeFunction = Windows.GetProcAddress(library, functionName);
             }
             else
             {
                 throw new NotSupportedException("Only Windows is currently supported.");
             }
 
-            return functionPointer == IntPtr.Zero
+            return nativeFunction == IntPtr.Zero
                 ? throw new EntryPointNotFoundException($"Could not load/find the function \"{functionName}\".")
-                : Marshal.GetDelegateForFunctionPointer<T>(functionPointer);
+                : Marshal.GetDelegateForFunctionPointer<T>(nativeFunction);
         }
 
         private static class Windows
