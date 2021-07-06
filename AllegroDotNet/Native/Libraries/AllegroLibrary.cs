@@ -1045,6 +1045,28 @@ namespace SubC.AllegroDotNet.Native.Libraries
             NativeLibrary.LoadNativeFunction<al_get_allegro_physfs_version>(_nativeAllegroLibrary, "al_get_allegro_physfs_version");
         #endregion
 
+        #region State routines
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_restore_state(ref NativeState state);
+        public static al_restore_state AlRestoreState =
+            NativeLibrary.LoadNativeFunction<al_restore_state>(_nativeAllegroLibrary, "al_restore_state");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_store_state(ref NativeState state, int flags);
+        public static al_store_state AlStoreState =
+            NativeLibrary.LoadNativeFunction<al_store_state>(_nativeAllegroLibrary, "al_store_state");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate int al_get_errno();
+        public static al_get_errno AlGetErrno =
+            NativeLibrary.LoadNativeFunction<al_get_errno>(_nativeAllegroLibrary, "al_get_errno");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_set_errno(int errnum);
+        public static al_set_errno AlSetErrno =
+            NativeLibrary.LoadNativeFunction<al_set_errno>(_nativeAllegroLibrary, "al_set_errno");
+        #endregion
+
         #region System routines
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate int al_get_allegro_version();
