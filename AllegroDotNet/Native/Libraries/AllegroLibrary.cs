@@ -664,6 +664,18 @@ namespace SubC.AllegroDotNet.Native.Libraries
             NativeLibrary.LoadNativeFunction<al_get_allegro_ttf_version>(_nativeAllegroLibrary, "al_get_allegro_ttf_version");
         #endregion
 
+        #region Fullscreen modes
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_get_display_mode(int index, ref NativeDisplayMode mode);
+        public static al_get_display_mode AlGetDisplayMode =
+            NativeLibrary.LoadNativeFunction<al_get_display_mode>(_nativeAllegroLibrary, "al_get_display_mode");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate int al_get_num_display_modes();
+        public static al_get_num_display_modes AlGetNumDisplayModes =
+            NativeLibrary.LoadNativeFunction<al_get_num_display_modes>(_nativeAllegroLibrary, "al_get_num_display_modes");
+        #endregion
+
         #region Graphics routines
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate NativeAllegroColor al_map_rgb(byte r, byte g, byte b);
@@ -1109,6 +1121,28 @@ namespace SubC.AllegroDotNet.Native.Libraries
         public delegate void al_set_render_state(int state, int value);
         public static al_set_render_state AlSetRenderState =
             NativeLibrary.LoadNativeFunction<al_set_render_state>(_nativeAllegroLibrary, "al_set_render_state");
+        #endregion
+
+        #region Image I/O addon
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_init_image_addon();
+        public static al_init_image_addon AlInitImageAddon =
+            NativeLibrary.LoadNativeFunction<al_init_image_addon>(_nativeAllegroLibrary, "al_init_image_addon");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_is_image_addon_initialized();
+        public static al_is_image_addon_initialized AlIsImageAddonInitialized =
+            NativeLibrary.LoadNativeFunction<al_is_image_addon_initialized>(_nativeAllegroLibrary, "al_is_image_addon_initialized");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_shutdown_image_addon();
+        public static al_shutdown_image_addon AlShutdownImageAddon =
+            NativeLibrary.LoadNativeFunction<al_shutdown_image_addon>(_nativeAllegroLibrary, "al_shutdown_image_addon");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate uint al_get_allegro_image_version();
+        public static al_get_allegro_image_version AlGetAllegroImageVersion =
+            NativeLibrary.LoadNativeFunction<al_get_allegro_image_version>(_nativeAllegroLibrary, "al_get_allegro_image_version");
         #endregion
 
         #region Path structures
