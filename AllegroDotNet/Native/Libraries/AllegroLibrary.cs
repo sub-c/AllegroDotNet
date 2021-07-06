@@ -335,6 +335,113 @@ namespace SubC.AllegroDotNet.Native.Libraries
             NativeLibrary.LoadNativeFunction<al_clipboard_has_text>(_nativeAllegroLibrary, "al_clipboard_has_text");
         #endregion
 
+        #region Event system and events
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_create_event_queue();
+        public static al_create_event_queue AlCreateEventQueue =
+            NativeLibrary.LoadNativeFunction<al_create_event_queue>(_nativeAllegroLibrary, "al_create_event_queue");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_destroy_event_queue(IntPtr queue);
+        public static al_destroy_event_queue AlDestroyEventQueue =
+            NativeLibrary.LoadNativeFunction<al_destroy_event_queue>(_nativeAllegroLibrary, "al_destroy_event_queue");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_register_event_source(IntPtr queue, IntPtr source);
+        public static al_register_event_source AlRegisterEventSource =
+            NativeLibrary.LoadNativeFunction<al_register_event_source>(_nativeAllegroLibrary, "al_register_event_source");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_unregister_event_source(IntPtr queue, IntPtr source);
+        public static al_unregister_event_source AlUnregisterEventSource =
+            NativeLibrary.LoadNativeFunction<al_unregister_event_source>(_nativeAllegroLibrary, "al_unregister_event_source");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_is_event_source_registered(IntPtr queue, IntPtr source);
+        public static al_is_event_source_registered AlIsEventSourceRegistered =
+            NativeLibrary.LoadNativeFunction<al_is_event_source_registered>(_nativeAllegroLibrary, "al_is_event_source_registered");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_pause_event_queue(IntPtr queue, bool pause);
+        public static al_pause_event_queue AlPauseEventQueue =
+            NativeLibrary.LoadNativeFunction<al_pause_event_queue>(_nativeAllegroLibrary, "al_pause_event_queue");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_is_event_queue_paused(IntPtr queue);
+        public static al_is_event_queue_paused AlIsEventQueuePaused =
+            NativeLibrary.LoadNativeFunction<al_is_event_queue_paused>(_nativeAllegroLibrary, "al_is_event_queue_paused");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_is_event_queue_empty(IntPtr queue);
+        public static al_is_event_queue_empty AlIsEventQueueEmpty =
+            NativeLibrary.LoadNativeFunction<al_is_event_queue_empty>(_nativeAllegroLibrary, "al_is_event_queue_empty");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_get_next_event(IntPtr queue, ref NativeAllegroEvent retEvent);
+        public static al_get_next_event AlGetNextEvent =
+            NativeLibrary.LoadNativeFunction<al_get_next_event>(_nativeAllegroLibrary, "al_get_next_event");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_peek_next_event(IntPtr queue, ref NativeAllegroEvent retEvent);
+        public static al_peek_next_event AlPeekNextEvent =
+            NativeLibrary.LoadNativeFunction<al_peek_next_event>(_nativeAllegroLibrary, "al_peek_next_event");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_drop_next_event(IntPtr queue);
+        public static al_drop_next_event AlDropNextEvent =
+            NativeLibrary.LoadNativeFunction<al_drop_next_event>(_nativeAllegroLibrary, "al_drop_next_event");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_flush_event_queue(IntPtr queue);
+        public static al_flush_event_queue AlFlushEventQueue =
+            NativeLibrary.LoadNativeFunction<al_flush_event_queue>(_nativeAllegroLibrary, "al_flush_event_queue");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_wait_for_event(IntPtr queue, ref NativeAllegroEvent retEvent);
+        public static al_wait_for_event AlWaitForEvent =
+            NativeLibrary.LoadNativeFunction<al_wait_for_event>(_nativeAllegroLibrary, "al_wait_for_event");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_wait_for_event_timed(IntPtr queue, ref NativeAllegroEvent retEvent, float seconds);
+        public static al_wait_for_event_timed AlWaitForEventTimed =
+            NativeLibrary.LoadNativeFunction<al_wait_for_event_timed>(_nativeAllegroLibrary, "al_wait_for_event_timed");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_wait_for_event_until(IntPtr queue, ref NativeAllegroEvent retEvent, ref NativeAllegroTimeout timeout);
+        public static al_wait_for_event_until AlWaitForEventUntil =
+            NativeLibrary.LoadNativeFunction<al_wait_for_event_until>(_nativeAllegroLibrary, "al_wait_for_event_until");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_init_user_event_source(IntPtr src);
+        public static al_init_user_event_source AlInitUserEventSource =
+            NativeLibrary.LoadNativeFunction<al_init_user_event_source>(_nativeAllegroLibrary, "al_init_user_event_source");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_destroy_user_event_source(IntPtr src);
+        public static al_destroy_user_event_source AlDestroyUserEventSource =
+            NativeLibrary.LoadNativeFunction<al_destroy_user_event_source>(_nativeAllegroLibrary, "al_destroy_user_event_source");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_emit_user_event(IntPtr source, ref NativeAllegroEvent allegroEvent, IntPtr dtor);
+        public static al_emit_user_event AlEmitUserEvent =
+            NativeLibrary.LoadNativeFunction<al_emit_user_event>(_nativeAllegroLibrary, "al_emit_user_event");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_unref_user_event(IntPtr source);
+        public static al_unref_user_event AlUnrefUserEvent =
+            NativeLibrary.LoadNativeFunction<al_unref_user_event>(_nativeAllegroLibrary, "al_unref_user_event");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_get_event_source_data(IntPtr source);
+        public static al_get_event_source_data AlGetEventSourceData =
+            NativeLibrary.LoadNativeFunction<al_get_event_source_data>(_nativeAllegroLibrary, "al_get_event_source_data");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_set_event_source_data(IntPtr source, IntPtr data);
+        public static al_set_event_source_data AlSetEventSourceData =
+            NativeLibrary.LoadNativeFunction<al_set_event_source_data>(_nativeAllegroLibrary, "al_set_event_source_data");
+        #endregion
+
         #region Font addons
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate bool al_init_font_addon();

@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 using SubC.AllegroDotNet.Models;
-using SubC.AllegroDotNet.Native;
+using SubC.AllegroDotNet.Native.Libraries;
 
 namespace SubC.AllegroDotNet
 {
@@ -16,7 +15,7 @@ namespace SubC.AllegroDotNet
         /// <returns>A event queue, or null on error.</returns>
         public static AllegroEventQueue CreateEventQueue()
         {
-            var eventQueue = al_create_event_queue();
+            var eventQueue = AllegroLibrary.AlCreateEventQueue();
             return eventQueue == IntPtr.Zero ? null : new AllegroEventQueue { NativeIntPtr = eventQueue };
         }
 
@@ -25,8 +24,8 @@ namespace SubC.AllegroDotNet
         /// automatically unregistered before the queue is destroyed.
         /// </summary>
         /// <param name="eventQueue">The event queue to destroy.</param>
-        public static void DestroyEventQueue(AllegroEventQueue eventQueue)
-            => al_destroy_event_queue(eventQueue.NativeIntPtr);
+        public static void DestroyEventQueue(AllegroEventQueue eventQueue) =>
+            AllegroLibrary.AlDestroyEventQueue(eventQueue.NativeIntPtr);
 
         /// <summary>
         /// Register the event source with the event queue specified. An event source may be registered with any
@@ -35,8 +34,8 @@ namespace SubC.AllegroDotNet
         /// </summary>
         /// <param name="eventQueue">The event queue to register the event source with.</param>
         /// <param name="eventSource">The event source.</param>
-        public static void RegisterEventSource(AllegroEventQueue eventQueue, AllegroEventSource eventSource)
-            => al_register_event_source(eventQueue.NativeIntPtr, eventSource.NativeIntPtr);
+        public static void RegisterEventSource(AllegroEventQueue eventQueue, AllegroEventSource eventSource) =>
+            AllegroLibrary.AlRegisterEventSource(eventQueue.NativeIntPtr, eventSource.NativeIntPtr);
 
         /// <summary>
         /// Unregister an event source with an event queue. If the event source is not actually registered with the
@@ -48,8 +47,8 @@ namespace SubC.AllegroDotNet
         /// </summary>
         /// <param name="eventQueue">The event queue to unregister the event source with.</param>
         /// <param name="eventSource">The event source.</param>
-        public static void UnregisterEventSource(AllegroEventQueue eventQueue, AllegroEventSource eventSource)
-            => al_unregister_event_source(eventQueue.NativeIntPtr, eventSource.NativeIntPtr);
+        public static void UnregisterEventSource(AllegroEventQueue eventQueue, AllegroEventSource eventSource) =>
+            AllegroLibrary.AlUnregisterEventSource(eventQueue.NativeIntPtr, eventSource.NativeIntPtr);
 
         /// <summary>
         /// Return true if the event source is registered.
@@ -57,8 +56,8 @@ namespace SubC.AllegroDotNet
         /// <param name="eventQueue">The event queue to check if registered in.</param>
         /// <param name="eventSource">The event source to check if registered with.</param>
         /// <returns>Return true if the event source is registered, otherwise false.</returns>
-        public static bool IsEventSourceRegistered(AllegroEventQueue eventQueue, AllegroEventSource eventSource)
-            => al_is_event_source_registered(eventQueue.NativeIntPtr, eventSource.NativeIntPtr);
+        public static bool IsEventSourceRegistered(AllegroEventQueue eventQueue, AllegroEventSource eventSource) =>
+            AllegroLibrary.AlIsEventSourceRegistered(eventQueue.NativeIntPtr, eventSource.NativeIntPtr);
 
         /// <summary>
         /// Pause or resume accepting new events into the event queue (to resume, pass <c>false</c> for pause). Events
@@ -71,24 +70,24 @@ namespace SubC.AllegroDotNet
         /// </summary>
         /// <param name="eventQueue">The event queue to pause.</param>
         /// <param name="pause">True to pause the queue, false to resume.</param>
-        public static void PauseEventQueue(AllegroEventQueue eventQueue, bool pause)
-            => al_pause_event_queue(eventQueue.NativeIntPtr, pause);
+        public static void PauseEventQueue(AllegroEventQueue eventQueue, bool pause) =>
+            AllegroLibrary.AlPauseEventQueue(eventQueue.NativeIntPtr, pause);
 
         /// <summary>
         /// Return true if the event queue is paused.
         /// </summary>
         /// <param name="eventQueue">The event queue to check if paused.</param>
         /// <returns>Return true if the event queue is paused, otherwise false.</returns>
-        public static bool IsEventQueuePaused(AllegroEventQueue eventQueue)
-            => al_is_event_queue_paused(eventQueue.NativeIntPtr);
+        public static bool IsEventQueuePaused(AllegroEventQueue eventQueue) =>
+            AllegroLibrary.AlIsEventQueuePaused(eventQueue.NativeIntPtr);
 
         /// <summary>
         /// Return true if the event queue specified is currently empty.
         /// </summary>
         /// <param name="eventQueue">The event queue to check if empty.</param>
         /// <returns>Return true if the event queue specified is currently empty, otherwise false.</returns>
-        public static bool IsEventQueueEmpty(AllegroEventQueue eventQueue)
-            => al_is_event_queue_empty(eventQueue.NativeIntPtr);
+        public static bool IsEventQueueEmpty(AllegroEventQueue eventQueue) =>
+            AllegroLibrary.AlIsEventQueueEmpty(eventQueue.NativeIntPtr);
 
         /// <summary>
         /// Take the next event out of the event queue specified, and copy the contents into <c>retEvent</c>, returning
@@ -98,8 +97,8 @@ namespace SubC.AllegroDotNet
         /// <param name="eventQueue">The event queue to get the next event from.</param>
         /// <param name="retEvent">The event to populate with the next event.</param>
         /// <returns>True if an event was returned, false otherwise.</returns>
-        public static bool GetNextEvent(AllegroEventQueue eventQueue, ref AllegroEvent retEvent)
-            => al_get_next_event(eventQueue.NativeIntPtr, ref retEvent.NativeEvent);
+        public static bool GetNextEvent(AllegroEventQueue eventQueue, ref AllegroEvent retEvent) =>
+            AllegroLibrary.AlGetNextEvent(eventQueue.NativeIntPtr, ref retEvent.NativeEvent);
 
         /// <summary>
         /// Copy the contents of the next event in the event queue specified into <c>retEvent</c> and return true. The
@@ -109,8 +108,8 @@ namespace SubC.AllegroDotNet
         /// <param name="eventQueue">The event queue to peek the next event from.</param>
         /// <param name="retEvent">The event to populate with the peeked event.</param>
         /// <returns>True if an event was peeked, otherwise false.</returns>
-        public static bool PeekNextEvent(AllegroEventQueue eventQueue, ref AllegroEvent retEvent)
-            => al_peek_next_event(eventQueue.NativeIntPtr, ref retEvent.NativeEvent);
+        public static bool PeekNextEvent(AllegroEventQueue eventQueue, ref AllegroEvent retEvent) =>
+            AllegroLibrary.AlPeekNextEvent(eventQueue.NativeIntPtr, ref retEvent.NativeEvent);
 
         /// <summary>
         /// Drop (remove) the next event from the queue. If the queue is empty, nothing happens. Returns true if an
@@ -118,15 +117,15 @@ namespace SubC.AllegroDotNet
         /// </summary>
         /// <param name="eventQueue">The event queue to drop the next even from.</param>
         /// <returns>True if an event was dropped, otherwise false.</returns>
-        public static bool DropNextEvent(AllegroEventQueue eventQueue)
-            => al_drop_next_event(eventQueue.NativeIntPtr);
+        public static bool DropNextEvent(AllegroEventQueue eventQueue) =>
+            AllegroLibrary.AlDropNextEvent(eventQueue.NativeIntPtr);
 
         /// <summary>
         /// Drops all events, if any, from the queue.
         /// </summary>
         /// <param name="eventQueue">The event queue to drop all events from.</param>
-        public static void FlushEventQueue(AllegroEventQueue eventQueue)
-            => al_flush_event_queue(eventQueue.NativeIntPtr);
+        public static void FlushEventQueue(AllegroEventQueue eventQueue) =>
+            AllegroLibrary.AlFlushEventQueue(eventQueue.NativeIntPtr);
 
         /// <summary>
         /// Wait until the event queue specified is non-empty. If <c>retEvent</c> is not null, the first event in the
@@ -135,8 +134,8 @@ namespace SubC.AllegroDotNet
         /// </summary>
         /// <param name="eventQueue">The event queue to wait for an event from.</param>
         /// <param name="retEvent">The next event in the event queue.</param>
-        public static void WaitForEvent(AllegroEventQueue eventQueue, AllegroEvent retEvent)
-            => al_wait_for_event(eventQueue.NativeIntPtr, ref retEvent.NativeEvent);
+        public static void WaitForEvent(AllegroEventQueue eventQueue, AllegroEvent retEvent) =>
+            AllegroLibrary.AlWaitForEvent(eventQueue.NativeIntPtr, ref retEvent.NativeEvent);
 
         /// <summary>
         /// Wait until the event queue specified is non-empty. If <c>retEvent</c> is not null, the first event
@@ -154,8 +153,8 @@ namespace SubC.AllegroDotNet
         /// <param name="retEvent">The returned event from the event queue.</param>
         /// <param name="seconds">The approximate seconds to wait for an event.</param>
         /// <returns>True if the call did not time out, otherwise false.</returns>
-        public static bool WaitForEventTimed(AllegroEventQueue eventQueue, AllegroEvent retEvent, float seconds)
-            => al_wait_for_event_timed(eventQueue.NativeIntPtr, ref retEvent.NativeEvent, seconds);
+        public static bool WaitForEventTimed(AllegroEventQueue eventQueue, AllegroEvent retEvent, float seconds) =>
+            AllegroLibrary.AlWaitForEventTimed(eventQueue.NativeIntPtr, ref retEvent.NativeEvent, seconds);
 
         /// <summary>
         /// Wait until the event queue specified is non-empty. If <c>retEvent</c> is not null, the first event in the
@@ -173,8 +172,8 @@ namespace SubC.AllegroDotNet
         /// <param name="retEvent">The returned event from the event queue.</param>
         /// <param name="timeout">The approximate timeout to wait for an event.</param>
         /// <returns>True if the call did not time out, otherwise false.</returns>
-        public static bool WaitForEventUntil(AllegroEventQueue eventQueue, AllegroEvent retEvent, ref AllegroTimeout timeout)
-            => al_wait_for_event_until(eventQueue.NativeIntPtr, ref retEvent.NativeEvent, ref timeout.NativeTimeout);
+        public static bool WaitForEventUntil(AllegroEventQueue eventQueue, AllegroEvent retEvent, ref AllegroTimeout timeout) =>
+            AllegroLibrary.AlWaitForEventUntil(eventQueue.NativeIntPtr, ref retEvent.NativeEvent, ref timeout.NativeTimeout);
 
         /// <summary>
         /// Initialise an event source for emitting user events. The space for the event source must already have
@@ -272,68 +271,68 @@ namespace SubC.AllegroDotNet
         }
 
         #region P/Invokes
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern IntPtr al_create_event_queue();
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern IntPtr al_create_event_queue();
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern void al_destroy_event_queue(IntPtr queue);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_destroy_event_queue(IntPtr queue);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern void al_register_event_source(IntPtr queue, IntPtr source);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_register_event_source(IntPtr queue, IntPtr source);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern void al_unregister_event_source(IntPtr queue, IntPtr source);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_unregister_event_source(IntPtr queue, IntPtr source);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern bool al_is_event_source_registered(IntPtr queue, IntPtr source);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_is_event_source_registered(IntPtr queue, IntPtr source);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern void al_pause_event_queue(IntPtr queue, bool pause);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_pause_event_queue(IntPtr queue, bool pause);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern bool al_is_event_queue_paused(IntPtr queue);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_is_event_queue_paused(IntPtr queue);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern bool al_is_event_queue_empty(IntPtr queue);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_is_event_queue_empty(IntPtr queue);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern bool al_get_next_event(IntPtr queue, ref NativeAllegroEvent retEvent);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_get_next_event(IntPtr queue, ref NativeAllegroEvent retEvent);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern bool al_peek_next_event(IntPtr queue, ref NativeAllegroEvent retEvent);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_peek_next_event(IntPtr queue, ref NativeAllegroEvent retEvent);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern bool al_drop_next_event(IntPtr queue);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_drop_next_event(IntPtr queue);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern void al_flush_event_queue(IntPtr queue);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_flush_event_queue(IntPtr queue);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern void al_wait_for_event(IntPtr queue, ref NativeAllegroEvent retEvent);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_wait_for_event(IntPtr queue, ref NativeAllegroEvent retEvent);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern bool al_wait_for_event_timed(IntPtr queue, ref NativeAllegroEvent retEvent, float seconds);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_wait_for_event_timed(IntPtr queue, ref NativeAllegroEvent retEvent, float seconds);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern bool al_wait_for_event_until(IntPtr queue, ref NativeAllegroEvent retEvent, ref NativeAllegroTimeout timeout);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_wait_for_event_until(IntPtr queue, ref NativeAllegroEvent retEvent, ref NativeAllegroTimeout timeout);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern void al_init_user_event_source(IntPtr src);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_init_user_event_source(IntPtr src);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern void al_destroy_user_event_source(IntPtr src);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_destroy_user_event_source(IntPtr src);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern bool al_emit_user_event(IntPtr source, ref NativeAllegroEvent allegroEvent, IntPtr dtor);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_emit_user_event(IntPtr source, ref NativeAllegroEvent allegroEvent, IntPtr dtor);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern void al_unref_user_event(IntPtr source);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_unref_user_event(IntPtr source);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern IntPtr al_get_event_source_data(IntPtr source);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern IntPtr al_get_event_source_data(IntPtr source);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern void al_set_event_source_data(IntPtr source, IntPtr data);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_set_event_source_data(IntPtr source, IntPtr data);
         #endregion
     }
 }
