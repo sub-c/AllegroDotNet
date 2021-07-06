@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 using SubC.AllegroDotNet.Enums;
 using SubC.AllegroDotNet.Models;
-using SubC.AllegroDotNet.Native;
+using SubC.AllegroDotNet.Native.Libraries;
 
 namespace SubC.AllegroDotNet
 {
@@ -33,7 +33,7 @@ namespace SubC.AllegroDotNet
         /// <returns>The shader object on success. Otherwise, returns NULL.</returns>
         public static AllegroShader CreateShader(ShaderPlatform platform)
         {
-            var nativeShader = al_create_shader(platform);
+            var nativeShader = AllegroLibrary.AlCreateShader((int)platform);
             return nativeShader == IntPtr.Zero ? null : new AllegroShader { NativeIntPtr = nativeShader };
         }
 
@@ -54,8 +54,8 @@ namespace SubC.AllegroDotNet
         /// <param name="type">The shader type.</param>
         /// <param name="source">The source.</param>
         /// <returns>True on success, otherwise false.</returns>
-        public static bool AttachShaderSource(AllegroShader shader, ShaderType type, string source)
-            => al_attach_shader_source(shader.NativeIntPtr, type, source);
+        public static bool AttachShaderSource(AllegroShader shader, ShaderType type, string source) =>
+            AllegroLibrary.AlAttachShaderSource(shader.NativeIntPtr, (int)type, source);
 
         /// <summary>
         /// Like al_attach_shader_source but reads the source code for the shader from the named file.
@@ -67,8 +67,8 @@ namespace SubC.AllegroDotNet
         /// True on success and false on error, in which case the error log is updated. The error log can be retrieved
         /// with al_get_shader_log.
         /// </returns>
-        public static bool AttachShaderSourceFile(AllegroShader shader, ShaderType type, string filename)
-            => al_attach_shader_source_file(shader.NativeIntPtr, type, filename);
+        public static bool AttachShaderSourceFile(AllegroShader shader, ShaderType type, string filename) =>
+            AllegroLibrary.AlAttachShaderSourceFile(shader.NativeIntPtr, type, filename);
 
         /// <summary>
         /// This is required before the shader can be used with al_use_shader. It should be called after successfully
@@ -84,8 +84,8 @@ namespace SubC.AllegroDotNet
         /// </summary>
         /// <param name="shader">The shader.</param>
         /// <returns>True on success, otherwise false.</returns>
-        public static bool BuildShader(AllegroShader shader)
-            => al_build_shader(shader.NativeIntPtr);
+        public static bool BuildShader(AllegroShader shader) =>
+            AllegroLibrary.AlBuildShader(shader.NativeIntPtr);
 
         /// <summary>
         /// Return a read-only string containing the information log for a shader program. The log is updated
@@ -95,7 +95,7 @@ namespace SubC.AllegroDotNet
         /// <returns>String of the information log for a shader program, otherwise never null.</returns>
         public static string GetShaderLog(AllegroShader shader)
         {
-            var nativeString = al_get_shader_log(shader.NativeIntPtr);
+            var nativeString = AllegroLibrary.AlGetShaderLog(shader.NativeIntPtr);
             return nativeString == IntPtr.Zero ? null : Marshal.PtrToStringAnsi(nativeString);
         }
 
@@ -104,8 +104,8 @@ namespace SubC.AllegroDotNet
         /// </summary>
         /// <param name="shader">The shader.</param>
         /// <returns>The shader platform.</returns>
-        public static ShaderPlatform GetShaderPlatform(AllegroShader shader)
-            => al_get_shader_platform(shader.NativeIntPtr);
+        public static ShaderPlatform GetShaderPlatform(AllegroShader shader) =>
+            (ShaderPlatform)AllegroLibrary.AlGetShaderPlatform(shader.NativeIntPtr);
 
         /// <summary>
         /// Uses the shader for subsequent drawing operations on the current target bitmap. Pass NULL to stop
@@ -115,8 +115,8 @@ namespace SubC.AllegroDotNet
         /// <returns>
         /// True on success. Otherwise returns false, e.g. because the shader is incompatible with the target bitmap.
         /// </returns>
-        public static bool UseShader(AllegroShader shader)
-            => al_use_shader(shader.NativeIntPtr);
+        public static bool UseShader(AllegroShader shader) =>
+            AllegroLibrary.AlUseShader(shader.NativeIntPtr);
 
         /// <summary>
         /// Destroy a shader. Any bitmaps which currently use the shader will implicitly stop using the shader. In
@@ -130,8 +130,8 @@ namespace SubC.AllegroDotNet
         /// </para>
         /// </summary>
         /// <param name="shader">The shader to destroy.</param>
-        public static void DestroyShader(AllegroShader shader)
-            => al_destroy_shader(shader.NativeIntPtr);
+        public static void DestroyShader(AllegroShader shader) =>
+            AllegroLibrary.AlDestroyShader(shader.NativeIntPtr);
 
         /// <summary>
         /// Sets a texture sampler uniform and texture unit of the current target bitmap’s shader. The given bitmap
@@ -151,8 +151,8 @@ namespace SubC.AllegroDotNet
         /// <returns>
         /// True on success. Otherwise returns false, e.g. if the uniform by that name does not exist in the shader.
         /// </returns>
-        public static bool SetShaderSampler(string name, AllegroBitmap bitmap, int unit)
-            => al_set_shader_sampler(name, bitmap.NativeIntPtr, unit);
+        public static bool SetShaderSampler(string name, AllegroBitmap bitmap, int unit) =>
+            AllegroLibrary.AlSetShaderSampler(name, bitmap.NativeIntPtr, unit);
 
         /// <summary>
         /// Sets a matrix uniform of the current target bitmap’s shader.
@@ -162,8 +162,8 @@ namespace SubC.AllegroDotNet
         /// <returns>
         /// True on success. Otherwise returns false, e.g. if the uniform by that name does not exist in the shader.
         /// </returns>
-        public static bool SetShaderMatrix(string name, AllegroTransform matrix)
-            => al_set_shader_matrix(name, ref matrix.Native);
+        public static bool SetShaderMatrix(string name, AllegroTransform matrix) =>
+            AllegroLibrary.AlSetShaderMatrix(name, ref matrix.Native);
 
         /// <summary>
         /// Sets an integer uniform of the current target bitmap’s shader.
@@ -173,8 +173,8 @@ namespace SubC.AllegroDotNet
         /// <returns>
         /// True on success. Otherwise returns false, e.g. if the uniform by that name does not exist in the shader.
         /// </returns>
-        public static bool SetShaderInt(string name, int i)
-            => al_set_shader_int(name, i);
+        public static bool SetShaderInt(string name, int i) =>
+            AllegroLibrary.AlSetShaderInt(name, i);
 
         /// <summary>
         /// Sets a float uniform of the target bitmap’s shader.
@@ -184,8 +184,8 @@ namespace SubC.AllegroDotNet
         /// <returns>
         /// True on success. Otherwise returns false, e.g. if the uniform by that name does not exist in the shader.
         /// </returns>
-        public static bool SetShaderFloat(string name, float f)
-            => al_set_shader_float(name, f);
+        public static bool SetShaderFloat(string name, float f) =>
+            AllegroLibrary.AlSetShaderFloat(name, f);
 
         /// <summary>
         /// Sets a boolean uniform of the target bitmap’s shader.
@@ -195,8 +195,8 @@ namespace SubC.AllegroDotNet
         /// <returns>
         /// True on success. Otherwise returns false, e.g. if the uniform by that name does not exist in the shader.
         /// </returns>
-        public static bool SetShaderBool(string name, bool b)
-            => al_set_shader_bool(name, b);
+        public static bool SetShaderBool(string name, bool b) =>
+            AllegroLibrary.AlSetShaderBool(name, b);
 
         /// <summary>
         /// Sets an integer vector array uniform of the current target bitmap’s shader. The ‘num_components’ parameter
@@ -210,8 +210,8 @@ namespace SubC.AllegroDotNet
         /// <returns>
         /// True on success. Otherwise returns false, e.g. if the uniform by that name does not exist in the shader.
         /// </returns>
-        public static bool SetShaderIntVector(string name, int numComponents, ref int i, int numberOfElements)
-            => al_set_shader_int_vector(name, numComponents, ref i, numberOfElements);
+        public static bool SetShaderIntVector(string name, int numComponents, ref int i, int numberOfElements) =>
+            AllegroLibrary.AlSetShaderIntVector(name, numComponents, ref i, numberOfElements);
 
         /// <summary>
         /// Same as al_set_shader_int_vector except all values are float instead of int.
@@ -221,8 +221,8 @@ namespace SubC.AllegroDotNet
         /// <param name="f">The float.</param>
         /// <param name="numberOfElements">The float elements.</param>
         /// <returns>True on success, otherwise false.</returns>
-        public static bool SetShaderFloatVector(string name, int numComponents, ref float f, int numberOfElements)
-            => al_set_shader_float_vector(name, numComponents, ref f, numberOfElements);
+        public static bool SetShaderFloatVector(string name, int numComponents, ref float f, int numberOfElements) =>
+            AllegroLibrary.AlSetShaderFloatVector(name, numComponents, ref f, numberOfElements);
 
         /// <summary>
         /// Returns a string containing the source code to Allegro’s default vertex or pixel shader appropriate for the
@@ -238,58 +238,58 @@ namespace SubC.AllegroDotNet
         /// </returns>
         public static string GetDefaultShaderSource(ShaderPlatform platform, ShaderType type)
         {
-            var nativeString = al_get_default_shader_source(platform, type);
+            var nativeString = AllegroLibrary.AlGetDefaultShaderSource((int)platform, (int)type);
             return nativeString == IntPtr.Zero ? null : Marshal.PtrToStringAnsi(nativeString);
         }
 
         #region P/Invokes
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern IntPtr al_create_shader(ShaderPlatform platform);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern IntPtr al_create_shader(ShaderPlatform platform);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern bool al_attach_shader_source(IntPtr shader, ShaderType type, [MarshalAs(UnmanagedType.LPStr)] string source);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_attach_shader_source(IntPtr shader, ShaderType type, [MarshalAs(UnmanagedType.LPStr)] string source);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern bool al_attach_shader_source_file(IntPtr shader, ShaderType type, [MarshalAs(UnmanagedType.LPStr)] string filename);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_attach_shader_source_file(IntPtr shader, ShaderType type, [MarshalAs(UnmanagedType.LPStr)] string filename);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern bool al_build_shader(IntPtr shader);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_build_shader(IntPtr shader);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern IntPtr al_get_shader_log(IntPtr shader);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern IntPtr al_get_shader_log(IntPtr shader);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern ShaderPlatform al_get_shader_platform(IntPtr shader);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern ShaderPlatform al_get_shader_platform(IntPtr shader);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern bool al_use_shader(IntPtr shader);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_use_shader(IntPtr shader);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern void al_destroy_shader(IntPtr shader);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_destroy_shader(IntPtr shader);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern bool al_set_shader_sampler([MarshalAs(UnmanagedType.LPStr)] string name, IntPtr bitmap, int unit);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_set_shader_sampler([MarshalAs(UnmanagedType.LPStr)] string name, IntPtr bitmap, int unit);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern bool al_set_shader_matrix([MarshalAs(UnmanagedType.LPStr)] string name, ref NativeTransform matrix);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_set_shader_matrix([MarshalAs(UnmanagedType.LPStr)] string name, ref NativeTransform matrix);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern bool al_set_shader_int([MarshalAs(UnmanagedType.LPStr)] string name, int i);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_set_shader_int([MarshalAs(UnmanagedType.LPStr)] string name, int i);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern bool al_set_shader_float([MarshalAs(UnmanagedType.LPStr)] string name, float f);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_set_shader_float([MarshalAs(UnmanagedType.LPStr)] string name, float f);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern bool al_set_shader_bool([MarshalAs(UnmanagedType.LPStr)] string name, bool b);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_set_shader_bool([MarshalAs(UnmanagedType.LPStr)] string name, bool b);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern bool al_set_shader_int_vector([MarshalAs(UnmanagedType.LPStr)] string name, int num_components, ref int i, int num_elems);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_set_shader_int_vector([MarshalAs(UnmanagedType.LPStr)] string name, int num_components, ref int i, int num_elems);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern bool al_set_shader_float_vector([MarshalAs(UnmanagedType.LPStr)] string name, int num_components, ref float f, int num_elems);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_set_shader_float_vector([MarshalAs(UnmanagedType.LPStr)] string name, int num_components, ref float f, int num_elems);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern IntPtr al_get_default_shader_source(ShaderPlatform platform, ShaderType type);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern IntPtr al_get_default_shader_source(ShaderPlatform platform, ShaderType type);
         #endregion
     }
 }

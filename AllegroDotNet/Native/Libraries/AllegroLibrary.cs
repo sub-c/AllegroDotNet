@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using SubC.AllegroDotNet.Enums;
 using SubC.AllegroDotNet.Models;
 
 namespace SubC.AllegroDotNet.Native.Libraries
@@ -1043,6 +1044,88 @@ namespace SubC.AllegroDotNet.Native.Libraries
         public delegate uint al_get_allegro_physfs_version();
         public static al_get_allegro_physfs_version AlGetAllegroPhysfsVersion =
             NativeLibrary.LoadNativeFunction<al_get_allegro_physfs_version>(_nativeAllegroLibrary, "al_get_allegro_physfs_version");
+        #endregion
+
+        #region Shader routines
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_create_shader(int platform);
+        public static al_create_shader AlCreateShader =
+            NativeLibrary.LoadNativeFunction<al_create_shader>(_nativeAllegroLibrary, "al_create_shader");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_attach_shader_source(IntPtr shader, int type, [MarshalAs(UnmanagedType.LPStr)] string source);
+        public static al_attach_shader_source AlAttachShaderSource =
+            NativeLibrary.LoadNativeFunction<al_attach_shader_source>(_nativeAllegroLibrary, "al_attach_shader_source");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_attach_shader_source_file(IntPtr shader, ShaderType type, [MarshalAs(UnmanagedType.LPStr)] string filename);
+        public static al_attach_shader_source_file AlAttachShaderSourceFile =
+            NativeLibrary.LoadNativeFunction<al_attach_shader_source_file>(_nativeAllegroLibrary, "al_attach_shader_source_file");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_build_shader(IntPtr shader);
+        public static al_build_shader AlBuildShader =
+            NativeLibrary.LoadNativeFunction<al_build_shader>(_nativeAllegroLibrary, "al_build_shader");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_get_shader_log(IntPtr shader);
+        public static al_get_shader_log AlGetShaderLog =
+            NativeLibrary.LoadNativeFunction<al_get_shader_log>(_nativeAllegroLibrary, "al_get_shader_log");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate int al_get_shader_platform(IntPtr shader);
+        public static al_get_shader_platform AlGetShaderPlatform =
+            NativeLibrary.LoadNativeFunction<al_get_shader_platform>(_nativeAllegroLibrary, "al_get_shader_platform");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_use_shader(IntPtr shader);
+        public static al_use_shader AlUseShader =
+            NativeLibrary.LoadNativeFunction<al_use_shader>(_nativeAllegroLibrary, "al_use_shader");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_destroy_shader(IntPtr shader);
+        public static al_destroy_shader AlDestroyShader =
+            NativeLibrary.LoadNativeFunction<al_destroy_shader>(_nativeAllegroLibrary, "al_destroy_shader");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_set_shader_sampler([MarshalAs(UnmanagedType.LPStr)] string name, IntPtr bitmap, int unit);
+        public static al_set_shader_sampler AlSetShaderSampler =
+            NativeLibrary.LoadNativeFunction<al_set_shader_sampler>(_nativeAllegroLibrary, "al_set_shader_sampler");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_set_shader_matrix([MarshalAs(UnmanagedType.LPStr)] string name, ref NativeTransform matrix);
+        public static al_set_shader_matrix AlSetShaderMatrix =
+            NativeLibrary.LoadNativeFunction<al_set_shader_matrix>(_nativeAllegroLibrary, "al_set_shader_matrix");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_set_shader_int([MarshalAs(UnmanagedType.LPStr)] string name, int i);
+        public static al_set_shader_int AlSetShaderInt =
+            NativeLibrary.LoadNativeFunction<al_set_shader_int>(_nativeAllegroLibrary, "al_set_shader_int");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_set_shader_float([MarshalAs(UnmanagedType.LPStr)] string name, float f);
+        public static al_set_shader_float AlSetShaderFloat =
+            NativeLibrary.LoadNativeFunction<al_set_shader_float>(_nativeAllegroLibrary, "al_set_shader_float");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_set_shader_bool([MarshalAs(UnmanagedType.LPStr)] string name, bool b);
+        public static al_set_shader_bool AlSetShaderBool =
+            NativeLibrary.LoadNativeFunction<al_set_shader_bool>(_nativeAllegroLibrary, "al_set_shader_bool");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_set_shader_int_vector([MarshalAs(UnmanagedType.LPStr)] string name, int num_components, ref int i, int num_elems);
+        public static al_set_shader_int_vector AlSetShaderIntVector =
+            NativeLibrary.LoadNativeFunction<al_set_shader_int_vector>(_nativeAllegroLibrary, "al_set_shader_int_vector");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_set_shader_float_vector([MarshalAs(UnmanagedType.LPStr)] string name, int num_components, ref float f, int num_elems);
+        public static al_set_shader_float_vector AlSetShaderFloatVector =
+            NativeLibrary.LoadNativeFunction<al_set_shader_float_vector>(_nativeAllegroLibrary, "al_set_shader_float_vector");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_get_default_shader_source(int platform, int type);
+        public static al_get_default_shader_source AlGetDefaultShaderSource =
+            NativeLibrary.LoadNativeFunction<al_get_default_shader_source>(_nativeAllegroLibrary, "al_get_default_shader_source");
         #endregion
 
         #region State routines
