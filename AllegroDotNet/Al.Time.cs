@@ -1,6 +1,5 @@
-﻿using System.Runtime.InteropServices;
-using SubC.AllegroDotNet.Models;
-using SubC.AllegroDotNet.Native;
+﻿using SubC.AllegroDotNet.Models;
+using SubC.AllegroDotNet.Native.Libraries;
 
 namespace SubC.AllegroDotNet
 {
@@ -15,8 +14,8 @@ namespace SubC.AllegroDotNet
         /// order of microseconds.
         /// </summary>
         /// <returns>The number of seconds since the Allegro library was initialised.</returns>
-        public static double GetTime()
-            => al_get_time();
+        public static double GetTime() =>
+            AllegroLibrary.AlGetTime();
 
         /// <summary>
         /// Set timeout value of some number of seconds after the function call.
@@ -26,8 +25,8 @@ namespace SubC.AllegroDotNet
         /// </summary>
         /// <param name="timeout">The timeout to initialize.</param>
         /// <param name="seconds">The seconds for the timeout after the function call.</param>
-        public static void InitTimeout(ref AllegroTimeout timeout, double seconds)
-            => al_init_timeout(ref timeout.NativeTimeout, seconds);
+        public static void InitTimeout(ref AllegroTimeout timeout, double seconds) =>
+            AllegroLibrary.AlInitTimeout(ref timeout.NativeTimeout, seconds);
 
         /// <summary>
         /// Waits for the specified number of seconds. This tells the system to pause the current thread for the given
@@ -41,18 +40,18 @@ namespace SubC.AllegroDotNet
         /// </para>
         /// </summary>
         /// <param name="seconds">The amount of seconds to rest.</param>
-        public static void Rest(double seconds)
-            => al_rest(seconds);
+        public static void Rest(double seconds) =>
+            AllegroLibrary.AlRest(seconds);
 
         #region P/Invokes
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern double al_get_time();
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern double al_get_time();
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern void al_init_timeout(ref NativeAllegroTimeout timeout, double seconds);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_init_timeout(ref NativeAllegroTimeout timeout, double seconds);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern void al_rest(double seconds);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_rest(double seconds);
         #endregion
     }
 }

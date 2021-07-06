@@ -1128,6 +1128,23 @@ namespace SubC.AllegroDotNet.Native.Libraries
             NativeLibrary.LoadNativeFunction<al_uninstall_system>(_nativeAllegroLibrary, "al_uninstall_system");
         #endregion
 
+        #region Time routines
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate double al_get_time();
+        public static al_get_time AlGetTime =
+            NativeLibrary.LoadNativeFunction<al_get_time>(_nativeAllegroLibrary, "al_get_time");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_init_timeout(ref NativeAllegroTimeout timeout, double seconds);
+        public static al_init_timeout AlInitTimeout =
+            NativeLibrary.LoadNativeFunction<al_init_timeout>(_nativeAllegroLibrary, "al_init_timeout");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_rest(double seconds);
+        public static al_rest AlRest =
+            NativeLibrary.LoadNativeFunction<al_rest>(_nativeAllegroLibrary, "al_rest");
+        #endregion
+
         #region Timer routines
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate IntPtr al_create_timer(double speedSecs);
