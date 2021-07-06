@@ -1128,6 +1128,68 @@ namespace SubC.AllegroDotNet.Native.Libraries
             NativeLibrary.LoadNativeFunction<al_uninstall_system>(_nativeAllegroLibrary, "al_uninstall_system");
         #endregion
 
+        #region Timer routines
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_create_timer(double speedSecs);
+        public static al_create_timer AlCreateTimer =
+            NativeLibrary.LoadNativeFunction<al_create_timer>(_nativeAllegroLibrary, "al_create_timer");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_start_timer(IntPtr timer);
+        public static al_start_timer AlStartTimer =
+            NativeLibrary.LoadNativeFunction<al_start_timer>(_nativeAllegroLibrary, "al_start_timer");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_resume_timer(IntPtr timer);
+        public static al_resume_timer AlResumeTimer =
+            NativeLibrary.LoadNativeFunction<al_resume_timer>(_nativeAllegroLibrary, "al_resume_timer");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_stop_timer(IntPtr timer);
+        public static al_stop_timer AlStopTimer =
+            NativeLibrary.LoadNativeFunction<al_stop_timer>(_nativeAllegroLibrary, "al_stop_timer");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_get_timer_started(IntPtr timer);
+        public static al_get_timer_started AlGetTimerStarted =
+            NativeLibrary.LoadNativeFunction<al_get_timer_started>(_nativeAllegroLibrary, "al_get_timer_started");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_destroy_timer(IntPtr timer);
+        public static al_destroy_timer AlDestroyTimer =
+            NativeLibrary.LoadNativeFunction<al_destroy_timer>(_nativeAllegroLibrary, "al_destroy_timer");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate long al_get_timer_count(IntPtr timer);
+        public static al_get_timer_count AlGetTimerCount =
+            NativeLibrary.LoadNativeFunction<al_get_timer_count>(_nativeAllegroLibrary, "al_get_timer_count");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_set_timer_count(IntPtr timer, long newCount);
+        public static al_set_timer_count AlSetTimerCount =
+            NativeLibrary.LoadNativeFunction<al_set_timer_count>(_nativeAllegroLibrary, "al_set_timer_count");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_add_timer_count(IntPtr timer, long diff);
+        public static al_add_timer_count AlAddTimerCount =
+            NativeLibrary.LoadNativeFunction<al_add_timer_count>(_nativeAllegroLibrary, "al_add_timer_count");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate double al_get_timer_speed(IntPtr timer);
+        public static al_get_timer_speed AlGetTimerSpeed =
+            NativeLibrary.LoadNativeFunction<al_get_timer_speed>(_nativeAllegroLibrary, "al_get_timer_speed");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_set_timer_speed(IntPtr timer, double newSpeedSecs);
+        public static al_set_timer_speed AlSetTimerSpeed =
+            NativeLibrary.LoadNativeFunction<al_set_timer_speed>(_nativeAllegroLibrary, "al_set_timer_speed");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_get_timer_event_source(IntPtr timer);
+        public static al_get_timer_event_source AlGetTimerEventSource =
+            NativeLibrary.LoadNativeFunction<al_get_timer_event_source>(_nativeAllegroLibrary, "al_get_timer_event_source");
+        #endregion
+
         //[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         //public delegate ();
         //public static Al =
