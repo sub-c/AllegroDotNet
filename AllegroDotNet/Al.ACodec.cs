@@ -37,18 +37,21 @@ namespace SubC.AllegroDotNet
         /// </para>
         /// </summary>
         /// <returns>True on success, otherwise false.</returns>
-        public static bool InitACodecAddon() => AllegroLibrary.AlInitAcodecAddon();
+        public static bool InitACodecAddon() =>
+            AllegroLibrary.AlInitAcodecAddon();
 
         /// <summary>
         /// Returns true if the acodec addon is initialized, otherwise returns false.
         /// </summary>
         /// <returns>True if the acodec addon is initialized, otherwise returns false.</returns>
-        public static bool IsACodecAddonInitialized() => AllegroLibrary.AlIsAcodecAddonInitialized();
+        public static bool IsACodecAddonInitialized() =>
+            AllegroLibrary.AlIsAcodecAddonInitialized();
 
         /// <summary>
         /// Returns the (compiled) version of the addon, in the same format as <see cref="GetAllegroVersion"/>.
         /// </summary>
         /// <returns>The (compiled) version of the addon.</returns>
-        public static uint GetAllegroACodecVersion() => AllegroLibrary.AlGetAllegroAcodecVersion();
+        public static uint GetAllegroACodecVersion() =>
+            AllegroLibrary.AlGetAllegroAcodecVersion();
     }
 }

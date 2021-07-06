@@ -26,6 +26,98 @@ namespace SubC.AllegroDotNet.Native.Libraries
             NativeLibrary.LoadNativeFunction<al_get_allegro_acodec_version>(_nativeAllegroLibrary, "al_get_allegro_acodec_version");
         #endregion
 
+        #region Configuration files
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_create_config();
+        public static al_create_config AlCreateConfig =
+            NativeLibrary.LoadNativeFunction<al_create_config>(_nativeAllegroLibrary, "al_create_config");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_destroy_config(IntPtr config);
+        public static al_destroy_config AlDestroyConfig =
+            NativeLibrary.LoadNativeFunction<al_destroy_config>(_nativeAllegroLibrary, "al_destroy_config");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_load_config_file([MarshalAs(UnmanagedType.LPStr)] string filename);
+        public static al_load_config_file AlLoadConfigFile =
+            NativeLibrary.LoadNativeFunction<al_load_config_file>(_nativeAllegroLibrary, "al_load_config_file");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_load_config_file_f(IntPtr file);
+        public static al_load_config_file_f AlLoadConfigFileF =
+            NativeLibrary.LoadNativeFunction<al_load_config_file_f>(_nativeAllegroLibrary, "al_load_config_file_f");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_save_config_file([MarshalAs(UnmanagedType.LPStr)] string filename, IntPtr config);
+        public static al_save_config_file AlSaveConfigFile =
+            NativeLibrary.LoadNativeFunction<al_save_config_file>(_nativeAllegroLibrary, "al_save_config_file");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_save_config_file_f(IntPtr file, IntPtr config);
+        public static al_save_config_file_f AlSaveConfigFileF =
+            NativeLibrary.LoadNativeFunction<al_save_config_file_f>(_nativeAllegroLibrary, "al_save_config_file_f");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_add_config_section(IntPtr config, [MarshalAs(UnmanagedType.LPStr)] string name);
+        public static al_add_config_section AlAddConfigSection =
+            NativeLibrary.LoadNativeFunction<al_add_config_section>(_nativeAllegroLibrary, "al_add_config_section");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_remove_config_section(IntPtr config, [MarshalAs(UnmanagedType.LPStr)] string section);
+        public static al_remove_config_section AlRemoveConfigSection =
+            NativeLibrary.LoadNativeFunction<al_remove_config_section>(_nativeAllegroLibrary, "al_remove_config_section");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_add_config_comment(IntPtr config, [MarshalAs(UnmanagedType.LPStr)] string section, [MarshalAs(UnmanagedType.LPStr)] string comment);
+        public static al_add_config_comment AlAddConfigComment =
+            NativeLibrary.LoadNativeFunction<al_add_config_comment>(_nativeAllegroLibrary, "al_add_config_comment");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_get_config_value(IntPtr config, [MarshalAs(UnmanagedType.LPStr)] string section, [MarshalAs(UnmanagedType.LPStr)] string key);
+        public static al_get_config_value AlGetConfigValue =
+            NativeLibrary.LoadNativeFunction<al_get_config_value>(_nativeAllegroLibrary, "al_get_config_value");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_set_config_value(IntPtr config, [MarshalAs(UnmanagedType.LPStr)] string section, [MarshalAs(UnmanagedType.LPStr)] string key, [MarshalAs(UnmanagedType.LPStr)] string value);
+        public static al_set_config_value AlSetConfigValue =
+            NativeLibrary.LoadNativeFunction<al_set_config_value>(_nativeAllegroLibrary, "al_set_config_value");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_remove_config_key(IntPtr config, [MarshalAs(UnmanagedType.LPStr)] string section, [MarshalAs(UnmanagedType.LPStr)] string key);
+        public static al_remove_config_key AlRemoveConfigKey =
+            NativeLibrary.LoadNativeFunction<al_remove_config_key>(_nativeAllegroLibrary, "al_remove_config_key");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_get_first_config_section(IntPtr config, ref IntPtr iterator);
+        public static al_get_first_config_section AlGetFirstConfigSection =
+            NativeLibrary.LoadNativeFunction<al_get_first_config_section>(_nativeAllegroLibrary, "al_get_first_config_section");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_get_next_config_section(ref IntPtr iterator);
+        public static al_get_next_config_section AlGetNextConfigSection =
+            NativeLibrary.LoadNativeFunction<al_get_next_config_section>(_nativeAllegroLibrary, "al_get_next_config_section");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_get_first_config_entry(IntPtr config, [MarshalAs(UnmanagedType.LPStr)] string section, ref IntPtr iterator);
+        public static al_get_first_config_entry AlGetFirstConfigEntry =
+            NativeLibrary.LoadNativeFunction<al_get_first_config_entry>(_nativeAllegroLibrary, "al_get_first_config_entry");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_get_next_config_entry(ref IntPtr iterator);
+        public static al_get_next_config_entry AlGetNextConfigEntry =
+            NativeLibrary.LoadNativeFunction<al_get_next_config_entry>(_nativeAllegroLibrary, "al_get_next_config_entry");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_merge_config(IntPtr config1, IntPtr config2);
+        public static al_merge_config AlMergeConfig =
+            NativeLibrary.LoadNativeFunction<al_merge_config>(_nativeAllegroLibrary, "al_merge_config");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_merge_config_into(IntPtr configMaster, IntPtr configAdd);
+        public static al_merge_config_into AlMergeConfigInto =
+            NativeLibrary.LoadNativeFunction<al_merge_config_into>(_nativeAllegroLibrary, "al_merge_config_into");
+        #endregion
+
         #region Displays
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate IntPtr al_create_display(int w, int h);
