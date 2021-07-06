@@ -37,6 +37,12 @@ namespace SubC.AllegroDotNet
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate bool TextCallbackDelegate(int lineNum, [MarshalAs(UnmanagedType.LPStr)] string line, int size, IntPtr extra);
 
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        public delegate IntPtr ThreadProcessDelegate(IntPtr nativeThread, IntPtr nativeArgument);
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        public delegate IntPtr DetachedThreadProcessDelegate(IntPtr nativeArgument);
+
         /// <summary>
         /// The library filename where all Allegro (including addons) functions can be found.
         /// </summary>

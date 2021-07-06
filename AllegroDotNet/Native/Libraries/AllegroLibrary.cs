@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using SubC.AllegroDotNet.Models;
-using static SubC.AllegroDotNet.AlConstants;
 
 namespace SubC.AllegroDotNet.Native.Libraries
 {
@@ -270,7 +269,7 @@ namespace SubC.AllegroDotNet.Native.Libraries
             NativeLibrary.LoadNativeFunction<al_destroy_font>(_nativeAllegroLibrary, "al_destroy_font");
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate bool al_register_font_loader([MarshalAs(UnmanagedType.LPStr)] string extension, LoadFontDelegate load_font, int size, int flags);
+        public delegate bool al_register_font_loader([MarshalAs(UnmanagedType.LPStr)] string extension, AlConstants.LoadFontDelegate load_font, int size, int flags);
         public static al_register_font_loader AlRegisterFontLoader =
             NativeLibrary.LoadNativeFunction<al_register_font_loader>(_nativeAllegroLibrary, "al_register_font_loader");
 
@@ -1126,6 +1125,98 @@ namespace SubC.AllegroDotNet.Native.Libraries
         public delegate void al_uninstall_system();
         public static al_uninstall_system AlUninstallSystem =
             NativeLibrary.LoadNativeFunction<al_uninstall_system>(_nativeAllegroLibrary, "al_uninstall_system");
+        #endregion
+
+        #region Thread routines
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_create_thread(AlConstants.ThreadProcessDelegate proc, IntPtr arg);
+        public static al_create_thread AlCreateThread =
+            NativeLibrary.LoadNativeFunction<al_create_thread>(_nativeAllegroLibrary, "al_create_thread");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_start_thread(IntPtr thread);
+        public static al_start_thread AlStartThread =
+            NativeLibrary.LoadNativeFunction<al_start_thread>(_nativeAllegroLibrary, "al_start_thread");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_join_thread(IntPtr thread, ref IntPtr ret_value);
+        public static al_join_thread AlJoinThread =
+            NativeLibrary.LoadNativeFunction<al_join_thread>(_nativeAllegroLibrary, "al_join_thread");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_set_thread_should_stop(IntPtr thread);
+        public static al_set_thread_should_stop AlSetThreadShouldStop =
+            NativeLibrary.LoadNativeFunction<al_set_thread_should_stop>(_nativeAllegroLibrary, "al_set_thread_should_stop");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_get_thread_should_stop(IntPtr thread);
+        public static al_get_thread_should_stop AlGetThreadShouldStop =
+            NativeLibrary.LoadNativeFunction<al_get_thread_should_stop>(_nativeAllegroLibrary, "al_get_thread_should_stop");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_destroy_thread(IntPtr thread);
+        public static al_destroy_thread AlDestroyThread =
+            NativeLibrary.LoadNativeFunction<al_destroy_thread>(_nativeAllegroLibrary, "al_destroy_thread");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_run_detached_thread(AlConstants.DetachedThreadProcessDelegate proc, IntPtr arg);
+        public static al_run_detached_thread AlRunDetachedThread =
+            NativeLibrary.LoadNativeFunction<al_run_detached_thread>(_nativeAllegroLibrary, "al_run_detached_thread");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_create_mutex();
+        public static al_create_mutex AlCreateMutex =
+            NativeLibrary.LoadNativeFunction<al_create_mutex>(_nativeAllegroLibrary, "al_create_mutex");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_create_mutex_recursive();
+        public static al_create_mutex_recursive AlCreateMutexRecursive =
+            NativeLibrary.LoadNativeFunction<al_create_mutex_recursive>(_nativeAllegroLibrary, "al_create_mutex_recursive");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_lock_mutex(IntPtr mutex);
+        public static al_lock_mutex AlLockMutex =
+            NativeLibrary.LoadNativeFunction<al_lock_mutex>(_nativeAllegroLibrary, "al_lock_mutex");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_unlock_mutex(IntPtr mutex);
+        public static al_unlock_mutex AlUnlockMutex =
+            NativeLibrary.LoadNativeFunction<al_unlock_mutex>(_nativeAllegroLibrary, "al_unlock_mutex");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_destroy_mutex(IntPtr mutex);
+        public static al_destroy_mutex AlDestroyMutex =
+            NativeLibrary.LoadNativeFunction<al_destroy_mutex>(_nativeAllegroLibrary, "al_destroy_mutex");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_create_cond();
+        public static al_create_cond AlCreateCond =
+            NativeLibrary.LoadNativeFunction<al_create_cond>(_nativeAllegroLibrary, "al_create_cond");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_destroy_cond(IntPtr cond);
+        public static al_destroy_cond AlDestroyCond =
+            NativeLibrary.LoadNativeFunction<al_destroy_cond>(_nativeAllegroLibrary, "al_destroy_cond");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_wait_cond(IntPtr cond, IntPtr mutex);
+        public static al_wait_cond AlWaitCond =
+            NativeLibrary.LoadNativeFunction<al_wait_cond>(_nativeAllegroLibrary, "al_wait_cond");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate int al_wait_cond_until(IntPtr cond, IntPtr mutex, ref NativeAllegroTimeout timeout);
+        public static al_wait_cond_until AlWaitCondUntil =
+            NativeLibrary.LoadNativeFunction<al_wait_cond_until>(_nativeAllegroLibrary, "al_wait_cond_until");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_broadcast_cond(IntPtr cond);
+        public static al_broadcast_cond AlBroadcastCond =
+            NativeLibrary.LoadNativeFunction<al_broadcast_cond>(_nativeAllegroLibrary, "al_broadcast_cond");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_signal_cond(IntPtr cond);
+        public static al_signal_cond AlSignalCond =
+            NativeLibrary.LoadNativeFunction<al_signal_cond>(_nativeAllegroLibrary, "al_signal_cond");
         #endregion
 
         #region Time routines
