@@ -1145,6 +1145,98 @@ namespace SubC.AllegroDotNet.Native.Libraries
             NativeLibrary.LoadNativeFunction<al_get_allegro_image_version>(_nativeAllegroLibrary, "al_get_allegro_image_version");
         #endregion
 
+        #region Joystick routines
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_install_joystick();
+        public static al_install_joystick AlInstallJoystick =
+            NativeLibrary.LoadNativeFunction<al_install_joystick>(_nativeAllegroLibrary, "al_install_joystick");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_uninstall_joystick();
+        public static al_uninstall_joystick AlUninstallJoystick =
+            NativeLibrary.LoadNativeFunction<al_uninstall_joystick>(_nativeAllegroLibrary, "al_uninstall_joystick");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_is_joystick_installed();
+        public static al_is_joystick_installed AlIsJoystickInstalled =
+            NativeLibrary.LoadNativeFunction<al_is_joystick_installed>(_nativeAllegroLibrary, "al_is_joystick_installed");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_reconfigure_joysticks();
+        public static al_reconfigure_joysticks AlReconfigureJoysticks =
+            NativeLibrary.LoadNativeFunction<al_reconfigure_joysticks>(_nativeAllegroLibrary, "al_reconfigure_joysticks");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate int al_get_num_joysticks();
+        public static al_get_num_joysticks AlGetNumJoysticks =
+            NativeLibrary.LoadNativeFunction<al_get_num_joysticks>(_nativeAllegroLibrary, "al_get_num_joysticks");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_get_joystick(int num);
+        public static al_get_joystick AlGetJoystick =
+            NativeLibrary.LoadNativeFunction<al_get_joystick>(_nativeAllegroLibrary, "al_get_joystick");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_release_joystick(IntPtr joy);
+        public static al_release_joystick AlReleaseJoystick =
+            NativeLibrary.LoadNativeFunction<al_release_joystick>(_nativeAllegroLibrary, "al_release_joystick");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_get_joystick_active(IntPtr joy);
+        public static al_get_joystick_active AlGetJoystickActive =
+            NativeLibrary.LoadNativeFunction<al_get_joystick_active>(_nativeAllegroLibrary, "al_get_joystick_active");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_get_joystick_name(IntPtr joy);
+        public static al_get_joystick_name AlGetJoystickName =
+            NativeLibrary.LoadNativeFunction<al_get_joystick_name>(_nativeAllegroLibrary, "al_get_joystick_name");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_get_joystick_stick_name(IntPtr joy, int stick);
+        public static al_get_joystick_stick_name AlGetJoystickStickName =
+            NativeLibrary.LoadNativeFunction<al_get_joystick_stick_name>(_nativeAllegroLibrary, "al_get_joystick_stick_name");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_get_joystick_axis_name(IntPtr joy, int stick, int axis);
+        public static al_get_joystick_axis_name AlGetJoystickAxisName =
+            NativeLibrary.LoadNativeFunction<al_get_joystick_axis_name>(_nativeAllegroLibrary, "al_get_joystick_axis_name");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_get_joystick_button_name(IntPtr joy, int button);
+        public static al_get_joystick_button_name AlGetJoystickButtonName =
+            NativeLibrary.LoadNativeFunction<al_get_joystick_button_name>(_nativeAllegroLibrary, "al_get_joystick_button_name");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate int al_get_joystick_stick_flags(IntPtr joy, int stick);
+        public static al_get_joystick_stick_flags AlGetJoystickStickFlags =
+            NativeLibrary.LoadNativeFunction<al_get_joystick_stick_flags>(_nativeAllegroLibrary, "al_get_joystick_stick_flags");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate int al_get_joystick_num_sticks(IntPtr joy);
+        public static al_get_joystick_num_sticks AlGetJoystickNumSticks =
+            NativeLibrary.LoadNativeFunction<al_get_joystick_num_sticks>(_nativeAllegroLibrary, "al_get_joystick_num_sticks");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate int al_get_joystick_num_axes(IntPtr joy, int stick);
+        public static al_get_joystick_num_axes AlGetJoystickNumAxes =
+            NativeLibrary.LoadNativeFunction<al_get_joystick_num_axes>(_nativeAllegroLibrary, "al_get_joystick_num_axes");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate int al_get_joystick_num_buttons(IntPtr joy);
+        public static al_get_joystick_num_buttons AlGetJoystickNumButtons =
+            NativeLibrary.LoadNativeFunction<al_get_joystick_num_buttons>(_nativeAllegroLibrary, "al_get_joystick_num_buttons");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_get_joystick_state(IntPtr joy, ref NativeJoystickState retState);
+        public static al_get_joystick_state AlGetJoystickState =
+            NativeLibrary.LoadNativeFunction<al_get_joystick_state>(_nativeAllegroLibrary, "al_get_joystick_state");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_get_joystick_event_source();
+        public static al_get_joystick_event_source AlGetJoystickEventSource =
+            NativeLibrary.LoadNativeFunction<al_get_joystick_event_source>(_nativeAllegroLibrary, "al_get_joystick_event_source");
+        #endregion
+
         #region Path structures
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate IntPtr al_create_path([MarshalAs(UnmanagedType.LPStr)] string str);
