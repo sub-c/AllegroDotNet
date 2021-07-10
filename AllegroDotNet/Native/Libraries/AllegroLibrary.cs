@@ -9,6 +9,618 @@ namespace SubC.AllegroDotNet.Native.Libraries
     {
         private static readonly IntPtr _nativeAllegroLibrary = NativeLibrary.LoadAllegroLibrary();
 
+        #region Audio addon
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_install_audio();
+        public static al_install_audio AlInstallAudio =
+            NativeLibrary.LoadNativeFunction<al_install_audio>(_nativeAllegroLibrary, "al_install_audio");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_uninstall_audio();
+        public static al_uninstall_audio AlUninstallAudio =
+            NativeLibrary.LoadNativeFunction<al_uninstall_audio>(_nativeAllegroLibrary, "al_uninstall_audio");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_is_audio_installed();
+        public static al_is_audio_installed AlIsAudioInstalled =
+            NativeLibrary.LoadNativeFunction<al_is_audio_installed>(_nativeAllegroLibrary, "al_is_audio_installed");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_reserve_samples(int reserve_samples);
+        public static al_reserve_samples AlReserveSamples =
+            NativeLibrary.LoadNativeFunction<al_reserve_samples>(_nativeAllegroLibrary, "al_reserve_samples");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate uint al_get_allegro_audio_version();
+        public static al_get_allegro_audio_version AlGetAllegroAudioVersion =
+            NativeLibrary.LoadNativeFunction<al_get_allegro_audio_version>(_nativeAllegroLibrary, "al_get_allegro_audio_version");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate UIntPtr al_get_audio_depth_size(int depth);
+        public static al_get_audio_depth_size AlGetAudioDepthSize =
+            NativeLibrary.LoadNativeFunction<al_get_audio_depth_size>(_nativeAllegroLibrary, "al_get_audio_depth_size");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate UIntPtr al_get_channel_count(int conf);
+        public static al_get_channel_count AlGetChannelCount =
+            NativeLibrary.LoadNativeFunction<al_get_channel_count>(_nativeAllegroLibrary, "al_get_channel_count");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_fill_silence(IntPtr buf, uint samples, int depth, int chan_conf);
+        public static al_fill_silence AlFillSilence =
+            NativeLibrary.LoadNativeFunction<al_fill_silence>(_nativeAllegroLibrary, "al_fill_silence");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_create_voice(uint freq, int depth, int chan_conf);
+        public static al_create_voice AlCreateVoice =
+            NativeLibrary.LoadNativeFunction<al_create_voice>(_nativeAllegroLibrary, "al_create_voice");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_destroy_voice(IntPtr voice);
+        public static al_destroy_voice AlDestroyVoice =
+            NativeLibrary.LoadNativeFunction<al_destroy_voice>(_nativeAllegroLibrary, "al_destroy_voice");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_detach_voice(IntPtr voice);
+        public static al_detach_voice AlDetachVoice =
+            NativeLibrary.LoadNativeFunction<al_detach_voice>(_nativeAllegroLibrary, "al_detach_voice");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_attach_audio_stream_to_voice(IntPtr stream, IntPtr voice);
+        public static al_attach_audio_stream_to_voice AlAttachAudioStreamToVoice =
+            NativeLibrary.LoadNativeFunction<al_attach_audio_stream_to_voice>(_nativeAllegroLibrary, "al_attach_audio_stream_to_voice");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_attach_mixer_to_voice(IntPtr mixer, IntPtr voice);
+        public static al_attach_mixer_to_voice AlAttachMixerToVoice =
+            NativeLibrary.LoadNativeFunction<al_attach_mixer_to_voice>(_nativeAllegroLibrary, "al_attach_mixer_to_voice");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_attach_sample_instance_to_voice(IntPtr spl, IntPtr voice);
+        public static al_attach_sample_instance_to_voice AlAttachSampleInstanceToVoice =
+            NativeLibrary.LoadNativeFunction<al_attach_sample_instance_to_voice>(_nativeAllegroLibrary, "al_attach_sample_instance_to_voice");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate uint al_get_voice_frequency(IntPtr voice);
+        public static al_get_voice_frequency AlGetVoiceFrequency =
+            NativeLibrary.LoadNativeFunction<al_get_voice_frequency>(_nativeAllegroLibrary, "al_get_voice_frequency");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate int al_get_voice_channels(IntPtr voice);
+        public static al_get_voice_channels AlGetVoiceChannels =
+            NativeLibrary.LoadNativeFunction<al_get_voice_channels>(_nativeAllegroLibrary, "al_get_voice_channels");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate int al_get_voice_depth(IntPtr voice);
+        public static al_get_voice_depth AlGetVoiceDepth =
+            NativeLibrary.LoadNativeFunction<al_get_voice_depth>(_nativeAllegroLibrary, "al_get_voice_depth");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_get_voice_playing(IntPtr voice);
+        public static al_get_voice_playing AlGetVoicePlaying =
+            NativeLibrary.LoadNativeFunction<al_get_voice_playing>(_nativeAllegroLibrary, "al_get_voice_playing");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_set_voice_playing(IntPtr voice, bool val);
+        public static al_set_voice_playing AlSetVoicePlaying =
+            NativeLibrary.LoadNativeFunction<al_set_voice_playing>(_nativeAllegroLibrary, "al_set_voice_playing");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate uint al_get_voice_position(IntPtr voice);
+        public static al_get_voice_position AlGetVoicePosition =
+            NativeLibrary.LoadNativeFunction<al_get_voice_position>(_nativeAllegroLibrary, "al_get_voice_position");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_set_voice_position(IntPtr voice, uint val);
+        public static al_set_voice_position AlSetVoicePosition =
+            NativeLibrary.LoadNativeFunction<al_set_voice_position>(_nativeAllegroLibrary, "al_set_voice_position");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_create_sample(ref byte[] buf, uint samples, uint freq, int depth, int chan_conf, bool free_buf);
+        public static al_create_sample AlCreateSample =
+            NativeLibrary.LoadNativeFunction<al_create_sample>(_nativeAllegroLibrary, "al_create_sample");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_destroy_sample(IntPtr spl);
+        public static al_destroy_sample AlDestroySample =
+            NativeLibrary.LoadNativeFunction<al_destroy_sample>(_nativeAllegroLibrary, "al_destroy_sample");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_play_sample(IntPtr spl, float gain, float pan, float speed, int loop, IntPtr ret_id);
+        public static al_play_sample AlPlaySample =
+            NativeLibrary.LoadNativeFunction<al_play_sample>(_nativeAllegroLibrary, "al_play_sample");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_stop_sample(ref NativeSampleId spl_id);
+        public static al_stop_sample AlStopSample =
+            NativeLibrary.LoadNativeFunction<al_stop_sample>(_nativeAllegroLibrary, "al_stop_sample");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_stop_samples();
+        public static al_stop_samples AlStopSamples =
+            NativeLibrary.LoadNativeFunction<al_stop_samples>(_nativeAllegroLibrary, "al_stop_samples");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate int al_get_sample_channels(IntPtr spl);
+        public static al_get_sample_channels AlGetSampleChannels =
+            NativeLibrary.LoadNativeFunction<al_get_sample_channels>(_nativeAllegroLibrary, "al_get_sample_channels");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate int al_get_sample_depth(IntPtr spl);
+        public static al_get_sample_depth AlGetSampleDepth =
+            NativeLibrary.LoadNativeFunction<al_get_sample_depth>(_nativeAllegroLibrary, "al_get_sample_depth");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate uint al_get_sample_frequency(IntPtr spl);
+        public static al_get_sample_frequency AlGetSampleFrequency =
+            NativeLibrary.LoadNativeFunction<al_get_sample_frequency>(_nativeAllegroLibrary, "al_get_sample_frequency");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate uint al_get_sample_length(IntPtr spl);
+        public static al_get_sample_length AlGetSampleLength =
+            NativeLibrary.LoadNativeFunction<al_get_sample_length>(_nativeAllegroLibrary, "al_get_sample_length");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_get_sample_data(IntPtr spl);
+        public static al_get_sample_data AlGetSampleData =
+            NativeLibrary.LoadNativeFunction<al_get_sample_data>(_nativeAllegroLibrary, "al_get_sample_data");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_create_sample_instance(IntPtr sample_data);
+        public static al_create_sample_instance AlCreateSampleInstance =
+            NativeLibrary.LoadNativeFunction<al_create_sample_instance>(_nativeAllegroLibrary, "al_create_sample_instance");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_destroy_sample_instance(IntPtr spl);
+        public static al_destroy_sample_instance AlDestroySampleInstance =
+            NativeLibrary.LoadNativeFunction<al_destroy_sample_instance>(_nativeAllegroLibrary, "al_destroy_sample_instance");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_play_sample_instance(IntPtr spl);
+        public static al_play_sample_instance AlPlaySampleInstance =
+            NativeLibrary.LoadNativeFunction<al_play_sample_instance>(_nativeAllegroLibrary, "al_play_sample_instance");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_stop_sample_instance(IntPtr spl);
+        public static al_stop_sample_instance AlStopSampleInstance =
+            NativeLibrary.LoadNativeFunction<al_stop_sample_instance>(_nativeAllegroLibrary, "al_stop_sample_instance");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate int al_get_sample_instance_channels(IntPtr spl);
+        public static al_get_sample_instance_channels AlGetSampleInstanceChannels =
+            NativeLibrary.LoadNativeFunction<al_get_sample_instance_channels>(_nativeAllegroLibrary, "al_get_sample_instance_channels");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate int al_get_sample_instance_depth(IntPtr spl);
+        public static al_get_sample_instance_depth AlGetSampleInstanceDepth =
+            NativeLibrary.LoadNativeFunction<al_get_sample_instance_depth>(_nativeAllegroLibrary, "al_get_sample_instance_depth");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate uint al_get_sample_instance_frequency(IntPtr spl);
+        public static al_get_sample_instance_frequency AlGetSampleInstanceFrequency =
+            NativeLibrary.LoadNativeFunction<al_get_sample_instance_frequency>(_nativeAllegroLibrary, "al_get_sample_instance_frequency");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate uint al_get_sample_instance_length(IntPtr spl);
+        public static al_get_sample_instance_length AlGetSampleInstanceLength =
+            NativeLibrary.LoadNativeFunction<al_get_sample_instance_length>(_nativeAllegroLibrary, "al_get_sample_instance_length");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_set_sample_instance_length(IntPtr spl, uint val);
+        public static al_set_sample_instance_length AlSetSampleInstanceLength =
+            NativeLibrary.LoadNativeFunction<al_set_sample_instance_length>(_nativeAllegroLibrary, "al_set_sample_instance_length");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate uint al_get_sample_instance_position(IntPtr spl);
+        public static al_get_sample_instance_position AlGetSampleInstancePosition =
+            NativeLibrary.LoadNativeFunction<al_get_sample_instance_position>(_nativeAllegroLibrary, "al_get_sample_instance_position");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_set_sample_instance_position(IntPtr spl, uint val);
+        public static al_set_sample_instance_position AlSetSampleInstancePosition =
+            NativeLibrary.LoadNativeFunction<al_set_sample_instance_position>(_nativeAllegroLibrary, "al_set_sample_instance_position");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate float al_get_sample_instance_speed(IntPtr spl);
+        public static al_get_sample_instance_speed AlGetSampleInstanceSpeed =
+            NativeLibrary.LoadNativeFunction<al_get_sample_instance_speed>(_nativeAllegroLibrary, "al_get_sample_instance_speed");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_set_sample_instance_speed(IntPtr spl, float val);
+        public static al_set_sample_instance_speed AlSetSampleInstanceSpeed =
+            NativeLibrary.LoadNativeFunction<al_set_sample_instance_speed>(_nativeAllegroLibrary, "al_set_sample_instance_speed");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate float al_get_sample_instance_gain(IntPtr spl);
+        public static al_get_sample_instance_gain AlGetSampleInstanceGain =
+            NativeLibrary.LoadNativeFunction<al_get_sample_instance_gain>(_nativeAllegroLibrary, "al_get_sample_instance_gain");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_set_sample_instance_gain(IntPtr spl, float val);
+        public static al_set_sample_instance_gain AlSetSampleInstanceGain =
+            NativeLibrary.LoadNativeFunction<al_set_sample_instance_gain>(_nativeAllegroLibrary, "al_set_sample_instance_gain");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate float al_get_sample_instance_pan(IntPtr spl);
+        public static al_get_sample_instance_pan AlGetSampleInstancePan =
+            NativeLibrary.LoadNativeFunction<al_get_sample_instance_pan>(_nativeAllegroLibrary, "al_get_sample_instance_pan");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_set_sample_instance_pan(IntPtr spl, float val);
+        public static al_set_sample_instance_pan AlSetSampleInstancePan =
+            NativeLibrary.LoadNativeFunction<al_set_sample_instance_pan>(_nativeAllegroLibrary, "al_set_sample_instance_pan");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate float al_get_sample_instance_time(IntPtr spl);
+        public static al_get_sample_instance_time AlGetSampleInstanceTime =
+            NativeLibrary.LoadNativeFunction<al_get_sample_instance_time>(_nativeAllegroLibrary, "al_get_sample_instance_time");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate int al_get_sample_instance_playmode(IntPtr spl);
+        public static al_get_sample_instance_playmode AlGetSampleInstancePlaymode =
+            NativeLibrary.LoadNativeFunction<al_get_sample_instance_playmode>(_nativeAllegroLibrary, "al_get_sample_instance_playmode");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_set_sample_instance_playmode(IntPtr spl, int val);
+        public static al_set_sample_instance_playmode AlSetSampleInstancePlaymode =
+            NativeLibrary.LoadNativeFunction<al_set_sample_instance_playmode>(_nativeAllegroLibrary, "al_set_sample_instance_playmode");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_get_sample_instance_playing(IntPtr spl);
+        public static al_get_sample_instance_playing AlGetSampleInstancePlaying =
+            NativeLibrary.LoadNativeFunction<al_get_sample_instance_playing>(_nativeAllegroLibrary, "al_get_sample_instance_playing");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_set_sample_instance_playing(IntPtr spl, bool val);
+        public static al_set_sample_instance_playing AlSetSampleInstancePlaying =
+            NativeLibrary.LoadNativeFunction<al_set_sample_instance_playing>(_nativeAllegroLibrary, "al_set_sample_instance_playing");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_get_sample_instance_attached(IntPtr spl);
+        public static al_get_sample_instance_attached AlGetSampleInstanceAttached =
+            NativeLibrary.LoadNativeFunction<al_get_sample_instance_attached>(_nativeAllegroLibrary, "al_get_sample_instance_attached");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_detach_sample_instance(IntPtr spl);
+        public static al_detach_sample_instance AlDetachSampleInstance =
+            NativeLibrary.LoadNativeFunction<al_detach_sample_instance>(_nativeAllegroLibrary, "al_detach_sample_instance");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_get_sample(IntPtr spl);
+        public static al_get_sample AlGetSample =
+            NativeLibrary.LoadNativeFunction<al_get_sample>(_nativeAllegroLibrary, "al_get_sample");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_set_sample(IntPtr spl, IntPtr data);
+        public static al_set_sample AlSetSample =
+            NativeLibrary.LoadNativeFunction<al_set_sample>(_nativeAllegroLibrary, "al_set_sample");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_create_mixer(uint freq, int depth, int chan_conf);
+        public static al_create_mixer AlCreateMixer =
+            NativeLibrary.LoadNativeFunction<al_create_mixer>(_nativeAllegroLibrary, "al_create_mixer");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_destroy_mixer(IntPtr mixer);
+        public static al_destroy_mixer AlDestroyMixer =
+            NativeLibrary.LoadNativeFunction<al_destroy_mixer>(_nativeAllegroLibrary, "al_destroy_mixer");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_get_default_mixer();
+        public static al_get_default_mixer AlGetDefaultMixer =
+            NativeLibrary.LoadNativeFunction<al_get_default_mixer>(_nativeAllegroLibrary, "al_get_default_mixer");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_set_default_mixer(IntPtr mixer);
+        public static al_set_default_mixer AlSetDefaultMixer =
+            NativeLibrary.LoadNativeFunction<al_set_default_mixer>(_nativeAllegroLibrary, "al_set_default_mixer");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_restore_default_mixer();
+        public static al_restore_default_mixer AlRestoreDefaultMixer =
+            NativeLibrary.LoadNativeFunction<al_restore_default_mixer>(_nativeAllegroLibrary, "al_restore_default_mixer");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_get_default_voice();
+        public static al_get_default_voice AlGetDefaultVoice =
+            NativeLibrary.LoadNativeFunction<al_get_default_voice>(_nativeAllegroLibrary, "al_get_default_voice");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_set_default_voice(IntPtr voice);
+        public static al_set_default_voice AlSetDefaultVoice =
+            NativeLibrary.LoadNativeFunction<al_set_default_voice>(_nativeAllegroLibrary, "al_set_default_voice");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_attach_mixer_to_mixer(IntPtr stream, IntPtr mixer);
+        public static al_attach_mixer_to_mixer AlAttachMixerToMixer =
+            NativeLibrary.LoadNativeFunction<al_attach_mixer_to_mixer>(_nativeAllegroLibrary, "al_attach_mixer_to_mixer");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_attach_sample_instance_to_mixer(IntPtr spl, IntPtr mixer);
+        public static al_attach_sample_instance_to_mixer AlAttachSampleInstanceToMixer =
+            NativeLibrary.LoadNativeFunction<al_attach_sample_instance_to_mixer>(_nativeAllegroLibrary, "al_attach_sample_instance_to_mixer");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_attach_audio_stream_to_mixer(IntPtr stream, IntPtr mixer);
+        public static al_attach_audio_stream_to_mixer AlAttachAudioStreamToMixer =
+            NativeLibrary.LoadNativeFunction<al_attach_audio_stream_to_mixer>(_nativeAllegroLibrary, "al_attach_audio_stream_to_mixer");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate uint al_get_mixer_frequency(IntPtr mixer);
+        public static al_get_mixer_frequency AlGetMixerFrequency =
+            NativeLibrary.LoadNativeFunction<al_get_mixer_frequency>(_nativeAllegroLibrary, "al_get_mixer_frequency");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_set_mixer_frequency(IntPtr mixer, uint val);
+        public static al_set_mixer_frequency AlSetMixerFrequency =
+            NativeLibrary.LoadNativeFunction<al_set_mixer_frequency>(_nativeAllegroLibrary, "al_set_mixer_frequency");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate int al_get_mixer_channels(IntPtr mixer);
+        public static al_get_mixer_channels AlGetMixerChannels =
+            NativeLibrary.LoadNativeFunction<al_get_mixer_channels>(_nativeAllegroLibrary, "al_get_mixer_channels");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate int al_get_mixer_depth(IntPtr mixer);
+        public static al_get_mixer_depth AlGetMixerDepth =
+            NativeLibrary.LoadNativeFunction<al_get_mixer_depth>(_nativeAllegroLibrary, "al_get_mixer_depth");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate float al_get_mixer_gain(IntPtr mixer);
+        public static al_get_mixer_gain AlGetMixerGain =
+            NativeLibrary.LoadNativeFunction<al_get_mixer_gain>(_nativeAllegroLibrary, "al_get_mixer_gain");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_set_mixer_gain(IntPtr mixer, float new_gain);
+        public static al_set_mixer_gain AlSetMixerGain =
+            NativeLibrary.LoadNativeFunction<al_set_mixer_gain>(_nativeAllegroLibrary, "al_set_mixer_gain");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate int al_get_mixer_quality(IntPtr mixer);
+        public static al_get_mixer_quality AlGetMixerQuality =
+            NativeLibrary.LoadNativeFunction<al_get_mixer_quality>(_nativeAllegroLibrary, "al_get_mixer_quality");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_set_mixer_quality(IntPtr mixer, int new_quality);
+        public static al_set_mixer_quality AlSetMixerQuality =
+            NativeLibrary.LoadNativeFunction<al_set_mixer_quality>(_nativeAllegroLibrary, "al_set_mixer_quality");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_get_mixer_playing(IntPtr mixer);
+        public static al_get_mixer_playing AlGetMixerPlaying =
+            NativeLibrary.LoadNativeFunction<al_get_mixer_playing>(_nativeAllegroLibrary, "al_get_mixer_playing");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_set_mixer_playing(IntPtr mixer, bool val);
+        public static al_set_mixer_playing AlSetMixerPlaying =
+            NativeLibrary.LoadNativeFunction<al_set_mixer_playing>(_nativeAllegroLibrary, "al_set_mixer_playing");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_get_mixer_attached(IntPtr mixer);
+        public static al_get_mixer_attached AlGetMixerAttached =
+            NativeLibrary.LoadNativeFunction<al_get_mixer_attached>(_nativeAllegroLibrary, "al_get_mixer_attached");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_detach_mixer(IntPtr mixer);
+        public static al_detach_mixer AlDetachMixer =
+            NativeLibrary.LoadNativeFunction<al_detach_mixer>(_nativeAllegroLibrary, "al_detach_mixer");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_set_mixer_postprocess_callback(IntPtr mixer, IntPtr pp_callback, IntPtr pp_callback_userdata);
+        public static al_set_mixer_postprocess_callback AlSetMixerPostprocessCallback =
+            NativeLibrary.LoadNativeFunction<al_set_mixer_postprocess_callback>(_nativeAllegroLibrary, "al_set_mixer_postprocess_callback");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_create_audio_stream(UIntPtr fragment_count, uint frag_samples, uint freq, int depth, int chan_conf);
+        public static al_create_audio_stream AlCreateAudioStream =
+            NativeLibrary.LoadNativeFunction<al_create_audio_stream>(_nativeAllegroLibrary, "al_create_audio_stream");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_destroy_audio_stream(IntPtr stream);
+        public static al_destroy_audio_stream AlDestroyAudioStream =
+            NativeLibrary.LoadNativeFunction<al_destroy_audio_stream>(_nativeAllegroLibrary, "al_destroy_audio_stream");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_get_audio_stream_event_source(IntPtr stream);
+        public static al_get_audio_stream_event_source AlGetAudioStreamEventSource =
+            NativeLibrary.LoadNativeFunction<al_get_audio_stream_event_source>(_nativeAllegroLibrary, "al_get_audio_stream_event_source");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_drain_audio_stream(IntPtr stream);
+        public static al_drain_audio_stream AlDrainAudioStream =
+            NativeLibrary.LoadNativeFunction<al_drain_audio_stream>(_nativeAllegroLibrary, "al_drain_audio_stream");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_rewind_audio_stream(IntPtr stream);
+        public static al_rewind_audio_stream AlRewindAudioStream =
+            NativeLibrary.LoadNativeFunction<al_rewind_audio_stream>(_nativeAllegroLibrary, "al_rewind_audio_stream");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate uint al_get_audio_stream_frequency(IntPtr stream);
+        public static al_get_audio_stream_frequency AlGetAudioStreamFrequency =
+            NativeLibrary.LoadNativeFunction<al_get_audio_stream_frequency>(_nativeAllegroLibrary, "al_get_audio_stream_frequency");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate int al_get_audio_stream_channels(IntPtr stream);
+        public static al_get_audio_stream_channels AlGetAudioStreamChannels =
+            NativeLibrary.LoadNativeFunction<al_get_audio_stream_channels>(_nativeAllegroLibrary, "al_get_audio_stream_channels");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate int al_get_audio_stream_depth(IntPtr stream);
+        public static al_get_audio_stream_depth AlGetAudioStreamDepth =
+            NativeLibrary.LoadNativeFunction<al_get_audio_stream_depth>(_nativeAllegroLibrary, "al_get_audio_stream_depth");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate uint al_get_audio_stream_length(IntPtr stream);
+        public static al_get_audio_stream_length AlGetAudioStreamLength =
+            NativeLibrary.LoadNativeFunction<al_get_audio_stream_length>(_nativeAllegroLibrary, "al_get_audio_stream_length");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate float al_get_audio_stream_speed(IntPtr stream);
+        public static al_get_audio_stream_speed AlGetAudioStreamSpeed =
+            NativeLibrary.LoadNativeFunction<al_get_audio_stream_speed>(_nativeAllegroLibrary, "al_get_audio_stream_speed");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_set_audio_stream_speed(IntPtr stream, float val);
+        public static al_set_audio_stream_speed AlSetAudioStreamSpeed =
+            NativeLibrary.LoadNativeFunction<al_set_audio_stream_speed>(_nativeAllegroLibrary, "al_set_audio_stream_speed");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate float al_get_audio_stream_gain(IntPtr stream);
+        public static al_get_audio_stream_gain AlGetAudioStreamGain =
+            NativeLibrary.LoadNativeFunction<al_get_audio_stream_gain>(_nativeAllegroLibrary, "al_get_audio_stream_gain");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_set_audio_stream_gain(IntPtr stream, float val);
+        public static al_set_audio_stream_gain AlSetAudioStreamGain =
+            NativeLibrary.LoadNativeFunction<al_set_audio_stream_gain>(_nativeAllegroLibrary, "al_set_audio_stream_gain");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate float al_get_audio_stream_pan(IntPtr stream);
+        public static al_get_audio_stream_pan AlGetAudioStreamPan =
+            NativeLibrary.LoadNativeFunction<al_get_audio_stream_pan>(_nativeAllegroLibrary, "al_get_audio_stream_pan");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_set_audio_stream_pan(IntPtr stream, float val);
+        public static al_set_audio_stream_pan AlSetAudioStreamPan =
+            NativeLibrary.LoadNativeFunction<al_set_audio_stream_pan>(_nativeAllegroLibrary, "al_set_audio_stream_pan");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_get_audio_stream_playing(IntPtr stream);
+        public static al_get_audio_stream_playing AlGetAudioStreamPlaying =
+            NativeLibrary.LoadNativeFunction<al_get_audio_stream_playing>(_nativeAllegroLibrary, "al_get_audio_stream_playing");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_set_audio_stream_playing(IntPtr stream, bool val);
+        public static al_set_audio_stream_playing AlSetAudioStreamPlaying =
+            NativeLibrary.LoadNativeFunction<al_set_audio_stream_playing>(_nativeAllegroLibrary, "al_set_audio_stream_playing");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate int al_get_audio_stream_playmode(IntPtr stream);
+        public static al_get_audio_stream_playmode AlGetAudioStreamPlaymode =
+            NativeLibrary.LoadNativeFunction<al_get_audio_stream_playmode>(_nativeAllegroLibrary, "al_get_audio_stream_playmode");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_set_audio_stream_playmode(IntPtr stream, int val);
+        public static al_set_audio_stream_playmode AlSetAudioStreamPlaymode =
+            NativeLibrary.LoadNativeFunction<al_set_audio_stream_playmode>(_nativeAllegroLibrary, "al_set_audio_stream_playmode");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_get_audio_stream_attached(IntPtr stream);
+        public static al_get_audio_stream_attached AlGetAudioStreamAttached =
+            NativeLibrary.LoadNativeFunction<al_get_audio_stream_attached>(_nativeAllegroLibrary, "al_get_audio_stream_attached");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_detach_audio_stream(IntPtr stream);
+        public static al_detach_audio_stream AlDetachAudioStream =
+            NativeLibrary.LoadNativeFunction<al_detach_audio_stream>(_nativeAllegroLibrary, "al_detach_audio_stream");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate ulong al_get_audio_stream_played_samples(IntPtr stream);
+        public static al_get_audio_stream_played_samples AlGetAudioStreamPlayedSamples =
+            NativeLibrary.LoadNativeFunction<al_get_audio_stream_played_samples>(_nativeAllegroLibrary, "al_get_audio_stream_played_samples");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_get_audio_stream_fragment(IntPtr stream);
+        public static al_get_audio_stream_fragment AlGetAudioStreamFragment =
+            NativeLibrary.LoadNativeFunction<al_get_audio_stream_fragment>(_nativeAllegroLibrary, "al_get_audio_stream_fragment");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_set_audio_stream_fragment(IntPtr stream, IntPtr val);
+        public static al_set_audio_stream_fragment AlSetAudioStreamFragment =
+            NativeLibrary.LoadNativeFunction<al_set_audio_stream_fragment>(_nativeAllegroLibrary, "al_set_audio_stream_fragment");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate uint al_get_audio_stream_fragments(IntPtr stream);
+        public static al_get_audio_stream_fragments AlGetAudioStreamFragments =
+            NativeLibrary.LoadNativeFunction<al_get_audio_stream_fragments>(_nativeAllegroLibrary, "al_get_audio_stream_fragments");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate uint al_get_available_audio_stream_fragments(IntPtr stream);
+        public static al_get_available_audio_stream_fragments AlGetAvailableAudioStreamFragments =
+            NativeLibrary.LoadNativeFunction<al_get_available_audio_stream_fragments>(_nativeAllegroLibrary, "al_get_available_audio_stream_fragments");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_seek_audio_stream_secs(IntPtr stream, double time);
+        public static al_seek_audio_stream_secs AlSeekAudioStreamSecs =
+            NativeLibrary.LoadNativeFunction<al_seek_audio_stream_secs>(_nativeAllegroLibrary, "al_seek_audio_stream_secs");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate double al_get_audio_stream_position_secs(IntPtr stream);
+        public static al_get_audio_stream_position_secs AlGetAudioStreamPositionSecs =
+            NativeLibrary.LoadNativeFunction<al_get_audio_stream_position_secs>(_nativeAllegroLibrary, "al_get_audio_stream_position_secs");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate double al_get_audio_stream_length_secs(IntPtr stream);
+        public static al_get_audio_stream_length_secs AlGetAudioStreamLengthSecs =
+            NativeLibrary.LoadNativeFunction<al_get_audio_stream_length_secs>(_nativeAllegroLibrary, "al_get_audio_stream_length_secs");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_set_audio_stream_loop_secs(IntPtr stream, double start, double end);
+        public static al_set_audio_stream_loop_secs AlSetAudioStreamLoopSecs =
+            NativeLibrary.LoadNativeFunction<al_set_audio_stream_loop_secs>(_nativeAllegroLibrary, "al_set_audio_stream_loop_secs");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_register_sample_loader([MarshalAs(UnmanagedType.LPStr)] string ext, IntPtr loader);
+        public static al_register_sample_loader AlRegisterSampleLoader =
+            NativeLibrary.LoadNativeFunction<al_register_sample_loader>(_nativeAllegroLibrary, "al_register_sample_loader");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_register_sample_loader_f([MarshalAs(UnmanagedType.LPStr)] string ext, IntPtr loader);
+        public static al_register_sample_loader_f AlRegisterSampleLoaderF =
+            NativeLibrary.LoadNativeFunction<al_register_sample_loader_f>(_nativeAllegroLibrary, "al_register_sample_loader_f");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_register_sample_saver([MarshalAs(UnmanagedType.LPStr)] string ext, IntPtr saver);
+        public static al_register_sample_saver AlRegisterSampleSaver =
+            NativeLibrary.LoadNativeFunction<al_register_sample_saver>(_nativeAllegroLibrary, "al_register_sample_saver");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_register_sample_saver_f([MarshalAs(UnmanagedType.LPStr)] string ext, IntPtr saver);
+        public static al_register_sample_saver_f AlRegisterSampleSaverF =
+            NativeLibrary.LoadNativeFunction<al_register_sample_saver_f>(_nativeAllegroLibrary, "al_register_sample_saver_f");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_register_audio_stream_loader([MarshalAs(UnmanagedType.LPStr)] string ext, IntPtr stream_loader);
+        public static al_register_audio_stream_loader AlRegisterAudioStreamLoader =
+            NativeLibrary.LoadNativeFunction<al_register_audio_stream_loader>(_nativeAllegroLibrary, "al_register_audio_stream_loader");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_register_audio_stream_loader_f([MarshalAs(UnmanagedType.LPStr)] string ext, IntPtr stream_loader);
+        public static al_register_audio_stream_loader_f AlRegisterAudioStreamLoaderF =
+            NativeLibrary.LoadNativeFunction<al_register_audio_stream_loader_f>(_nativeAllegroLibrary, "al_register_audio_stream_loader_f");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_load_sample([MarshalAs(UnmanagedType.LPStr)] string filename);
+        public static al_load_sample AlLoadSample =
+            NativeLibrary.LoadNativeFunction<al_load_sample>(_nativeAllegroLibrary, "al_load_sample");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_load_sample_f(IntPtr fp, [MarshalAs(UnmanagedType.LPStr)] string ident);
+        public static al_load_sample_f AlLoadSampleF =
+            NativeLibrary.LoadNativeFunction<al_load_sample_f>(_nativeAllegroLibrary, "al_load_sample_f");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_load_audio_stream([MarshalAs(UnmanagedType.LPStr)] string filename, UIntPtr buffer_count, uint samples);
+        public static al_load_audio_stream AlLoadAudioStream =
+            NativeLibrary.LoadNativeFunction<al_load_audio_stream>(_nativeAllegroLibrary, "al_load_audio_stream");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_load_audio_stream_f(IntPtr fp, [MarshalAs(UnmanagedType.LPStr)] string ident, UIntPtr buffer_count, uint samples);
+        public static al_load_audio_stream_f AlLoadAudioStreamF =
+            NativeLibrary.LoadNativeFunction<al_load_audio_stream_f>(_nativeAllegroLibrary, "al_load_audio_stream_f");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_save_sample([MarshalAs(UnmanagedType.LPStr)] string filename, IntPtr spl);
+        public static al_save_sample AlSaveSample =
+            NativeLibrary.LoadNativeFunction<al_save_sample>(_nativeAllegroLibrary, "al_save_sample");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_save_sample_f(IntPtr fp, [MarshalAs(UnmanagedType.LPStr)] string ident, IntPtr spl);
+        public static al_save_sample_f AlSaveSampleF =
+            NativeLibrary.LoadNativeFunction<al_save_sample_f>(_nativeAllegroLibrary, "al_save_sample_f");
+        #endregion
+
         #region Audio codecs addon
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate bool al_init_acodec_addon();
