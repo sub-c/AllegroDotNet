@@ -511,7 +511,7 @@ namespace SubC.AllegroDotNet
         {
             var clipboardPtr = AllegroLibrary.AlGetClipboardText(display.NativeIntPtr);
             var returnString = Marshal.PtrToStringAnsi(clipboardPtr);
-            al_free_with_context(clipboardPtr, 0, string.Empty, string.Empty);
+            AllegroLibrary.AlFreeWithContext(clipboardPtr, 0, string.Empty, string.Empty);
             return returnString;
         }
 

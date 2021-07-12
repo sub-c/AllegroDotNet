@@ -2201,6 +2201,33 @@ namespace SubC.AllegroDotNet.Native.Libraries
             NativeLibrary.LoadNativeFunction<al_get_keyboard_event_source>(_nativeAllegroLibrary, "al_get_keyboard_event_source");
         #endregion
 
+        #region Memory management routines
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_malloc_with_context(UIntPtr n, int line, [MarshalAs(UnmanagedType.LPStr)] string file, [MarshalAs(UnmanagedType.LPStr)] string func);
+        public static al_malloc_with_context AlMallocWithContext =
+            NativeLibrary.LoadNativeFunction<al_malloc_with_context>(_nativeAllegroLibrary, "al_malloc_with_context");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_free_with_context(IntPtr ptr, int line, [MarshalAs(UnmanagedType.LPStr)] string file, [MarshalAs(UnmanagedType.LPStr)] string func);
+        public static al_free_with_context AlFreeWithContext =
+            NativeLibrary.LoadNativeFunction<al_free_with_context>(_nativeAllegroLibrary, "al_free_with_context");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_realloc_with_context(IntPtr ptr, UIntPtr n, int line, [MarshalAs(UnmanagedType.LPStr)] string file, [MarshalAs(UnmanagedType.LPStr)] string func);
+        public static al_realloc_with_context AlReallocWithContext =
+            NativeLibrary.LoadNativeFunction<al_realloc_with_context>(_nativeAllegroLibrary, "al_realloc_with_context");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_calloc_with_context(UIntPtr count, UIntPtr n, int line, [MarshalAs(UnmanagedType.LPStr)] string file, [MarshalAs(UnmanagedType.LPStr)] string func);
+        public static al_calloc_with_context AlCallocWithContext =
+            NativeLibrary.LoadNativeFunction<al_calloc_with_context>(_nativeAllegroLibrary, "al_calloc_with_context");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_set_memory_interface(IntPtr memoryInterface);
+        public static al_set_memory_interface AlSetMemoryInterface =
+            NativeLibrary.LoadNativeFunction<al_set_memory_interface>(_nativeAllegroLibrary, "al_set_memory_interface");
+        #endregion
+
         #region Path structures
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate IntPtr al_create_path([MarshalAs(UnmanagedType.LPStr)] string str);
