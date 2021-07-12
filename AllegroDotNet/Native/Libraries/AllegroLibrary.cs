@@ -2154,6 +2154,53 @@ namespace SubC.AllegroDotNet.Native.Libraries
             NativeLibrary.LoadNativeFunction<al_get_joystick_event_source>(_nativeAllegroLibrary, "al_get_joystick_event_source");
         #endregion
 
+        #region Keyboard routines
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_install_keyboard();
+        public static al_install_keyboard AlInstallKeyboard =
+            NativeLibrary.LoadNativeFunction<al_install_keyboard>(_nativeAllegroLibrary, "al_install_keyboard");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_is_keyboard_installed();
+        public static al_is_keyboard_installed AlIsKeyboardInstalled =
+            NativeLibrary.LoadNativeFunction<al_is_keyboard_installed>(_nativeAllegroLibrary, "al_is_keyboard_installed");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_uninstall_keyboard();
+        public static al_uninstall_keyboard AlUninstallKeyboard =
+            NativeLibrary.LoadNativeFunction<al_uninstall_keyboard>(_nativeAllegroLibrary, "al_uninstall_keyboard");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_get_keyboard_state(ref NativeKeyboardState retState);
+        public static al_get_keyboard_state AlGetKeyboardState =
+            NativeLibrary.LoadNativeFunction<al_get_keyboard_state>(_nativeAllegroLibrary, "al_get_keyboard_state");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_clear_keyboard_state(IntPtr display);
+        public static al_clear_keyboard_state AlClearKeyboardState =
+            NativeLibrary.LoadNativeFunction<al_clear_keyboard_state>(_nativeAllegroLibrary, "al_clear_keyboard_state");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_key_down(ref NativeKeyboardState state, int keycode);
+        public static al_key_down AlKeyDown =
+            NativeLibrary.LoadNativeFunction<al_key_down>(_nativeAllegroLibrary, "al_key_down");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_keycode_to_name(int keycode);
+        public static al_keycode_to_name AlKeycodeToName =
+            NativeLibrary.LoadNativeFunction<al_keycode_to_name>(_nativeAllegroLibrary, "al_keycode_to_name");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_set_keyboard_leds(int leds);
+        public static al_set_keyboard_leds AlSetKeyboardLeds =
+            NativeLibrary.LoadNativeFunction<al_set_keyboard_leds>(_nativeAllegroLibrary, "al_set_keyboard_leds");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_get_keyboard_event_source();
+        public static al_get_keyboard_event_source AlGetKeyboardEventSource =
+            NativeLibrary.LoadNativeFunction<al_get_keyboard_event_source>(_nativeAllegroLibrary, "al_get_keyboard_event_source");
+        #endregion
+
         #region Path structures
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate IntPtr al_create_path([MarshalAs(UnmanagedType.LPStr)] string str);
