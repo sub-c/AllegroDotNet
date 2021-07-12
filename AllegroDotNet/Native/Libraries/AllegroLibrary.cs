@@ -1237,6 +1237,128 @@ namespace SubC.AllegroDotNet.Native.Libraries
             NativeLibrary.LoadNativeFunction<al_get_file_userdata>(_nativeAllegroLibrary, "al_get_file_userdata");
         #endregion
 
+        #region File system routines
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_create_fs_entry([MarshalAs(UnmanagedType.LPStr)] string path);
+        public static al_create_fs_entry AlCreateFsEntry =
+            NativeLibrary.LoadNativeFunction<al_create_fs_entry>(_nativeAllegroLibrary, "al_create_fs_entry");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_destroy_fs_entry(IntPtr fh);
+        public static al_destroy_fs_entry AlDestroyFsEntry =
+            NativeLibrary.LoadNativeFunction<al_destroy_fs_entry>(_nativeAllegroLibrary, "al_destroy_fs_entry");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_get_fs_entry_name(IntPtr e);
+        public static al_get_fs_entry_name AlGetFsEntryName =
+            NativeLibrary.LoadNativeFunction<al_get_fs_entry_name>(_nativeAllegroLibrary, "al_get_fs_entry_name");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_update_fs_entry(IntPtr e);
+        public static al_update_fs_entry AlUpdateFsEntry =
+            NativeLibrary.LoadNativeFunction<al_update_fs_entry>(_nativeAllegroLibrary, "al_update_fs_entry");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate uint al_get_fs_entry_mode(IntPtr e);
+        public static al_get_fs_entry_mode AlGetFsEntryMode =
+            NativeLibrary.LoadNativeFunction<al_get_fs_entry_mode>(_nativeAllegroLibrary, "al_get_fs_entry_mode");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate long al_get_fs_entry_atime(IntPtr e);
+        public static al_get_fs_entry_atime AlGetFsEntryAtime =
+            NativeLibrary.LoadNativeFunction<al_get_fs_entry_atime>(_nativeAllegroLibrary, "al_get_fs_entry_atime");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate long al_get_fs_entry_ctime(IntPtr e);
+        public static al_get_fs_entry_ctime AlGetFsEntryCtime =
+            NativeLibrary.LoadNativeFunction<al_get_fs_entry_ctime>(_nativeAllegroLibrary, "al_get_fs_entry_ctime");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate long al_get_fs_entry_mtime(IntPtr e);
+        public static al_get_fs_entry_mtime AlGetFsEntryMtime =
+            NativeLibrary.LoadNativeFunction<al_get_fs_entry_mtime>(_nativeAllegroLibrary, "al_get_fs_entry_mtime");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate long al_get_fs_entry_size(IntPtr e);
+        public static al_get_fs_entry_size AlGetFsEntrySize =
+            NativeLibrary.LoadNativeFunction<al_get_fs_entry_size>(_nativeAllegroLibrary, "al_get_fs_entry_size");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_fs_entry_exists(IntPtr e);
+        public static al_fs_entry_exists AlFsEntryExists =
+            NativeLibrary.LoadNativeFunction<al_fs_entry_exists>(_nativeAllegroLibrary, "al_fs_entry_exists");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_remove_fs_entry(IntPtr e);
+        public static al_remove_fs_entry AlRemoveFsEntry =
+            NativeLibrary.LoadNativeFunction<al_remove_fs_entry>(_nativeAllegroLibrary, "al_remove_fs_entry");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_filename_exists([MarshalAs(UnmanagedType.LPStr)] string path);
+        public static al_filename_exists AlFilenameExists =
+            NativeLibrary.LoadNativeFunction<al_filename_exists>(_nativeAllegroLibrary, "al_filename_exists");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_remove_filename([MarshalAs(UnmanagedType.LPStr)] string path);
+        public static al_remove_filename AlRemoveFilename =
+            NativeLibrary.LoadNativeFunction<al_remove_filename>(_nativeAllegroLibrary, "al_remove_filename");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_open_directory(IntPtr e);
+        public static al_open_directory AlOpenDirectory =
+            NativeLibrary.LoadNativeFunction<al_open_directory>(_nativeAllegroLibrary, "al_open_directory");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_read_directory(IntPtr e);
+        public static al_read_directory AlReadDirectory =
+            NativeLibrary.LoadNativeFunction<al_read_directory>(_nativeAllegroLibrary, "al_read_directory");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_close_directory(IntPtr e);
+        public static al_close_directory AlCloseDirectory =
+            NativeLibrary.LoadNativeFunction<al_close_directory>(_nativeAllegroLibrary, "al_close_directory");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_get_current_directory();
+        public static al_get_current_directory AlGetCurrentDirectory =
+            NativeLibrary.LoadNativeFunction<al_get_current_directory>(_nativeAllegroLibrary, "al_get_current_directory");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_change_directory([MarshalAs(UnmanagedType.LPStr)] string path);
+        public static al_change_directory AlChangeDirectory =
+            NativeLibrary.LoadNativeFunction<al_change_directory>(_nativeAllegroLibrary, "al_change_directory");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_make_directory([MarshalAs(UnmanagedType.LPStr)] string path);
+        public static al_make_directory AlMakeDirectory =
+            NativeLibrary.LoadNativeFunction<al_make_directory>(_nativeAllegroLibrary, "al_make_directory");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_open_fs_entry(IntPtr e, [MarshalAs(UnmanagedType.LPStr)] string mode);
+        public static al_open_fs_entry AlOpenFsEntry =
+            NativeLibrary.LoadNativeFunction<al_open_fs_entry>(_nativeAllegroLibrary, "al_open_fs_entry");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate int al_for_each_fs_entry(IntPtr dir, AlConstants.ForEachFSEntryCallback callback, IntPtr extra);
+        public static al_for_each_fs_entry AlForEachFsEntry =
+            NativeLibrary.LoadNativeFunction<al_for_each_fs_entry>(_nativeAllegroLibrary, "al_for_each_fs_entry");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_set_fs_interface(IntPtr fs_interface);
+        public static al_set_fs_interface AlSetFsInterface =
+            NativeLibrary.LoadNativeFunction<al_set_fs_interface>(_nativeAllegroLibrary, "al_set_fs_interface");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_set_standard_fs_interface();
+        public static al_set_standard_fs_interface AlSetStandardFsInterface =
+            NativeLibrary.LoadNativeFunction<al_set_standard_fs_interface>(_nativeAllegroLibrary, "al_set_standard_fs_interface");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_get_fs_interface();
+        public static al_get_fs_interface AlGetFsInterface =
+            NativeLibrary.LoadNativeFunction<al_get_fs_interface>(_nativeAllegroLibrary, "al_get_fs_interface");
+        #endregion
+
         #region Font addons
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate bool al_init_font_addon();

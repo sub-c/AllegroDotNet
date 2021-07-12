@@ -43,6 +43,9 @@ namespace SubC.AllegroDotNet
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         public delegate IntPtr DetachedThreadProcessDelegate(IntPtr nativeArgument);
 
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        public delegate int ForEachFSEntryCallback(IntPtr dir, IntPtr extra);
+
         /// <summary>
         /// The library filename where all Allegro (including addons) functions can be found.
         /// </summary>
