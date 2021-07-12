@@ -2228,6 +2228,38 @@ namespace SubC.AllegroDotNet.Native.Libraries
             NativeLibrary.LoadNativeFunction<al_set_memory_interface>(_nativeAllegroLibrary, "al_set_memory_interface");
         #endregion
 
+        #region Monitor routines
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate int al_get_new_display_adapter();
+        public static al_get_new_display_adapter AlGetNewDisplayAdapter =
+            NativeLibrary.LoadNativeFunction<al_get_new_display_adapter>(_nativeAllegroLibrary, "al_get_new_display_adapter");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_set_new_display_adapter(int adapter);
+        public static al_set_new_display_adapter AlSetNewDIsplayAdapter =
+            NativeLibrary.LoadNativeFunction<al_set_new_display_adapter>(_nativeAllegroLibrary, "al_set_new_display_adapter");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_get_monitor_info(int adapter, ref NativeMonitorInfo info);
+        public static al_get_monitor_info AlGetMonitorInfo =
+            NativeLibrary.LoadNativeFunction<al_get_monitor_info>(_nativeAllegroLibrary, "al_get_monitor_info");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate int al_get_monitor_dpi(int adapter);
+        public static al_get_monitor_dpi AlGetMonitorDpi =
+            NativeLibrary.LoadNativeFunction<al_get_monitor_dpi>(_nativeAllegroLibrary, "al_get_monitor_dpi");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate int al_get_num_video_adapters();
+        public static al_get_num_video_adapters AlGetNumVideoAdapters =
+            NativeLibrary.LoadNativeFunction<al_get_num_video_adapters>(_nativeAllegroLibrary, "al_get_num_video_adapters");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate int al_get_monitor_refresh_rate(int adapter);
+        public static al_get_monitor_refresh_rate AlGetMonitorRefreshRate =
+            NativeLibrary.LoadNativeFunction<al_get_monitor_refresh_rate>(_nativeAllegroLibrary, "al_get_monitor_refresh_rate");
+        #endregion
+
         #region Path structures
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate IntPtr al_create_path([MarshalAs(UnmanagedType.LPStr)] string str);
