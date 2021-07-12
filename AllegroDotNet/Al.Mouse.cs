@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Runtime.InteropServices;
-using SubC.AllegroDotNet.Models;
 using SubC.AllegroDotNet.Enums;
-using SubC.AllegroDotNet.Native;
+using SubC.AllegroDotNet.Models;
+using SubC.AllegroDotNet.Native.Libraries;
 
 namespace SubC.AllegroDotNet
 {
@@ -17,43 +16,43 @@ namespace SubC.AllegroDotNet
         /// <returns>
         /// True if successful. If a driver was already installed, nothing happens and true is returned.
         /// </returns>
-        public static bool InstallMouse()
-            => al_install_mouse();
+        public static bool InstallMouse() =>
+            AllegroLibrary.AlInstallMouse();
 
         /// <summary>
         /// Returns true if al_install_mouse was called successfully.
         /// </summary>
         /// <returns>True if al_install_mouse was called successfully.</returns>
-        public static bool IsMouseInstalled()
-            => al_is_mouse_installed();
+        public static bool IsMouseInstalled() =>
+            AllegroLibrary.AlIsMouseInstalled();
 
         /// <summary>
         /// Uninstalls the active mouse driver, if any. This will automatically unregister the mouse event source
         /// with any event queues. This function is automatically called when Allegro is shut down.
         /// </summary>
-        public static void UninstallMouse()
-            => al_uninstall_mouse();
+        public static void UninstallMouse() =>
+            AllegroLibrary.AlUninstallMouse();
 
         /// <summary>
         /// Return the number of axes on the mouse. The first axis is 0.
         /// </summary>
         /// <returns>The number of axes on the mouse. The first axis is 0.</returns>
-        public static uint GetMouseNumAxes()
-            => al_get_mouse_num_axes();
+        public static uint GetMouseNumAxes() =>
+            AllegroLibrary.AlGetMouseNumAxes();
 
         /// <summary>
         /// Return the number of buttons on the mouse. The first button is 1.
         /// </summary>
         /// <returns>The number of buttons on the mouse. The first button is 1.</returns>
-        public static uint GetMouseNumButtons()
-            => al_get_mouse_num_buttons();
+        public static uint GetMouseNumButtons() =>
+            AllegroLibrary.AlGetMouseNumButtons();
 
         /// <summary>
         /// Save the state of the mouse specified at the time the function is called into the given structure.
         /// </summary>
         /// <param name="retState">The mouse state to be populated.</param>
-        public static void GetMouseState(AllegroMouseState retState)
-            => al_get_mouse_state(ref retState.Native);
+        public static void GetMouseState(AllegroMouseState retState) =>
+            AllegroLibrary.AlGetMouseState(ref retState.Native);
 
         /// <summary>
         /// Extract the mouse axis value from the saved state. The axes are numbered from 0, in this order: x-axis,
@@ -62,8 +61,8 @@ namespace SubC.AllegroDotNet
         /// <param name="state">The state of the mouse.</param>
         /// <param name="axis">The axis to get the state of.</param>
         /// <returns>The value of the mouse axis.</returns>
-        public static int GetMouseStateAxis(AllegroMouseState state, int axis)
-            => al_get_mouse_state_axis(ref state.Native, axis);
+        public static int GetMouseStateAxis(AllegroMouseState state, int axis) =>
+            AllegroLibrary.AlGetMouseStateAxis(ref state.Native, axis);
 
         /// <summary>
         /// Return true if the mouse button specified was held down in the state specified. Unlike most things, the
@@ -72,8 +71,8 @@ namespace SubC.AllegroDotNet
         /// <param name="state">The mouse state.</param>
         /// <param name="button">The button, starting from 1.</param>
         /// <returns>True if the mouse button is down, otherwise false.</returns>
-        public static bool MouseButtonDown(AllegroMouseState state, int button)
-            => al_mouse_button_down(ref state.Native, button);
+        public static bool MouseButtonDown(AllegroMouseState state, int button) =>
+            AllegroLibrary.AlMouseButtonDown(ref state.Native, button);
 
         /// <summary>
         /// Try to position the mouse at the given coordinates on the given display. The mouse movement resulting from
@@ -83,24 +82,24 @@ namespace SubC.AllegroDotNet
         /// <param name="x">The X postiion.</param>
         /// <param name="y">The Y position.</param>
         /// <returns>Returns true on success, false on failure.</returns>
-        public static bool SetMouseXY(AllegroDisplay display, int x, int y)
-            => al_set_mouse_xy(display.NativeIntPtr, x, y);
+        public static bool SetMouseXY(AllegroDisplay display, int x, int y) =>
+            AllegroLibrary.AlSetMouseXy(display.NativeIntPtr, x, y);
 
         /// <summary>
         /// Set the mouse wheel position to the given value.
         /// </summary>
         /// <param name="z">The Z position.</param>
         /// <returns>Returns true on success, false on failure.</returns>
-        public static bool SetMouseZ(int z)
-            => al_set_mouse_z(z);
+        public static bool SetMouseZ(int z) =>
+            AllegroLibrary.AlSetMouseZ(z);
 
         /// <summary>
         /// Set the second mouse wheel position to the given value.
         /// </summary>
         /// <param name="w">The W position.</param>
         /// <returns>Returns true on success, false on failure.</returns>
-        public static bool SetMouseW(int w)
-            => al_set_mouse_w(w);
+        public static bool SetMouseW(int w) =>
+            AllegroLibrary.AlSetMouseW(w);
 
         /// <summary>
         /// Set the given mouse axis to the given value. The axis number must not be 0 or 1, which are the X and
@@ -111,8 +110,8 @@ namespace SubC.AllegroDotNet
         /// </param>
         /// <param name="value">The value of the axis.</param>
         /// <returns>Returns true on success, false on failure.</returns>
-        public static bool SetMouseAxis(int which, int value)
-            => al_set_mouse_axis(which, value);
+        public static bool SetMouseAxis(int which, int value) =>
+            AllegroLibrary.AlSetMouseAxis(which, value);
 
         /// <summary>
         /// Retrieve the mouse event source. All mouse events are generated by this event source.
@@ -120,7 +119,7 @@ namespace SubC.AllegroDotNet
         /// <returns>Returns null if the mouse subsystem was not installed.</returns>
         public static AllegroEventSource GetMouseEventSource()
         {
-            var nativeEventSource = al_get_mouse_event_source();
+            var nativeEventSource = AllegroLibrary.AlGetMouseEventSource();
             return nativeEventSource == IntPtr.Zero ? null : new AllegroEventSource { NativeIntPtr = nativeEventSource };
         }
 
@@ -137,15 +136,15 @@ namespace SubC.AllegroDotNet
         /// </para>
         /// </summary>
         /// <param name="precision">The precision of the mouse wheel.</param>
-        public static void SetMouseWheelPrecision(int precision)
-            => al_set_mouse_wheel_precision(precision);
+        public static void SetMouseWheelPrecision(int precision) =>
+            AllegroLibrary.AlSetMouseWheelPrecision(precision);
 
         /// <summary>
         /// Gets the precision of the mouse wheel (the z and w coordinates).
         /// </summary>
         /// <returns>The precision of the mouse wheel (Z and W coordinates).</returns>
-        public static int GetMouseWheelPrecision()
-            => al_get_mouse_wheel_precision();
+        public static int GetMouseWheelPrecision() =>
+            AllegroLibrary.AlGetMouseWheelPrecision();
 
         /// <summary>
         /// Create a mouse cursor from the bitmap provided. x_focus and y_focus describe the bit of the cursor
@@ -157,7 +156,7 @@ namespace SubC.AllegroDotNet
         /// <returns>Returns a pointer to the cursor on success, or NULL on failure.</returns>
         public static AllegroMouseCursor CreateMouseCursor(AllegroBitmap bitmap, int xFocus, int yFocus)
         {
-            var nativeMouseCursor = al_create_mouse_cursor(bitmap.NativeIntPtr, xFocus, yFocus);
+            var nativeMouseCursor = AllegroLibrary.AlCreateMouseCursor(bitmap.NativeIntPtr, xFocus, yFocus);
             return nativeMouseCursor == IntPtr.Zero ? null : new AllegroMouseCursor { NativeIntPtr = nativeMouseCursor };
         }
 
@@ -165,8 +164,8 @@ namespace SubC.AllegroDotNet
         /// Free the memory used by the given cursor. Has no effect if cursor is NULL.
         /// </summary>
         /// <param name="mouseCursor">The mouse cursor to destroy.</param>
-        public static void DestroyMouseCursor(AllegroMouseCursor mouseCursor)
-            => al_destroy_mouse_cursor(mouseCursor.NativeIntPtr);
+        public static void DestroyMouseCursor(AllegroMouseCursor mouseCursor) =>
+            AllegroLibrary.AlDestroyMouseCursor(mouseCursor.NativeIntPtr);
 
         /// <summary>
         /// Set the given mouse cursor to be the current mouse cursor for the given display. If the cursor
@@ -175,8 +174,8 @@ namespace SubC.AllegroDotNet
         /// <param name="display">The display to set the mouse cursor for.</param>
         /// <param name="cursor">The cursor to set.</param>
         /// <returns>Returns true on success, false on failure.</returns>
-        public static bool SetMouseCursor(AllegroDisplay display, AllegroMouseCursor cursor)
-            => al_set_mouse_cursor(display.NativeIntPtr, cursor.NativeIntPtr);
+        public static bool SetMouseCursor(AllegroDisplay display, AllegroMouseCursor cursor) =>
+            AllegroLibrary.AlSetMouseCursor(display.NativeIntPtr, cursor.NativeIntPtr);
 
         /// <summary>
         /// Set the given system mouse cursor to be the current mouse cursor for the given display. If the cursor is
@@ -186,8 +185,8 @@ namespace SubC.AllegroDotNet
         /// <param name="display">The display to set the mouse cursor for.</param>
         /// <param name="cursorId">The cursor ID to change.</param>
         /// <returns>Returns true on success, false on failure.</returns>
-        public static bool SetSystemMouseCursor(AllegroDisplay display, SystemMouseCursor cursorId)
-            => al_set_system_mouse_cursor(display.NativeIntPtr, (int)cursorId);
+        public static bool SetSystemMouseCursor(AllegroDisplay display, SystemMouseCursor cursorId) =>
+            AllegroLibrary.AlSetSystemMouseCursor(display.NativeIntPtr, (int)cursorId);
 
         /// <summary>
         /// On platforms where this information is available, this function returns the global location of the mouse
@@ -197,8 +196,8 @@ namespace SubC.AllegroDotNet
         /// <param name="retX">The X position to populate.</param>
         /// <param name="retY">The Y position to populate.</param>
         /// <returns>Returns true on success, false on failure.</returns>
-        public static bool GetMouseCursorPosition(ref int retX, ref int retY)
-            => al_get_mouse_cursor_position(ref retX, ref retY);
+        public static bool GetMouseCursorPosition(ref int retX, ref int retY) =>
+            AllegroLibrary.AlGetMouseCursorPosition(ref retX, ref retY);
 
         /// <summary>
         /// Hide the mouse cursor in the given display. This has no effect on what the current mouse cursor looks
@@ -206,8 +205,8 @@ namespace SubC.AllegroDotNet
         /// </summary>
         /// <param name="display">The display to hide the mouse cursor from.</param>
         /// <returns>Returns true on success (or if the cursor already was hidden), false otherwise.</returns>
-        public static bool HideMouseCursor(AllegroDisplay display)
-            => al_hide_mouse_cursor(display.NativeIntPtr);
+        public static bool HideMouseCursor(AllegroDisplay display) =>
+            AllegroLibrary.AlHideMouseCursor(display.NativeIntPtr);
 
         /// <summary>
         /// Make a mouse cursor visible in the given display.
@@ -217,8 +216,8 @@ namespace SubC.AllegroDotNet
         /// Returns true if a mouse cursor is shown as a result of the call (or one already was visible), false
         /// otherwise.
         /// </returns>
-        public static bool ShowMouseCursor(AllegroDisplay display)
-            => al_show_mouse_cursor(display.NativeIntPtr);
+        public static bool ShowMouseCursor(AllegroDisplay display) =>
+            AllegroLibrary.AlShowMouseCursor(display.NativeIntPtr);
 
         /// <summary>
         /// Confine the mouse cursor to the given display. The mouse cursor can only be confined to one display at
@@ -227,87 +226,88 @@ namespace SubC.AllegroDotNet
         /// </summary>
         /// <param name="display">The display to grab the mouse from.</param>
         /// <returns>True if successful, otherwise returns false</returns>
-        public static bool GrabMouse(AllegroDisplay display)
-            => al_grab_mouse(display.NativeIntPtr);
+        public static bool GrabMouse(AllegroDisplay display) =>
+            AllegroLibrary.AlGrabMouse(display.NativeIntPtr);
 
         /// <summary>
         /// Stop confining the mouse cursor to any display belonging to the program.
         /// </summary>
         /// <returns>True if successful, otherwise false.</returns>
-        public static bool UngrabMouse()
-            => al_ungrab_mouse();
+        public static bool UngrabMouse() =>
+            AllegroLibrary.AlUngrabMouse();
+
         #region P/Invokes
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern bool al_install_mouse();
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_install_mouse();
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern bool al_is_mouse_installed();
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_is_mouse_installed();
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern void al_uninstall_mouse();
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_uninstall_mouse();
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern uint al_get_mouse_num_axes();
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern uint al_get_mouse_num_axes();
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern uint al_get_mouse_num_buttons();
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern uint al_get_mouse_num_buttons();
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern void al_get_mouse_state(ref NativeMouseState retState);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_get_mouse_state(ref NativeMouseState retState);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern int al_get_mouse_state_axis(ref NativeMouseState state, int axis);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern int al_get_mouse_state_axis(ref NativeMouseState state, int axis);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern bool al_mouse_button_down(ref NativeMouseState state, int button);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_mouse_button_down(ref NativeMouseState state, int button);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern bool al_set_mouse_xy(IntPtr display, int x, int y);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_set_mouse_xy(IntPtr display, int x, int y);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern bool al_set_mouse_z(int z);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_set_mouse_z(int z);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern bool al_set_mouse_w(int w);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_set_mouse_w(int w);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern bool al_set_mouse_axis(int which, int value);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_set_mouse_axis(int which, int value);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern IntPtr al_get_mouse_event_source();
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern IntPtr al_get_mouse_event_source();
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern void al_set_mouse_wheel_precision(int precision);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_set_mouse_wheel_precision(int precision);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern int al_get_mouse_wheel_precision();
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern int al_get_mouse_wheel_precision();
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern IntPtr al_create_mouse_cursor(IntPtr bmp, int xFocus, int yFocus);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern IntPtr al_create_mouse_cursor(IntPtr bmp, int xFocus, int yFocus);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern void al_destroy_mouse_cursor(IntPtr cursor);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_destroy_mouse_cursor(IntPtr cursor);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern bool al_set_mouse_cursor(IntPtr display, IntPtr cursor);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_set_mouse_cursor(IntPtr display, IntPtr cursor);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern bool al_set_system_mouse_cursor(IntPtr display, int cursorId);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_set_system_mouse_cursor(IntPtr display, int cursorId);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern bool al_get_mouse_cursor_position(ref int retX, ref int retY);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_get_mouse_cursor_position(ref int retX, ref int retY);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern bool al_hide_mouse_cursor(IntPtr display);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_hide_mouse_cursor(IntPtr display);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern bool al_show_mouse_cursor(IntPtr display);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_show_mouse_cursor(IntPtr display);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern bool al_grab_mouse(IntPtr display);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_grab_mouse(IntPtr display);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        private static extern bool al_ungrab_mouse();
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_ungrab_mouse();
         #endregion
     }
 }

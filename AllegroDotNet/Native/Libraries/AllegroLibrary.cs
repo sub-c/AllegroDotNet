@@ -2260,6 +2260,128 @@ namespace SubC.AllegroDotNet.Native.Libraries
             NativeLibrary.LoadNativeFunction<al_get_monitor_refresh_rate>(_nativeAllegroLibrary, "al_get_monitor_refresh_rate");
         #endregion
 
+        #region Mouse routines
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_install_mouse();
+        public static al_install_mouse AlInstallMouse =
+            NativeLibrary.LoadNativeFunction<al_install_mouse>(_nativeAllegroLibrary, "al_install_mouse");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_is_mouse_installed();
+        public static al_is_mouse_installed AlIsMouseInstalled =
+            NativeLibrary.LoadNativeFunction<al_is_mouse_installed>(_nativeAllegroLibrary, "al_is_mouse_installed");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_uninstall_mouse();
+        public static al_uninstall_mouse AlUninstallMouse =
+            NativeLibrary.LoadNativeFunction<al_uninstall_mouse>(_nativeAllegroLibrary, "al_uninstall_mouse");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate uint al_get_mouse_num_axes();
+        public static al_get_mouse_num_axes AlGetMouseNumAxes =
+            NativeLibrary.LoadNativeFunction<al_get_mouse_num_axes>(_nativeAllegroLibrary, "al_get_mouse_num_axes");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate uint al_get_mouse_num_buttons();
+        public static al_get_mouse_num_buttons AlGetMouseNumButtons =
+            NativeLibrary.LoadNativeFunction<al_get_mouse_num_buttons>(_nativeAllegroLibrary, "al_get_mouse_num_buttons");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_get_mouse_state(ref NativeMouseState retState);
+        public static al_get_mouse_state AlGetMouseState =
+            NativeLibrary.LoadNativeFunction<al_get_mouse_state>(_nativeAllegroLibrary, "al_get_mouse_state");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate int al_get_mouse_state_axis(ref NativeMouseState state, int axis);
+        public static al_get_mouse_state_axis AlGetMouseStateAxis =
+            NativeLibrary.LoadNativeFunction<al_get_mouse_state_axis>(_nativeAllegroLibrary, "al_get_mouse_state_axis");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_mouse_button_down(ref NativeMouseState state, int button);
+        public static al_mouse_button_down AlMouseButtonDown =
+            NativeLibrary.LoadNativeFunction<al_mouse_button_down>(_nativeAllegroLibrary, "al_mouse_button_down");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_set_mouse_xy(IntPtr display, int x, int y);
+        public static al_set_mouse_xy AlSetMouseXy =
+            NativeLibrary.LoadNativeFunction<al_set_mouse_xy>(_nativeAllegroLibrary, "al_set_mouse_xy");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_set_mouse_z(int z);
+        public static al_set_mouse_z AlSetMouseZ =
+            NativeLibrary.LoadNativeFunction<al_set_mouse_z>(_nativeAllegroLibrary, "al_set_mouse_z");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_set_mouse_w(int w);
+        public static al_set_mouse_w AlSetMouseW =
+            NativeLibrary.LoadNativeFunction<al_set_mouse_w>(_nativeAllegroLibrary, "al_set_mouse_w");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_set_mouse_axis(int which, int value);
+        public static al_set_mouse_axis AlSetMouseAxis =
+            NativeLibrary.LoadNativeFunction<al_set_mouse_axis>(_nativeAllegroLibrary, "al_set_mouse_axis");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_get_mouse_event_source();
+        public static al_get_mouse_event_source AlGetMouseEventSource =
+            NativeLibrary.LoadNativeFunction<al_get_mouse_event_source>(_nativeAllegroLibrary, "al_get_mouse_event_source");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_set_mouse_wheel_precision(int precision);
+        public static al_set_mouse_wheel_precision AlSetMouseWheelPrecision =
+            NativeLibrary.LoadNativeFunction<al_set_mouse_wheel_precision>(_nativeAllegroLibrary, "al_set_mouse_wheel_precision");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate int al_get_mouse_wheel_precision();
+        public static al_get_mouse_wheel_precision AlGetMouseWheelPrecision =
+            NativeLibrary.LoadNativeFunction<al_get_mouse_wheel_precision>(_nativeAllegroLibrary, "al_get_mouse_wheel_precision");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_create_mouse_cursor(IntPtr bmp, int xFocus, int yFocus);
+        public static al_create_mouse_cursor AlCreateMouseCursor =
+            NativeLibrary.LoadNativeFunction<al_create_mouse_cursor>(_nativeAllegroLibrary, "al_create_mouse_cursor");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_destroy_mouse_cursor(IntPtr cursor);
+        public static al_destroy_mouse_cursor AlDestroyMouseCursor =
+            NativeLibrary.LoadNativeFunction<al_destroy_mouse_cursor>(_nativeAllegroLibrary, "al_destroy_mouse_cursor");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_set_mouse_cursor(IntPtr display, IntPtr cursor);
+        public static al_set_mouse_cursor AlSetMouseCursor =
+            NativeLibrary.LoadNativeFunction<al_set_mouse_cursor>(_nativeAllegroLibrary, "al_set_mouse_cursor");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_set_system_mouse_cursor(IntPtr display, int cursorId);
+        public static al_set_system_mouse_cursor AlSetSystemMouseCursor =
+            NativeLibrary.LoadNativeFunction<al_set_system_mouse_cursor>(_nativeAllegroLibrary, "al_set_system_mouse_cursor");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_get_mouse_cursor_position(ref int retX, ref int retY);
+        public static al_get_mouse_cursor_position AlGetMouseCursorPosition =
+            NativeLibrary.LoadNativeFunction<al_get_mouse_cursor_position>(_nativeAllegroLibrary, "al_get_mouse_cursor_position");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_hide_mouse_cursor(IntPtr display);
+        public static al_hide_mouse_cursor AlHideMouseCursor =
+            NativeLibrary.LoadNativeFunction<al_hide_mouse_cursor>(_nativeAllegroLibrary, "al_hide_mouse_cursor");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_show_mouse_cursor(IntPtr display);
+        public static al_show_mouse_cursor AlShowMouseCursor =
+            NativeLibrary.LoadNativeFunction<al_show_mouse_cursor>(_nativeAllegroLibrary, "al_show_mouse_cursor");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_grab_mouse(IntPtr display);
+        public static al_grab_mouse AlGrabMouse =
+            NativeLibrary.LoadNativeFunction<al_grab_mouse>(_nativeAllegroLibrary, "al_grab_mouse");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_ungrab_mouse();
+        public static al_ungrab_mouse AlUngrabMouse =
+            NativeLibrary.LoadNativeFunction<al_ungrab_mouse>(_nativeAllegroLibrary, "al_ungrab_mouse");
+        #endregion
+
         #region Path structures
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate IntPtr al_create_path([MarshalAs(UnmanagedType.LPStr)] string str);
