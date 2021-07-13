@@ -3065,9 +3065,141 @@ namespace SubC.AllegroDotNet.Native.Libraries
             NativeLibrary.LoadNativeFunction<al_get_timer_event_source>(_nativeAllegroLibrary, "al_get_timer_event_source");
         #endregion
 
-        //[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        //public delegate ();
-        //public static Al =
-        //    NativeLibrary.LoadNativeFunction<>(_nativeAllegroLibrary, "");
+        #region Transformations routines
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_copy_transform(ref NativeTransform dest, ref NativeTransform src);
+        public static al_copy_transform AlCopyTransform =
+            NativeLibrary.LoadNativeFunction<al_copy_transform>(_nativeAllegroLibrary, "al_copy_transform");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_use_transform(ref NativeTransform trans);
+        public static al_use_transform AlUseTransform =
+            NativeLibrary.LoadNativeFunction<al_use_transform>(_nativeAllegroLibrary, "al_use_transform");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_get_current_transform();
+        public static al_get_current_transform AlGetCurrentTransform =
+            NativeLibrary.LoadNativeFunction<al_get_current_transform>(_nativeAllegroLibrary, "al_get_current_transform");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_use_projection_transform(ref NativeTransform trans);
+        public static al_use_projection_transform AlUseProjectionTransform =
+            NativeLibrary.LoadNativeFunction<al_use_projection_transform>(_nativeAllegroLibrary, "al_use_projection_transform");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_get_current_projection_transform();
+        public static al_get_current_projection_transform AlGetCurrentProjectionTransform =
+            NativeLibrary.LoadNativeFunction<al_get_current_projection_transform>(_nativeAllegroLibrary, "al_get_current_projection_transform");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_get_current_inverse_transform();
+        public static al_get_current_inverse_transform AlGetCurrentInverseTransform =
+            NativeLibrary.LoadNativeFunction<al_get_current_inverse_transform>(_nativeAllegroLibrary, "al_get_current_inverse_transform");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_invert_transform(ref NativeTransform trans);
+        public static al_invert_transform AlInvertTransform =
+            NativeLibrary.LoadNativeFunction<al_invert_transform>(_nativeAllegroLibrary, "al_invert_transform");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_transpose_transform(ref NativeTransform trans);
+        public static al_transpose_transform AlTransposeTransform =
+            NativeLibrary.LoadNativeFunction<al_transpose_transform>(_nativeAllegroLibrary, "al_transpose_transform");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate int al_check_inverse(ref NativeTransform trans, float tol);
+        public static al_check_inverse AlCheckInverse =
+            NativeLibrary.LoadNativeFunction<al_check_inverse>(_nativeAllegroLibrary, "al_check_inverse");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_identity_transform(ref NativeTransform trans);
+        public static al_identity_transform AlIdentityTransform =
+            NativeLibrary.LoadNativeFunction<al_identity_transform>(_nativeAllegroLibrary, "al_identity_transform");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_build_transform(ref NativeTransform trans, float x, float y, float sx, float sy, float theta);
+        public static al_build_transform AlBuildTransform =
+            NativeLibrary.LoadNativeFunction<al_build_transform>(_nativeAllegroLibrary, "al_build_transform");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_build_camera_transform(ref NativeTransform trans, float position_x, float position_y, float position_z, float look_x, float look_y, float look_z, float up_x, float up_y, float up_z);
+        public static al_build_camera_transform AlBuildCameraTransform =
+            NativeLibrary.LoadNativeFunction<al_build_camera_transform>(_nativeAllegroLibrary, "al_build_camera_transform");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_translate_transform(ref NativeTransform trans, float x, float y);
+        public static al_translate_transform AlTranslateTransform =
+            NativeLibrary.LoadNativeFunction<al_translate_transform>(_nativeAllegroLibrary, "al_translate_transform");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_rotate_transform(ref NativeTransform trans, float theta);
+        public static al_rotate_transform AlRotateTransform =
+            NativeLibrary.LoadNativeFunction<al_rotate_transform>(_nativeAllegroLibrary, "al_rotate_transform");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_scale_transform(ref NativeTransform trans, float sx, float sy);
+        public static al_scale_transform AlScaleTransform =
+            NativeLibrary.LoadNativeFunction<al_scale_transform>(_nativeAllegroLibrary, "al_scale_transform");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_transform_coordinates(ref NativeTransform trans, ref float x, ref float y);
+        public static al_transform_coordinates AlTransformCoordinates =
+            NativeLibrary.LoadNativeFunction<al_transform_coordinates>(_nativeAllegroLibrary, "al_transform_coordinates");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_transform_coordinates_3d(ref NativeTransform trans, ref float x, ref float y, ref float z);
+        public static al_transform_coordinates_3d AlTransformCoordinates3d =
+            NativeLibrary.LoadNativeFunction<al_transform_coordinates_3d>(_nativeAllegroLibrary, "al_transform_coordinates_3d");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_transform_coordinates_4d(ref NativeTransform trans, ref float x, ref float y, ref float z, ref float w);
+        public static al_transform_coordinates_4d AlTransformCoordinates4d =
+            NativeLibrary.LoadNativeFunction<al_transform_coordinates_4d>(_nativeAllegroLibrary, "al_transform_coordinates_4d");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_transform_coordinates_3d_projective(ref NativeTransform trans, ref float x, ref float y, ref float z);
+        public static al_transform_coordinates_3d_projective AlTransformCoordinates3dProjective =
+            NativeLibrary.LoadNativeFunction<al_transform_coordinates_3d_projective>(_nativeAllegroLibrary, "al_transform_coordinates_3d_projective");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_compose_transform(ref NativeTransform trans, ref NativeTransform other);
+        public static al_compose_transform AlComposeTransform =
+            NativeLibrary.LoadNativeFunction<al_compose_transform>(_nativeAllegroLibrary, "al_compose_transform");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_orthographic_transform(ref NativeTransform trans, float left, float top, float n, float right, float bottom, float f);
+        public static al_orthographic_transform AlOrthographicTransform =
+            NativeLibrary.LoadNativeFunction<al_orthographic_transform>(_nativeAllegroLibrary, "al_orthographic_transform");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_perspective_transform(ref NativeTransform trans, float left, float top, float n, float right, float bottom, float f);
+        public static al_perspective_transform AlPerspectiveTransform =
+            NativeLibrary.LoadNativeFunction<al_perspective_transform>(_nativeAllegroLibrary, "al_perspective_transform");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_translate_transform_3d(ref NativeTransform trans, float x, float y, float z);
+        public static al_translate_transform_3d AlTranslateTransform3d =
+            NativeLibrary.LoadNativeFunction<al_translate_transform_3d>(_nativeAllegroLibrary, "al_translate_transform_3d");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_scale_transform_3d(ref NativeTransform trans, float sx, float sy, float sz);
+        public static al_scale_transform_3d AlScaleTransform3d =
+            NativeLibrary.LoadNativeFunction<al_scale_transform_3d>(_nativeAllegroLibrary, "al_scale_transform_3d");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_rotate_transform_3d(ref NativeTransform trans, float x, float y, float z, float angle);
+        public static al_rotate_transform_3d AlRotateTransform3d =
+            NativeLibrary.LoadNativeFunction<al_rotate_transform_3d>(_nativeAllegroLibrary, "al_rotate_transform_3d");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_horizontal_shear_transform(ref NativeTransform trans, float theta);
+        public static al_horizontal_shear_transform AlHorizontalShearTransform =
+            NativeLibrary.LoadNativeFunction<al_horizontal_shear_transform>(_nativeAllegroLibrary, "al_horizontal_shear_transform");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_vertical_shear_transform(ref NativeTransform trans, float theta);
+        public static al_vertical_shear_transform AlVerticalShearTransform =
+            NativeLibrary.LoadNativeFunction<al_vertical_shear_transform>(_nativeAllegroLibrary, "al_vertical_shear_transform");
+        #endregion
     }
 }
