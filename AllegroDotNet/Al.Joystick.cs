@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 using SubC.AllegroDotNet.Enums;
 using SubC.AllegroDotNet.Models;
-using SubC.AllegroDotNet.Native;
+using SubC.AllegroDotNet.Native.Libraries;
 
 namespace SubC.AllegroDotNet
 {
@@ -23,23 +23,23 @@ namespace SubC.AllegroDotNet
         /// </para>
         /// </summary>
         /// <returns></returns>
-        public static bool InstallJoystick()
-            => al_install_joystick();
+        public static bool InstallJoystick() =>
+            AllegroLibrary.AlInstallJoystick();
 
         /// <summary>
         /// Uninstalls the active joystick driver. All outstanding ALLEGRO_JOYSTICK structures are invalidated. If no
         /// joystick driver was active, this function does nothing. This function is automatically called when Allegro
         /// is shut down.
         /// </summary>
-        public static void UninstallJoystick()
-            => al_uninstall_joystick();
+        public static void UninstallJoystick() =>
+            AllegroLibrary.AlUninstallJoystick();
 
         /// <summary>
         /// Returns true if <see cref="InstallJoystick"/> was called successfully.
         /// </summary>
         /// <returns>True if <see cref="InstallJoystick"/> was called successfully.</returns>
-        public static bool IsJoystickInstalled()
-            => al_is_joystick_installed();
+        public static bool IsJoystickInstalled() =>
+            AllegroLibrary.AlIsJoystickInstalled();
 
         /// <summary>
         /// Allegro is able to cope with users connecting and disconnected joystick devices on-the-fly. On existing
@@ -62,8 +62,8 @@ namespace SubC.AllegroDotNet
         /// </para>
         /// </summary>
         /// <returns>True if the joystick configuration changed, otherwise returns false.</returns>
-        public static bool ReconfigureJoysticks()
-            => al_reconfigure_joysticks();
+        public static bool ReconfigureJoysticks() =>
+            AllegroLibrary.AlReconfigureJoysticks();
 
         /// <summary>
         /// Return the number of joysticks currently on the system (or potentially on the system). This number can
@@ -72,8 +72,8 @@ namespace SubC.AllegroDotNet
         /// <returns>
         /// 0 if there is no joystick driver installed, otherwise the number of joysticks currently on the system.
         /// </returns>
-        public static int GetNumJoysticks()
-            => al_get_num_joysticks();
+        public static int GetNumJoysticks() =>
+            AllegroLibrary.AlGetNumJoysticks();
 
         /// <summary>
         /// Get a handle for a joystick on the system. The number may be from 0 to al_get_num_joysticks-1. If
@@ -89,7 +89,7 @@ namespace SubC.AllegroDotNet
         /// <returns></returns>
         public static AllegroJoystick GetJoystick(int num)
         {
-            var nativeJoystick = al_get_joystick(num);
+            var nativeJoystick = AllegroLibrary.AlGetJoystick(num);
             return nativeJoystick == IntPtr.Zero ? null : new AllegroJoystick { NativeIntPtr = nativeJoystick };
         }
 
@@ -97,8 +97,8 @@ namespace SubC.AllegroDotNet
         /// This function currently does nothing.
         /// </summary>
         /// <param name="joystick">The joystick to release.</param>
-        public static void ReleaseJoystick(AllegroJoystick joystick)
-            => al_release_joystick(joystick.NativeIntPtr);
+        public static void ReleaseJoystick(AllegroJoystick joystick) =>
+            AllegroLibrary.AlReleaseJoystick(joystick.NativeIntPtr);
 
         /// <summary>
         /// Return if the joystick handle is “active”, i.e. in the current configuration, the handle represents
@@ -107,8 +107,8 @@ namespace SubC.AllegroDotNet
         /// </summary>
         /// <param name="joystick">The joystick to check if active.</param>
         /// <returns>True if active, otherwise false.</returns>
-        public static bool GetJoystickActive(AllegroJoystick joystick)
-            => al_get_joystick_active(joystick.NativeIntPtr);
+        public static bool GetJoystickActive(AllegroJoystick joystick) =>
+            AllegroLibrary.AlGetJoystickActive(joystick.NativeIntPtr);
 
         /// <summary>
         /// Return the name of the given joystick.
@@ -117,7 +117,7 @@ namespace SubC.AllegroDotNet
         /// <returns>The name of the joystick.</returns>
         public static string GetJoystickName(AllegroJoystick joystick)
         {
-            var nativeString = al_get_joystick_name(joystick.NativeIntPtr);
+            var nativeString = AllegroLibrary.AlGetJoystickName(joystick.NativeIntPtr);
             return nativeString == IntPtr.Zero ? string.Empty : Marshal.PtrToStringAnsi(nativeString);
         }
 
@@ -129,7 +129,7 @@ namespace SubC.AllegroDotNet
         /// <returns>Name of the stick, otherwise null.</returns>
         public static string GetJoystickStickName(AllegroJoystick joystick, int stick)
         {
-            var nativeString = al_get_joystick_stick_name(joystick.NativeIntPtr, stick);
+            var nativeString = AllegroLibrary.AlGetJoystickStickName(joystick.NativeIntPtr, stick);
             return nativeString == IntPtr.Zero ? null : Marshal.PtrToStringAnsi(nativeString);
         }
 
@@ -143,7 +143,7 @@ namespace SubC.AllegroDotNet
         /// <returns>The name of the stick axis, otherwise null.</returns>
         public static string GetJoystickAxisName(AllegroJoystick joystick, int stick, int axis)
         {
-            var nativeString = al_get_joystick_axis_name(joystick.NativeIntPtr, stick, axis);
+            var nativeString = AllegroLibrary.AlGetJoystickAxisName(joystick.NativeIntPtr, stick, axis);
             return nativeString == IntPtr.Zero ? null : Marshal.PtrToStringAnsi(nativeString);
         }
 
@@ -156,7 +156,7 @@ namespace SubC.AllegroDotNet
         /// <returns>The name of the button.</returns>
         public static string GetJoystickButtonName(AllegroJoystick joystick, int button)
         {
-            var nativeString = al_get_joystick_button_name(joystick.NativeIntPtr, button);
+            var nativeString = AllegroLibrary.AlGetJoystickButtonName(joystick.NativeIntPtr, button);
             return nativeString == IntPtr.Zero ? null : Marshal.PtrToStringAnsi(nativeString);
         }
 
@@ -167,16 +167,16 @@ namespace SubC.AllegroDotNet
         /// <param name="joystick">The joystick.</param>
         /// <param name="stick">The stick.</param>
         /// <returns>Flags for the given stick.</returns>
-        public static JoyFlags GetJoystickStickFlags(AllegroJoystick joystick, int stick)
-            => (JoyFlags)al_get_joystick_stick_flags(joystick.NativeIntPtr, stick);
+        public static JoyFlags GetJoystickStickFlags(AllegroJoystick joystick, int stick) =>
+            (JoyFlags)AllegroLibrary.AlGetJoystickStickFlags(joystick.NativeIntPtr, stick);
 
         /// <summary>
         /// Return the number of “sticks” on the given joystick. A stick has one or more axes.
         /// </summary>
         /// <param name="joystick">The joystick.</param>
         /// <returns>The number of “sticks” on the given joystick.</returns>
-        public static int GetJoystickNumSticks(AllegroJoystick joystick)
-            => al_get_joystick_num_sticks(joystick.NativeIntPtr);
+        public static int GetJoystickNumSticks(AllegroJoystick joystick) =>
+            AllegroLibrary.AlGetJoystickNumSticks(joystick.NativeIntPtr);
 
         /// <summary>
         /// Return the number of axes on the given “stick”. If the stick doesn’t exist, 0 is returned.
@@ -184,24 +184,24 @@ namespace SubC.AllegroDotNet
         /// <param name="joystick">The joystick.</param>
         /// <param name="stick">The stick.</param>
         /// <returns>The number of axes on the given stick.</returns>
-        public static int GetJoystickNumAxes(AllegroJoystick joystick, int stick)
-            => al_get_joystick_num_axes(joystick.NativeIntPtr, stick);
+        public static int GetJoystickNumAxes(AllegroJoystick joystick, int stick) =>
+            AllegroLibrary.AlGetJoystickNumAxes(joystick.NativeIntPtr, stick);
 
         /// <summary>
         /// Return the number of buttons on the joystick.
         /// </summary>
         /// <param name="joystick">The joystick.</param>
         /// <returns>The number of buttons on the joystick.</returns>
-        public static int GetJoystickNumButtons(AllegroJoystick joystick)
-            => al_get_joystick_num_buttons(joystick.NativeIntPtr);
+        public static int GetJoystickNumButtons(AllegroJoystick joystick) =>
+            AllegroLibrary.AlGetJoystickNumButtons(joystick.NativeIntPtr);
 
         /// <summary>
         /// Get the current joystick state.
         /// </summary>
         /// <param name="joystick">The joystick.</param>
         /// <param name="joystickState">The joystick state to populate.</param>
-        public static void GetJoystickState(AllegroJoystick joystick, AllegroJoystickState joystickState)
-            => al_get_joystick_state(joystick.NativeIntPtr, ref joystickState.Native);
+        public static void GetJoystickState(AllegroJoystick joystick, AllegroJoystickState joystickState) =>
+            AllegroLibrary.AlGetJoystickState(joystick.NativeIntPtr, ref joystickState.Native);
 
         /// <summary>
         /// Returns the global joystick event source. All joystick events are generated by this event source.
@@ -209,64 +209,64 @@ namespace SubC.AllegroDotNet
         /// <returns>The global joystick event source.</returns>
         public static AllegroEventSource GetJoystickEventSource()
         {
-            var nativeEventSource = al_get_joystick_event_source();
+            var nativeEventSource = AllegroLibrary.AlGetJoystickEventSource();
             return nativeEventSource == IntPtr.Zero ? null : new AllegroEventSource { NativeIntPtr = nativeEventSource };
         }
 
         #region P/Invokes
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_install_joystick();
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_install_joystick();
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_uninstall_joystick();
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_uninstall_joystick();
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_is_joystick_installed();
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_is_joystick_installed();
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_reconfigure_joysticks();
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_reconfigure_joysticks();
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern int al_get_num_joysticks();
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern int al_get_num_joysticks();
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern IntPtr al_get_joystick(int num);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern IntPtr al_get_joystick(int num);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_release_joystick(IntPtr joy);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_release_joystick(IntPtr joy);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_get_joystick_active(IntPtr joy);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_get_joystick_active(IntPtr joy);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern IntPtr al_get_joystick_name(IntPtr joy);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern IntPtr al_get_joystick_name(IntPtr joy);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern IntPtr al_get_joystick_stick_name(IntPtr joy, int stick);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern IntPtr al_get_joystick_stick_name(IntPtr joy, int stick);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern IntPtr al_get_joystick_axis_name(IntPtr joy, int stick, int axis);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern IntPtr al_get_joystick_axis_name(IntPtr joy, int stick, int axis);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern IntPtr al_get_joystick_button_name(IntPtr joy, int button);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern IntPtr al_get_joystick_button_name(IntPtr joy, int button);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern int al_get_joystick_stick_flags(IntPtr joy, int stick);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern int al_get_joystick_stick_flags(IntPtr joy, int stick);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern int al_get_joystick_num_sticks(IntPtr joy);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern int al_get_joystick_num_sticks(IntPtr joy);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern int al_get_joystick_num_axes(IntPtr joy, int stick);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern int al_get_joystick_num_axes(IntPtr joy, int stick);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern int al_get_joystick_num_buttons(IntPtr joy);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern int al_get_joystick_num_buttons(IntPtr joy);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_get_joystick_state(IntPtr joy, ref NativeJoystickState retState);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_get_joystick_state(IntPtr joy, ref NativeJoystickState retState);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern IntPtr al_get_joystick_event_source();
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern IntPtr al_get_joystick_event_source();
         #endregion
     }
 }

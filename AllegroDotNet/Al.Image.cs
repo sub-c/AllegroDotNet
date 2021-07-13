@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
+﻿using SubC.AllegroDotNet.Native.Libraries;
 
 namespace SubC.AllegroDotNet
 {
@@ -30,42 +27,42 @@ namespace SubC.AllegroDotNet
         /// </para>
         /// </summary>
         /// <returns>True on success, otherwise false.</returns>
-        public static bool InitImageAddon()
-            => al_init_image_addon();
+        public static bool InitImageAddon() =>
+            AllegroLibrary.AlInitImageAddon();
 
         /// <summary>
         /// Returns true if the image addon is initialized, otherwise returns false.
         /// </summary>
         /// <returns>True if the image addon is initialized, otherwise returns false.</returns>
-        public static bool IsImageAddonInitialized()
-            => al_is_image_addon_initialized();
+        public static bool IsImageAddonInitialized() =>
+            AllegroLibrary.AlIsImageAddonInitialized();
 
         /// <summary>
         /// Shut down the image addon. This is done automatically at program exit, but can be called any time the
         /// user wishes as well.
         /// </summary>
-        public static void ShutdownImageAddon()
-            => al_shutdown_image_addon();
+        public static void ShutdownImageAddon() =>
+            AllegroLibrary.AlShutdownImageAddon();
 
         /// <summary>
         /// Returns the (compiled) version of the addon, in the same format as <see cref="GetAllegroVersion"/>.
         /// </summary>
         /// <returns></returns>
-        public static uint GetAllegroImageVersion()
-            => al_get_allegro_image_version();
+        public static uint GetAllegroImageVersion() =>
+            AllegroLibrary.AlGetAllegroImageVersion();
 
         #region P/Invokes
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_init_image_addon();
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_init_image_addon();
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_is_image_addon_initialized();
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_is_image_addon_initialized();
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_shutdown_image_addon();
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_shutdown_image_addon();
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern uint al_get_allegro_image_version();
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern uint al_get_allegro_image_version();
         #endregion
     }
 }

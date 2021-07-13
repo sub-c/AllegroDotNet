@@ -1,6 +1,5 @@
-﻿using System.Runtime.InteropServices;
-using SubC.AllegroDotNet.Models;
-using SubC.AllegroDotNet.Native;
+﻿using SubC.AllegroDotNet.Models;
+using SubC.AllegroDotNet.Native.Libraries;
 
 namespace SubC.AllegroDotNet
 {
@@ -17,8 +16,8 @@ namespace SubC.AllegroDotNet
         /// Index where new displays are created by the calling thread, or
         /// <see cref="AlConstants.AllegroDefaultDisplayAdapter"/>.
         /// </returns>
-        public static int GetNewDisplayAdapter()
-            => al_get_new_display_adapter();
+        public static int GetNewDisplayAdapter() =>
+            AllegroLibrary.AlGetNewDisplayAdapter();
 
         /// <summary>
         /// Sets the adapter to use for new displays created by the calling thread. The adapter has a monitor
@@ -29,8 +28,8 @@ namespace SubC.AllegroDotNet
         /// The adapter to use for new displays, or <see cref="AlConstants.AllegroDefaultDisplayAdapter"/> to
         /// return to default behavior.
         /// </param>
-        public static void SetNewDisplayAdapter(int adapter)
-            => al_set_new_display_adapter(adapter);
+        public static void SetNewDisplayAdapter(int adapter) =>
+            AllegroLibrary.AlSetNewDIsplayAdapter(adapter);
 
         /// <summary>
         /// Get information about a monitor’s position on the desktop. adapter is a number from 0 to
@@ -43,16 +42,16 @@ namespace SubC.AllegroDotNet
         /// <param name="adapter">The adapter to use for the calling thread.</param>
         /// <param name="info">The monitor info to populate.</param>
         /// <returns>Returns true on success, false on failure.</returns>
-        public static bool GetMonitorInfo(int adapter, AllegroMonitorInfo info)
-            => al_get_monitor_info(adapter, ref info.Native);
+        public static bool GetMonitorInfo(int adapter, AllegroMonitorInfo info) =>
+            AllegroLibrary.AlGetMonitorInfo(adapter, ref info.Native);
 
         /// <summary>
         /// Get the dots per inch of a monitor attached to the display adapter.
         /// </summary>
         /// <param name="adapter">The adapter index.</param>
         /// <returns>The DPI of the monitor.</returns>
-        public static int GetMonitorDpi(int adapter)
-            => al_get_monitor_dpi(adapter);
+        public static int GetMonitorDpi(int adapter) =>
+            AllegroLibrary.AlGetMonitorDpi(adapter);
 
         /// <summary>
         /// Get the number of video “adapters” attached to the computer. Each video card attached to the computer
@@ -64,8 +63,8 @@ namespace SubC.AllegroDotNet
         /// </para>
         /// </summary>
         /// <returns>The number of video adapters.</returns>
-        public static int GetNumVideoAdapters()
-            => al_get_num_video_adapters();
+        public static int GetNumVideoAdapters() =>
+            AllegroLibrary.AlGetNumVideoAdapters();
 
         /// <summary>
         /// Returns the current refresh rate of a monitor attached to the display adapter.
@@ -75,27 +74,27 @@ namespace SubC.AllegroDotNet
         /// </summary>
         /// <param name="adapter">The adapter index.</param>
         /// <returns>The refresh rate of the monitor.</returns>
-        public static int GetMonitorRefreshRate(int adapter)
-            => al_get_monitor_refresh_rate(adapter);
+        public static int GetMonitorRefreshRate(int adapter) =>
+            AllegroLibrary.AlGetMonitorRefreshRate(adapter);
 
         #region P/Invokes
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern int al_get_new_display_adapter();
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern int al_get_new_display_adapter();
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_set_new_display_adapter(int adapter);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_set_new_display_adapter(int adapter);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_get_monitor_info(int adapter, ref NativeMonitorInfo info);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_get_monitor_info(int adapter, ref NativeMonitorInfo info);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern int al_get_monitor_dpi(int adapter);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern int al_get_monitor_dpi(int adapter);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern int al_get_num_video_adapters();
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern int al_get_num_video_adapters();
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern int al_get_monitor_refresh_rate(int adapter);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern int al_get_monitor_refresh_rate(int adapter);
         #endregion
     }
 }

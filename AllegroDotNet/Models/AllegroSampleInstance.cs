@@ -1,4 +1,6 @@
-﻿namespace SubC.AllegroDotNet.Models
+﻿using SubC.AllegroDotNet.Native;
+
+namespace SubC.AllegroDotNet.Models
 {
     /// <summary>
     /// An ALLEGRO_SAMPLE_INSTANCE object represents a playable instance of a predefined sound effect. It holds

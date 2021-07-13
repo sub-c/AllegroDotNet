@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Runtime.InteropServices;
-using SubC.AllegroDotNet.Models;
 using SubC.AllegroDotNet.Enums;
+using SubC.AllegroDotNet.Models;
+using SubC.AllegroDotNet.Native.Libraries;
 
 namespace SubC.AllegroDotNet
 {
@@ -19,7 +19,7 @@ namespace SubC.AllegroDotNet
         /// <returns>A new <see cref="AllegroTimer"/> instance, or null if it fails.</returns>
         public static AllegroTimer CreateTimer(double speedSecs)
         {
-            var nativeTimer = al_create_timer(speedSecs);
+            var nativeTimer = AllegroLibrary.AlCreateTimer(speedSecs);
             return nativeTimer == IntPtr.Zero ? null : new AllegroTimer { NativeIntPtr = nativeTimer };
         }
 
@@ -29,8 +29,8 @@ namespace SubC.AllegroDotNet
         /// stopped will reset the timer's counter, effectively restarting the timer from the beginning.
         /// </summary>
         /// <param name="timer">The timer to start.</param>
-        public static void StartTimer(AllegroTimer timer)
-            => al_start_timer(timer.NativeIntPtr);
+        public static void StartTimer(AllegroTimer timer) =>
+            AllegroLibrary.AlStartTimer(timer.NativeIntPtr);
 
         /// <summary>
         /// Resume the timer specified. From then, the timer's counter will increment at a constant rate, and it will
@@ -38,24 +38,24 @@ namespace SubC.AllegroDotNet
         /// will not reset the timer's counter (unlike <see cref="StartTimer(AllegroTimer)"/>).
         /// </summary>
         /// <param name="timer">The timer to resume.</param>
-        public static void ResumeTimer(AllegroTimer timer)
-            => al_resume_timer(timer.NativeIntPtr);
+        public static void ResumeTimer(AllegroTimer timer) =>
+            AllegroLibrary.AlResumeTimer(timer.NativeIntPtr);
 
         /// <summary>
         /// Stop the timer specified. The timer's counter will stop incrementing and it will stop generating events.
         /// Stopping a timer that is already stopped does nothing.
         /// </summary>
         /// <param name="timer">The timer to stop.</param>
-        public static void StopTimer(AllegroTimer timer)
-            => al_stop_timer(timer.NativeIntPtr);
+        public static void StopTimer(AllegroTimer timer) =>
+            AllegroLibrary.AlStopTimer(timer.NativeIntPtr);
 
         /// <summary>
         /// Return true if the timer specified is currently started.
         /// </summary>
         /// <param name="timer">The timer to check if started.</param>
         /// <returns>True if the timer specified is currently started, otherwise false.</returns>
-        public static bool GetTimerStarted(AllegroTimer timer)
-            => al_get_timer_started(timer.NativeIntPtr);
+        public static bool GetTimerStarted(AllegroTimer timer) =>
+            AllegroLibrary.AlGetTimerStarted(timer.NativeIntPtr);
 
         /// <summary>
         /// Uninstall the timer specified. If the timer is started, it will automatically be stopped
@@ -65,16 +65,16 @@ namespace SubC.AllegroDotNet
         /// </para>
         /// </summary>
         /// <param name="timer">The timer to destroy.</param>
-        public static void DestroyTimer(AllegroTimer timer)
-            => al_destroy_timer(timer.NativeIntPtr);
+        public static void DestroyTimer(AllegroTimer timer) =>
+            AllegroLibrary.AlDestroyTimer(timer.NativeIntPtr);
 
         /// <summary>
         /// Return the timer's counter value. The timer can be started or stopped.
         /// </summary>
         /// <param name="timer">The timer to get the counter value of.</param>
         /// <returns>The current count of the timer.</returns>
-        public static long GetTimerCount(AllegroTimer timer)
-            => al_get_timer_count(timer.NativeIntPtr);
+        public static long GetTimerCount(AllegroTimer timer) =>
+            AllegroLibrary.AlGetTimerCount(timer.NativeIntPtr);
 
         /// <summary>
         /// Set the timer's counter value. The timer can be started or stopped. The count value may be positive
@@ -82,8 +82,8 @@ namespace SubC.AllegroDotNet
         /// </summary>
         /// <param name="timer">The timer to set.</param>
         /// <param name="newCount">The new count for the timer.</param>
-        public static void SetTimerCount(AllegroTimer timer, long newCount)
-            => al_set_timer_count(timer.NativeIntPtr, newCount);
+        public static void SetTimerCount(AllegroTimer timer, long newCount) =>
+            AllegroLibrary.AlSetTimerCount(timer.NativeIntPtr, newCount);
 
         /// <summary>
         /// Add diff to the timer's counter value. This is similar to:
@@ -96,8 +96,8 @@ namespace SubC.AllegroDotNet
         /// </summary>
         /// <param name="timer">The timer to add counts to.</param>
         /// <param name="diff">The amount of counts to add.</param>
-        public static void AddTimerCount(AllegroTimer timer, long diff)
-            => al_add_timer_count(timer.NativeIntPtr, diff);
+        public static void AddTimerCount(AllegroTimer timer, long diff) =>
+            AllegroLibrary.AlAddTimerCount(timer.NativeIntPtr, diff);
 
         /// <summary>
         /// Return the timer's speed, in seconds (The same value passed to
@@ -105,8 +105,8 @@ namespace SubC.AllegroDotNet
         /// </summary>
         /// <param name="timer">The timer to get the speed of.</param>
         /// <returns>The speed in seconds of the timer.</returns>
-        public static double GetTimerSpeed(AllegroTimer timer)
-            => al_get_timer_speed(timer.NativeIntPtr);
+        public static double GetTimerSpeed(AllegroTimer timer) =>
+            AllegroLibrary.AlGetTimerSpeed(timer.NativeIntPtr);
 
         /// <summary>
         /// Set the timer's speed, i.e. the rate at which its counter will be incremented when it is started.
@@ -115,8 +115,8 @@ namespace SubC.AllegroDotNet
         /// </summary>
         /// <param name="timer">The timer to set the speed of.</param>
         /// <param name="newSpeedSecs">The new speed in seconds.</param>
-        public static void SetTimerSpeed(AllegroTimer timer, double newSpeedSecs)
-            => al_set_timer_speed(timer.NativeIntPtr, newSpeedSecs);
+        public static void SetTimerSpeed(AllegroTimer timer, double newSpeedSecs) =>
+            AllegroLibrary.AlSetTimerSpeed(timer.NativeIntPtr, newSpeedSecs);
 
         /// <summary>
         /// Retrieve the associated event source. Timers will generate events of type <see cref="EventType.Timer"/>.
@@ -125,46 +125,46 @@ namespace SubC.AllegroDotNet
         /// <returns>The timer's event source.</returns>
         public static AllegroEventSource GetTimerEventSource(AllegroTimer timer)
         {
-            var nativeEventSource = al_get_timer_event_source(timer.NativeIntPtr);
+            var nativeEventSource = AllegroLibrary.AlGetTimerEventSource(timer.NativeIntPtr);
             return nativeEventSource == IntPtr.Zero ? null : new AllegroEventSource { NativeIntPtr = nativeEventSource };
         }
 
         #region P/Invokes
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern IntPtr al_create_timer(double speedSecs);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern IntPtr al_create_timer(double speedSecs);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_start_timer(IntPtr timer);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_start_timer(IntPtr timer);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_resume_timer(IntPtr timer);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_resume_timer(IntPtr timer);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_stop_timer(IntPtr timer);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_stop_timer(IntPtr timer);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_get_timer_started(IntPtr timer);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_get_timer_started(IntPtr timer);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_destroy_timer(IntPtr timer);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_destroy_timer(IntPtr timer);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern long al_get_timer_count(IntPtr timer);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern long al_get_timer_count(IntPtr timer);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_set_timer_count(IntPtr timer, long newCount);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_set_timer_count(IntPtr timer, long newCount);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_add_timer_count(IntPtr timer, long diff);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_add_timer_count(IntPtr timer, long diff);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern double al_get_timer_speed(IntPtr timer);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern double al_get_timer_speed(IntPtr timer);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_set_timer_speed(IntPtr timer, double newSpeedSecs);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_set_timer_speed(IntPtr timer, double newSpeedSecs);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern IntPtr al_get_timer_event_source(IntPtr timer);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern IntPtr al_get_timer_event_source(IntPtr timer);
         #endregion
     }
 }

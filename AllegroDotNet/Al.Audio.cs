@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 using SubC.AllegroDotNet.Enums;
 using SubC.AllegroDotNet.Models;
-using SubC.AllegroDotNet.Native;
+using SubC.AllegroDotNet.Native.Libraries;
 
 namespace SubC.AllegroDotNet
 {
@@ -18,21 +17,21 @@ namespace SubC.AllegroDotNet
         /// </para>
         /// </summary>
         /// <returns>True on success, false on failure.</returns>
-        public static bool InstallAudio()
-            => al_install_audio();
+        public static bool InstallAudio() =>
+            AllegroLibrary.AlInstallAudio();
 
         /// <summary>
         /// Uninstalls the audio subsystem.
         /// </summary>
-        public static void UninstallAudio()
-            => al_uninstall_audio();
+        public static void UninstallAudio() =>
+            AllegroLibrary.AlUninstallAudio();
 
         /// <summary>
         /// Returns true if <see cref="InstallAudio"/> was called previously and returned successfully.
         /// </summary>
         /// <returns>True if audio is already installed, otherwise false.</returns>
-        public static bool IsAudioInstalled()
-            => al_is_audio_installed();
+        public static bool IsAudioInstalled() =>
+            AllegroLibrary.AlIsAudioInstalled();
 
         /// <summary>
         /// Reserves a number of sample instances, attaching them to the default mixer. If no default mixer is set
@@ -45,15 +44,15 @@ namespace SubC.AllegroDotNet
         /// </summary>
         /// <param name="samples">The amount of sample instances to reserve.</param>
         /// <returns>True on success, false on error. <see cref="InstallAudio"/> must have been called first.</returns>
-        public static bool ReserveSamples(int samples)
-            => al_reserve_samples(samples);
+        public static bool ReserveSamples(int samples) =>
+            AllegroLibrary.AlReserveSamples(samples);
 
         /// <summary>
         /// Returns the (compiled) version of the addon, in the same format as <see cref="GetAllegroVersion"/>.
         /// </summary>
         /// <returns>The (compiled) version of the audio addon.</returns>
-        public static uint GetAllegroAudioVersion()
-            => al_get_allegro_audio_version();
+        public static uint GetAllegroAudioVersion() =>
+            AllegroLibrary.AlGetAllegroAudioVersion();
 
         /// <summary>
         /// Return the size of a sample, in bytes, for the given format. The format is one of the values listed under
@@ -61,8 +60,8 @@ namespace SubC.AllegroDotNet
         /// </summary>
         /// <param name="depth">The audio format.</param>
         /// <returns>The amount of bytes for a sample in the given format.</returns>
-        public static ulong GetAudioDepthSize(AudioDepth depth)
-            => (ulong)al_get_audio_depth_size((int)depth);
+        public static ulong GetAudioDepthSize(AudioDepth depth) =>
+            (ulong)AllegroLibrary.AlGetAudioDepthSize((int)depth);
 
         /// <summary>
         /// Return the number of channels for the given channel configuration, which is one of the values listed under
@@ -70,8 +69,8 @@ namespace SubC.AllegroDotNet
         /// </summary>
         /// <param name="conf">The channel configuration.</param>
         /// <returns>The number of channels for the given channel configuration.</returns>
-        public static ulong GetChannelCount(ChannelConf conf)
-            => (ulong)al_get_channel_count((int)conf);
+        public static ulong GetChannelCount(ChannelConf conf) =>
+            (ulong)AllegroLibrary.AlGetChannelCount((int)conf);
 
         /// <summary>
         /// Fill a buffer with silence, for the given format and channel configuration. The buffer must have enough
@@ -103,7 +102,7 @@ namespace SubC.AllegroDotNet
         /// <returns>The voice from the digital sound driver on success, otherwise <c>null</c>.</returns>
         public static AllegroVoice CreateVoice(uint freq, AudioDepth depth, ChannelConf channelConf)
         {
-            var nativeVoice = al_create_voice(freq, (int)depth, (int)channelConf);
+            var nativeVoice = AllegroLibrary.AlCreateVoice(freq, (int)depth, (int)channelConf);
             return nativeVoice == IntPtr.Zero ? null : new AllegroVoice { NativeIntPtr = nativeVoice };
         }
 
@@ -114,15 +113,15 @@ namespace SubC.AllegroDotNet
         public static void DestroyVoice(AllegroVoice voice)
         {
             var nativeVoice = voice == null ? IntPtr.Zero : voice.NativeIntPtr;
-            al_destroy_voice(nativeVoice);
+            AllegroLibrary.AlDestroyVoice(nativeVoice);
         }
 
         /// <summary>
         /// Detaches the mixer, sample instance or audio stream from the voice.
         /// </summary>
         /// <param name="voice">The voice instance.</param>
-        public static void DetachVoice(AllegroVoice voice)
-           => al_detach_voice(voice.NativeIntPtr);
+        public static void DetachVoice(AllegroVoice voice) =>
+            AllegroLibrary.AlDetachVoice(voice.NativeIntPtr);
 
         /// <summary>
         /// Attaches an audio stream to a voice. The same rules as
@@ -137,8 +136,8 @@ namespace SubC.AllegroDotNet
         /// <param name="stream">The stream instance.</param>
         /// <param name="voice">The voice instance.</param>
         /// <returns>True on success, false on failure.</returns>
-        public static bool AttachAudioStreamToVoice(AllegroAudioStream stream, AllegroVoice voice)
-            => al_attach_audio_stream_to_voice(stream.NativeIntPtr, voice.NativeIntPtr);
+        public static bool AttachAudioStreamToVoice(AllegroAudioStream stream, AllegroVoice voice) =>
+            AllegroLibrary.AlAttachAudioStreamToVoice(stream.NativeIntPtr, voice.NativeIntPtr);
 
         /// <summary>
         /// Attaches a mixer to a voice. It must have the same frequency and channel configuration, but the depth may
@@ -147,8 +146,8 @@ namespace SubC.AllegroDotNet
         /// <param name="mixer">The mixer instance.</param>
         /// <param name="voice">The voice instance.</param>
         /// <returns>True on success, false on failure.</returns>
-        public static bool AttachMixerToVoice(AllegroMixer mixer, AllegroVoice voice)
-            => al_attach_mixer_to_voice(mixer.NativeIntPtr, voice.NativeIntPtr);
+        public static bool AttachMixerToVoice(AllegroMixer mixer, AllegroVoice voice) =>
+            AllegroLibrary.AlAttachMixerToVoice(mixer.NativeIntPtr, voice.NativeIntPtr);
 
         /// <summary>
         /// Attaches a sample instance to a voice, and allows it to play. The instance’s gain and loop mode will be
@@ -161,40 +160,40 @@ namespace SubC.AllegroDotNet
         /// <param name="sample">The sample instance.</param>
         /// <param name="voice">The voice instance.</param>
         /// <returns>True on success, false on failure.</returns>
-        public static bool AttachSampleInstanceToVoice(AllegroSampleInstance sample, AllegroVoice voice)
-            => al_attach_sample_instance_to_voice(sample.NativeIntPtr, voice.NativeIntPtr);
+        public static bool AttachSampleInstanceToVoice(AllegroSampleInstance sample, AllegroVoice voice) =>
+            AllegroLibrary.AlAttachSampleInstanceToVoice(sample.NativeIntPtr, voice.NativeIntPtr);
 
         /// <summary>
         /// Return the frequency of the voice (in Hz), e.g. 44100.
         /// </summary>
         /// <param name="voice">The voice instance.</param>
         /// <returns>The frequency of the voice.</returns>
-        public static uint GetVoiceFrequency(AllegroVoice voice)
-            => al_get_voice_frequency(voice.NativeIntPtr);
+        public static uint GetVoiceFrequency(AllegroVoice voice) =>
+            AllegroLibrary.AlGetVoiceFrequency(voice.NativeIntPtr);
 
         /// <summary>
         /// Return the channel configuration of the voice.
         /// </summary>
         /// <param name="voice">The voice instance.</param>
         /// <returns>The channel configuration of the voice.</returns>
-        public static ChannelConf GetVoiceChannels(AllegroVoice voice)
-            => (ChannelConf)al_get_voice_channels(voice.NativeIntPtr);
+        public static ChannelConf GetVoiceChannels(AllegroVoice voice) =>
+            (ChannelConf)AllegroLibrary.AlGetVoiceChannels(voice.NativeIntPtr);
 
         /// <summary>
         /// Return the audio depth of the voice.
         /// </summary>
         /// <param name="voice">The voice instance.</param>
         /// <returns>Audio depth of the voice.</returns>
-        public static AudioDepth GetVoiceDepth(AllegroVoice voice)
-            => (AudioDepth)al_get_voice_depth(voice.NativeIntPtr);
+        public static AudioDepth GetVoiceDepth(AllegroVoice voice) =>
+            (AudioDepth)AllegroLibrary.AlGetVoiceDepth(voice.NativeIntPtr);
 
         /// <summary>
         /// Return true if the voice is currently playing.
         /// </summary>
         /// <param name="voice">The voice instance.</param>
         /// <returns>True if the voice is playing, otherwise false.</returns>
-        public static bool GetVoicePlaying(AllegroVoice voice)
-            => al_get_voice_playing(voice.NativeIntPtr);
+        public static bool GetVoicePlaying(AllegroVoice voice) =>
+            AllegroLibrary.AlGetVoicePlaying(voice.NativeIntPtr);
 
         /// <summary>
         /// Change whether a voice is playing or not. This can only work if the voice has a non-streaming object
@@ -203,8 +202,8 @@ namespace SubC.AllegroDotNet
         /// <param name="voice">The voice instance.</param>
         /// <param name="val">The value to set the playing status to.</param>
         /// <returns>True on success, false on failure.</returns>
-        public static bool SetVoicePlaying(AllegroVoice voice, bool val)
-            => al_set_voice_playing(voice.NativeIntPtr, val);
+        public static bool SetVoicePlaying(AllegroVoice voice, bool val) =>
+            AllegroLibrary.AlSetVoicePlaying(voice.NativeIntPtr, val);
 
         /// <summary>
         /// When the voice has a non-streaming object attached to it, e.g. a sample, returns the voice’s current sample
@@ -212,8 +211,8 @@ namespace SubC.AllegroDotNet
         /// </summary>
         /// <param name="voice">The voice instance.</param>
         /// <returns>Returns the voice’s current sample position. Otherwise, returns zero.</returns>
-        public static uint GetVoicePosition(AllegroVoice voice)
-            => al_get_voice_position(voice.NativeIntPtr);
+        public static uint GetVoicePosition(AllegroVoice voice) =>
+            AllegroLibrary.AlGetVoicePosition(voice.NativeIntPtr);
 
         /// <summary>
         /// Set the voice position. This can only work if the voice has a non-streaming object attached to it, e.g.
@@ -222,8 +221,8 @@ namespace SubC.AllegroDotNet
         /// <param name="voice">The voice instance.</param>
         /// <param name="val">The value to set the position to.</param>
         /// <returns>True on success, otherwise false.</returns>
-        public static bool SetVoicePosition(AllegroVoice voice, uint val)
-            => al_set_voice_position(voice.NativeIntPtr, val);
+        public static bool SetVoicePosition(AllegroVoice voice, uint val) =>
+            AllegroLibrary.AlSetVoicePosition(voice.NativeIntPtr, val);
 
         /// <summary>
         /// Create a sample data structure from the supplied buffer. If <c>freeBuf</c> is true then the buffer will
@@ -239,7 +238,7 @@ namespace SubC.AllegroDotNet
         /// <returns>Sample instance on success, otherwise null.</returns>
         public static AllegroSample CreateSample(ref byte[] buf, uint samples, uint freq, AudioDepth depth, ChannelConf channelConf, bool freeBuf)
         {
-            var nativeSample = al_create_sample(ref buf, samples, freq, (int)depth, (int)channelConf, freeBuf);
+            var nativeSample = AllegroLibrary.AlCreateSample(ref buf, samples, freq, (int)depth, (int)channelConf, freeBuf);
             return nativeSample == IntPtr.Zero ? null : new AllegroSample { NativeIntPtr = nativeSample };
         }
 
@@ -252,8 +251,8 @@ namespace SubC.AllegroDotNet
         /// </para>
         /// </summary>
         /// <param name="sample">The sample instance to destroy.</param>
-        public static void DestroySample(AllegroSample sample)
-            => al_destroy_sample(sample.NativeIntPtr);
+        public static void DestroySample(AllegroSample sample) =>
+            AllegroLibrary.AlDestroySample(sample.NativeIntPtr);
 
         /// <summary>
         /// Plays a sample on one of the sample instances created by <see cref="ReserveSamples(int)"/>.
@@ -275,11 +274,12 @@ namespace SubC.AllegroDotNet
         {
             if (retId == null)
             {
-                return al_play_sample(sample.NativeIntPtr, gain, pan, speed, (int)loop, IntPtr.Zero);
+                return AllegroLibrary.AlPlaySample(sample.NativeIntPtr, gain, pan, speed, (int)loop, IntPtr.Zero);
             }
             else
             {
-                return al_play_sample(sample.NativeIntPtr, gain, pan, speed, (int)loop, ref retId.Native);
+                //return AllegroLibrary.AlPlaySample(sample.NativeIntPtr, gain, pan, speed, (int)loop, ref retId.Native);
+                throw new NotImplementedException();
             }
         }
 
@@ -288,47 +288,47 @@ namespace SubC.AllegroDotNet
         /// <see cref="PlaySample(AllegroSample, float, float, float, PlayMode, AllegroSampleId)"/>.
         /// </summary>
         /// <param name="sampleId">The sample ID to stop playing.</param>
-        public static void StopSample(AllegroSampleId sampleId)
-            => al_stop_sample(ref sampleId.Native);
+        public static void StopSample(AllegroSampleId sampleId) =>
+            AllegroLibrary.AlStopSample(ref sampleId.Native);
 
         /// <summary>
         /// Stop all samples started by
         /// <see cref="PlaySample(AllegroSample, float, float, float, PlayMode, AllegroSampleId)"/>.
         /// </summary>
-        public static void StopSamples()
-            => al_stop_samples();
+        public static void StopSamples() =>
+            AllegroLibrary.AlStopSamples();
 
         /// <summary>
         /// Return the channel configuration of the sample.
         /// </summary>
         /// <param name="sample">The sample.</param>
         /// <returns>The channel configuration.</returns>
-        public static ChannelConf GetSampleChannels(AllegroSample sample)
-            => (ChannelConf)al_get_sample_channels(sample.NativeIntPtr);
+        public static ChannelConf GetSampleChannels(AllegroSample sample) =>
+            (ChannelConf)AllegroLibrary.AlGetSampleChannels(sample.NativeIntPtr);
 
         /// <summary>
         /// Return the audio depth of the sample.
         /// </summary>
         /// <param name="sample">The sample.</param>
         /// <returns>The audio depth.</returns>
-        public static AudioDepth GetSampleDepth(AllegroSample sample)
-            => (AudioDepth)al_get_sample_channels(sample.NativeIntPtr);
+        public static AudioDepth GetSampleDepth(AllegroSample sample) =>
+            (AudioDepth)AllegroLibrary.AlGetSampleDepth(sample.NativeIntPtr);
 
         /// <summary>
         /// Return the frequency (in Hz) of the sample.
         /// </summary>
         /// <param name="sample">The sample.</param>
         /// <returns>The frequency.</returns>
-        public static uint GetSampleFrequency(AllegroSample sample)
-            => al_get_sample_frequency(sample.NativeIntPtr);
+        public static uint GetSampleFrequency(AllegroSample sample) =>
+            AllegroLibrary.AlGetSampleFrequency(sample.NativeIntPtr);
 
         /// <summary>
         /// Return the length of the sample in sample values.
         /// </summary>
         /// <param name="sample">The sample.</param>
         /// <returns>The length in sample values.</returns>
-        public static uint GetSampleLength(AllegroSample sample)
-            => al_get_sample_length(sample.NativeIntPtr);
+        public static uint GetSampleLength(AllegroSample sample) =>
+            AllegroLibrary.AlGetSampleLength(sample.NativeIntPtr);
 
         /// <summary>
         /// Return a pointer to the raw sample data.
@@ -351,7 +351,7 @@ namespace SubC.AllegroDotNet
         /// <returns>The created sample instance.</returns>
         public static AllegroSampleInstance CreateSampleInstance(AllegroSample sampleData)
         {
-            var nativeSampleInstance = al_create_sample_instance(sampleData.NativeIntPtr);
+            var nativeSampleInstance = AllegroLibrary.AlCreateSampleInstance(sampleData.NativeIntPtr);
             return nativeSampleInstance == IntPtr.Zero ? null : new AllegroSampleInstance { NativeIntPtr = nativeSampleInstance };
         }
 
@@ -360,48 +360,48 @@ namespace SubC.AllegroDotNet
         /// <see cref="AllegroSample"/>, is not freed!).
         /// </summary>
         /// <param name="sampleInstance">The sample instance.</param>
-        public static void DestroySampleInstance(AllegroSampleInstance sampleInstance)
-            => al_destroy_sample_instance(sampleInstance.NativeIntPtr);
+        public static void DestroySampleInstance(AllegroSampleInstance sampleInstance) =>
+            AllegroLibrary.AlDestroySampleInstance(sampleInstance.NativeIntPtr);
 
         /// <summary>
         /// Play the sample instance.
         /// </summary>
         /// <param name="sampleInstance">The sample instance.</param>
         /// <returns>Returns true on success, false on failure.</returns>
-        public static bool PlaySampleInstance(AllegroSampleInstance sampleInstance)
-            => al_play_sample_instance(sampleInstance.NativeIntPtr);
+        public static bool PlaySampleInstance(AllegroSampleInstance sampleInstance) =>
+            AllegroLibrary.AlPlaySampleInstance(sampleInstance.NativeIntPtr);
 
         /// <summary>
         /// Stop an sample instance playing.
         /// </summary>
         /// <param name="sampleInstance">The sample instance.</param>
         /// <returns>Returns true on success, false on failure.</returns>
-        public static bool StopSampleInstance(AllegroSampleInstance sampleInstance)
-            => al_stop_sample_instance(sampleInstance.NativeIntPtr);
+        public static bool StopSampleInstance(AllegroSampleInstance sampleInstance) =>
+            AllegroLibrary.AlStopSampleInstance(sampleInstance.NativeIntPtr);
 
         /// <summary>
         /// Return the channel configuration of the sample instance’s sample data.
         /// </summary>
         /// <param name="sampleInstance">The sample instance.</param>
         /// <returns>The channel configuration.</returns>
-        public static ChannelConf GetSampleInstanceChannels(AllegroSampleInstance sampleInstance)
-            => (ChannelConf)al_get_sample_instance_channels(sampleInstance.NativeIntPtr);
+        public static ChannelConf GetSampleInstanceChannels(AllegroSampleInstance sampleInstance) =>
+            (ChannelConf)AllegroLibrary.AlGetSampleInstanceChannels(sampleInstance.NativeIntPtr);
 
         /// <summary>
         /// Return the audio depth of the sample instance’s sample data.
         /// </summary>
         /// <param name="sampleInstance">The sample instance.</param>
         /// <returns>The audio depth.</returns>
-        public static AudioDepth GetSampleInstanceDepth(AllegroSampleInstance sampleInstance)
-            => (AudioDepth)al_get_sample_instance_depth(sampleInstance.NativeIntPtr);
+        public static AudioDepth GetSampleInstanceDepth(AllegroSampleInstance sampleInstance) =>
+            (AudioDepth)AllegroLibrary.AlGetSampleInstanceDepth(sampleInstance.NativeIntPtr);
 
         /// <summary>
         /// Return the frequency (in Hz) of the sample instance’s sample data.
         /// </summary>
         /// <param name="sampleInstance">The sample instance.</param>
         /// <returns>The frequency (in Hz) of the sample data.</returns>
-        public static uint GetSampleInstanceFrequency(AllegroSampleInstance sampleInstance)
-            => al_get_sample_instance_frequency(sampleInstance.NativeIntPtr);
+        public static uint GetSampleInstanceFrequency(AllegroSampleInstance sampleInstance) =>
+            AllegroLibrary.AlGetSampleInstanceFrequency(sampleInstance.NativeIntPtr);
 
         /// <summary>
         /// Return the length of the sample instance in sample values. This property may differ from the length of the
@@ -409,8 +409,8 @@ namespace SubC.AllegroDotNet
         /// </summary>
         /// <param name="sampleInstance">The sample instance.</param>
         /// <returns>Length in sample values.</returns>
-        public static uint GetSampleInstanceLength(AllegroSampleInstance sampleInstance)
-            => al_get_sample_instance_length(sampleInstance.NativeIntPtr);
+        public static uint GetSampleInstanceLength(AllegroSampleInstance sampleInstance) =>
+            AllegroLibrary.AlGetSampleInstanceLength(sampleInstance.NativeIntPtr);
 
         /// <summary>
         /// Set the length of the sample instance in sample values. This can be used to play only parts of the
@@ -421,16 +421,16 @@ namespace SubC.AllegroDotNet
         /// <returns>
         /// True on success, false on failure. Will fail if the sample instance is currently playing.
         /// </returns>
-        public static bool SetSampleInstanceLength(AllegroSampleInstance sampleInstance, uint val)
-            => al_set_sample_instance_length(sampleInstance.NativeIntPtr, val);
+        public static bool SetSampleInstanceLength(AllegroSampleInstance sampleInstance, uint val) =>
+            AllegroLibrary.AlSetSampleInstanceLength(sampleInstance.NativeIntPtr, val);
 
         /// <summary>
         /// Get the playback position of a sample instance.
         /// </summary>
         /// <param name="sampleInstance">The sample instance.</param>
         /// <returns>The playback position.</returns>
-        public static uint GetSampleInstancePosition(AllegroSampleInstance sampleInstance)
-            => al_get_sample_instance_position(sampleInstance.NativeIntPtr);
+        public static uint GetSampleInstancePosition(AllegroSampleInstance sampleInstance) =>
+            AllegroLibrary.AlGetSampleInstancePosition(sampleInstance.NativeIntPtr);
 
         /// <summary>
         /// Set the playback position of a sample instance.
@@ -438,16 +438,16 @@ namespace SubC.AllegroDotNet
         /// <param name="sampleInstance">The sample instance.</param>
         /// <param name="val">The playback position.</param>
         /// <returns>True on success, false on failure.</returns>
-        public static bool SetSampleInstancePosition(AllegroSampleInstance sampleInstance, uint val)
-            => al_set_sample_instance_position(sampleInstance.NativeIntPtr, val);
+        public static bool SetSampleInstancePosition(AllegroSampleInstance sampleInstance, uint val) =>
+            AllegroLibrary.AlSetSampleInstancePosition(sampleInstance.NativeIntPtr, val);
 
         /// <summary>
         /// Return the relative playback speed of the sample instance.
         /// </summary>
         /// <param name="sampleInstance">The sample instance.</param>
         /// <returns>Relative playback speed.</returns>
-        public static float GetSampleInstanceSpeed(AllegroSampleInstance sampleInstance)
-            => al_get_sample_instance_speed(sampleInstance.NativeIntPtr);
+        public static float GetSampleInstanceSpeed(AllegroSampleInstance sampleInstance) =>
+            AllegroLibrary.AlGetSampleInstanceSpeed(sampleInstance.NativeIntPtr);
 
         /// <summary>
         /// Set the relative playback speed of the sample instance. 1.0 means normal speed.
@@ -457,16 +457,16 @@ namespace SubC.AllegroDotNet
         /// <returns>
         /// True on success, false on failure. Will fail if the sample instance is attached directly to a voice.
         /// </returns>
-        public static bool SetSampleInstanceSpeed(AllegroSampleInstance sampleInstance, float val)
-            => al_set_sample_instance_speed(sampleInstance.NativeIntPtr, val);
+        public static bool SetSampleInstanceSpeed(AllegroSampleInstance sampleInstance, float val) =>
+            AllegroLibrary.AlSetSampleInstanceSpeed(sampleInstance.NativeIntPtr, val);
 
         /// <summary>
         /// Return the playback gain of the sample instance.
         /// </summary>
         /// <param name="sampleInstance">The sample instance.</param>
         /// <returns>The playback gain.</returns>
-        public static float GetSampleInstanceGain(AllegroSampleInstance sampleInstance)
-            => al_get_sample_instance_gain(sampleInstance.NativeIntPtr);
+        public static float GetSampleInstanceGain(AllegroSampleInstance sampleInstance) =>
+            AllegroLibrary.AlGetSampleInstanceGain(sampleInstance.NativeIntPtr);
 
         /// <summary>
         /// Set the playback gain of the sample instance.
@@ -476,16 +476,16 @@ namespace SubC.AllegroDotNet
         /// <returns>T
         /// rue on success, false on failure. Will fail if the sample instance is attached directly to a voice.
         /// </returns>
-        public static bool SetSampleInstanceGain(AllegroSampleInstance sampleInstance, float val)
-            => al_set_sample_instance_gain(sampleInstance.NativeIntPtr, val);
+        public static bool SetSampleInstanceGain(AllegroSampleInstance sampleInstance, float val) =>
+            AllegroLibrary.AlSetSampleInstanceGain(sampleInstance.NativeIntPtr, val);
 
         /// <summary>
         /// Get the pan value of the sample instance.
         /// </summary>
         /// <param name="sampleInstance">The sample instance.</param>
         /// <returns>The pan value.</returns>
-        public static float GetSampleInstancePan(AllegroSampleInstance sampleInstance)
-            => al_get_sample_instance_pan(sampleInstance.NativeIntPtr);
+        public static float GetSampleInstancePan(AllegroSampleInstance sampleInstance) =>
+            AllegroLibrary.AlGetSampleInstancePan(sampleInstance.NativeIntPtr);
 
         /// <summary>
         /// Set the pan value on a sample instance. A value of -1.0 means to play the sample only through the left
@@ -498,24 +498,24 @@ namespace SubC.AllegroDotNet
         /// <returns>
         /// True on success, false on failure. Will fail if the sample instance is attached directly to a voice.
         /// </returns>
-        public static bool SetSampleInstancePan(AllegroSampleInstance sampleInstance, float val)
-            => al_set_sample_instance_pan(sampleInstance.NativeIntPtr, val);
+        public static bool SetSampleInstancePan(AllegroSampleInstance sampleInstance, float val) =>
+            AllegroLibrary.AlSetSampleInstancePan(sampleInstance.NativeIntPtr, val);
 
         /// <summary>
         /// Return the length of the sample instance in seconds, assuming a playback speed of 1.0.
         /// </summary>
         /// <param name="sampleInstance">The sample instance.</param>
         /// <returns>Length in seconds, assuming playback speed of 1.0.</returns>
-        public static float GetSampleInstanceTime(AllegroSampleInstance sampleInstance)
-            => al_get_sample_instance_time(sampleInstance.NativeIntPtr);
+        public static float GetSampleInstanceTime(AllegroSampleInstance sampleInstance) =>
+            AllegroLibrary.AlGetSampleInstanceTime(sampleInstance.NativeIntPtr);
 
         /// <summary>
         /// Return the playback mode of the sample instance.
         /// </summary>
         /// <param name="sampleInstance">The sample instance.</param>
         /// <returns>The playback mode.</returns>
-        public static PlayMode GetSampleInstancePlaymode(AllegroSampleInstance sampleInstance)
-            => (PlayMode)al_get_sample_instance_playmode(sampleInstance.NativeIntPtr);
+        public static PlayMode GetSampleInstancePlaymode(AllegroSampleInstance sampleInstance) =>
+            (PlayMode)AllegroLibrary.AlGetSampleInstancePlaymode(sampleInstance.NativeIntPtr);
 
         /// <summary>
         /// Set the playback mode of the sample instance.
@@ -523,8 +523,8 @@ namespace SubC.AllegroDotNet
         /// <param name="sampleInstance">The sample instance.</param>
         /// <param name="val">The playmode mode.</param>
         /// <returns>True on success, false on failure.</returns>
-        public static bool SetSampleInstancePlayMode(AllegroSampleInstance sampleInstance, PlayMode val)
-            => al_set_sample_instance_playmode(sampleInstance.NativeIntPtr, (int)val);
+        public static bool SetSampleInstancePlayMode(AllegroSampleInstance sampleInstance, PlayMode val) =>
+            AllegroLibrary.AlSetSampleInstancePlaymode(sampleInstance.NativeIntPtr, (int)val);
 
         /// <summary>
         /// Return true if the sample instance is in the playing state. This may be true even if the instance is
@@ -532,8 +532,8 @@ namespace SubC.AllegroDotNet
         /// </summary>
         /// <param name="sampleInstance">The sample instance.</param>
         /// <returns>True if the sample is in the playing state, otherwise false.</returns>
-        public static bool GetSampleInstancePlaying(AllegroSampleInstance sampleInstance)
-            => al_get_sample_instance_playing(sampleInstance.NativeIntPtr);
+        public static bool GetSampleInstancePlaying(AllegroSampleInstance sampleInstance) =>
+            AllegroLibrary.AlGetSampleInstancePlaying(sampleInstance.NativeIntPtr);
 
         /// <summary>
         /// Change whether the sample instance is playing. The instance does not need to be attached to anything.
@@ -541,24 +541,24 @@ namespace SubC.AllegroDotNet
         /// <param name="sampleInstance">The sample instance.</param>
         /// <param name="val">True is playing, false is not playing.</param>
         /// <returns>True on success, otherwise false.</returns>
-        public static bool SetSampleInstancePlaying(AllegroSampleInstance sampleInstance, bool val)
-            => al_set_sample_instance_playing(sampleInstance.NativeIntPtr, val);
+        public static bool SetSampleInstancePlaying(AllegroSampleInstance sampleInstance, bool val) =>
+            AllegroLibrary.AlSetSampleInstancePlaying(sampleInstance.NativeIntPtr, val);
 
         /// <summary>
         /// Return whether the sample instance is attached to something.
         /// </summary>
         /// <param name="sampleInstance">The sample instance.</param>
         /// <returns>True if attached to something, otherwise false.</returns>
-        public static bool GetSampleInstanceAttached(AllegroSampleInstance sampleInstance)
-            => al_get_sample_instance_attached(sampleInstance.NativeIntPtr);
+        public static bool GetSampleInstanceAttached(AllegroSampleInstance sampleInstance) =>
+            AllegroLibrary.AlGetSampleInstanceAttached(sampleInstance.NativeIntPtr);
 
         /// <summary>
         /// Detach the sample instance from whatever it’s attached to, if anything.
         /// </summary>
         /// <param name="sampleInstance">The sample instance.</param>
         /// <returns>True on success, otherwise false.</returns>
-        public static bool DetachSampleInstance(AllegroSampleInstance sampleInstance)
-            => al_detach_sample_instance(sampleInstance.NativeIntPtr);
+        public static bool DetachSampleInstance(AllegroSampleInstance sampleInstance) =>
+            AllegroLibrary.AlDetachSampleInstance(sampleInstance.NativeIntPtr);
 
         /// <summary>
         /// Return the sample data that the sample instance plays.
@@ -574,7 +574,7 @@ namespace SubC.AllegroDotNet
         /// <returns>The sample data from the sample instance, otherwise null.</returns>
         public static AllegroSample GetSample(AllegroSampleInstance sampleInstance)
         {
-            var nativeSample = al_get_sample(sampleInstance.NativeIntPtr);
+            var nativeSample = AllegroLibrary.AlGetSample(sampleInstance.NativeIntPtr);
             return nativeSample == null ? null : new AllegroSample { NativeIntPtr = nativeSample };
         }
 
@@ -605,8 +605,8 @@ namespace SubC.AllegroDotNet
         /// <returns>
         /// True on success, otherwise false. On failure, the sample will be stopped and detached from its parent.
         /// </returns>
-        public static bool SetSample(AllegroSampleInstance sampleInstance, AllegroSample sample)
-            => al_set_sample(sampleInstance.NativeIntPtr, sample.NativeIntPtr);
+        public static bool SetSample(AllegroSampleInstance sampleInstance, AllegroSample sample) =>
+            AllegroLibrary.AlSetSample(sampleInstance.NativeIntPtr, sample.NativeIntPtr);
 
         /// <summary>
         /// Creates a mixer to attach sample instances, audio streams, or other mixers to. It will mix into a buffer
@@ -630,7 +630,7 @@ namespace SubC.AllegroDotNet
         /// <returns>The mixer on success, otherwise null.</returns>
         public static AllegroMixer CreateMixer(uint freq, AudioDepth depth, ChannelConf channelConf)
         {
-            var nativeMixer = al_create_mixer(freq, (int)depth, (int)channelConf);
+            var nativeMixer = AllegroLibrary.AlCreateMixer(freq, (int)depth, (int)channelConf);
             return nativeMixer == IntPtr.Zero ? null : new AllegroMixer { NativeIntPtr = nativeMixer };
         }
 
@@ -638,8 +638,8 @@ namespace SubC.AllegroDotNet
         /// Destroys the mixer.
         /// </summary>
         /// <param name="mixer">The mixer.</param>
-        public static void DestroyMixer(AllegroMixer mixer)
-            => al_destroy_mixer(mixer.NativeIntPtr);
+        public static void DestroyMixer(AllegroMixer mixer) =>
+            AllegroLibrary.AlDestroyMixer(mixer.NativeIntPtr);
 
         /// <summary>
         /// Return the default mixer, or <c>null</c> if one has not been set. Although different configurations of
@@ -649,7 +649,7 @@ namespace SubC.AllegroDotNet
         /// <returns>The default mixer, or <c>null</c> if one has not been set.</returns>
         public static AllegroMixer GetDefaultMixer()
         {
-            var nativeMixer = al_get_default_mixer();
+            var nativeMixer = AllegroLibrary.AlGetDefaultMixer();
             return nativeMixer == IntPtr.Zero ? null : new AllegroMixer { NativeIntPtr = nativeMixer };
         }
 
@@ -662,8 +662,8 @@ namespace SubC.AllegroDotNet
         /// </summary>
         /// <param name="mixer">The mixer.</param>
         /// <returns>True on success, otherwise false.</returns>
-        public static bool SetDefaultMixer(AllegroMixer mixer)
-            => al_set_default_mixer(mixer.NativeIntPtr);
+        public static bool SetDefaultMixer(AllegroMixer mixer) =>
+            AllegroLibrary.AlSetDefaultMixer(mixer.NativeIntPtr);
 
         /// <summary>
         /// Restores Allegro’s default mixer and attaches it to the default voice. If the default mixer hasn’t been
@@ -674,8 +674,8 @@ namespace SubC.AllegroDotNet
         /// ALLEGRODOTNET) will be invalidated.
         /// </summary>
         /// <returns>True on success, otherwise false.</returns>
-        public static bool RestoreDefaultMixer()
-            => al_restore_default_mixer();
+        public static bool RestoreDefaultMixer() =>
+            AllegroLibrary.AlRestoreDefaultMixer();
 
         /// <summary>
         /// Returns the default voice or <c>null</c> if there is none.
@@ -683,7 +683,7 @@ namespace SubC.AllegroDotNet
         /// <returns>The default voice, or <c>null</c> if none.</returns>
         public static AllegroVoice GetDefaultVoice()
         {
-            var nativeVoice = al_get_default_voice();
+            var nativeVoice = AllegroLibrary.AlGetDefaultVoice();
             return nativeVoice == IntPtr.Zero ? null : new AllegroVoice { NativeIntPtr = nativeVoice };
         }
 
@@ -693,8 +693,8 @@ namespace SubC.AllegroDotNet
         /// voice.
         /// </summary>
         /// <param name="voice"></param>
-        public static void SetDefaultVoice(AllegroVoice voice)
-            => al_set_default_voice(voice.NativeIntPtr);
+        public static void SetDefaultVoice(AllegroVoice voice) =>
+            AllegroLibrary.AlSetDefaultVoice(voice.NativeIntPtr);
 
         /// <summary>
         /// Attaches the mixer passed as the first argument onto the mixer passed as the second argument. The first
@@ -707,8 +707,8 @@ namespace SubC.AllegroDotNet
         /// <param name="stream">The mixer to join to another.</param>
         /// <param name="mixer">The mixer to be joined to.</param>
         /// <returns>True on success, false on error.</returns>
-        public static bool AttachMixerToMixer(AllegroMixer stream, AllegroMixer mixer)
-            => al_attach_mixer_to_mixer(stream.NativeIntPtr, mixer.NativeIntPtr);
+        public static bool AttachMixerToMixer(AllegroMixer stream, AllegroMixer mixer) =>
+            AllegroLibrary.AlAttachMixerToMixer(stream.NativeIntPtr, mixer.NativeIntPtr);
 
         /// <summary>
         /// Attach a sample instance to a mixer. The instance must not already be attached to anything.
@@ -716,8 +716,8 @@ namespace SubC.AllegroDotNet
         /// <param name="sampleInstance">The sample instance.</param>
         /// <param name="mixer">The mixer.</param>
         /// <returns>True on success, false on failure.</returns>
-        public static bool AttachSampleInstanceToMixer(AllegroSampleInstance sampleInstance, AllegroMixer mixer)
-            => al_attach_sample_instance_to_mixer(sampleInstance.NativeIntPtr, mixer.NativeIntPtr);
+        public static bool AttachSampleInstanceToMixer(AllegroSampleInstance sampleInstance, AllegroMixer mixer) =>
+            AllegroLibrary.AlAttachSampleInstanceToMixer(sampleInstance.NativeIntPtr, mixer.NativeIntPtr);
 
         /// <summary>
         /// Attach an audio stream to a mixer. The stream must not already be attached to anything.
@@ -725,16 +725,16 @@ namespace SubC.AllegroDotNet
         /// <param name="stream">The stream.</param>
         /// <param name="mixer">The mixer.</param>
         /// <returns>True on success, false on failure.</returns>
-        public static bool AttachAudioStreamToMixer(AllegroAudioStream stream, AllegroMixer mixer)
-            => al_attach_audio_stream_to_mixer(stream.NativeIntPtr, mixer.NativeIntPtr);
+        public static bool AttachAudioStreamToMixer(AllegroAudioStream stream, AllegroMixer mixer) =>
+            AllegroLibrary.AlAttachAudioStreamToMixer(stream.NativeIntPtr, mixer.NativeIntPtr);
 
         /// <summary>
         /// Return the mixer frequency (in Hz).
         /// </summary>
         /// <param name="mixer">The mixer.</param>
         /// <returns>The mixer frequency (in Hz).</returns>
-        public static uint GetMixerFrequency(AllegroMixer mixer)
-            => al_get_mixer_frequency(mixer.NativeIntPtr);
+        public static uint GetMixerFrequency(AllegroMixer mixer) =>
+            AllegroLibrary.AlGetMixerFrequency(mixer.NativeIntPtr);
 
         /// <summary>
         /// Set the mixer frequency (in Hz). This will only work if the mixer is not attached to anything.
@@ -742,32 +742,32 @@ namespace SubC.AllegroDotNet
         /// <param name="mixer">The mixer.</param>
         /// <param name="val">The frequency.</param>
         /// <returns>True on success, otherwise false.</returns>
-        public static bool SetMixerFrequency(AllegroMixer mixer, uint val)
-            => al_set_mixer_frequency(mixer.NativeIntPtr, val);
+        public static bool SetMixerFrequency(AllegroMixer mixer, uint val) =>
+            AllegroLibrary.AlSetMixerFrequency(mixer.NativeIntPtr, val);
 
         /// <summary>
         /// Return the mixer channel configuration.
         /// </summary>
         /// <param name="mixer">The mixer.</param>
         /// <returns>The mixer channel configuration.</returns>
-        public static ChannelConf GetMixerChannels(AllegroMixer mixer)
-            => (ChannelConf)al_get_mixer_channels(mixer.NativeIntPtr);
+        public static ChannelConf GetMixerChannels(AllegroMixer mixer) =>
+            (ChannelConf)AllegroLibrary.AlGetMixerChannels(mixer.NativeIntPtr);
 
         /// <summary>
         /// Return the mixer audio depth.
         /// </summary>
         /// <param name="mixer">The mixer.</param>
         /// <returns>The mixer audio depth.</returns>
-        public static AudioDepth GetMixerDepth(AllegroMixer mixer)
-            => (AudioDepth)al_get_mixer_depth(mixer.NativeIntPtr);
+        public static AudioDepth GetMixerDepth(AllegroMixer mixer) =>
+            (AudioDepth)AllegroLibrary.AlGetMixerDepth(mixer.NativeIntPtr);
 
         /// <summary>
         /// Return the mixer gain (amplification factor). The default is 1.0.
         /// </summary>
         /// <param name="mixer">The mixer.</param>
         /// <returns>The mixer gain.</returns>
-        public static float GetMixerGain(AllegroMixer mixer)
-            => al_get_mixer_gain(mixer.NativeIntPtr);
+        public static float GetMixerGain(AllegroMixer mixer) =>
+            AllegroLibrary.AlGetMixerGain(mixer.NativeIntPtr);
 
         /// <summary>
         /// Set the mixer gain (amplification factor).
@@ -775,16 +775,16 @@ namespace SubC.AllegroDotNet
         /// <param name="mixer">The mixer.</param>
         /// <param name="newGain">The gain (default is 1.0).</param>
         /// <returns>True on success, false on failure.</returns>
-        public static bool SetMixerGain(AllegroMixer mixer, float newGain)
-            => al_set_mixer_gain(mixer.NativeIntPtr, newGain);
+        public static bool SetMixerGain(AllegroMixer mixer, float newGain) =>
+            AllegroLibrary.AlSetMixerGain(mixer.NativeIntPtr, newGain);
 
         /// <summary>
         /// Return the mixer quality.
         /// </summary>
         /// <param name="mixer">The mixer.</param>
         /// <returns>The mixer quality.</returns>
-        public static MixerQuality GetMixerQuality(AllegroMixer mixer)
-            => (MixerQuality)al_get_mixer_quality(mixer.NativeIntPtr);
+        public static MixerQuality GetMixerQuality(AllegroMixer mixer) =>
+            (MixerQuality)AllegroLibrary.AlGetMixerQuality(mixer.NativeIntPtr);
 
         /// <summary>
         /// Set the mixer quality. This can only succeed if the mixer does not have anything attached to it.
@@ -792,16 +792,16 @@ namespace SubC.AllegroDotNet
         /// <param name="mixer">The mixer.</param>
         /// <param name="newQuality">The new mixer quality.</param>
         /// <returns>True on success, false on failure.</returns>
-        public static bool SetMixerQuality(AllegroMixer mixer, MixerQuality newQuality)
-            => al_set_mixer_quality(mixer.NativeIntPtr, (int)newQuality);
+        public static bool SetMixerQuality(AllegroMixer mixer, MixerQuality newQuality) =>
+            AllegroLibrary.AlSetMixerQuality(mixer.NativeIntPtr, (int)newQuality);
 
         /// <summary>
         /// Return true if the mixer is playing.
         /// </summary>
         /// <param name="mixer">The mixer.</param>
         /// <returns>True if the mixer is playing, otherwise false.</returns>
-        public static bool GetMixerPlaying(AllegroMixer mixer)
-            => al_get_mixer_playing(mixer.NativeIntPtr);
+        public static bool GetMixerPlaying(AllegroMixer mixer) =>
+            AllegroLibrary.AlGetMixerPlaying(mixer.NativeIntPtr);
 
         /// <summary>
         /// Change whether the mixer is playing.
@@ -809,24 +809,24 @@ namespace SubC.AllegroDotNet
         /// <param name="mixer">The mixer.</param>
         /// <param name="val">True for playing, false for not playing.</param>
         /// <returns>True on success, false on failure.</returns>
-        public static bool SetMixerPlaying(AllegroMixer mixer, bool val)
-            => al_set_mixer_playing(mixer.NativeIntPtr, val);
+        public static bool SetMixerPlaying(AllegroMixer mixer, bool val) =>
+            AllegroLibrary.AlSetMixerPlaying(mixer.NativeIntPtr, val);
 
         /// <summary>
         /// Return true if the mixer is attached to something.
         /// </summary>
         /// <param name="mixer">The mixer.</param>
         /// <returns>True if the mixer is attached to something, otherwise null.</returns>
-        public static bool GetMixerAttached(AllegroMixer mixer)
-            => al_get_mixer_attached(mixer.NativeIntPtr);
+        public static bool GetMixerAttached(AllegroMixer mixer) =>
+            AllegroLibrary.AlGetMixerAttached(mixer.NativeIntPtr);
 
         /// <summary>
         /// Detach the mixer from whatever it is attached to, if anything.
         /// </summary>
         /// <param name="mixer">The mixer.</param>
         /// <returns>True if successful, otherwise null.</returns>
-        public static bool DetachMixer(AllegroMixer mixer)
-            => al_detach_mixer(mixer.NativeIntPtr);
+        public static bool DetachMixer(AllegroMixer mixer) =>
+            AllegroLibrary.AlDetachMixer(mixer.NativeIntPtr);
 
         /// <summary>
         /// <para>(NOT IMPLEMENTED)</para>
@@ -875,7 +875,7 @@ namespace SubC.AllegroDotNet
         /// <returns>The audio stream on success, otherwise <c>null</c>.</returns>
         public static AllegroAudioStream CreateAudioStream(ulong fragCount, uint fragSamples, uint freq, AudioDepth depth, ChannelConf channelConf)
         {
-            var nativeAudioStream = al_create_audio_stream(new UIntPtr(fragCount), fragSamples, freq, (int)depth, (int)channelConf);
+            var nativeAudioStream = AllegroLibrary.AlCreateAudioStream(new UIntPtr(fragCount), fragSamples, freq, (int)depth, (int)channelConf);
             return nativeAudioStream == IntPtr.Zero ? null : new AllegroAudioStream { NativeIntPtr = nativeAudioStream };
         }
 
@@ -886,8 +886,8 @@ namespace SubC.AllegroDotNet
         /// <see cref="DetachAudioStream(AllegroAudioStream)"/> is automatically called on it first.
         /// </summary>
         /// <param name="stream">The audio stream.</param>
-        public static void DestroyAudioStream(AllegroAudioStream stream)
-            => al_destroy_audio_stream(stream.NativeIntPtr);
+        public static void DestroyAudioStream(AllegroAudioStream stream) =>
+            AllegroLibrary.AlDestroyAudioStream(stream.NativeIntPtr);
 
         /// <summary>
         /// Retrieve the associated event source. See <see cref="GetAudioStreamFragment(AllegroAudioStream)"/> for a
@@ -897,7 +897,7 @@ namespace SubC.AllegroDotNet
         /// <returns>The event source.</returns>
         public static AllegroEventSource GetAudioStreamEventSource(AllegroAudioStream stream)
         {
-            var nativeEventSource = al_get_audio_stream_event_source(stream.NativeIntPtr);
+            var nativeEventSource = AllegroLibrary.AlGetAudioStreamEventSource(stream.NativeIntPtr);
             return nativeEventSource == IntPtr.Zero ? null : new AllegroEventSource { NativeIntPtr = nativeEventSource };
         }
 
@@ -906,8 +906,8 @@ namespace SubC.AllegroDotNet
         /// pending buffers to finish playing. The stream’s playing state will change to false.
         /// </summary>
         /// <param name="stream">The audio stream.</param>
-        public static void DrainAudioStream(AllegroAudioStream stream)
-            => al_drain_audio_stream(stream.NativeIntPtr);
+        public static void DrainAudioStream(AllegroAudioStream stream) =>
+            AllegroLibrary.AlDrainAudioStream(stream.NativeIntPtr);
 
         /// <summary>
         /// Set the streaming file playing position to the beginning. Returns true on success. Currently this can only
@@ -917,48 +917,48 @@ namespace SubC.AllegroDotNet
         /// </summary>
         /// <param name="stream">The audio stream.</param>
         /// <returns>True on success, otherwise false.</returns>
-        public static bool RewindAudioStream(AllegroAudioStream stream)
-            => al_rewind_audio_stream(stream.NativeIntPtr);
+        public static bool RewindAudioStream(AllegroAudioStream stream) =>
+            AllegroLibrary.AlRewindAudioStream(stream.NativeIntPtr);
 
         /// <summary>
         /// Return the stream frequency (in Hz).
         /// </summary>
         /// <param name="stream">The audio stream.</param>
         /// <returns>The frequency in Hz.</returns>
-        public static uint GetAudioStreamFrequency(AllegroAudioStream stream)
-            => al_get_audio_stream_frequency(stream.NativeIntPtr);
+        public static uint GetAudioStreamFrequency(AllegroAudioStream stream) =>
+            AllegroLibrary.AlGetAudioStreamFrequency(stream.NativeIntPtr);
 
         /// <summary>
         /// Return the stream channel configuration.
         /// </summary>
         /// <param name="stream">The audio stream.</param>
         /// <returns>The channel configuration.</returns>
-        public static ChannelConf GetAudioStreamChannels(AllegroAudioStream stream)
-            => (ChannelConf)al_get_audio_stream_channels(stream.NativeIntPtr);
+        public static ChannelConf GetAudioStreamChannels(AllegroAudioStream stream) =>
+            (ChannelConf)AllegroLibrary.AlGetAudioStreamChannels(stream.NativeIntPtr);
 
         /// <summary>
         /// Return the stream audio depth.
         /// </summary>
         /// <param name="stream">The audio stream.</param>
         /// <returns>The audio depth.</returns>
-        public static AudioDepth GetAudioStreamDepth(AllegroAudioStream stream)
-            => (AudioDepth)al_get_audio_stream_depth(stream.NativeIntPtr);
+        public static AudioDepth GetAudioStreamDepth(AllegroAudioStream stream) =>
+            (AudioDepth)AllegroLibrary.AlGetAudioStreamDepth(stream.NativeIntPtr);
 
         /// <summary>
         /// Return the stream length in samples.
         /// </summary>
         /// <param name="stream">The audio stream.</param>
         /// <returns>The length in samples.</returns>
-        public static uint GetAudioStreamLength(AllegroAudioStream stream)
-            => al_get_audio_stream_length(stream.NativeIntPtr);
+        public static uint GetAudioStreamLength(AllegroAudioStream stream) =>
+            AllegroLibrary.AlGetAudioStreamLength(stream.NativeIntPtr);
 
         /// <summary>
         /// Return the relative playback speed of the stream.
         /// </summary>
         /// <param name="stream">The audio stream.</param>
         /// <returns>The relative playback speed.</returns>
-        public static float GetAudioStreamSpeed(AllegroAudioStream stream)
-            => al_get_audio_stream_speed(stream.NativeIntPtr);
+        public static float GetAudioStreamSpeed(AllegroAudioStream stream) =>
+            AllegroLibrary.AlGetAudioStreamSpeed(stream.NativeIntPtr);
 
         /// <summary>
         /// Set the relative playback speed of the stream. 1.0 means normal speed.
@@ -968,16 +968,16 @@ namespace SubC.AllegroDotNet
         /// <returns>
         /// True on success, false on failure. Will fail if the audio stream is attached directly to a voice.
         /// </returns>
-        public static bool SetAudioStreamSpeed(AllegroAudioStream stream, float val)
-            => al_set_audio_stream_speed(stream.NativeIntPtr, val);
+        public static bool SetAudioStreamSpeed(AllegroAudioStream stream, float val) =>
+            AllegroLibrary.AlSetAudioStreamSpeed(stream.NativeIntPtr, val);
 
         /// <summary>
         /// Return the playback gain of the stream.
         /// </summary>
         /// <param name="stream">The audio stream.</param>
         /// <returns>The playback gain.</returns>
-        public static float GetAudioStreamGain(AllegroAudioStream stream)
-            => al_get_audio_stream_gain(stream.NativeIntPtr);
+        public static float GetAudioStreamGain(AllegroAudioStream stream) =>
+            AllegroLibrary.AlGetAudioStreamGain(stream.NativeIntPtr);
 
         /// <summary>
         /// Set the playback gain of the stream.
@@ -987,16 +987,16 @@ namespace SubC.AllegroDotNet
         /// <returns>
         /// True on success, false on failure. Will fail if the audio stream is attached directly to a voice.
         /// </returns>
-        public static bool SetAudioStreamGain(AllegroAudioStream stream, float val)
-            => al_set_audio_stream_gain(stream.NativeIntPtr, val);
+        public static bool SetAudioStreamGain(AllegroAudioStream stream, float val) =>
+            AllegroLibrary.AlSetAudioStreamGain(stream.NativeIntPtr, val);
 
         /// <summary>
         /// Get the pan value of the stream; 0.0 means center balanced, -1.0 is only left-speaker, 1.0 is only right.
         /// </summary>
         /// <param name="stream">The audio stream.</param>
         /// <returns>The pan value.</returns>
-        public static float GetAudioStreamPan(AllegroAudioStream stream)
-            => al_get_audio_stream_pan(stream.NativeIntPtr);
+        public static float GetAudioStreamPan(AllegroAudioStream stream) =>
+            AllegroLibrary.AlGetAudioStreamPan(stream.NativeIntPtr);
 
         /// <summary>
         /// Set the pan value on an audio stream. A value of -1.0 means to play the stream only through the left
@@ -1009,16 +1009,16 @@ namespace SubC.AllegroDotNet
         /// <returns>
         /// True on success, false on failure. Will fail if the audio stream is attached directly to a voice.
         /// </returns>
-        public static bool SetAudioStreamPan(AllegroAudioStream stream, float val)
-            => al_set_audio_stream_pan(stream.NativeIntPtr, val);
+        public static bool SetAudioStreamPan(AllegroAudioStream stream, float val) =>
+            AllegroLibrary.AlSetAudioStreamPan(stream.NativeIntPtr, val);
 
         /// <summary>
         /// Return true if the stream is playing.
         /// </summary>
         /// <param name="stream">The audio stream.</param>
         /// <returns>True if the stream is playing.</returns>
-        public static bool GetAudioStreamPlaying(AllegroAudioStream stream)
-            => al_get_audio_stream_playing(stream.NativeIntPtr);
+        public static bool GetAudioStreamPlaying(AllegroAudioStream stream) =>
+            AllegroLibrary.AlGetAudioStreamPlaying(stream.NativeIntPtr);
 
         /// <summary>
         /// Change whether the stream is playing.
@@ -1026,16 +1026,16 @@ namespace SubC.AllegroDotNet
         /// <param name="stream">The audio stream.</param>
         /// <param name="val">True to play, false to stop.</param>
         /// <returns>True on success, false on failure.</returns>
-        public static bool SetAudioStreamPlaying(AllegroAudioStream stream, bool val)
-            => al_set_audio_stream_playing(stream.NativeIntPtr, val);
+        public static bool SetAudioStreamPlaying(AllegroAudioStream stream, bool val) =>
+            AllegroLibrary.AlSetAudioStreamPlaying(stream.NativeIntPtr, val);
 
         /// <summary>
         /// Return the playback mode of the stream.
         /// </summary>
         /// <param name="stream">The audio stream.</param>
         /// <returns>The playback mode of the stream.</returns>
-        public static PlayMode GetAudioStreamPlaymode(AllegroAudioStream stream)
-            => (PlayMode)al_get_audio_stream_playmode(stream.NativeIntPtr);
+        public static PlayMode GetAudioStreamPlaymode(AllegroAudioStream stream) =>
+            (PlayMode)AllegroLibrary.AlGetAudioStreamPlaymode(stream.NativeIntPtr);
 
         /// <summary>
         /// Set the playback mode of the stream.
@@ -1043,32 +1043,32 @@ namespace SubC.AllegroDotNet
         /// <param name="stream">The audio stream.</param>
         /// <param name="mode">The play mode.</param>
         /// <returns>True on success, false on failure.</returns>
-        public static bool SetAudioStreamPlaymode(AllegroAudioStream stream, PlayMode mode)
-            => al_set_audio_stream_playmode(stream.NativeIntPtr, (int)mode);
+        public static bool SetAudioStreamPlaymode(AllegroAudioStream stream, PlayMode mode) =>
+            AllegroLibrary.AlSetAudioStreamPlaymode(stream.NativeIntPtr, (int)mode);
 
         /// <summary>
         /// Return whether the stream is attached to something.
         /// </summary>
         /// <param name="stream">The audio stream.</param>
         /// <returns>True if the stream is attached to something, otherwise false.</returns>
-        public static bool GetAudioStreamAttached(AllegroAudioStream stream)
-            => al_get_audio_stream_attached(stream.NativeIntPtr);
+        public static bool GetAudioStreamAttached(AllegroAudioStream stream) =>
+            AllegroLibrary.AlGetAudioStreamAttached(stream.NativeIntPtr);
 
         /// <summary>
         /// Detach the stream from whatever it’s attached to, if anything.
         /// </summary>
         /// <param name="stream">The audio stream.</param>
         /// <returns>True if the stream is still attached to something, otherwise false.</returns>
-        public static bool DetachAudioStream(AllegroAudioStream stream)
-            => al_detach_audio_stream(stream.NativeIntPtr);
+        public static bool DetachAudioStream(AllegroAudioStream stream) =>
+            AllegroLibrary.AlDetachAudioStream(stream.NativeIntPtr);
 
         /// <summary>
         /// Get the number of samples consumed by the parent since the audio stream was started.
         /// </summary>
         /// <param name="stream">The audio stream.</param>
         /// <returns>Number of samples consumed by the parent since started.</returns>
-        public static ulong GetAudioStreamPlayedSamples(AllegroAudioStream stream)
-            => al_get_audio_stream_played_samples(stream.NativeIntPtr);
+        public static ulong GetAudioStreamPlayedSamples(AllegroAudioStream stream) =>
+            AllegroLibrary.AlGetAudioStreamPlayedSamples(stream.NativeIntPtr);
 
         /// <summary>
         /// When using Allegro’s audio streaming, you will use this function to continuously provide new sample data
@@ -1113,8 +1113,8 @@ namespace SubC.AllegroDotNet
         /// </summary>
         /// <param name="stream">The audio stream.</param>
         /// <returns>The number of fragments in use.</returns>
-        public static uint GetAudioStreamFragments(AllegroAudioStream stream)
-            => al_get_audio_stream_fragments(stream.NativeIntPtr);
+        public static uint GetAudioStreamFragments(AllegroAudioStream stream) =>
+            AllegroLibrary.AlGetAudioStreamFragments(stream.NativeIntPtr);
 
         /// <summary>
         /// Returns the number of available fragments in the stream, that is, fragments which are not currently
@@ -1122,8 +1122,8 @@ namespace SubC.AllegroDotNet
         /// </summary>
         /// <param name="stream">The audio stream.</param>
         /// <returns>The number of fragments not filled with data.</returns>
-        public static uint GetAvailableAudioStreamFragments(AllegroAudioStream stream)
-            => al_get_available_audio_stream_fragments(stream.NativeIntPtr);
+        public static uint GetAvailableAudioStreamFragments(AllegroAudioStream stream) =>
+            AllegroLibrary.AlGetAvailableAudioStreamFragments(stream.NativeIntPtr);
 
         /// <summary>
         /// Set the streaming file playing position to time. Returns true on success. Currently this can only be called
@@ -1134,8 +1134,8 @@ namespace SubC.AllegroDotNet
         /// <param name="stream">The audio stream.</param>
         /// <param name="time">The file playing position.</param>
         /// <returns>True on success, otherwise false.</returns>
-        public static bool SeekAudioStreamSecs(AllegroAudioStream stream, double time)
-            => al_seek_audio_stream_secs(stream.NativeIntPtr, time);
+        public static bool SeekAudioStreamSecs(AllegroAudioStream stream, double time) =>
+            AllegroLibrary.AlSeekAudioStreamSecs(stream.NativeIntPtr, time);
 
         /// <summary>
         /// Return the position of the stream in seconds. Currently this can only be called on streams created with
@@ -1143,8 +1143,8 @@ namespace SubC.AllegroDotNet
         /// </summary>
         /// <param name="stream">The audio stream.</param>
         /// <returns>The position of the stream in seconds.</returns>
-        public static double GetAudioStreamPositionSecs(AllegroAudioStream stream)
-            => al_get_audio_stream_position_secs(stream.NativeIntPtr);
+        public static double GetAudioStreamPositionSecs(AllegroAudioStream stream) =>
+            AllegroLibrary.AlGetAudioStreamPositionSecs(stream.NativeIntPtr);
 
         /// <summary>
         /// Currently this can only be called on streams created with
@@ -1154,8 +1154,8 @@ namespace SubC.AllegroDotNet
         /// </summary>
         /// <param name="stream">The audio stream.</param>
         /// <returns>The length of the stream in seconds, if known. Otherwise returns zero.</returns>
-        public static double GetAudioStreamLengthSecs(AllegroAudioStream stream)
-            => al_get_audio_stream_length_secs(stream.NativeIntPtr);
+        public static double GetAudioStreamLengthSecs(AllegroAudioStream stream) =>
+            AllegroLibrary.AlGetAudioStreamLengthSecs(stream.NativeIntPtr);
 
         /// <summary>
         /// Sets the loop points for the stream in seconds. Currently this can only be called on streams created with
@@ -1167,8 +1167,8 @@ namespace SubC.AllegroDotNet
         /// <param name="start">The loop start point.</param>
         /// <param name="end">The loop end point.</param>
         /// <returns>True on success, otherwise false.</returns>
-        public static bool SetAudioStreamLoopSecs(AllegroAudioStream stream, double start, double end)
-            => al_set_audio_stream_loop_secs(stream.NativeIntPtr, start, end);
+        public static bool SetAudioStreamLoopSecs(AllegroAudioStream stream, double start, double end) =>
+            AllegroLibrary.AlSetAudioStreamLoopSecs(stream.NativeIntPtr, start, end);
 
         /// <summary>
         /// NOT IMPLEMENTED
@@ -1249,7 +1249,7 @@ namespace SubC.AllegroDotNet
         /// <returns>The sample on success, NULL on failure.</returns>
         public static AllegroSample LoadSample(string filename)
         {
-            var nativeSample = al_load_sample(filename);
+            var nativeSample = AllegroLibrary.AlLoadSample(filename);
             return nativeSample == IntPtr.Zero ? null : new AllegroSample { NativeIntPtr = nativeSample };
         }
 
@@ -1271,7 +1271,7 @@ namespace SubC.AllegroDotNet
         /// <returns>The sample on success, NULL on failure. The file remains open afterwards.</returns>
         public static AllegroSample LoadSampleF(AllegroFile fp, string ident)
         {
-            var nativeSample = al_load_sample_f(fp.NativeIntPtr, ident);
+            var nativeSample = AllegroLibrary.AlLoadSampleF(fp.NativeIntPtr, ident);
             return nativeSample == IntPtr.Zero ? null : new AllegroSample { NativeIntPtr = nativeSample };
         }
 
@@ -1297,7 +1297,7 @@ namespace SubC.AllegroDotNet
         /// <returns>The audio stream, or null on error.</returns>
         public static AllegroAudioStream LoadAudioStream(string filename, ulong bufferCount, uint samples)
         {
-            var nativeStream = al_load_audio_stream(filename, new UIntPtr(bufferCount), samples);
+            var nativeStream = AllegroLibrary.AlLoadAudioStream(filename, new UIntPtr(bufferCount), samples);
             return nativeStream == IntPtr.Zero ? null : new AllegroAudioStream { NativeIntPtr = nativeStream };
         }
 
@@ -1327,7 +1327,7 @@ namespace SubC.AllegroDotNet
         /// </returns>
         public static AllegroAudioStream LoadAudioStreamF(AllegroFile fp, string ident, ulong bufferCount, uint samples)
         {
-            var nativeStream = al_load_audio_stream_f(fp.NativeIntPtr, ident, new UIntPtr(bufferCount), samples);
+            var nativeStream = AllegroLibrary.AlLoadAudioStreamF(fp.NativeIntPtr, ident, new UIntPtr(bufferCount), samples);
             return nativeStream == IntPtr.Zero ? null : new AllegroAudioStream { NativeIntPtr = nativeStream };
         }
 
@@ -1337,8 +1337,8 @@ namespace SubC.AllegroDotNet
         /// <param name="filename">The filename</param>
         /// <param name="sample">The sample.</param>
         /// <returns>True on success, false on error.</returns>
-        public static bool SaveSample(string filename, AllegroSample sample)
-            => al_save_sample(filename, sample.NativeIntPtr);
+        public static bool SaveSample(string filename, AllegroSample sample) =>
+            AllegroLibrary.AlSaveSample(filename, sample.NativeIntPtr);
 
         /// <summary>
         /// Writes a sample into a <see cref="AllegroFile"/> filestream. Currently, wav is the only supported format,
@@ -1352,405 +1352,377 @@ namespace SubC.AllegroDotNet
         /// <param name="ident">The identifying extension.</param>
         /// <param name="sample">The sample.</param>
         /// <returns>True on success, false on error. The file remains open afterwards.</returns>
-        public static bool SaveSampleF(AllegroFile fp, string ident, AllegroSample sample)
-            => al_save_sample_f(fp.NativeIntPtr, ident, sample.NativeIntPtr);
+        public static bool SaveSampleF(AllegroFile fp, string ident, AllegroSample sample) =>
+            AllegroLibrary.AlSaveSampleF(fp.NativeIntPtr, ident, sample.NativeIntPtr);
 
         #region P/Invokes
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_install_audio();
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_install_audio();
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_uninstall_audio();
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_uninstall_audio();
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_is_audio_installed();
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_is_audio_installed();
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_reserve_samples(int reserve_samples);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_reserve_samples(int reserve_samples);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern uint al_get_allegro_audio_version();
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern uint al_get_allegro_audio_version();
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern UIntPtr al_get_audio_depth_size(int depth);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern UIntPtr al_get_audio_depth_size(int depth);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern UIntPtr al_get_channel_count(int conf);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern UIntPtr al_get_channel_count(int conf);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_fill_silence(IntPtr buf, uint samples, int depth, int chan_conf);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_fill_silence(IntPtr buf, uint samples, int depth, int chan_conf);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern IntPtr al_create_voice(uint freq, int depth, int chan_conf);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern IntPtr al_create_voice(uint freq, int depth, int chan_conf);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_destroy_voice(IntPtr voice);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_destroy_voice(IntPtr voice);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_detach_voice(IntPtr voice);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_detach_voice(IntPtr voice);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_attach_audio_stream_to_voice(IntPtr stream, IntPtr voice);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_attach_audio_stream_to_voice(IntPtr stream, IntPtr voice);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_attach_mixer_to_voice(IntPtr mixer, IntPtr voice);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_attach_mixer_to_voice(IntPtr mixer, IntPtr voice);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_attach_sample_instance_to_voice(IntPtr spl, IntPtr voice);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_attach_sample_instance_to_voice(IntPtr spl, IntPtr voice);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern uint al_get_voice_frequency(IntPtr voice);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern uint al_get_voice_frequency(IntPtr voice);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern int al_get_voice_channels(IntPtr voice);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern int al_get_voice_channels(IntPtr voice);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern int al_get_voice_depth(IntPtr voice);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern int al_get_voice_depth(IntPtr voice);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_get_voice_playing(IntPtr voice);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_get_voice_playing(IntPtr voice);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_set_voice_playing(IntPtr voice, bool val);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_set_voice_playing(IntPtr voice, bool val);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern uint al_get_voice_position(IntPtr voice);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern uint al_get_voice_position(IntPtr voice);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_set_voice_position(IntPtr voice, uint val);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_set_voice_position(IntPtr voice, uint val);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern IntPtr al_create_sample(
-            ref byte[] buf,
-            uint samples,
-            uint freq,
-            int depth,
-            int chan_conf,
-            bool free_buf);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern IntPtr al_create_sample(ref byte[] buf, uint samples, uint freq, int depth, int chan_conf, bool free_buf);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_destroy_sample(IntPtr spl);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_destroy_sample(IntPtr spl);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_play_sample(IntPtr spl, float gain, float pan, float speed, int loop, IntPtr ret_id);
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_play_sample(IntPtr spl, float gain, float pan, float speed, int loop, ref NativeSampleId ret_id);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_play_sample(IntPtr spl, float gain, float pan, float speed, int loop, IntPtr ret_id);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_play_sample(IntPtr spl, float gain, float pan, float speed, int loop, ref NativeSampleId ret_id);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_stop_sample(ref NativeSampleId spl_id);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_stop_sample(ref NativeSampleId spl_id);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_stop_samples();
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_stop_samples();
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern int al_get_sample_channels(IntPtr spl);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern int al_get_sample_channels(IntPtr spl);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern int al_get_sample_depth(IntPtr spl);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern int al_get_sample_depth(IntPtr spl);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern uint al_get_sample_frequency(IntPtr spl);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern uint al_get_sample_frequency(IntPtr spl);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern uint al_get_sample_length(IntPtr spl);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern uint al_get_sample_length(IntPtr spl);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern IntPtr al_get_sample_data(IntPtr spl);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern IntPtr al_get_sample_data(IntPtr spl);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern IntPtr al_create_sample_instance(IntPtr sample_data);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern IntPtr al_create_sample_instance(IntPtr sample_data);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_destroy_sample_instance(IntPtr spl);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_destroy_sample_instance(IntPtr spl);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_play_sample_instance(IntPtr spl);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_play_sample_instance(IntPtr spl);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_stop_sample_instance(IntPtr spl);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_stop_sample_instance(IntPtr spl);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern int al_get_sample_instance_channels(IntPtr spl);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern int al_get_sample_instance_channels(IntPtr spl);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern int al_get_sample_instance_depth(IntPtr spl);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern int al_get_sample_instance_depth(IntPtr spl);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern uint al_get_sample_instance_frequency(IntPtr spl);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern uint al_get_sample_instance_frequency(IntPtr spl);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern uint al_get_sample_instance_length(IntPtr spl);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern uint al_get_sample_instance_length(IntPtr spl);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_set_sample_instance_length(IntPtr spl, uint val);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_set_sample_instance_length(IntPtr spl, uint val);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern uint al_get_sample_instance_position(IntPtr spl);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern uint al_get_sample_instance_position(IntPtr spl);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_set_sample_instance_position(IntPtr spl, uint val);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_set_sample_instance_position(IntPtr spl, uint val);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern float al_get_sample_instance_speed(IntPtr spl);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern float al_get_sample_instance_speed(IntPtr spl);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_set_sample_instance_speed(IntPtr spl, float val);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_set_sample_instance_speed(IntPtr spl, float val);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern float al_get_sample_instance_gain(IntPtr spl);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern float al_get_sample_instance_gain(IntPtr spl);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_set_sample_instance_gain(IntPtr spl, float val);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_set_sample_instance_gain(IntPtr spl, float val);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern float al_get_sample_instance_pan(IntPtr spl);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern float al_get_sample_instance_pan(IntPtr spl);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_set_sample_instance_pan(IntPtr spl, float val);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_set_sample_instance_pan(IntPtr spl, float val);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern float al_get_sample_instance_time(IntPtr spl);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern float al_get_sample_instance_time(IntPtr spl);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern int al_get_sample_instance_playmode(IntPtr spl);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern int al_get_sample_instance_playmode(IntPtr spl);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_set_sample_instance_playmode(IntPtr spl, int val);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_set_sample_instance_playmode(IntPtr spl, int val);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_get_sample_instance_playing(IntPtr spl);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_get_sample_instance_playing(IntPtr spl);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_set_sample_instance_playing(IntPtr spl, bool val);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_set_sample_instance_playing(IntPtr spl, bool val);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_get_sample_instance_attached(IntPtr spl);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_get_sample_instance_attached(IntPtr spl);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_detach_sample_instance(IntPtr spl);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_detach_sample_instance(IntPtr spl);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern IntPtr al_get_sample(IntPtr spl);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern IntPtr al_get_sample(IntPtr spl);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_set_sample(IntPtr spl, IntPtr data);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_set_sample(IntPtr spl, IntPtr data);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern IntPtr al_create_mixer(uint freq, int depth, int chan_conf);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern IntPtr al_create_mixer(uint freq, int depth, int chan_conf);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_destroy_mixer(IntPtr mixer);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_destroy_mixer(IntPtr mixer);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern IntPtr al_get_default_mixer();
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern IntPtr al_get_default_mixer();
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_set_default_mixer(IntPtr mixer);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_set_default_mixer(IntPtr mixer);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_restore_default_mixer();
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_restore_default_mixer();
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern IntPtr al_get_default_voice();
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern IntPtr al_get_default_voice();
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_set_default_voice(IntPtr voice);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_set_default_voice(IntPtr voice);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_attach_mixer_to_mixer(IntPtr stream, IntPtr mixer);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_attach_mixer_to_mixer(IntPtr stream, IntPtr mixer);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_attach_sample_instance_to_mixer(IntPtr spl, IntPtr mixer);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_attach_sample_instance_to_mixer(IntPtr spl, IntPtr mixer);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_attach_audio_stream_to_mixer(IntPtr stream, IntPtr mixer);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_attach_audio_stream_to_mixer(IntPtr stream, IntPtr mixer);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern uint al_get_mixer_frequency(IntPtr mixer);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern uint al_get_mixer_frequency(IntPtr mixer);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_set_mixer_frequency(IntPtr mixer, uint val);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_set_mixer_frequency(IntPtr mixer, uint val);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern int al_get_mixer_channels(IntPtr mixer);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern int al_get_mixer_channels(IntPtr mixer);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern int al_get_mixer_depth(IntPtr mixer);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern int al_get_mixer_depth(IntPtr mixer);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern float al_get_mixer_gain(IntPtr mixer);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern float al_get_mixer_gain(IntPtr mixer);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_set_mixer_gain(IntPtr mixer, float new_gain);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_set_mixer_gain(IntPtr mixer, float new_gain);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern int al_get_mixer_quality(IntPtr mixer);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern int al_get_mixer_quality(IntPtr mixer);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_set_mixer_quality(IntPtr mixer, int new_quality);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_set_mixer_quality(IntPtr mixer, int new_quality);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_get_mixer_playing(IntPtr mixer);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_get_mixer_playing(IntPtr mixer);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_set_mixer_playing(IntPtr mixer, bool val);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_set_mixer_playing(IntPtr mixer, bool val);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_get_mixer_attached(IntPtr mixer);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_get_mixer_attached(IntPtr mixer);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_detach_mixer(IntPtr mixer);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_detach_mixer(IntPtr mixer);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_set_mixer_postprocess_callback(IntPtr mixer, IntPtr pp_callback, IntPtr pp_callback_userdata);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_set_mixer_postprocess_callback(IntPtr mixer, IntPtr pp_callback, IntPtr pp_callback_userdata);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern IntPtr al_create_audio_stream(UIntPtr fragment_count, uint frag_samples, uint freq, int depth, int chan_conf);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern IntPtr al_create_audio_stream(UIntPtr fragment_count, uint frag_samples, uint freq, int depth, int chan_conf);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_destroy_audio_stream(IntPtr stream);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_destroy_audio_stream(IntPtr stream);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern IntPtr al_get_audio_stream_event_source(IntPtr stream);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern IntPtr al_get_audio_stream_event_source(IntPtr stream);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_drain_audio_stream(IntPtr stream);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_drain_audio_stream(IntPtr stream);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_rewind_audio_stream(IntPtr stream);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_rewind_audio_stream(IntPtr stream);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern uint al_get_audio_stream_frequency(IntPtr stream);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern uint al_get_audio_stream_frequency(IntPtr stream);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern int al_get_audio_stream_channels(IntPtr stream);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern int al_get_audio_stream_channels(IntPtr stream);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern int al_get_audio_stream_depth(IntPtr stream);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern int al_get_audio_stream_depth(IntPtr stream);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern uint al_get_audio_stream_length(IntPtr stream);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern uint al_get_audio_stream_length(IntPtr stream);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern float al_get_audio_stream_speed(IntPtr stream);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern float al_get_audio_stream_speed(IntPtr stream);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_set_audio_stream_speed(IntPtr stream, float val);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_set_audio_stream_speed(IntPtr stream, float val);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern float al_get_audio_stream_gain(IntPtr stream);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern float al_get_audio_stream_gain(IntPtr stream);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_set_audio_stream_gain(IntPtr stream, float val);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_set_audio_stream_gain(IntPtr stream, float val);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern float al_get_audio_stream_pan(IntPtr stream);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern float al_get_audio_stream_pan(IntPtr stream);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_set_audio_stream_pan(IntPtr stream, float val);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_set_audio_stream_pan(IntPtr stream, float val);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_get_audio_stream_playing(IntPtr stream);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_get_audio_stream_playing(IntPtr stream);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_set_audio_stream_playing(IntPtr stream, bool val);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_set_audio_stream_playing(IntPtr stream, bool val);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern int al_get_audio_stream_playmode(IntPtr stream);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern int al_get_audio_stream_playmode(IntPtr stream);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_set_audio_stream_playmode(IntPtr stream, int val);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_set_audio_stream_playmode(IntPtr stream, int val);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_get_audio_stream_attached(IntPtr stream);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_get_audio_stream_attached(IntPtr stream);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_detach_audio_stream(IntPtr stream);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_detach_audio_stream(IntPtr stream);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern ulong al_get_audio_stream_played_samples(IntPtr stream);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern ulong al_get_audio_stream_played_samples(IntPtr stream);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern IntPtr al_get_audio_stream_fragment(IntPtr stream);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern IntPtr al_get_audio_stream_fragment(IntPtr stream);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_set_audio_stream_fragment(IntPtr stream, IntPtr val);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_set_audio_stream_fragment(IntPtr stream, IntPtr val);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern uint al_get_audio_stream_fragments(IntPtr stream);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern uint al_get_audio_stream_fragments(IntPtr stream);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern uint al_get_available_audio_stream_fragments(IntPtr stream);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern uint al_get_available_audio_stream_fragments(IntPtr stream);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_seek_audio_stream_secs(IntPtr stream, double time);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_seek_audio_stream_secs(IntPtr stream, double time);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern double al_get_audio_stream_position_secs(IntPtr stream);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern double al_get_audio_stream_position_secs(IntPtr stream);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern double al_get_audio_stream_length_secs(IntPtr stream);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern double al_get_audio_stream_length_secs(IntPtr stream);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_set_audio_stream_loop_secs(IntPtr stream, double start, double end);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_set_audio_stream_loop_secs(IntPtr stream, double start, double end);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_register_sample_loader(
-            [MarshalAs(UnmanagedType.LPStr)] string ext,
-            IntPtr loader);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_register_sample_loader([MarshalAs(UnmanagedType.LPStr)] string ext, IntPtr loader);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_register_sample_loader_f(
-            [MarshalAs(UnmanagedType.LPStr)] string ext,
-            IntPtr loader);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_register_sample_loader_f([MarshalAs(UnmanagedType.LPStr)] string ext, IntPtr loader);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_register_sample_saver(
-            [MarshalAs(UnmanagedType.LPStr)] string ext,
-            IntPtr saver);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_register_sample_saver([MarshalAs(UnmanagedType.LPStr)] string ext, IntPtr saver);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_register_sample_saver_f(
-            [MarshalAs(UnmanagedType.LPStr)] string ext,
-            IntPtr saver);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_register_sample_saver_f([MarshalAs(UnmanagedType.LPStr)] string ext, IntPtr saver);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_register_audio_stream_loader(
-            [MarshalAs(UnmanagedType.LPStr)] string ext,
-            IntPtr stream_loader);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_register_audio_stream_loader([MarshalAs(UnmanagedType.LPStr)] string ext, IntPtr stream_loader);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_register_audio_stream_loader_f(
-            [MarshalAs(UnmanagedType.LPStr)] string ext,
-            IntPtr stream_loader);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_register_audio_stream_loader_f([MarshalAs(UnmanagedType.LPStr)] string ext, IntPtr stream_loader);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern IntPtr al_load_sample([MarshalAs(UnmanagedType.LPStr)] string filename);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern IntPtr al_load_sample([MarshalAs(UnmanagedType.LPStr)] string filename);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern IntPtr al_load_sample_f(IntPtr fp, [MarshalAs(UnmanagedType.LPStr)] string ident);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern IntPtr al_load_sample_f(IntPtr fp, [MarshalAs(UnmanagedType.LPStr)] string ident);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern IntPtr al_load_audio_stream(
-            [MarshalAs(UnmanagedType.LPStr)] string filename,
-            UIntPtr buffer_count,
-            uint samples);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern IntPtr al_load_audio_stream([MarshalAs(UnmanagedType.LPStr)] string filename, UIntPtr buffer_count, uint samples);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern IntPtr al_load_audio_stream_f(
-            IntPtr fp,
-            [MarshalAs(UnmanagedType.LPStr)] string ident,
-            UIntPtr buffer_count,
-            uint samples);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern IntPtr al_load_audio_stream_f(IntPtr fp, [MarshalAs(UnmanagedType.LPStr)] string ident, UIntPtr buffer_count, uint samples);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_save_sample([MarshalAs(UnmanagedType.LPStr)] string filename, IntPtr spl);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_save_sample([MarshalAs(UnmanagedType.LPStr)] string filename, IntPtr spl);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_save_sample_f(
-            IntPtr fp,
-            [MarshalAs(UnmanagedType.LPStr)] string ident,
-            IntPtr spl);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_save_sample_f(IntPtr fp, [MarshalAs(UnmanagedType.LPStr)] string ident, IntPtr spl);
         #endregion
     }
 }

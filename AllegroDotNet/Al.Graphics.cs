@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using SubC.AllegroDotNet.Models;
 using SubC.AllegroDotNet.Enums;
-using SubC.AllegroDotNet.Native;
+using SubC.AllegroDotNet.Models;
+using SubC.AllegroDotNet.Native.Libraries;
 
 namespace SubC.AllegroDotNet
 {
@@ -19,7 +19,10 @@ namespace SubC.AllegroDotNet
         /// <param name="b">Amount of blue (0-255).</param>
         /// <returns>Instance of the specified color.</returns>
         public static AllegroColor MapRgb(byte r, byte g, byte b)
-            => new AllegroColor { Native = al_map_rgb(r, g, b) };
+        {
+            var nativeColor = AllegroLibrary.AlMapRgb(r, g, b);
+            return new AllegroColor { Native = nativeColor };
+        }
 
         /// <summary>
         /// Convert r, g, b, (ranging from 0.0f-1.0f) into an ALLEGRO_COLOR, using 1.0f for alpha.
@@ -29,7 +32,10 @@ namespace SubC.AllegroDotNet
         /// <param name="b">Amount of blue (0.0-1.0).</param>
         /// <returns>Instance of the specified color.</returns>
         public static AllegroColor MapRgbF(float r, float g, float b)
-            => new AllegroColor { Native = al_map_rgb_f(r, g, b) };
+        {
+            var nativeColor = AllegroLibrary.AlMapRgbF(r, g, b);
+            return new AllegroColor { Native = nativeColor };
+        }
 
         /// <summary>
         /// Convert r, g, b (ranging from 0-255) into an <see cref="AllegroColor"/>, using 255 for alpha.
@@ -40,7 +46,10 @@ namespace SubC.AllegroDotNet
         /// <param name="a">Amount of alpha (0-255).</param>
         /// <returns>Instance of the specified color.</returns>
         public static AllegroColor MapRgbA(byte r, byte g, byte b, byte a)
-            => new AllegroColor { Native = al_map_rgba(r, g, b, a) };
+        {
+            var nativeColor = AllegroLibrary.AlMapRgba(r, g, b, a);
+            return new AllegroColor { Native = nativeColor };
+        }
 
         /// <summary>
         /// By default Allegro uses pre-multiplied alpha for transparent blending of bitmaps and primitives
@@ -54,11 +63,10 @@ namespace SubC.AllegroDotNet
         /// <param name="a">Amount of alpha (0-255).</param>
         /// <returns>Instance of the specified color.</returns>
         public static AllegroColor PremulRgbA(byte r, byte g, byte b, byte a)
-            => new AllegroColor { Native = al_map_rgba(
-                Convert.ToByte(r * a / 255),
-                Convert.ToByte(g * a / 255),
-                Convert.ToByte(b * a / 255),
-                a) };
+        {
+            var nativeColor = AllegroLibrary.AlPremulRgba(r, g, b, a);
+            return new AllegroColor { Native = nativeColor };
+        }
 
         /// <summary>
         /// Convert r, g, b, a (ranging from 0.0f-1.0f) into an <see cref="AllegroColor"/>.
@@ -69,7 +77,10 @@ namespace SubC.AllegroDotNet
         /// <param name="a">Amount of alpha (0.0-1.0).</param>
         /// <returns>Instance of the specified color.</returns>
         public static AllegroColor MapRgbAF(float r, float g, float b, float a)
-            => new AllegroColor { Native = al_map_rgba_f(r, g, b, a) };
+        {
+            var nativeColor = AllegroLibrary.AlMapRgbaF(r, g, b, a);
+            return new AllegroColor { Native = nativeColor };
+        }
 
         /// <summary>
         /// By default Allegro uses pre-multiplied alpha for transparent blending of bitmaps and primitives
@@ -83,7 +94,10 @@ namespace SubC.AllegroDotNet
         /// <param name="a">Amount of alpha (0.0-1.0).</param>
         /// <returns>Instance of the specified color.</returns>
         public static AllegroColor PremulRgbAF(float r, float g, float b, float a)
-            => new AllegroColor { Native = al_map_rgba_f(r * a, g * a, b * a, a) };
+        {
+            var nativeColor = AllegroLibrary.AlPremulRgbaF(r, g, b, a);
+            return new AllegroColor { Native = nativeColor };
+        }
 
         /// <summary>
         /// Retrieves components of an ALLEGRO_COLOR, ignoring alpha. Components will range from 0-255.
@@ -92,8 +106,8 @@ namespace SubC.AllegroDotNet
         /// <param name="r">Amount of red (0-255).</param>
         /// <param name="g">Amount of green (0-255).</param>
         /// <param name="b">Amount of blue (0-255).</param>
-        public static void UnmapRgb(AllegroColor color, ref byte r, ref byte g, ref byte b)
-            => al_unmap_rgb(color.Native, ref r, ref g, ref b);
+        public static void UnmapRgb(AllegroColor color, ref byte r, ref byte g, ref byte b) =>
+            AllegroLibrary.AlUnmapRgb(color.Native, ref r, ref g, ref b);
 
         /// <summary>
         /// Retrieves components of an ALLEGRO_COLOR, ignoring alpha. Components will range from 0.0f-1.0f.
@@ -102,8 +116,8 @@ namespace SubC.AllegroDotNet
         /// <param name="r">Amount of red (0.0-1.0).</param>
         /// <param name="g">Amount of green (0.0-1.0).</param>
         /// <param name="b">Amount of blue (0.0-1.0).</param>
-        public static void UnmapRgbF(AllegroColor color, ref float r, ref float g, ref float b)
-            => al_unmap_rgb_f(color.Native, ref r, ref g, ref b);
+        public static void UnmapRgbF(AllegroColor color, ref float r, ref float g, ref float b) =>
+            AllegroLibrary.AlUnmapRgbF(color.Native, ref r, ref g, ref b);
 
         /// <summary>
         /// Retrieves components of an ALLEGRO_COLOR. Components will range from 0-255.
@@ -113,8 +127,8 @@ namespace SubC.AllegroDotNet
         /// <param name="g">Amount of green (0-255).</param>
         /// <param name="b">Amount of blue (0-255).</param>
         /// <param name="a">Amount of alpha (0-255).</param>
-        public static void UnmapRgbA(AllegroColor color, ref byte r, ref byte g, ref byte b, ref byte a)
-            => al_unmap_rgba(color.Native, ref r, ref g, ref b, ref a);
+        public static void UnmapRgbA(AllegroColor color, ref byte r, ref byte g, ref byte b, ref byte a) =>
+            AllegroLibrary.AlUnmapRgba(color.Native, ref r, ref g, ref b, ref a);
 
         /// <summary>
         /// Retrieves components of an ALLEGRO_COLOR. Components will range from 0.0f-1.0f.
@@ -124,8 +138,8 @@ namespace SubC.AllegroDotNet
         /// <param name="g">Amount of green (0-255).</param>
         /// <param name="b">Amount of blue (0-255).</param>
         /// <param name="a">Amount of alpha (0-255).</param>
-        public static void UnmapRgbAF(AllegroColor color, ref float r, ref float g, ref float b, ref float a)
-            => al_unmap_rgba_f(color.Native, ref r, ref g, ref b, ref a);
+        public static void UnmapRgbAF(AllegroColor color, ref float r, ref float g, ref float b, ref float a) =>
+            AllegroLibrary.AlUnmapRgbaF(color.Native, ref r, ref g, ref b, ref a);
 
         /// <summary>
         /// Return the number of bytes that a pixel of the given format occupies. For blocked pixel formats (e.g.
@@ -134,7 +148,9 @@ namespace SubC.AllegroDotNet
         /// <param name="format">The pixel format.</param>
         /// <returns>The amount of bytes for a pixel in the given pixel format.</returns>
         public static int GetPixelSize(PixelFormat format)
-            => al_get_pixel_size((int)format);
+        {
+            return AllegroLibrary.AlGetPixelSize((int)format);
+        }
 
         /// <summary>
         /// Return the number of bits that a pixel of the given format occupies. For blocked pixel formats (e.g.
@@ -143,7 +159,9 @@ namespace SubC.AllegroDotNet
         /// <param name="format">The pixel format.</param>
         /// <returns>The amount of bits for a pixel in the given pixel format.</returns>
         public static int GetPixelFormatBits(PixelFormat format)
-            => al_get_pixel_format_bits((int)format);
+        {
+            return AllegroLibrary.AlGetPixelFormatBits((int)format);
+        }
 
         /// <summary>
         /// Return the number of bytes that a block of pixels with this format occupies.
@@ -151,7 +169,9 @@ namespace SubC.AllegroDotNet
         /// <param name="format">The pixel format.</param>
         /// <returns>The number of bytes that a block of pixels with this format occupies.</returns>
         public static int GetPixelBlockSize(PixelFormat format)
-            => al_get_pixel_block_size((int)format);
+        {
+            return AllegroLibrary.AlGetPixelBlockSize((int)format);
+        }
 
         /// <summary>
         /// Return the width of the the pixel block for this format.
@@ -159,7 +179,9 @@ namespace SubC.AllegroDotNet
         /// <param name="format">The pixel format.</param>
         /// <returns>The width of the the pixel block for this format.</returns>
         public static int GetPixelBlockWidth(PixelFormat format)
-            => al_get_pixel_block_width((int)format);
+        {
+            return AllegroLibrary.AlGetPixelBlockWidth((int)format);
+        }
 
         /// <summary>
         /// Return the height of the the pixel block for this format.
@@ -167,7 +189,9 @@ namespace SubC.AllegroDotNet
         /// <param name="format">The pixel format.</param>
         /// <returns>The height of the the pixel block for this format.</returns>
         public static int GetPixelBlockHeight(PixelFormat format)
-            => al_get_pixel_block_height((int)format);
+        {
+            return AllegroLibrary.AlGetPixelBlockHeight((int)format);
+        }
 
         /// <summary>
         /// Lock an entire bitmap for reading or writing. If the bitmap is a display bitmap it will be updated from
@@ -196,10 +220,10 @@ namespace SubC.AllegroDotNet
         /// <param name="flags">The read/write flag for the returned region.</param>
         /// <returns>A locked bitmap.</returns>
         public static AllegroLockedRegion LockBitmap(AllegroBitmap bitmap, PixelFormat format, LockFlags flags)
-            => new AllegroLockedRegion
-            {
-                Native = al_lock_bitmap(bitmap.NativeIntPtr, (int)format, (int)flags)
-            };
+        {
+            var nativeLockedRegion = AllegroLibrary.AlLockBitmap(bitmap.NativeIntPtr, (int)format, (int)flags);
+            return nativeLockedRegion == IntPtr.Zero ? null : new AllegroLockedRegion { NativeIntPtr = nativeLockedRegion };
+        }
 
         /// <summary>
         /// Like al_lock_bitmap, but only locks a specific area of the bitmap. If the bitmap is a video bitmap, only
@@ -215,10 +239,10 @@ namespace SubC.AllegroDotNet
         /// <param name="flags">The read/write flag for the returned region.</param>
         /// <returns>A locked bitmap region.</returns>
         public static AllegroLockedRegion LockBitmapRegion(AllegroBitmap bitmap, int x, int y, int width, int height, PixelFormat format, LockFlags flags)
-            => new AllegroLockedRegion
-            {
-                Native = al_lock_bitmap_region(bitmap.NativeIntPtr, x, y, width, height, (int)format, (int)flags)
-            };
+        {
+            var nativeLockedRegion = AllegroLibrary.AlLockBitmapRegion(bitmap.NativeIntPtr, x, y, width, height, (int)format, (int)flags);
+            return nativeLockedRegion == IntPtr.Zero ? null : new AllegroLockedRegion { NativeIntPtr = nativeLockedRegion };
+        }
 
         /// <summary>
         /// Unlock a previously locked bitmap or bitmap region. If the bitmap is a video bitmap, the texture will be
@@ -226,7 +250,9 @@ namespace SubC.AllegroDotNet
         /// </summary>
         /// <param name="bitmap">The bitmap to unlock.</param>
         public static void UnlockBitmap(AllegroBitmap bitmap)
-            => al_unlock_bitmap(bitmap.NativeIntPtr);
+        {
+            AllegroLibrary.AlUnlockBitmap(bitmap.NativeIntPtr);
+        }
 
         /// <summary>
         /// Like al_lock_bitmap, but allows locking bitmaps with a blocked pixel format (i.e. a format for which
@@ -238,10 +264,10 @@ namespace SubC.AllegroDotNet
         /// <param name="flags">The read/write flag.</param>
         /// <returns>The locked blocked bitmap.</returns>
         public static AllegroLockedRegion LockBitmapBlocked(AllegroBitmap bitmap, LockFlags flags)
-            => new AllegroLockedRegion
-            {
-                Native = al_lock_bitmap_blocked(bitmap.NativeIntPtr, (int)flags)
-            };
+        {
+            var nativeLockedRegion = AllegroLibrary.AlLockBitmapBlocked(bitmap.NativeIntPtr, (int)flags);
+            return nativeLockedRegion == IntPtr.Zero ? null : new AllegroLockedRegion { NativeIntPtr = nativeLockedRegion };
+        }
 
         /// <summary>
         /// Like al_lock_bitmap_blocked, but allows locking a sub-region, for performance. Unlike al_lock_bitmap_region
@@ -255,16 +281,16 @@ namespace SubC.AllegroDotNet
         /// <param name="flags">The read/write flag.</param>
         /// <returns>The locked blocked bitmap region.</returns>
         public static AllegroLockedRegion LockBitmapRegionBlocked(AllegroBitmap bitmap, int xBlock, int yBlock, int widthBlock, int heightBlock, LockFlags flags)
-            => new AllegroLockedRegion
-            {
-                Native = al_lock_bitmap_region_blocked(bitmap.NativeIntPtr, xBlock, yBlock, widthBlock, heightBlock, (int)flags)
-            };
+        {
+            var nativeLockedRegion = AllegroLibrary.AlLockBitmapRegionBlocked(bitmap.NativeIntPtr, xBlock, yBlock, widthBlock, heightBlock, (int)flags);
+            return nativeLockedRegion == IntPtr.Zero ? null : new AllegroLockedRegion { NativeIntPtr = nativeLockedRegion };
+        }
 
         /// <summary>
         /// Creates a new bitmap using the bitmap format and flags for the current thread. Blitting between bitmaps of
         /// differing formats, or blitting between memory bitmaps and display bitmaps may be slow.
         /// <para>
-        /// Unless you set the ALLEGRO_MEMORY_BITMAP flag, the bitmap is created for the current display.Blitting to
+        /// Unless you set the ALLEGRO_MEMORY_BITMAP flag, the bitmap is created for the current display. Blitting to
         /// another display may be slow.
         /// </para>
         /// <para>
@@ -275,7 +301,7 @@ namespace SubC.AllegroDotNet
         /// bitmap smaller than this, this call will not fail but the returned bitmap will be a section of a larger
         /// bitmap with the minimum size. The minimum size that will work on all platforms is 32 by 32. There is an
         /// experimental switch to turns this padding off by editing the system configuration (see min_bitmap_size
-        /// key in al_get_system_config).
+        /// key in <see cref="GetSystemConfig"/>).
         /// </para>
         /// <para>
         /// Some platforms do not directly support display bitmaps whose dimensions are not powers of two. Allegro
@@ -306,8 +332,8 @@ namespace SubC.AllegroDotNet
         /// all pixels get overwritten before drawing it.
         /// </para>
         /// <para>
-        /// When you are done with using the bitmap you must call al_destroy_bitmap on it to free any resources
-        /// allocated for it.
+        /// When you are done with using the bitmap you must call <see cref="DestroyBitmap(AllegroBitmap)"/> on it to
+        /// free any resources allocated for it.
         /// </para>
         /// </summary>
         /// <param name="w">Width of bitmap.</param>
@@ -315,7 +341,7 @@ namespace SubC.AllegroDotNet
         /// <returns>The created bitmap instance, otherwise null.</returns>
         public static AllegroBitmap CreateBitmap(int w, int h)
         {
-            var nativeBitmap = al_create_bitmap(w, h);
+            var nativeBitmap = AllegroLibrary.AlCreateBitmap(w, h);
             return nativeBitmap == IntPtr.Zero ? null : new AllegroBitmap { NativeIntPtr = nativeBitmap };
         }
 
@@ -354,7 +380,7 @@ namespace SubC.AllegroDotNet
         /// <returns>A new instance of a sub-bitmap from the parent, otherwise null.</returns>
         public static AllegroBitmap CreateSubBitmap(AllegroBitmap parent, int x, int y, int w, int h)
         {
-            var nativeBitmap = al_create_sub_bitmap(parent.NativeIntPtr, x, y, w, h);
+            var nativeBitmap = AllegroLibrary.AlCreateSubBitmap(parent.NativeIntPtr, x, y, w, h);
             return nativeBitmap == IntPtr.Zero ? null : new AllegroBitmap { NativeIntPtr = nativeBitmap };
         }
 
@@ -368,7 +394,7 @@ namespace SubC.AllegroDotNet
         /// <returns>The cloned bitmap, otherwise null.</returns>
         public static AllegroBitmap CloneBitmap(AllegroBitmap bitmap)
         {
-            var nativeBitmap = al_clone_bitmap(bitmap.NativeIntPtr);
+            var nativeBitmap = AllegroLibrary.AlCloneBitmap(bitmap.NativeIntPtr);
             return nativeBitmap == IntPtr.Zero ? null : new AllegroBitmap { NativeIntPtr = nativeBitmap };
         }
 
@@ -382,7 +408,9 @@ namespace SubC.AllegroDotNet
         /// </summary>
         /// <param name="bitmap">The bitmap to convert.</param>
         public static void ConvertBitmap(AllegroBitmap bitmap)
-            => al_convert_bitmap(bitmap.NativeIntPtr);
+        {
+            AllegroLibrary.AlConvertBitmap(bitmap.NativeIntPtr);
+        }
 
         /// <summary>
         /// If you create a bitmap when there is no current display (for example because you have not called
@@ -397,7 +425,9 @@ namespace SubC.AllegroDotNet
         /// </para>
         /// </summary>
         public static void ConvertMemoryBitmaps()
-            => al_convert_memory_bitmaps();
+        {
+            AllegroLibrary.AlConvertMemoryBitmaps();
+        }
 
         /// <summary>
         /// Destroys the given bitmap, freeing all resources used by it. This function does nothing if the bitmap
@@ -413,28 +443,36 @@ namespace SubC.AllegroDotNet
         /// </summary>
         /// <param name="bitmap">The bitmap to destroy.</param>
         public static void DestroyBitmap(AllegroBitmap bitmap)
-            => al_destroy_bitmap(bitmap.NativeIntPtr);
+        {
+            AllegroLibrary.AlDestroyBitmap(bitmap.NativeIntPtr);
+        }
 
         /// <summary>
         /// Returns the flags used for newly created bitmaps.
         /// </summary>
         /// <returns>The flags used for newly created bitmaps.</returns>
         public static BitmapFlags GetNewBitmapFlags()
-            => (BitmapFlags)al_get_new_bitmap_flags();
+        {
+            return (BitmapFlags)AllegroLibrary.AlGetNewBitmapFlags();
+        }
 
         /// <summary>
         /// Returns the format used for newly created bitmaps.
         /// </summary>
         /// <returns>The format used for newly created bitmaps.</returns>
         public static PixelFormat GetNewBitmapFormat()
-            => (PixelFormat)al_get_new_bitmap_format();
+        {
+            return (PixelFormat)AllegroLibrary.AlGetNewBitmapFormat();
+        }
 
         /// <summary>
         /// Sets the flags to use for newly created bitmaps.
         /// </summary>
         /// <param name="flags">Flags for newly created bitmaps.</param>
         public static void SetNewBitmapFlags(BitmapFlags flags)
-            => al_set_new_bitmap_flags((int)flags);
+        {
+            AllegroLibrary.AlSetNewBitmapFlags((int)flags);
+        }
 
         /// <summary>
         /// A convenience function which does the same as:
@@ -444,7 +482,9 @@ namespace SubC.AllegroDotNet
         /// </summary>
         /// <param name="flag">The flag to set.</param>
         public static void AddNewBitmapFlag(BitmapFlags flag)
-            => al_add_new_bitmap_flag((int)flag);
+        {
+            AllegroLibrary.AlAddNewBitmapFlag((int)flag);
+        }
 
         /// <summary>
         /// Sets the pixel format (<see cref="PixelFormat"/>) for newly created bitmaps. The default format is 0
@@ -452,7 +492,9 @@ namespace SubC.AllegroDotNet
         /// </summary>
         /// <param name="format">The pixel format.</param>
         public static void SetNewBitmapFormat(PixelFormat format)
-            => al_set_new_bitmap_format((int)format);
+        {
+            AllegroLibrary.AlSetNewBitmapFormat((int)format);
+        }
 
         /// <summary>
         /// Return the flags used to create the bitmap.
@@ -460,7 +502,9 @@ namespace SubC.AllegroDotNet
         /// <param name="bitmap">The bitmap to get the flags of.</param>
         /// <returns>The flags used to create the bitmap.</returns>
         public static BitmapFlags GetBitmapFlags(AllegroBitmap bitmap)
-            => (BitmapFlags)al_get_bitmap_flags(bitmap.NativeIntPtr);
+        {
+            return (BitmapFlags)AllegroLibrary.AlGetBitmapFlags(bitmap.NativeIntPtr);
+        }
 
         /// <summary>
         /// Returns the pixel format of a bitmap.
@@ -468,7 +512,9 @@ namespace SubC.AllegroDotNet
         /// <param name="bitmap">The bitmap to get the pixel format of.</param>
         /// <returns>The pixel format of a bitmap.</returns>
         public static PixelFormat GetBitmapFormat(AllegroBitmap bitmap)
-            => (PixelFormat)al_get_bitmap_format(bitmap.NativeIntPtr);
+        {
+            return (PixelFormat)AllegroLibrary.AlGetBitmapFormat(bitmap.NativeIntPtr);
+        }
 
         /// <summary>
         /// Returns the height of a bitmap in pixels.
@@ -476,7 +522,9 @@ namespace SubC.AllegroDotNet
         /// <param name="bitmap">The bitmap to get the height of.</param>
         /// <returns>The height of a bitmap in pixels.</returns>
         public static int GetBitmapHeight(AllegroBitmap bitmap)
-            => al_get_bitmap_height(bitmap.NativeIntPtr);
+        {
+            return AllegroLibrary.AlGetBitmapHeight(bitmap.NativeIntPtr);
+        }
 
         /// <summary>
         /// Returns the width of a bitmap in pixels.
@@ -484,7 +532,9 @@ namespace SubC.AllegroDotNet
         /// <param name="bitmap">The bitmap to get the width of.</param>
         /// <returns>The width of a bitmap in pixels.</returns>
         public static int GetBitmapWidth(AllegroBitmap bitmap)
-            => al_get_bitmap_width(bitmap.NativeIntPtr);
+        {
+            return AllegroLibrary.AlGetBitmapWidth(bitmap.NativeIntPtr);
+        }
 
         /// <summary>
         /// Get a pixel’s color value from the specified bitmap. This operation is slow on non-memory bitmaps.
@@ -495,10 +545,10 @@ namespace SubC.AllegroDotNet
         /// <param name="y">the y coordinate of the color.</param>
         /// <returns>The color of the location of the bitmap.</returns>
         public static AllegroColor GetPixel(AllegroBitmap bitmap, int x, int y)
-            => new AllegroColor
-            {
-                Native = al_get_pixel(bitmap.NativeIntPtr, x, y)
-            };
+        {
+            var nativeColor = AllegroLibrary.AlGetPixel(bitmap.NativeIntPtr, x, y);
+            return new AllegroColor { Native = nativeColor };
+        }
 
         /// <summary>
         /// Returns whether or not a bitmap is already locked.
@@ -506,7 +556,9 @@ namespace SubC.AllegroDotNet
         /// <param name="bitmap">The bitmap to see if it is locked.</param>
         /// <returns>Whether or not a bitmap is already locked.</returns>
         public static bool IsBitmapLocked(AllegroBitmap bitmap)
-            => al_is_bitmap_locked(bitmap.NativeIntPtr);
+        {
+            return AllegroLibrary.AlIsBitmapLocked(bitmap.NativeIntPtr);
+        }
 
         /// <summary>
         /// D3D and OpenGL allow sharing a texture in a way so it can be used for multiple windows. Each
@@ -526,7 +578,9 @@ namespace SubC.AllegroDotNet
         /// If there is no current display, false is returned.
         /// </returns>
         public static bool IsCompatibleBitmap(AllegroBitmap bitmap)
-            => al_is_compatible_bitmap(bitmap.NativeIntPtr);
+        {
+            return AllegroLibrary.AlIsCompatibleBitmap(bitmap.NativeIntPtr);
+        }
 
         /// <summary>
         /// Returns true if the specified bitmap is a sub-bitmap, false otherwise.
@@ -534,7 +588,9 @@ namespace SubC.AllegroDotNet
         /// <param name="bitmap">The bitmap to check if it is a sub-bitmap.</param>
         /// <returns>True if the specified bitmap is a sub-bitmap, false otherwise.</returns>
         public static bool IsSubBitmap(AllegroBitmap bitmap)
-            => al_is_sub_bitmap(bitmap.NativeIntPtr);
+        {
+            return AllegroLibrary.AlIsSubBitmap(bitmap.NativeIntPtr);
+        }
 
         /// <summary>
         /// Returns the bitmap this bitmap is a sub-bitmap of. Returns NULL if this bitmap is not a sub-bitmap.
@@ -545,7 +601,7 @@ namespace SubC.AllegroDotNet
         /// <returns>Bitmap that the given bitmap is a sub-bitmap of, otherwise null.</returns>
         public static AllegroBitmap GetParentBitmap(AllegroBitmap bitmap)
         {
-            var nativeBitmap = al_get_parent_bitmap(bitmap.NativeIntPtr);
+            var nativeBitmap = AllegroLibrary.AlGetParentBitmap(bitmap.NativeIntPtr);
             return nativeBitmap == IntPtr.Zero ? null : new AllegroBitmap { NativeIntPtr = nativeBitmap };
         }
 
@@ -555,7 +611,9 @@ namespace SubC.AllegroDotNet
         /// <param name="bitmap">Bitmap with a parent.</param>
         /// <returns>X position within the parent.</returns>
         public static int GetBitmapX(AllegroBitmap bitmap)
-            => al_get_bitmap_x(bitmap.NativeIntPtr);
+        {
+            return AllegroLibrary.AlGetBitmapX(bitmap.NativeIntPtr);
+        }
 
         /// <summary>
         /// For a sub-bitmap, return it’s y position within the parent.
@@ -563,7 +621,9 @@ namespace SubC.AllegroDotNet
         /// <param name="bitmap">Bitmap with a parent.</param>
         /// <returns>Y position within the parent.</returns>
         public static int GetBitmapY(AllegroBitmap bitmap)
-            => al_get_bitmap_y(bitmap.NativeIntPtr);
+        {
+            return AllegroLibrary.AlGetBitmapY(bitmap.NativeIntPtr);
+        }
 
         /// <summary>
         /// For a sub-bitmap, changes the parent, position and size. This is the same as destroying the bitmap and
@@ -579,14 +639,18 @@ namespace SubC.AllegroDotNet
         /// <param name="w">Width in the parent.</param>
         /// <param name="h">Height in the parent.</param>
         public static void ReparentBitmap(AllegroBitmap bitmap, AllegroBitmap parent, int x, int y, int w, int h)
-            => al_reparent_bitmap(bitmap.NativeIntPtr, parent.NativeIntPtr, x, y, w, h);
+        {
+            AllegroLibrary.AlReparentBitmap(bitmap.NativeIntPtr, parent.NativeIntPtr, x, y, w, h);
+        }
 
         /// <summary>
         /// Clear the complete target bitmap, but confined by the clipping rectangle.
         /// </summary>
         /// <param name="color">The color to clear to.</param>
         public static void ClearToColor(AllegroColor color)
-            => al_clear_to_color(color.Native);
+        {
+            AllegroLibrary.AlClearToColor(color.Native);
+        }
 
         /// <summary>
         /// Clear the depth buffer (confined by the clipping rectangle) to the given value. A depth buffer is only
@@ -600,7 +664,9 @@ namespace SubC.AllegroDotNet
         /// </summary>
         /// <param name="z">The z depth.</param>
         public static void ClearDepthBuffer(float z)
-            => al_clear_depth_buffer(z);
+        {
+            AllegroLibrary.AlClearDepthBuffer(z);
+        }
 
         /// <summary>
         /// Draws an unscaled, unrotated bitmap at the given position to the current target bitmap (see
@@ -622,7 +688,9 @@ namespace SubC.AllegroDotNet
         /// <param name="dy">The y position of the destination.</param>
         /// <param name="flags">The flip flags.</param>
         public static void DrawBitmap(AllegroBitmap bitmap, float dx, float dy, FlipFlags flags)
-            => al_draw_bitmap(bitmap.NativeIntPtr, dx, dy, (int)flags);
+        {
+            AllegroLibrary.AlDrawBitmap(bitmap.NativeIntPtr, dx, dy, (int)flags);
+        }
 
         /// <summary>
         /// Like al_draw_bitmap but multiplies all colors in the bitmap with the given color.
@@ -633,7 +701,9 @@ namespace SubC.AllegroDotNet
         /// <param name="dy">The y position of the destination.</param>
         /// <param name="flags">The flip flags.</param>
         public static void DrawTintedBitmap(AllegroBitmap bitmap, AllegroColor tint, float dx, float dy, FlipFlags flags)
-            => al_draw_tinted_bitmap(bitmap.NativeIntPtr, tint.Native, dx, dy, (int)flags);
+        {
+            AllegroLibrary.AlDrawTintedBitmap(bitmap.NativeIntPtr, tint.Native, dx, dy, (int)flags);
+        }
 
         /// <summary>
         /// Draws a region of the given bitmap to the target bitmap.
@@ -647,7 +717,9 @@ namespace SubC.AllegroDotNet
         /// <param name="dy">Destination Y position.</param>
         /// <param name="flags">The flip flags.</param>
         public static void DrawBitmapRegion(AllegroBitmap bitmap, float sx, float sy, float sw, float sh, float dx, float dy, FlipFlags flags)
-            => al_draw_bitmap_region(bitmap.NativeIntPtr, sx, sy, sw, sh, dx, dy, (int)flags);
+        {
+            AllegroLibrary.AlDrawBitmapRegion(bitmap.NativeIntPtr, sx, sy, sw, sh, dx, dy, (int)flags);
+        }
 
         /// <summary>
         /// Like al_draw_bitmap_region but multiplies all colors in the bitmap with the given color.
@@ -662,7 +734,9 @@ namespace SubC.AllegroDotNet
         /// <param name="dy">Destination Y position.</param>
         /// <param name="flags">The flip flags.</param>
         public static void DrawTintedBitmapRegion(AllegroBitmap bitmap, AllegroColor tint, float sx, float sy, float sw, float sh, float dx, float dy, FlipFlags flags)
-            => al_draw_tinted_bitmap_region(bitmap.NativeIntPtr, tint.Native, sx, sy, sw, sh, dx, dy, (int)flags);
+        {
+            AllegroLibrary.AlDrawTintedBitmapRegion(bitmap.NativeIntPtr, tint.Native, sx, sy, sw, sh, dx, dy, (int)flags);
+        }
 
         /// <summary>
         /// Draws a single pixel at x, y. This function, unlike al_put_pixel, does blending and, unlike
@@ -679,7 +753,9 @@ namespace SubC.AllegroDotNet
         /// <param name="y">The Y position.</param>
         /// <param name="color">The pixel color to draw.</param>
         public static void DrawPixel(float x, float y, AllegroColor color)
-            => al_draw_pixel(x, y, color.Native);
+        {
+            AllegroLibrary.AlDrawPixel(x, y, color.Native);
+        }
 
         /// <summary>
         /// Draws a rotated version of the given bitmap to the target bitmap. The bitmap is rotated by ‘angle’ radians
@@ -697,7 +773,9 @@ namespace SubC.AllegroDotNet
         /// <param name="angle">The angle in radians (clockwise).</param>
         /// <param name="flags">The flip flags.</param>
         public static void DrawRotatedBitmap(AllegroBitmap bitmap, float cx, float cy, float dx, float dy, float angle, FlipFlags flags)
-            => al_draw_rotated_bitmap(bitmap.NativeIntPtr, cx, cy, dx, dy, angle, (int)flags);
+        {
+            AllegroLibrary.AlDrawRotatedBitmap(bitmap.NativeIntPtr, cx, cy, dx, dy, angle, (int)flags);
+        }
 
         /// <summary>
         /// Like al_draw_rotated_bitmap but multiplies all colors in the bitmap with the given color.
@@ -714,7 +792,9 @@ namespace SubC.AllegroDotNet
         /// <param name="angle">The angle in radians (clockwise).</param>
         /// <param name="flags">The flip flags.</param>
         public static void DrawTintedRotatedBitmap(AllegroBitmap bitmap, AllegroColor tint, float cx, float cy, float dx, float dy, float angle, FlipFlags flags)
-            => al_draw_tinted_rotated_bitmap(bitmap.NativeIntPtr, tint.Native, cx, cy, dx, dy, angle, (int)flags);
+        {
+            AllegroLibrary.AlDrawTintedRotatedBitmap(bitmap.NativeIntPtr, tint.Native, cx, cy, dx, dy, angle, (int)flags);
+        }
 
         /// <summary>
         /// Like al_draw_rotated_bitmap, but can also scale the bitmap.
@@ -732,7 +812,9 @@ namespace SubC.AllegroDotNet
         /// <param name="angle">The angle in radians (clockwise).</param>
         /// <param name="flags">The flip flags.</param>
         public static void DrawScaledRotatedBitmap(AllegroBitmap bitmap, float cx, float cy, float dx, float dy, float xScale, float yScale, float angle, FlipFlags flags)
-            => al_draw_scaled_rotated_bitmap(bitmap.NativeIntPtr, cx, cy, dx, dy, xScale, yScale, angle, (int)flags);
+        {
+            AllegroLibrary.AlDrawScaledRotatedBitmap(bitmap.NativeIntPtr, cx, cy, dx, dy, xScale, yScale, angle, (int)flags);
+        }
 
         /// <summary>
         /// Like al_draw_scaled_rotated_bitmap but multiplies all colors in the bitmap with the given color.
@@ -748,7 +830,9 @@ namespace SubC.AllegroDotNet
         /// <param name="angle">The angle in radians (clockwise).</param>
         /// <param name="flags">The flip flags.</param>
         public static void DrawTintedScaledRotatedBitmap(AllegroBitmap bitmap, AllegroColor tint, float cx, float cy, float dx, float dy, float xScale, float yScale, float angle, FlipFlags flags)
-            => al_draw_tinted_scaled_rotated_bitmap(bitmap.NativeIntPtr, tint.Native, cx, cy, dx, dy, xScale, yScale, angle, (int)flags);
+        {
+            AllegroLibrary.AlDrawTintedScaledRotatedBitmap(bitmap.NativeIntPtr, tint.Native, cx, cy, dx, dy, xScale, yScale, angle, (int)flags);
+        }
 
         /// <summary>
         /// Like al_draw_tinted_scaled_rotated_bitmap but you specify an area within the bitmap to be drawn.
@@ -768,7 +852,9 @@ namespace SubC.AllegroDotNet
         /// <param name="angle">The angle in radians (clockwise).</param>
         /// <param name="flags">The flip flags.</param>
         public static void DrawTintedScaledRotatedBitmapRegion(AllegroBitmap bitmap, float sx, float sy, float sw, float sh, AllegroColor tint, float cx, float cy, float dx, float dy, float xScale, float yScale, float angle, FlipFlags flags)
-            => al_draw_tinted_scaled_rotated_bitmap_region(bitmap.NativeIntPtr, sx, sy, sw, sh, tint.Native, cx, cy, dx, dy, xScale, yScale, angle, (int)flags);
+        {
+            AllegroLibrary.AlDrawTintedScaledRotatedBitmapRegion(bitmap.NativeIntPtr, sx, sy, sw, sh, tint.Native, cx, cy, dx, dy, xScale, yScale, angle, (int)flags);
+        }
 
         /// <summary>
         /// Draws a scaled version of the given bitmap to the target bitmap.
@@ -784,7 +870,9 @@ namespace SubC.AllegroDotNet
         /// <param name="dh">The destination height.</param>
         /// <param name="flags">The flip flags.</param>
         public static void DrawScaledBitmap(AllegroBitmap bitmap, float sx, float sy, float sw, float sh, float dx, float dy, float dw, float dh, FlipFlags flags)
-            => al_draw_scaled_bitmap(bitmap.NativeIntPtr, sx, sy, sw, sh, dx, dy, dw, dh, (int)flags);
+        {
+            AllegroLibrary.AlDrawScaledBitmap(bitmap.NativeIntPtr, sx, sy, sw, sh, dx, dy, dw, dh, (int)flags);
+        }
 
         /// <summary>
         /// Like al_draw_scaled_bitmap but multiplies all colors in the bitmap with the given color.
@@ -801,7 +889,9 @@ namespace SubC.AllegroDotNet
         /// <param name="dh">The destination height.</param>
         /// <param name="flags">The flip flags.</param>
         public static void DrawTintedScaledBitmap(AllegroBitmap bitmap, AllegroColor tint, float sx, float sy, float sw, float sh, float dx, float dy, float dw, float dh, FlipFlags flags)
-            => al_draw_tinted_scaled_bitmap(bitmap.NativeIntPtr, tint.Native, sx, sy, sw, sh, dx, dy, dw, dh, (int)flags);
+        {
+            AllegroLibrary.AlDrawTintedScaledBitmap(bitmap.NativeIntPtr, tint.Native, sx, sy, sw, sh, dx, dy, dw, dh, (int)flags);
+        }
 
         /// <summary>
         /// Return the target bitmap of the calling thread.
@@ -809,7 +899,7 @@ namespace SubC.AllegroDotNet
         /// <returns>The target bitmap of the calling thread.</returns>
         public static AllegroBitmap GetTargetBitmap()
         {
-            var nativeBitmap = al_get_target_bitmap();
+            var nativeBitmap = AllegroLibrary.AlGetTargetBitmap();
             return nativeBitmap == IntPtr.Zero ? null : new AllegroBitmap { NativeIntPtr = nativeBitmap };
         }
 
@@ -822,7 +912,9 @@ namespace SubC.AllegroDotNet
         /// <param name="y">The Y position.</param>
         /// <param name="color">The color to put.</param>
         public static void PutPixel(int x, int y, AllegroColor color)
-            => al_put_pixel(x, y, color.Native);
+        {
+            AllegroLibrary.AlPutPixel(x, y, color.Native);
+        }
 
         /// <summary>
         /// Like al_put_pixel, but the pixel color is blended using the current blenders before being drawn.
@@ -831,7 +923,9 @@ namespace SubC.AllegroDotNet
         /// <param name="y">The Y position.</param>
         /// <param name="color">The color to put that will be blended.</param>
         public static void PutBlendedPixel(int x, int y, AllegroColor color)
-            => al_put_blended_pixel(x, y, color.Native);
+        {
+            AllegroLibrary.AlPutBlendedPixel(x, y, color.Native);
+        }
 
         /// <summary>
         /// This function selects the bitmap to which all subsequent drawing operations in the calling thread
@@ -880,14 +974,18 @@ namespace SubC.AllegroDotNet
         /// </summary>
         /// <param name="bitmap">The bitmap to set as the drawing target for the calling thread.</param>
         public static void SetTargetBitmap(AllegroBitmap bitmap)
-            => al_set_target_bitmap(bitmap.NativeIntPtr);
+        {
+            AllegroLibrary.AlSetTargetBitmap(bitmap.NativeIntPtr);
+        }
 
         /// <summary>
         /// Same as al_set_target_bitmap(al_get_backbuffer(display));
         /// </summary>
         /// <param name="display">The display whose backbuffer will be set as the target for the calling thread.</param>
         public static void SetTargetBackbuffer(AllegroDisplay display)
-            => al_set_target_backbuffer(display.NativeIntPtr);
+        {
+            AllegroLibrary.AlSetTargetBackbuffer(display.NativeIntPtr);
+        }
 
         /// <summary>
         /// Return the display that is “current” for the calling thread, or NULL if there is none.
@@ -895,7 +993,7 @@ namespace SubC.AllegroDotNet
         /// <returns>The display that is “current” for the calling thread, or NULL if there is none.</returns>
         public static AllegroDisplay GetCurrentDisplay()
         {
-            var nativeDisplay = al_get_current_display();
+            var nativeDisplay = AllegroLibrary.AlGetCurrentDisplay();
             return nativeDisplay == IntPtr.Zero ? null : new AllegroDisplay { NativeIntPtr = nativeDisplay };
         }
 
@@ -910,7 +1008,7 @@ namespace SubC.AllegroDotNet
             var nOp = (int)operation;
             var nSrc = (int)source;
             var nDst = (int)destination;
-            al_get_blender(ref nOp, ref nSrc, ref nDst);
+            AllegroLibrary.AlGetBlender(ref nOp, ref nSrc, ref nDst);
             operation = (BlendOperation)nOp;
             source = (BlendMode)nSrc;
             destination = (BlendMode)nDst;
@@ -933,7 +1031,7 @@ namespace SubC.AllegroDotNet
             var nAlphaOp = (int)alphaOp;
             var nAlphaSrc = (int)alphaSource;
             var nAlphaDst = (int)alphaDestination;
-            al_get_separate_blender(ref nOp, ref nSrc, ref nDst, ref nAlphaOp, ref nAlphaSrc, ref nAlphaDst);
+            AllegroLibrary.AlGetSeparateBlender(ref nOp, ref nSrc, ref nDst, ref nAlphaOp, ref nAlphaSrc, ref nAlphaDst);
             operation = (BlendOperation)nOp;
             source = (BlendMode)nSrc;
             destination = (BlendMode)nDst;
@@ -947,7 +1045,10 @@ namespace SubC.AllegroDotNet
         /// </summary>
         /// <returns>The color currently used for constant color blending (white by default).</returns>
         public static AllegroColor GetBlendColor()
-            => new AllegroColor { Native = al_get_blend_color() };
+        {
+            var nativeColor = AllegroLibrary.AlGetBlendColor();
+            return new AllegroColor { Native = nativeColor };
+        }
 
         /// <summary>
         /// Sets the function to use for blending for the current thread. Blending means, the source and destination
@@ -957,7 +1058,9 @@ namespace SubC.AllegroDotNet
         /// <param name="source">The blend mode for source.</param>
         /// <param name="destination">The blend mode for destination.</param>
         public static void SetBlender(BlendOperation operation, BlendMode source, BlendMode destination)
-            => al_set_blender((int)operation, (int)source, (int)destination);
+        {
+            AllegroLibrary.AlSetBlender((int) operation, (int) source, (int) destination);
+        }
 
         /// <summary>
         /// Like al_set_blender, but allows specifying a separate blending operation for the alpha channel. This is
@@ -971,15 +1074,19 @@ namespace SubC.AllegroDotNet
         /// <param name="alphaSource">The blend mode for source alpha.</param>
         /// <param name="alphaDestination">The blend mode for source alpha.</param>
         public static void SetSeparateBlender(BlendOperation operation, BlendMode source, BlendMode destination, BlendOperation alphaOperation, BlendMode alphaSource, BlendMode alphaDestination)
-            => al_set_separate_blender((int)operation, (int)source, (int)destination, (int)alphaOperation, (int)alphaSource, (int)alphaDestination);
-
+        {
+            AllegroLibrary.AlSetSeparateBlender((int)operation, (int)source, (int)destination, (int)alphaOperation, (int)alphaSource, (int)alphaDestination);
+        }
+            
         /// <summary>
         /// Sets the color to use for blending when using the ALLEGRO_CONST_COLOR or ALLEGRO_INVERSE_CONST_COLOR
         /// blend functions. See al_set_blender for more information.
         /// </summary>
         /// <param name="color">The color to use for blending.</param>
         public static void SetBlendColor(AllegroColor color)
-            => al_set_blend_color(color.Native);
+        {
+            AllegroLibrary.AlSetBlendColor(color.Native);
+        }
 
         /// <summary>
         /// Gets the clipping rectangle of the target bitmap.
@@ -989,7 +1096,9 @@ namespace SubC.AllegroDotNet
         /// <param name="w">Width.</param>
         /// <param name="h">Height.</param>
         public static void GetClippingRectangle(ref int x, ref int y, ref int w, ref int h)
-            => al_get_clipping_rectangle(ref x, ref y, ref w, ref h);
+        {
+            AllegroLibrary.AlGetClippingRectangle(ref x, ref y, ref w, ref h);
+        }
 
         /// <summary>
         /// Set the region of the target bitmap or display that pixels get clipped to. The default is to clip pixels to the entire bitmap.
@@ -999,14 +1108,18 @@ namespace SubC.AllegroDotNet
         /// <param name="width">Width.</param>
         /// <param name="height">Height.</param>
         public static void SetClippingRectangle(int x, int y, int width, int height)
-            => al_set_clipping_rectangle(x, y, width, height);
+        {
+            AllegroLibrary.AlSetClippingRectangle(x, y, width, height);
+        }
 
         /// <summary>
         /// Equivalent to calling `al_set_clipping_rectangle(0, 0, w, h)’ where w and h are the width and height
         /// of the target bitmap respectively.
         /// </summary>
         public static void ResetClippingRectangle()
-            => al_reset_clipping_rectangle();
+        {
+            AllegroLibrary.AlResetClippingRectangle();
+        }
 
         /// <summary>
         /// Convert the given mask color to an alpha channel in the bitmap. Can be used to convert older 4.2-style
@@ -1015,7 +1128,9 @@ namespace SubC.AllegroDotNet
         /// <param name="bitmap">The bitmap to add an alpha mask to.</param>
         /// <param name="maskColor">The color to make the alpha mask from.</param>
         public static void ConvertMaskToAlpha(AllegroBitmap bitmap, AllegroColor maskColor)
-            => al_convert_mask_to_alpha(bitmap.NativeIntPtr, maskColor.Native);
+        {
+            AllegroLibrary.AlConvertMaskToAlpha(bitmap.NativeIntPtr, maskColor.Native);
+        }
 
         /// <summary>
         /// Enables or disables deferred bitmap drawing. This allows for efficient drawing of many bitmaps that share
@@ -1035,14 +1150,18 @@ namespace SubC.AllegroDotNet
         /// </summary>
         /// <param name="hold">True to enable holding, false to disable.</param>
         public static void HoldBitmapDrawing(bool hold)
-            => al_hold_bitmap_drawing(hold);
+        {
+            AllegroLibrary.AlHoldBitmapDrawing(hold);
+        }
 
         /// <summary>
         /// Returns whether the deferred bitmap drawing mode is turned on or off.
         /// </summary>
         /// <returns>Whether the deferred bitmap drawing mode is turned on or off.</returns>
         public static bool IsBitmapDrawingHeld()
-            => al_is_bitmap_drawing_held();
+        {
+            return AllegroLibrary.AlIsBitmapDrawingHeld();
+        }
 
         /// <summary>
         /// Register a handler for al_load_bitmap. The given function will be used to handle the loading of bitmaps
@@ -1125,7 +1244,7 @@ namespace SubC.AllegroDotNet
         /// <returns>Null on error, otherwise the loaded bitma instance.</returns>
         public static AllegroBitmap LoadBitmap(string filename)
         {
-            var nativeBitmap = al_load_bitmap(filename);
+            var nativeBitmap = AllegroLibrary.AlLoadBitmap(filename);
             return nativeBitmap == IntPtr.Zero ? null : new AllegroBitmap { NativeIntPtr = nativeBitmap };
         }
 
@@ -1138,7 +1257,7 @@ namespace SubC.AllegroDotNet
         /// <returns>Null on error, otherwise the loaded bitmap instance..</returns>
         public static AllegroBitmap LoadBitmapFlags(string filename, BitmapLoadFlags flags)
         {
-            var nativeBitmap = al_load_bitmap_flags(filename, (int)flags);
+            var nativeBitmap = AllegroLibrary.AlLoadBitmapFlags(filename, (int)flags);
             return nativeBitmap == IntPtr.Zero ? null : new AllegroBitmap { NativeIntPtr = nativeBitmap };
         }
 
@@ -1155,7 +1274,7 @@ namespace SubC.AllegroDotNet
         /// <returns>Null on error, otherwise the loaded bitmap instance.</returns>
         public static AllegroBitmap LoadBitmapF(AllegroFile file, string identity)
         {
-            var nativeBitmap = al_load_bitmap_f(file.NativeIntPtr, identity);
+            var nativeBitmap = AllegroLibrary.AlLoadBitmapF(file.NativeIntPtr, identity);
             return nativeBitmap == IntPtr.Zero ? null : new AllegroBitmap { NativeIntPtr = nativeBitmap };
         }
 
@@ -1176,7 +1295,7 @@ namespace SubC.AllegroDotNet
         /// <returns>Null on error, otherwise the loaded bitmap instance.</returns>
         public static AllegroBitmap LoadBitmapFlagsF(AllegroFile file, string identity, BitmapLoadFlags flags)
         {
-            var nativeBitmap = al_load_bitmap_flags_f(file.NativeIntPtr, identity, (int)flags);
+            var nativeBitmap = AllegroLibrary.AlLoadBitmapFlagsF(file.NativeIntPtr, identity, (int)flags);
             return nativeBitmap == IntPtr.Zero ? null : new AllegroBitmap { NativeIntPtr = nativeBitmap };
         }
 
@@ -1187,7 +1306,9 @@ namespace SubC.AllegroDotNet
         /// <param name="bitmap">The bitmap instance to save.</param>
         /// <returns>True on success, false on error.</returns>
         public static bool SaveBitmap(string filename, AllegroBitmap bitmap)
-            => al_save_bitmap(filename, bitmap.NativeIntPtr);
+        {
+            return AllegroLibrary.AlSaveBitmap(filename, bitmap.NativeIntPtr);
+        }
 
         /// <summary>
         /// Saves an ALLEGRO_BITMAP to an ALLEGRO_FILE stream. The file type is determined by the passed ‘ident’
@@ -1198,7 +1319,9 @@ namespace SubC.AllegroDotNet
         /// <param name="bitmap">The bitmap instance to save.</param>
         /// <returns>True on success, false on error. The file remains open afterwards.</returns>
         public static bool SaveBitmapF(AllegroFile file, string identity, AllegroBitmap bitmap)
-            => al_save_bitmap_f(file.NativeIntPtr, identity, bitmap.NativeIntPtr);
+        {
+            return AllegroLibrary.AlSaveBitmapF(file.NativeIntPtr, identity, bitmap.NativeIntPtr);
+        }
 
         /// <summary>
         /// Register an identify handler for al_identify_bitmap. The given function will be used to detect files for
@@ -1230,7 +1353,10 @@ namespace SubC.AllegroDotNet
         /// <param name="filename">The filename.</param>
         /// <returns>The bitmap identity.</returns>
         public static string IdentifyBitmap(string filename)
-            => Marshal.PtrToStringAnsi(al_identify_bitmap(filename));
+        {
+            var nativeString = AllegroLibrary.AlIdentifyBitmap(filename);
+            return Marshal.PtrToStringAnsi(nativeString);
+        }
 
         /// <summary>
         /// Tries to guess the bitmap file type of the open ALLEGRO_FILE by reading the first few bytes. By default
@@ -1244,7 +1370,10 @@ namespace SubC.AllegroDotNet
         /// dot. For example “.png” or “.jpg”. Returns NULL if the bitmap type cannot be determined.
         /// </returns>
         public static string IdentifyBitmapF(AllegroFile file)
-            => Marshal.PtrToStringAnsi(al_identify_bitmap_f(file.NativeIntPtr));
+        {
+            var nativeString = AllegroLibrary.AlIdentifyBitmapF(file.NativeIntPtr);
+            return Marshal.PtrToStringAnsi(nativeString);
+        }
 
         /// <summary>
         /// Set one of several render attributes; see ALLEGRO_RENDER_STATE for details.
@@ -1253,287 +1382,277 @@ namespace SubC.AllegroDotNet
         /// <param name="state">The render state.</param>
         /// <param name="value">The value of the render state.</param>
         public static void SetRenderState(RenderState state, int value)
-            => al_set_render_state((int)state, value);
+        {
+            AllegroLibrary.AlSetRenderState((int)state, value);
+        }
 
         #region P/Invokes
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern NativeAllegroColor al_map_rgb(byte r, byte g, byte b);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern NativeAllegroColor al_map_rgb(byte r, byte g, byte b);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern NativeAllegroColor al_map_rgb_f(float r, float g, float b);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern NativeAllegroColor al_map_rgb_f(float r, float g, float b);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern NativeAllegroColor al_map_rgba(byte r, byte g, byte b, byte a);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern NativeAllegroColor al_map_rgba(byte r, byte g, byte b, byte a);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern NativeAllegroColor al_premul_rgba(byte r, byte g, byte b, byte a);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern NativeAllegroColor al_premul_rgba(byte r, byte g, byte b, byte a);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern NativeAllegroColor al_map_rgba_f(float r, float g, float b, float a);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern NativeAllegroColor al_map_rgba_f(float r, float g, float b, float a);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern NativeAllegroColor al_premul_rgba_f(float r, float g, float b, float a);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern NativeAllegroColor al_premul_rgba_f(float r, float g, float b, float a);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_unmap_rgb(NativeAllegroColor color, ref byte r, ref byte g, ref byte b);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_unmap_rgb(NativeAllegroColor color, ref byte r, ref byte g, ref byte b);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_unmap_rgb_f(NativeAllegroColor color, ref float r, ref float g, ref float b);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_unmap_rgb_f(NativeAllegroColor color, ref float r, ref float g, ref float b);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_unmap_rgba(NativeAllegroColor color, ref byte r, ref byte g, ref byte b, ref byte a);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_unmap_rgba(NativeAllegroColor color, ref byte r, ref byte g, ref byte b, ref byte a);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_unmap_rgba_f(NativeAllegroColor color, ref float r, ref float g, ref float b, ref float a);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_unmap_rgba_f(NativeAllegroColor color, ref float r, ref float g, ref float b, ref float a);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern int al_get_pixel_size(int format);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern int al_get_pixel_size(int format);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern int al_get_pixel_format_bits(int format);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern int al_get_pixel_format_bits(int format);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern int al_get_pixel_block_size(int format);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern int al_get_pixel_block_size(int format);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern int al_get_pixel_block_width(int format);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern int al_get_pixel_block_width(int format);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern int al_get_pixel_block_height(int format);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern int al_get_pixel_block_height(int format);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern NativeLockedRegion al_lock_bitmap(IntPtr bitmap, int format, int flags);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern NativeLockedRegion al_lock_bitmap(IntPtr bitmap, int format, int flags);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern NativeLockedRegion al_lock_bitmap_region(IntPtr bitmap, int x, int y, int width, int height, int format, int flags);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern NativeLockedRegion al_lock_bitmap_region(IntPtr bitmap, int x, int y, int width, int height, int format, int flags);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_unlock_bitmap(IntPtr bitmap);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_unlock_bitmap(IntPtr bitmap);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern NativeLockedRegion al_lock_bitmap_blocked(IntPtr bitmap, int flags);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern NativeLockedRegion al_lock_bitmap_blocked(IntPtr bitmap, int flags);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern NativeLockedRegion al_lock_bitmap_region_blocked(IntPtr bitmap, int x, int y, int width, int height, int flags);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern NativeLockedRegion al_lock_bitmap_region_blocked(IntPtr bitmap, int x, int y, int width, int height, int flags);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern IntPtr al_create_bitmap(int w, int h);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern IntPtr al_create_bitmap(int w, int h);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern IntPtr al_create_sub_bitmap(IntPtr parent, int x, int y, int w, int h);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern IntPtr al_create_sub_bitmap(IntPtr parent, int x, int y, int w, int h);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern IntPtr al_clone_bitmap(IntPtr bitmap);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern IntPtr al_clone_bitmap(IntPtr bitmap);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_convert_bitmap(IntPtr bitmap);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_convert_bitmap(IntPtr bitmap);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_convert_memory_bitmaps();
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_convert_memory_bitmaps();
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_destroy_bitmap(IntPtr bitmap);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_destroy_bitmap(IntPtr bitmap);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern int al_get_new_bitmap_flags();
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern int al_get_new_bitmap_flags();
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern int al_get_new_bitmap_format();
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern int al_get_new_bitmap_format();
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_set_new_bitmap_flags(int flags);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_set_new_bitmap_flags(int flags);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_add_new_bitmap_flag(int flag);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_add_new_bitmap_flag(int flag);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_set_new_bitmap_format(int format);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_set_new_bitmap_format(int format);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern int al_get_bitmap_flags(IntPtr bitmap);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern int al_get_bitmap_flags(IntPtr bitmap);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern int al_get_bitmap_format(IntPtr bitmap);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern int al_get_bitmap_format(IntPtr bitmap);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern int al_get_bitmap_height(IntPtr bitmap);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern int al_get_bitmap_height(IntPtr bitmap);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern int al_get_bitmap_width(IntPtr bitmap);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern int al_get_bitmap_width(IntPtr bitmap);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern NativeAllegroColor al_get_pixel(IntPtr bitmap, int x, int y);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern NativeAllegroColor al_get_pixel(IntPtr bitmap, int x, int y);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_is_bitmap_locked(IntPtr bitmap);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_is_bitmap_locked(IntPtr bitmap);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_is_compatible_bitmap(IntPtr bitmap);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_is_compatible_bitmap(IntPtr bitmap);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_is_sub_bitmap(IntPtr bitmap);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_is_sub_bitmap(IntPtr bitmap);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern IntPtr al_get_parent_bitmap(IntPtr bitmap);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern IntPtr al_get_parent_bitmap(IntPtr bitmap);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern int al_get_bitmap_x(IntPtr bitmap);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern int al_get_bitmap_x(IntPtr bitmap);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern int al_get_bitmap_y(IntPtr bitmap);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern int al_get_bitmap_y(IntPtr bitmap);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_reparent_bitmap(IntPtr bitmap, IntPtr parent, int x, int y, int w, int h);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_reparent_bitmap(IntPtr bitmap, IntPtr parent, int x, int y, int w, int h);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_clear_to_color(NativeAllegroColor color);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_clear_to_color(NativeAllegroColor color);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_clear_depth_buffer(float z);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_clear_depth_buffer(float z);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_draw_bitmap(IntPtr bitmap, float dx, float dy, int flags);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_draw_bitmap(IntPtr bitmap, float dx, float dy, int flags);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_draw_tinted_bitmap(IntPtr bitmap, NativeAllegroColor tint, float dx, float dy, int flags);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_draw_tinted_bitmap(IntPtr bitmap, NativeAllegroColor tint, float dx, float dy, int flags);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_draw_bitmap_region(IntPtr bitmap, float sx, float sy, float sw, float sh, float dx, float dy, int flags);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_draw_bitmap_region(IntPtr bitmap, float sx, float sy, float sw, float sh, float dx, float dy, int flags);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_draw_tinted_bitmap_region(IntPtr bitmap, NativeAllegroColor tint, float sx, float sy, float sw, float sh, float dx, float dy, int flags);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_draw_tinted_bitmap_region(IntPtr bitmap, NativeAllegroColor tint, float sx, float sy, float sw, float sh, float dx, float dy, int flags);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_draw_pixel(float x, float y, NativeAllegroColor color);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_draw_pixel(float x, float y, NativeAllegroColor color);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_draw_rotated_bitmap(IntPtr bitmap, float cx, float cy, float dx, float dy, float angle, int flags);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_draw_rotated_bitmap(IntPtr bitmap, float cx, float cy, float dx, float dy, float angle, int flags);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_draw_tinted_rotated_bitmap(IntPtr bitmap, NativeAllegroColor tint, float cx, float cy, float dx, float dy, float angle, int flags);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_draw_tinted_rotated_bitmap(IntPtr bitmap, NativeAllegroColor tint, float cx, float cy, float dx, float dy, float angle, int flags);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_draw_scaled_rotated_bitmap(IntPtr bitmap, float cx, float cy, float dx, float dy, float xscale, float yscale, float angle, int flags);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_draw_scaled_rotated_bitmap(IntPtr bitmap, float cx, float cy, float dx, float dy, float xscale, float yscale, float angle, int flags);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_draw_tinted_scaled_rotated_bitmap(IntPtr bitmap, NativeAllegroColor tint, float cx, float cy, float dx, float dy, float xscale, float yscale, float angle, int flags);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_draw_tinted_scaled_rotated_bitmap(IntPtr bitmap, NativeAllegroColor tint, float cx, float cy, float dx, float dy, float xscale, float yscale, float angle, int flags);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_draw_tinted_scaled_rotated_bitmap_region(IntPtr bitmap, float sx, float sy, float sw, float sh, NativeAllegroColor tint, float cx, float cy, float dx, float dy, float xscale, float yscale, float angle, int flags);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_draw_tinted_scaled_rotated_bitmap_region(IntPtr bitmap, float sx, float sy, float sw, float sh, NativeAllegroColor tint, float cx, float cy, float dx, float dy, float xscale, float yscale, float angle, int flags);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_draw_scaled_bitmap(IntPtr bitmap, float sx, float sy, float sw, float sh, float dx, float dy, float dw, float dh, int flags);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_draw_scaled_bitmap(IntPtr bitmap, float sx, float sy, float sw, float sh, float dx, float dy, float dw, float dh, int flags);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_draw_tinted_scaled_bitmap(IntPtr bitmap, NativeAllegroColor tint, float sx, float sy, float sw, float sh, float dx, float dy, float dw, float dh, int flags);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_draw_tinted_scaled_bitmap(IntPtr bitmap, NativeAllegroColor tint, float sx, float sy, float sw, float sh, float dx, float dy, float dw, float dh, int flags);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern IntPtr al_get_target_bitmap();
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern IntPtr al_get_target_bitmap();
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_put_pixel(int x, int y, NativeAllegroColor color);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_put_pixel(int x, int y, NativeAllegroColor color);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_put_blended_pixel(int x, int y, NativeAllegroColor color);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_put_blended_pixel(int x, int y, NativeAllegroColor color);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_set_target_bitmap(IntPtr bitmap);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_set_target_bitmap(IntPtr bitmap);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_set_target_backbuffer(IntPtr display);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_set_target_backbuffer(IntPtr display);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern IntPtr al_get_current_display();
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern IntPtr al_get_current_display();
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_get_blender(ref int op, ref int src, ref int dst);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_get_blender(ref int op, ref int src, ref int dst);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_get_separate_blender(ref int op, ref int src, ref int dst, ref int alphaOp, ref int alphaSrc, ref int alphaDst);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_get_separate_blender(ref int op, ref int src, ref int dst, ref int alphaOp, ref int alphaSrc, ref int alphaDst);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern NativeAllegroColor al_get_blend_color();
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern NativeAllegroColor al_get_blend_color();
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_set_blender(int op, int src, int dst);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_set_blender(int op, int src, int dst);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_set_separate_blender(int op, int src, int dst, int alphaOp, int alphaSrc, int alphaDst);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_set_separate_blender(int op, int src, int dst, int alphaOp, int alphaSrc, int alphaDst);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_set_blend_color(NativeAllegroColor color);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_set_blend_color(NativeAllegroColor color);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_get_clipping_rectangle(ref int x, ref int y, ref int w, ref int h);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_get_clipping_rectangle(ref int x, ref int y, ref int w, ref int h);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_set_clipping_rectangle(int x, int y, int width, int height);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_set_clipping_rectangle(int x, int y, int width, int height);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_reset_clipping_rectangle();
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_reset_clipping_rectangle();
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_convert_mask_to_alpha(IntPtr bitmap, NativeAllegroColor maskColor);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_convert_mask_to_alpha(IntPtr bitmap, NativeAllegroColor maskColor);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_hold_bitmap_drawing(bool hold);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_hold_bitmap_drawing(bool hold);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_is_bitmap_drawing_held();
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_is_bitmap_drawing_held();
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_register_bitmap_loader(IntPtr extension, IntPtr loader);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_register_bitmap_loader(IntPtr extension, IntPtr loader);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_register_bitmap_saver(IntPtr extension, IntPtr saver);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_register_bitmap_saver(IntPtr extension, IntPtr saver);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_register_bitmap_loader_f(IntPtr extension, IntPtr fsLoader);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_register_bitmap_loader_f(IntPtr extension, IntPtr fsLoader);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_register_bitmap_saver_f(IntPtr extension, IntPtr fsSaver);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_register_bitmap_saver_f(IntPtr extension, IntPtr fsSaver);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern IntPtr al_load_bitmap([MarshalAs(UnmanagedType.LPStr)] string filename);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern IntPtr al_load_bitmap([MarshalAs(UnmanagedType.LPStr)] string filename);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern IntPtr al_load_bitmap_flags(
-            [MarshalAs(UnmanagedType.LPStr)] string filename,
-            int flags);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern IntPtr al_load_bitmap_flags([MarshalAs(UnmanagedType.LPStr)] string filename, int flags);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern IntPtr al_load_bitmap_f(IntPtr fp, [MarshalAs(UnmanagedType.LPStr)] string ident);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern IntPtr al_load_bitmap_f(IntPtr fp, [MarshalAs(UnmanagedType.LPStr)] string ident);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern IntPtr al_load_bitmap_flags_f(
-            IntPtr fp,
-            [MarshalAs(UnmanagedType.LPStr)] string ident,
-            int flags);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern IntPtr al_load_bitmap_flags_f(IntPtr fp, [MarshalAs(UnmanagedType.LPStr)] string ident, int flags);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_save_bitmap(
-            [MarshalAs(UnmanagedType.LPStr)] string filename,
-            IntPtr bitmap);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_save_bitmap([MarshalAs(UnmanagedType.LPStr)] string filename, IntPtr bitmap);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_save_bitmap_f(
-            IntPtr fp,
-            [MarshalAs(UnmanagedType.LPStr)] string ident,
-            IntPtr bitmap);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_save_bitmap_f(IntPtr fp, [MarshalAs(UnmanagedType.LPStr)] string ident, IntPtr bitmap);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_register_bitmap_identifier(
-            [MarshalAs(UnmanagedType.LPStr)] string extension,
-            IntPtr identifier);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_register_bitmap_identifier([MarshalAs(UnmanagedType.LPStr)] string extension, IntPtr identifier);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern IntPtr al_identify_bitmap([MarshalAs(UnmanagedType.LPStr)] string filename);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern IntPtr al_identify_bitmap([MarshalAs(UnmanagedType.LPStr)] string filename);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern IntPtr al_identify_bitmap_f(IntPtr fp);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern IntPtr al_identify_bitmap_f(IntPtr fp);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_set_render_state(int state, int value);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_set_render_state(int state, int value);
         #endregion
     }
 }

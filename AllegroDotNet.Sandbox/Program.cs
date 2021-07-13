@@ -31,7 +31,7 @@ namespace SubC.AllegroDotNet.Sandbox
             Console.WriteLine("Al.ReserveSamples(8): " + Al.ReserveSamples(8));
 
             Console.WriteLine("ExeNamePath #: " + (int)StandardPath.ExeNamePath);
-            Al.SetOrgName("fart");
+            Al.SetOrgName("TestOrganization");
             Console.WriteLine("AppName: " + Al.GetAppName());
             Console.WriteLine("OrgName: " + Al.GetOrgName());
 

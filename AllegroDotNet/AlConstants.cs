@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Runtime.InteropServices;
 
 namespace SubC.AllegroDotNet
 {
@@ -30,10 +31,25 @@ namespace SubC.AllegroDotNet
         #endregion
 
         #region AllegroDotNet
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr LoadFontDelegate([MarshalAs(UnmanagedType.LPStr)] string filename, int size, int flags);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool TextCallbackDelegate(int lineNum, [MarshalAs(UnmanagedType.LPStr)] string line, int size, IntPtr extra);
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        public delegate IntPtr ThreadProcessDelegate(IntPtr nativeThread, IntPtr nativeArgument);
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        public delegate IntPtr DetachedThreadProcessDelegate(IntPtr nativeArgument);
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        public delegate int ForEachFSEntryCallback(IntPtr dir, IntPtr extra);
+
         /// <summary>
         /// The library filename where all Allegro (including addons) functions can be found.
         /// </summary>
-        public const string AllegroMonolithDllFilename = "allegro_monolith-debug-5.2.dll";
+        public const string AllegroMonolithDllFilenameWindows = "allegro_monolith-debug-5.2.dll";
 #endregion
     }
 }

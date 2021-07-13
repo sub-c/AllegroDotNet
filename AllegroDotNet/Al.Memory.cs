@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
+using SubC.AllegroDotNet.Native.Libraries;
 
 namespace SubC.AllegroDotNet
 {
@@ -22,8 +22,8 @@ namespace SubC.AllegroDotNet
             ulong n,
             [CallerLineNumber] int line = 0,
             [CallerFilePath] string file = "unknown",
-            [CallerMemberName] string func = "unknown")
-            => al_malloc_with_context(new UIntPtr(n), line, file, func);
+            [CallerMemberName] string func = "unknown") =>
+            AllegroLibrary.AlMallocWithContext(new UIntPtr(n), line, file, func);
 
         /// <summary>
         /// Like free() in the C standard library (unless overridden with al_set_memory_interface), but
@@ -37,8 +37,8 @@ namespace SubC.AllegroDotNet
             IntPtr integerPointer,
             [CallerLineNumber] int line = 0,
             [CallerFilePath] string file = "unknown",
-            [CallerMemberName] string func = "unknown")
-            => al_free_with_context(integerPointer, line, file, func);
+            [CallerMemberName] string func = "unknown") =>
+            AllegroLibrary.AlFreeWithContext(integerPointer, line, file, func);
 
         /// <summary>
         /// Like realloc() in the C standard library (unless overridden with al_set_memory_interface), but
@@ -55,8 +55,8 @@ namespace SubC.AllegroDotNet
             ulong n,
             [CallerLineNumber] int line = 0,
             [CallerFilePath] string file = "unknown",
-            [CallerMemberName] string func = "unknown")
-            => al_realloc_with_context(integerPointer, new UIntPtr(n), line, file, func);
+            [CallerMemberName] string func = "unknown") =>
+            AllegroLibrary.AlReallocWithContext(integerPointer, new UIntPtr(n), line, file, func);
 
         /// <summary>
         /// Like calloc() in the C standard library (unless overridden with al_set_memory_interface), but
@@ -73,8 +73,8 @@ namespace SubC.AllegroDotNet
             ulong n,
             [CallerLineNumber] int line = 0,
             [CallerFilePath] string file = "unknown",
-            [CallerMemberName] string func = "unknown")
-            => al_calloc_with_context(new UIntPtr(count), new UIntPtr(n), line, file, func);
+            [CallerMemberName] string func = "unknown") =>
+            AllegroLibrary.AlCallocWithContext(new UIntPtr(count), new UIntPtr(n), line, file, func);
 
         /// <summary>
         /// Like malloc() in the C standard library (unless overridden with al_set_memory_interface), but
@@ -85,8 +85,8 @@ namespace SubC.AllegroDotNet
         /// <param name="file">Source code filename.</param>
         /// <param name="func">Calling function/method.</param>
         /// <returns>An integer-pointer to allocated memory on success, otherwise <see cref="IntPtr.Zero"/>.</returns>
-        public static IntPtr MallocWithContext(ulong n, int line, string file, string func)
-            => al_malloc_with_context(new UIntPtr(n), line, file, func);
+        public static IntPtr MallocWithContext(ulong n, int line, string file, string func) =>
+            AllegroLibrary.AlMallocWithContext(new UIntPtr(n), line, file, func);
 
         /// <summary>
         /// Like free() in the C standard library (unless overridden with al_set_memory_interface), but
@@ -96,8 +96,8 @@ namespace SubC.AllegroDotNet
         /// <param name="line">Line number.</param>
         /// <param name="file">Source code filename.</param>
         /// <param name="func">Calling function/method.</param>
-        public static void FreeWithContext(IntPtr integerPointer, int line, string file, string func)
-            => al_free_with_context(integerPointer, line, file, func);
+        public static void FreeWithContext(IntPtr integerPointer, int line, string file, string func) =>
+            AllegroLibrary.AlFreeWithContext(integerPointer, line, file, func);
 
         /// <summary>
         /// Like realloc() in the C standard library (unless overridden with al_set_memory_interface), but
@@ -109,8 +109,8 @@ namespace SubC.AllegroDotNet
         /// <param name="file">Source code filename.</param>
         /// <param name="func">Calling function/method.</param>
         /// <returns>An integer-pointer to reallocated memory on success, othewise <see cref="IntPtr.Zero"/>.</returns>
-        public static IntPtr ReallocWithContext(IntPtr integerPointer, ulong n, int line, string file, string func)
-            => al_realloc_with_context(integerPointer, new UIntPtr(n), line, file, func);
+        public static IntPtr ReallocWithContext(IntPtr integerPointer, ulong n, int line, string file, string func) =>
+            AllegroLibrary.AlReallocWithContext(integerPointer, new UIntPtr(n), line, file, func);
 
         /// <summary>
         /// Like calloc() in the C standard library (unless overridden with al_set_memory_interface), but
@@ -122,42 +122,24 @@ namespace SubC.AllegroDotNet
         /// <param name="file">Source code filename.</param>
         /// <param name="func">Calling function/method.</param>
         /// <returns>An integer-pointer to allocated memory on success, othewise <see cref="IntPtr.Zero"/>.</returns>
-        public static IntPtr CallocWithContext(ulong count, ulong n, int line, string file, string func)
-            => al_calloc_with_context(new UIntPtr(count), new UIntPtr(n), line, file, func);
+        public static IntPtr CallocWithContext(ulong count, ulong n, int line, string file, string func) =>
+            AllegroLibrary.AlCallocWithContext(new UIntPtr(count), new UIntPtr(n), line, file, func);
 
         #region P/Invokes
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern IntPtr al_malloc_with_context(
-            UIntPtr n,
-            int line,
-            [MarshalAs(UnmanagedType.LPStr)] string file,
-            [MarshalAs(UnmanagedType.LPStr)] string func);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern IntPtr al_malloc_with_context(UIntPtr n, int line, [MarshalAs(UnmanagedType.LPStr)] string file, [MarshalAs(UnmanagedType.LPStr)] string func);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_free_with_context(
-            IntPtr ptr,
-            int line,
-            [MarshalAs(UnmanagedType.LPStr)] string file,
-            [MarshalAs(UnmanagedType.LPStr)] string func);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_free_with_context(IntPtr ptr, int line, [MarshalAs(UnmanagedType.LPStr)] string file, [MarshalAs(UnmanagedType.LPStr)] string func);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern IntPtr al_realloc_with_context(
-            IntPtr ptr,
-            UIntPtr n,
-            int line,
-            [MarshalAs(UnmanagedType.LPStr)] string file,
-            [MarshalAs(UnmanagedType.LPStr)] string func);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern IntPtr al_realloc_with_context(IntPtr ptr, UIntPtr n, int line, [MarshalAs(UnmanagedType.LPStr)] string file, [MarshalAs(UnmanagedType.LPStr)] string func);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern IntPtr al_calloc_with_context(
-            UIntPtr count,
-            UIntPtr n,
-            int line,
-            [MarshalAs(UnmanagedType.LPStr)] string file,
-            [MarshalAs(UnmanagedType.LPStr)] string func);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern IntPtr al_calloc_with_context(UIntPtr count, UIntPtr n, int line, [MarshalAs(UnmanagedType.LPStr)] string file, [MarshalAs(UnmanagedType.LPStr)] string func);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_set_memory_interface(IntPtr memoryInterface);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_set_memory_interface(IntPtr memoryInterface);
         #endregion
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using SubC.AllegroDotNet.Models;
+using SubC.AllegroDotNet.Native.Libraries;
 
 namespace SubC.AllegroDotNet
 {
@@ -15,7 +16,7 @@ namespace SubC.AllegroDotNet
         /// <returns>An empty configuration structure, or <c>null</c> on error.</returns>
         public static AllegroConfig CreateConfig()
         {
-            var nativeConfig = al_create_config();
+            var nativeConfig = AllegroLibrary.AlCreateConfig();
             return nativeConfig == IntPtr.Zero ? null : new AllegroConfig { NativeIntPtr = nativeConfig };
         }
 
@@ -23,8 +24,8 @@ namespace SubC.AllegroDotNet
         /// Free the resources used by a configuration structure. Does nothing if passed a <c>null</c> configuration.
         /// </summary>
         /// <param name="config">The configuration to free the resources of.</param>
-        public static void DestroyConfig(AllegroConfig config)
-            => al_destroy_config(config.NativeIntPtr);
+        public static void DestroyConfig(AllegroConfig config) =>
+            AllegroLibrary.AlDestroyConfig(config.NativeIntPtr);
 
         /// <summary>
         /// Read a configuration file from disk. Returns <c>null</c> on error. The configuration structure should be
@@ -34,7 +35,7 @@ namespace SubC.AllegroDotNet
         /// <returns>The loaded configuration, or <c>null</c> on error.</returns>
         public static AllegroConfig LoadConfigFile(string filename)
         {
-            var nativeConfig = al_load_config_file(filename);
+            var nativeConfig = AllegroLibrary.AlLoadConfigFile(filename);
             return nativeConfig == IntPtr.Zero ? null : new AllegroConfig { NativeIntPtr = nativeConfig };
         }
 
@@ -49,7 +50,7 @@ namespace SubC.AllegroDotNet
         /// <returns>The loaded configuration, or <c>null</c> on error.</returns>
         public static AllegroConfig LoadConfigFileF(AllegroFile file)
         {
-            var nativeConfig = al_load_config_file_f(file.NativeIntPtr);
+            var nativeConfig = AllegroLibrary.AlLoadConfigFileF(file.NativeIntPtr);
             return nativeConfig == IntPtr.Zero ? null : new AllegroConfig { NativeIntPtr = nativeConfig };
         }
 
@@ -59,8 +60,8 @@ namespace SubC.AllegroDotNet
         /// <param name="filename">The filename of the configuration file to write out.</param>
         /// <param name="config">The configuration instance to save.</param>
         /// <returns>Returns true on success, false on error.</returns>
-        public static bool SaveConfigFile(string filename, AllegroConfig config)
-            => al_save_config_file(filename, config.NativeIntPtr);
+        public static bool SaveConfigFile(string filename, AllegroConfig config) =>
+            AllegroLibrary.AlSaveConfigFile(filename, config.NativeIntPtr);
 
         /// <summary>
         /// Write out a configuration file to an already open file.
@@ -71,8 +72,8 @@ namespace SubC.AllegroDotNet
         /// <param name="file">The already open file instance.</param>
         /// <param name="config">The configuration instance to save.</param>
         /// <returns>Returns true on success, false on error.</returns>
-        public static bool SaveConfigFileF(AllegroFile file, AllegroConfig config)
-            => al_save_config_file_f(file.NativeIntPtr, config.NativeIntPtr);
+        public static bool SaveConfigFileF(AllegroFile file, AllegroConfig config) =>
+            AllegroLibrary.AlSaveConfigFileF(file.NativeIntPtr, config.NativeIntPtr);
 
         /// <summary>
         /// Add a section to a configuration structure with the given name. If the section already exists then
@@ -80,8 +81,8 @@ namespace SubC.AllegroDotNet
         /// </summary>
         /// <param name="config">The configuration instance to add to.</param>
         /// <param name="name">The name of the section to add.</param>
-        public static void AddConfigSection(AllegroConfig config, string name)
-            => al_add_config_section(config.NativeIntPtr, name);
+        public static void AddConfigSection(AllegroConfig config, string name) =>
+            AllegroLibrary.AlAddConfigSection(config.NativeIntPtr, name);
 
         /// <summary>
         /// Remove a section of a configuration.
@@ -92,8 +93,8 @@ namespace SubC.AllegroDotNet
         /// <param name="config">The configuration instance to remove from.</param>
         /// <param name="section">The name of the section to remove.</param>
         /// <returns>True if the section was removed, otherwise false.</returns>
-        public static bool RemoveConfigSection(AllegroConfig config, string section)
-            => al_remove_config_section(config.NativeIntPtr, section);
+        public static bool RemoveConfigSection(AllegroConfig config, string section) =>
+            AllegroLibrary.AlRemoveConfigSection(config.NativeIntPtr, section);
 
         /// <summary>
         /// Add a comment in a section of a configuration. If the section doesn't yet exist, it will be created.
@@ -106,8 +107,8 @@ namespace SubC.AllegroDotNet
         /// <param name="config">The configuration instance to add to.</param>
         /// <param name="section">The section to place the comment.</param>
         /// <param name="comment">The comment to add.</param>
-        public static void AddConfigComment(AllegroConfig config, string section, string comment)
-            => al_add_config_comment(config.NativeIntPtr, section, comment);
+        public static void AddConfigComment(AllegroConfig config, string section, string comment) =>
+            AllegroLibrary.AlAddConfigComment(config.NativeIntPtr, section, comment);
 
         /// <summary>
         /// Gets a pointer to an internal character buffer that will only remain valid as long as the
@@ -120,7 +121,7 @@ namespace SubC.AllegroDotNet
         /// <returns>The string value of the key, or null if it does not exist.</returns>
         public static string GetConfigValue(AllegroConfig config, string section, string key)
         {
-            var nativeValue = al_get_config_value(config.NativeIntPtr, section, key);
+            var nativeValue = AllegroLibrary.AlGetConfigValue(config.NativeIntPtr, section, key);
             return nativeValue == IntPtr.Zero ? null : Marshal.PtrToStringAnsi(nativeValue);
         }
 
@@ -138,8 +139,8 @@ namespace SubC.AllegroDotNet
         /// <param name="section">The section to set in.</param>
         /// <param name="key">The key to set with value.</param>
         /// <param name="value">The configuration value.</param>
-        public static void SetConfigValue(AllegroConfig config, string section, string key, string value)
-            => al_set_config_value(config.NativeIntPtr, section, key, value);
+        public static void SetConfigValue(AllegroConfig config, string section, string key, string value) =>
+            AllegroLibrary.AlSetConfigValue(config.NativeIntPtr, section, key, value);
 
         /// <summary>
         /// Remove a key and its associated value in a section of a configuration.
@@ -151,8 +152,8 @@ namespace SubC.AllegroDotNet
         /// <param name="section">The section to remove from.</param>
         /// <param name="key">The key to remove.</param>
         /// <returns>True if the entry was removed, or false if the entry did not exist.</returns>
-        public static bool RemoveConfigKey(AllegroConfig config, string section, string key)
-            => al_remove_config_key(config.NativeIntPtr, section, key);
+        public static bool RemoveConfigKey(AllegroConfig config, string section, string key) =>
+            AllegroLibrary.AlRemoveConfigKey(config.NativeIntPtr, section, key);
 
         /// <summary>
         /// Returns the name of the first section in the given config file. Usually this will return an empty string
@@ -221,7 +222,7 @@ namespace SubC.AllegroDotNet
         /// <returns>The merged configuration instance.</returns>
         public static AllegroConfig MergeConfig(AllegroConfig config1, AllegroConfig config2)
         {
-            var nativeConfig = al_merge_config(config1.NativeIntPtr, config2.NativeIntPtr);
+            var nativeConfig = AllegroLibrary.AlMergeConfig(config1.NativeIntPtr, config2.NativeIntPtr);
             return nativeConfig == IntPtr.Zero ? null : new AllegroConfig { NativeIntPtr = nativeConfig };
         }
 
@@ -231,83 +232,63 @@ namespace SubC.AllegroDotNet
         /// </summary>
         /// <param name="master">The resulting merged configuration.</param>
         /// <param name="configAdd">The configuration to merge from, overwritting existing values with this.</param>
-        public static void MergeConfigInto(AllegroConfig master, AllegroConfig configAdd)
-            => al_merge_config_into(master.NativeIntPtr, configAdd.NativeIntPtr);
+        public static void MergeConfigInto(AllegroConfig master, AllegroConfig configAdd) =>
+            AllegroLibrary.AlMergeConfigInto(master.NativeIntPtr, configAdd.NativeIntPtr);
 
         #region P/Invokes
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern IntPtr al_create_config();
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern IntPtr al_create_config();
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_destroy_config(IntPtr config);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_destroy_config(IntPtr config);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern IntPtr al_load_config_file([MarshalAs(UnmanagedType.LPStr)] string filename);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern IntPtr al_load_config_file([MarshalAs(UnmanagedType.LPStr)] string filename);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern IntPtr al_load_config_file_f(IntPtr file);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern IntPtr al_load_config_file_f(IntPtr file);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_save_config_file(
-            [MarshalAs(UnmanagedType.LPStr)] string filename,
-            IntPtr config);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_save_config_file([MarshalAs(UnmanagedType.LPStr)] string filename, IntPtr config);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_save_config_file_f(IntPtr file, IntPtr config);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_save_config_file_f(IntPtr file, IntPtr config);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_add_config_section(IntPtr config, [MarshalAs(UnmanagedType.LPStr)] string name);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_add_config_section(IntPtr config, [MarshalAs(UnmanagedType.LPStr)] string name);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_remove_config_section(
-            IntPtr config,
-            [MarshalAs(UnmanagedType.LPStr)] string section);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_remove_config_section(IntPtr config, [MarshalAs(UnmanagedType.LPStr)] string section);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_add_config_comment(
-            IntPtr config,
-            [MarshalAs(UnmanagedType.LPStr)] string section,
-            [MarshalAs(UnmanagedType.LPStr)] string comment);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_add_config_comment(IntPtr config, [MarshalAs(UnmanagedType.LPStr)] string section, [MarshalAs(UnmanagedType.LPStr)] string comment);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern IntPtr al_get_config_value(
-            IntPtr config,
-            [MarshalAs(UnmanagedType.LPStr)] string section,
-            [MarshalAs(UnmanagedType.LPStr)] string key);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern IntPtr al_get_config_value(IntPtr config, [MarshalAs(UnmanagedType.LPStr)] string section, [MarshalAs(UnmanagedType.LPStr)] string key);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_set_config_value(
-            IntPtr config,
-            [MarshalAs(UnmanagedType.LPStr)] string section,
-            [MarshalAs(UnmanagedType.LPStr)] string key,
-            [MarshalAs(UnmanagedType.LPStr)] string value);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_set_config_value(IntPtr config, [MarshalAs(UnmanagedType.LPStr)] string section, [MarshalAs(UnmanagedType.LPStr)] string key, [MarshalAs(UnmanagedType.LPStr)] string value);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_remove_config_key(
-            IntPtr config,
-            [MarshalAs(UnmanagedType.LPStr)] string section,
-            [MarshalAs(UnmanagedType.LPStr)] string key);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_remove_config_key(IntPtr config, [MarshalAs(UnmanagedType.LPStr)] string section, [MarshalAs(UnmanagedType.LPStr)] string key);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern IntPtr al_get_first_config_section(IntPtr config, ref IntPtr iterator);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern IntPtr al_get_first_config_section(IntPtr config, ref IntPtr iterator);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern IntPtr al_get_next_config_section(ref IntPtr iterator);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern IntPtr al_get_next_config_section(ref IntPtr iterator);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern IntPtr al_get_first_config_entry(
-            IntPtr config,
-            [MarshalAs(UnmanagedType.LPStr)] string section,
-            ref IntPtr iterator);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern IntPtr al_get_first_config_entry(IntPtr config, [MarshalAs(UnmanagedType.LPStr)] string section, ref IntPtr iterator);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern IntPtr al_get_next_config_entry(ref IntPtr iterator);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern IntPtr al_get_next_config_entry(ref IntPtr iterator);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern IntPtr al_merge_config(IntPtr config1, IntPtr config2);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern IntPtr al_merge_config(IntPtr config1, IntPtr config2);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_merge_config_into(IntPtr configMaster, IntPtr configAdd);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_merge_config_into(IntPtr configMaster, IntPtr configAdd);
         #endregion
     }
 }

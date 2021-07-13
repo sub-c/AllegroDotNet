@@ -2,6 +2,7 @@
 using System.Runtime.InteropServices;
 using SubC.AllegroDotNet.Models;
 using SubC.AllegroDotNet.Native;
+using SubC.AllegroDotNet.Native.Libraries;
 
 namespace SubC.AllegroDotNet
 {
@@ -22,7 +23,7 @@ namespace SubC.AllegroDotNet
         /// <returns>Null on failure, the mode parameter passed in on success.</returns>
         public static AllegroDisplayMode GetDisplayMode(int index, AllegroDisplayMode mode)
         {
-            var returnedMode = al_get_display_mode(index, ref mode.Native);
+            var returnedMode = AllegroLibrary.AlGetDisplayMode(index, ref mode.Native);
             return returnedMode == IntPtr.Zero ? null : new AllegroDisplayMode { Native = Marshal.PtrToStructure<NativeDisplayMode>(returnedMode) };
         }
 
@@ -33,15 +34,15 @@ namespace SubC.AllegroDotNet
         /// list of all modes for the default driver.
         /// </summary>
         /// <returns>The number of display modes.</returns>
-        public static int GetNumDisplayModes()
-            => al_get_num_display_modes();
+        public static int GetNumDisplayModes() =>
+            AllegroLibrary.AlGetNumDisplayModes();
 
         #region P/Invokes
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern IntPtr al_get_display_mode(int index, ref NativeDisplayMode mode);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern IntPtr al_get_display_mode(int index, ref NativeDisplayMode mode);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern int al_get_num_display_modes();
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern int al_get_num_display_modes();
         #endregion
     }
 }

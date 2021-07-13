@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using SubC.AllegroDotNet.Models;
 using SubC.AllegroDotNet.Enums;
+using SubC.AllegroDotNet.Models;
+using SubC.AllegroDotNet.Native.Libraries;
 
 namespace SubC.AllegroDotNet
 {
@@ -30,7 +31,7 @@ namespace SubC.AllegroDotNet
         /// <returns>Created display, or null if it fails.</returns>
         public static AllegroDisplay CreateDisplay(int width, int height)
         {
-            var display = new AllegroDisplay { NativeIntPtr = al_create_display(width, height) };
+            var display = new AllegroDisplay { NativeIntPtr = AllegroLibrary.AlCreateDisplay(width, height) };
             return display.NativeIntPtr == null ? null : display;
         }
 
@@ -46,22 +47,22 @@ namespace SubC.AllegroDotNet
         /// </para>
         /// </summary>
         /// <param name="display">The display to destroy.</param>
-        public static void DestroyDisplay(AllegroDisplay display)
-            => al_destroy_display(display.NativeIntPtr);
+        public static void DestroyDisplay(AllegroDisplay display) =>
+            AllegroLibrary.AlDestroyDisplay(display.NativeIntPtr);
 
         /// <summary>
         /// Get the display flags to be used when creating new displays on the calling thread.
         /// </summary>
         /// <returns>The display flags to be used when creating new displays on the calling thread.</returns>
-        public static DisplayFlags GetNewDisplayFlags()
-            => (DisplayFlags)al_get_new_display_flags();
+        public static DisplayFlags GetNewDisplayFlags() =>
+            (DisplayFlags)AllegroLibrary.AlGetNewDisplayFlags();
 
         /// <summary>
         /// Sets various flags to be used when creating new displays on the calling thread.
         /// </summary>
         /// <param name="flags">The various flags to be used when creating new displays on the calling thread.</param>
-        public static void SetNewDisplayFlags(DisplayFlags flags)
-            => al_set_new_display_flags((int)flags);
+        public static void SetNewDisplayFlags(DisplayFlags flags) =>
+            AllegroLibrary.AlSetNewDisplayFlags((int)flags);
 
         /// <summary>
         /// Retrieve an extra display setting which was previously set with
@@ -73,7 +74,7 @@ namespace SubC.AllegroDotNet
         public static int GetNewDisplayOption(DisplayOption option, out Importance importance)
         {
             int nativeImportance = 0;
-            int returnValue = al_get_new_display_option((int)option, ref nativeImportance);
+            int returnValue = AllegroLibrary.AlGetNewDisplayOption((int)option, ref nativeImportance);
             importance = (Importance)nativeImportance;
             return returnValue;
         }
@@ -86,22 +87,22 @@ namespace SubC.AllegroDotNet
         /// <param name="option">The display option to set.</param>
         /// <param name="value">The value to set the display option.</param>
         /// <param name="importance">The importance of the display option.</param>
-        public static void SetNewDisplayOption(DisplayOption option, int value, Importance importance)
-            => al_set_new_display_option((int)option, value, (int)importance);
+        public static void SetNewDisplayOption(DisplayOption option, int value, Importance importance) =>
+            AllegroLibrary.AlSetNewDisplayOption((int)option, value, (int)importance);
 
         /// <summary>
         /// This undoes any previous call to <see cref="SetNewDisplayOption(DisplayOption, int, Importance)"/> on the calling thread.
         /// </summary>
-        public static void ResetNewDisplayOptions()
-            => al_reset_new_display_options();
+        public static void ResetNewDisplayOptions() =>
+            AllegroLibrary.AlResetNewDisplayOptions();
 
         /// <summary>
         /// Get the position where new non-fullscreen displays created by the calling thread will be placed.
         /// </summary>
         /// <param name="x">The window X position.</param>
         /// <param name="y">The window Y position.</param>
-        public static void GetNewWindowPosition(ref int x, ref int y)
-            => al_get_new_window_position(ref x, ref y);
+        public static void GetNewWindowPosition(ref int x, ref int y) =>
+            AllegroLibrary.AlGetNewWindowPosition(ref x, ref y);
 
         /// <summary>
         /// Sets where the top left pixel of the client area of newly created windows (non-fullscreen) will be on screen, for displays created
@@ -112,15 +113,15 @@ namespace SubC.AllegroDotNet
         /// </summary>
         /// <param name="x">The window X position.</param>
         /// <param name="y">The window Y position.</param>
-        public static void SetNewWindowPosition(int x, int y)
-            => al_set_new_window_position(x, y);
+        public static void SetNewWindowPosition(int x, int y) =>
+            AllegroLibrary.AlSetNewWindowPosition(x, y);
 
         /// <summary>
         /// Gets the requested refresh rate to be used when creating new displays on the calling thread.
         /// </summary>
         /// <returns>The requested refresh rate to be used when creating new displays on the calling thread.</returns>
-        public static int GetNewDisplayRefreshRate()
-            => al_get_new_display_refresh_rate();
+        public static int GetNewDisplayRefreshRate() =>
+            AllegroLibrary.AlGetNewDisplayRefreshRate();
 
         /// <summary>
         /// Sets the refresh rate to use when creating new displays on the calling thread. If the refresh rate is not available,
@@ -131,8 +132,8 @@ namespace SubC.AllegroDotNet
         /// </para>
         /// </summary>
         /// <param name="refreshRate">The monitor refresh rate.</param>
-        public static void SetNewDisplayRefreshRate(int refreshRate)
-            => al_set_new_display_refresh_rate(refreshRate);
+        public static void SetNewDisplayRefreshRate(int refreshRate) =>
+            AllegroLibrary.AlSetNewDisplayRefreshRate(refreshRate);
 
         /// <summary>
         /// Retrieve the associated event source. See the documentation on events for a list of the events displays will generate.
@@ -141,7 +142,7 @@ namespace SubC.AllegroDotNet
         /// <returns>The event source of the given display.</returns>
         public static AllegroEventSource GetDisplayEventSource(AllegroDisplay display)
         {
-            var nativeEventSource = al_get_display_event_source(display.NativeIntPtr);
+            var nativeEventSource = AllegroLibrary.AlGetDisplayEventSource(display.NativeIntPtr);
             return nativeEventSource == IntPtr.Zero ? null : new AllegroEventSource { NativeIntPtr = nativeEventSource };
         }
 
@@ -159,10 +160,10 @@ namespace SubC.AllegroDotNet
         /// <param name="display">The display to get the backbuffer from.</param>
         /// <returns>The bitmap of the display's backbuffer.</returns>
         public static AllegroBitmap GetBackbuffer(AllegroDisplay display)
-            => new AllegroBitmap
-            {
-                NativeIntPtr = al_get_backbuffer(display.NativeIntPtr)
-            };
+        {
+            var nativeBackbuffer = AllegroLibrary.AlGetBackbuffer(display.NativeIntPtr);
+            return nativeBackbuffer == IntPtr.Zero ? null : new AllegroBitmap { NativeIntPtr = nativeBackbuffer };
+        }
 
         /// <summary>
         /// Copies or updates the front and back buffers so that what has been drawn previously on the currently selected display becomes visible on
@@ -190,8 +191,8 @@ namespace SubC.AllegroDotNet
         /// set in the system's graphics preferences.
         /// </para>
         /// </summary>
-        public static void FlipDisplay()
-            => al_flip_display();
+        public static void FlipDisplay() =>
+            AllegroLibrary.AlFlipDisplay();
 
         /// <summary>
         /// Does the same as al_flip_display, but tries to update only the specified region. With many drivers this is not possible, but for some
@@ -202,8 +203,8 @@ namespace SubC.AllegroDotNet
         /// <param name="y">The upper-left Y position of the region.</param>
         /// <param name="width">The width of the region, from X.</param>
         /// <param name="height">The height of the region, from Y.</param>
-        public static void UpdateDisplayRegion(int x, int y, int width, int height)
-            => al_update_display_region(x, y, width, height);
+        public static void UpdateDisplayRegion(int x, int y, int width, int height) =>
+            AllegroLibrary.AlUpdateDisplayRegion(x, y, width, height);
 
         /// <summary>
         /// Wait for the beginning of a vertical retrace. Some driver/card/monitor combinations may not be capable of this.
@@ -213,24 +214,24 @@ namespace SubC.AllegroDotNet
         /// </para>
         /// </summary>
         /// <returns>Returns false if not possible, true if successful.</returns>
-        public static bool WaitForVSync()
-            => al_wait_for_vsync();
+        public static bool WaitForVSync() =>
+            AllegroLibrary.AlWaitForVsync();
 
         /// <summary>
         /// Gets the width of the display. This is like SCREEN_W in Allegro 4.x.
         /// </summary>
         /// <param name="display">The display to get the width of.</param>
         /// <returns>The width of the display.</returns>
-        public static int GetDisplayWidth(AllegroDisplay display)
-            => al_get_display_width(display.NativeIntPtr);
+        public static int GetDisplayWidth(AllegroDisplay display) =>
+            AllegroLibrary.AlGetDisplayWidth(display.NativeIntPtr);
 
         /// <summary>
         /// Gets the height of the display. This is like SCREEN_H in Allegro 4.x.
         /// </summary>
         /// <param name="display">The display to get the height of.</param>
         /// <returns>The height of the display.</returns>
-        public static int GetDisplayHeight(AllegroDisplay display)
-            => al_get_display_height(display.NativeIntPtr);
+        public static int GetDisplayHeight(AllegroDisplay display) =>
+            AllegroLibrary.AlGetDisplayHeight(display.NativeIntPtr);
 
         /// <summary>
         /// Resize the display. Returns true on success, or false on error. This works on both fullscreen and windowed displays, regardless of the
@@ -243,8 +244,8 @@ namespace SubC.AllegroDotNet
         /// <param name="width">The new width for the display.</param>
         /// <param name="height">The new height for the display.</param>
         /// <returns>True on success, false otherwise.</returns>
-        public static bool ResizeDisplay(AllegroDisplay display, int width, int height)
-            => al_resize_display(display.NativeIntPtr, width, height);
+        public static bool ResizeDisplay(AllegroDisplay display, int width, int height) =>
+            AllegroLibrary.AlResizeDisplay(display.NativeIntPtr, width, height);
 
         /// <summary>
         /// When the user receives a resize event from a resizable display, if they wish the display to be resized they must call this function to
@@ -259,8 +260,8 @@ namespace SubC.AllegroDotNet
         /// </summary>
         /// <param name="display">The display to acknowledge a resize event.</param>
         /// <returns>True on success, false otherwise.</returns>
-        public static bool AcknowledgeResize(AllegroDisplay display)
-            => al_acknowledge_resize(display.NativeIntPtr);
+        public static bool AcknowledgeResize(AllegroDisplay display) =>
+            AllegroLibrary.AlAcknowledgeResize(display.NativeIntPtr);
 
         /// <summary>
         /// Gets the position of a non-fullscreen display.
@@ -268,8 +269,8 @@ namespace SubC.AllegroDotNet
         /// <param name="display">The display to get the position of.</param>
         /// <param name="x">The display X position.</param>
         /// <param name="y">The display Y position.</param>
-        public static void GetWindowPosition(AllegroDisplay display, ref int x, ref int y)
-            => al_get_window_position(display.NativeIntPtr, ref x, ref y);
+        public static void GetWindowPosition(AllegroDisplay display, ref int x, ref int y) =>
+            AllegroLibrary.AlGetWindowPosition(display.NativeIntPtr, ref x, ref y);
 
         /// <summary>
         /// Sets the position on screen of a non-fullscreen display.
@@ -277,8 +278,8 @@ namespace SubC.AllegroDotNet
         /// <param name="display">The display to set the position of.</param>
         /// <param name="x">The display X position.</param>
         /// <param name="y">The display Y position.</param>
-        public static void SetWindowPosition(AllegroDisplay display, int x, int y)
-            => al_set_window_position(display.NativeIntPtr, x, y);
+        public static void SetWindowPosition(AllegroDisplay display, int x, int y) =>
+            AllegroLibrary.AlSetWindowPosition(display.NativeIntPtr, x, y);
 
         /// <summary>
         /// Gets the constraints for a non-fullscreen resizable display.
@@ -289,8 +290,8 @@ namespace SubC.AllegroDotNet
         /// <param name="maxW">The maximum width constraint.</param>
         /// <param name="maxH">The maximum height constraint.</param>
         /// <returns>True on success, false otherwise.</returns>
-        public static bool GetWindowConstraints(AllegroDisplay display, ref int minW, ref int minH, ref int maxW, ref int maxH)
-            => al_get_window_constraints(display.NativeIntPtr, ref minW, ref minH, ref maxW, ref maxH);
+        public static bool GetWindowConstraints(AllegroDisplay display, ref int minW, ref int minH, ref int maxW, ref int maxH) =>
+            AllegroLibrary.AlGetWindowConstraints(display.NativeIntPtr, ref minW, ref minH, ref maxW, ref maxH);
 
         /// <summary>
         /// Constrains a non-fullscreen resizable display. The constraints are a hint only, and are not necessarily respected by
@@ -305,8 +306,8 @@ namespace SubC.AllegroDotNet
         /// <param name="maxW">The maximum width constraint.</param>
         /// <param name="maxH">The maximum height constraint.</param>
         /// <returns></returns>
-        public static bool SetWindowConstraints(AllegroDisplay display, int minW, int minH, int maxW, int maxH)
-            => al_set_window_constraints(display.NativeIntPtr, minW, minH, maxW, maxH);
+        public static bool SetWindowConstraints(AllegroDisplay display, int minW, int minH, int maxW, int maxH) =>
+            AllegroLibrary.AlSetWindowConstraints(display.NativeIntPtr, minW, minH, maxW, maxH);
 
         /// <summary>
         /// Enable or disable previously set constraints by al_set_window_constraints function.
@@ -327,8 +328,8 @@ namespace SubC.AllegroDotNet
         /// </summary>
         /// <param name="display">The display to apply window constraints to.</param>
         /// <param name="onOff">True enables constraints, false disables constraints.</param>
-        public static void ApplyWindowConstraints(AllegroDisplay display, bool onOff)
-            => al_apply_window_constraints(display.NativeIntPtr, onOff);
+        public static void ApplyWindowConstraints(AllegroDisplay display, bool onOff) =>
+            AllegroLibrary.AlApplyWindowConstraints(display.NativeIntPtr, onOff);
 
         /// <summary>
         /// Gets the flags of the display.
@@ -341,8 +342,8 @@ namespace SubC.AllegroDotNet
         /// </summary>
         /// <param name="display">The display to get flags from.</param>
         /// <returns>The flags of the display.</returns>
-        public static DisplayFlags GetDisplayFlags(AllegroDisplay display)
-            => (DisplayFlags)al_get_display_flags(display.NativeIntPtr);
+        public static DisplayFlags GetDisplayFlags(AllegroDisplay display) =>
+            (DisplayFlags)AllegroLibrary.AlGetDisplayFlags(display.NativeIntPtr);
 
         /// <summary>
         /// Enable or disable one of the display flags. The flags are the same as for 
@@ -361,8 +362,8 @@ namespace SubC.AllegroDotNet
         /// <param name="flag">The flag to set.</param>
         /// <param name="onOff">True to enable the flag, false to disable the flag.</param>
         /// <returns>True if the driver supports toggling the specified flag, false otherwise.</returns>
-        public static bool SetDisplayFlag(AllegroDisplay display, DisplayFlags flag, bool onOff)
-            => al_set_display_flag(display.NativeIntPtr, (int)flag, onOff);
+        public static bool SetDisplayFlag(AllegroDisplay display, DisplayFlags flag, bool onOff) =>
+            AllegroLibrary.AlSetDisplayFlag(display.NativeIntPtr, (int)flag, onOff);
 
         /// <summary>
         /// Return an extra display setting of the display.
@@ -370,8 +371,8 @@ namespace SubC.AllegroDotNet
         /// <param name="display">The display to get the display option from.</param>
         /// <param name="option">The option to get the setting of.</param>
         /// <returns>An extra display setting of the display.</returns>
-        public static int GetDisplayOption(AllegroDisplay display, DisplayOption option)
-            => al_get_display_option(display.NativeIntPtr, (int)option);
+        public static int GetDisplayOption(AllegroDisplay display, DisplayOption option) =>
+            AllegroLibrary.AlGetDisplayOption(display.NativeIntPtr, (int)option);
 
         /// <summary>
         /// Change an option that was previously set for a display. After displays are created, they take on the
@@ -390,40 +391,40 @@ namespace SubC.AllegroDotNet
         /// <param name="display">The display to set the option on.</param>
         /// <param name="option">The option to set.</param>
         /// <param name="value">The value of the option.</param>
-        public static void SetDisplayOption(AllegroDisplay display, DisplayOption option, int value)
-            => al_set_display_option(display.NativeIntPtr, (int)option, value);
+        public static void SetDisplayOption(AllegroDisplay display, DisplayOption option, int value) =>
+            AllegroLibrary.AlSetDisplayOption(display.NativeIntPtr, (int)option, value);
 
         /// <summary>
         /// Gets the pixel format of the display.
         /// </summary>
         /// <param name="display">The display to get the pixel format from.</param>
         /// <returns>The pixel format of the display.</returns>
-        public static PixelFormat GetDisplayFormat(AllegroDisplay display)
-            => (PixelFormat)al_get_display_format(display.NativeIntPtr);
+        public static PixelFormat GetDisplayFormat(AllegroDisplay display) =>
+            (PixelFormat)AllegroLibrary.AlGetDisplayFormat(display.NativeIntPtr);
 
         /// <summary>
         /// Get the display orientation.
         /// </summary>
         /// <param name="display">The display to get the orientation from.</param>
         /// <returns>The display orientation.</returns>
-        public static DisplayOrientation GetDisplayOrientation(AllegroDisplay display)
-            => (DisplayOrientation)al_get_display_orientation(display.NativeIntPtr);
+        public static DisplayOrientation GetDisplayOrientation(AllegroDisplay display) =>
+            (DisplayOrientation)AllegroLibrary.AlGetDisplayOrientation(display.NativeIntPtr);
 
         /// <summary>
         /// Gets the refresh rate of the display.
         /// </summary>
         /// <param name="display">The display to get the refresh rate from.</param>
         /// <returns>The refresh rate of the display.</returns>
-        public static int GetDisplayRefreshRate(AllegroDisplay display)
-            => al_get_display_refresh_rate(display.NativeIntPtr);
+        public static int GetDisplayRefreshRate(AllegroDisplay display) =>
+            AllegroLibrary.AlGetDisplayRefreshRate(display.NativeIntPtr);
 
         /// <summary>
         /// Set the title on a display.
         /// </summary>
         /// <param name="display">The display to set the title of.</param>
         /// <param name="title">The title to set the display of.</param>
-        public static void SetWindowTitle(AllegroDisplay display, string title)
-            => al_set_window_title(display.NativeIntPtr, title);
+        public static void SetWindowTitle(AllegroDisplay display, string title) =>
+            AllegroLibrary.AlSetWindowTitle(display.NativeIntPtr, title);
 
         /// <summary>
         /// Set the title that will be used when a new display is created. Allegro uses a static buffer of
@@ -431,8 +432,8 @@ namespace SubC.AllegroDotNet
         /// set must be less than this.
         /// </summary>
         /// <param name="title">The title for future display(s).</param>
-        public static void SetNewWindowTitle(string title)
-            => al_set_new_window_title(title);
+        public static void SetNewWindowTitle(string title) =>
+            AllegroLibrary.AlSetNewWindowTitle(title);
 
         /// <summary>
         /// Returns the title that will be used when a new display is created. This returns the value that
@@ -442,7 +443,10 @@ namespace SubC.AllegroDotNet
         /// </summary>
         /// <returns>The title that will be used when a new display is created.</returns>
         public static string GetNewWindowTitle()
-            => Marshal.PtrToStringAnsi(al_get_new_window_title());
+        {
+            var nativeString = AllegroLibrary.AlGetNewWindowTitle();
+            return nativeString == IntPtr.Zero ? null : Marshal.PtrToStringAnsi(nativeString);
+        }
 
         /// <summary>
         /// Changes the icon associated with the display (window). Same as <see cref="SetDisplayIcons"/> with one
@@ -450,8 +454,8 @@ namespace SubC.AllegroDotNet
         /// </summary>
         /// <param name="display">The display to change the icon of.</param>
         /// <param name="icon">The icon as a <see cref="AllegroBitmap"/>.</param>
-        public static void SetDisplayIcon(AllegroDisplay display, AllegroBitmap icon)
-            => al_set_display_icon(display.NativeIntPtr, icon.NativeIntPtr);
+        public static void SetDisplayIcon(AllegroDisplay display, AllegroBitmap icon) =>
+            AllegroLibrary.AlSetDisplayIcon(display.NativeIntPtr, icon.NativeIntPtr);
 
         /// <summary>
         /// Changes the icons associated with the display (window). Multiple icons can be provided for use in
@@ -462,6 +466,7 @@ namespace SubC.AllegroDotNet
         /// <param name="icons">Collection of icons as bitmaps.</param>
         public static void SetDisplayIcons(AllegroDisplay display, int numIcons, IEnumerable<AllegroBitmap> icons)
         {
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -471,15 +476,15 @@ namespace SubC.AllegroDotNet
         /// you call it to late the application likely will be considered misbehaving and get terminated.
         /// </summary>
         /// <param name="display">The display to acknowledge the drawing halt event from.</param>
-        public static void AcknowledgeDrawingHalt(AllegroDisplay display)
-            => al_acknowledge_drawing_halt(display.NativeIntPtr);
+        public static void AcknowledgeDrawingHalt(AllegroDisplay display) =>
+            AllegroLibrary.AlAcknowledgeDrawingHalt(display.NativeIntPtr);
 
         /// <summary>
         /// Call this in response to the <see cref="EventType.DisplayResumeDrawing"/> event.
         /// </summary>
         /// <param name="display">The display to acknowledge the drawing resume event.</param>
-        public static void AcknowledgeDrawingResume(AllegroDisplay display)
-            => al_acknowledge_drawing_resume(display.NativeIntPtr);
+        public static void AcknowledgeDrawingResume(AllegroDisplay display) =>
+            AllegroLibrary.AlAcknowledgeDrawingResume(display.NativeIntPtr);
 
         /// <summary>
         /// This function allows the user to stop the system screensaver from starting up if true is passed, or
@@ -488,8 +493,8 @@ namespace SubC.AllegroDotNet
         /// </summary>
         /// <param name="inhibit">True to inhibit the screensaver from starting, otherwise false.</param>
         /// <returns>True if the state was set successfully, otherwise false.</returns>
-        public static bool InhibitScreensaver(bool inhibit)
-            => al_inhibit_screensaver(inhibit);
+        public static bool InhibitScreensaver(bool inhibit) =>
+            AllegroLibrary.AlInhibitScreensaver(inhibit);
 
         /// <summary>
         /// This function returns a pointer to a string, allocated with al_malloc with the text contents of the
@@ -504,9 +509,9 @@ namespace SubC.AllegroDotNet
         /// <returns>The clipboard text of the given display.</returns>
         public static string GetClipboardText(AllegroDisplay display)
         {
-            var clipboardPtr = al_get_clipboard_text(display.NativeIntPtr);
+            var clipboardPtr = AllegroLibrary.AlGetClipboardText(display.NativeIntPtr);
             var returnString = Marshal.PtrToStringAnsi(clipboardPtr);
-            al_free_with_context(clipboardPtr, 0, string.Empty, string.Empty);
+            AllegroLibrary.AlFreeWithContext(clipboardPtr, 0, string.Empty, string.Empty);
             return returnString;
         }
 
@@ -516,146 +521,146 @@ namespace SubC.AllegroDotNet
         /// <param name="display">The display to set the clipboard text of.</param>
         /// <param name="text">The text to paste into the clipboard.</param>
         /// <returns>True if successful, otherwise false.</returns>
-        public static bool SetClipboardText(AllegroDisplay display, string text)
-            => al_set_clipboard_text(display.NativeIntPtr, text);
+        public static bool SetClipboardText(AllegroDisplay display, string text) =>
+            AllegroLibrary.AlSetClipboardText(display.NativeIntPtr, text);
 
         /// <summary>
         /// This function returns true if and only if the clipboard has text available.
         /// </summary>
         /// <param name="display">The display to access the clipborad of.</param>
         /// <returns>True if the clipboard has text available.</returns>
-        public static bool ClipboardHasText(AllegroDisplay display)
-            => al_clipboard_has_text(display.NativeIntPtr);
+        public static bool ClipboardHasText(AllegroDisplay display) =>
+            AllegroLibrary.AlClipboardHasText(display.NativeIntPtr);
 
         #region P/Invokes
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern IntPtr al_create_display(int w, int h);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern IntPtr al_create_display(int w, int h);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_destroy_display(IntPtr display);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_destroy_display(IntPtr display);
 
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern int al_get_new_display_flags();
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern int al_get_new_display_flags();
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_set_new_display_flags(int flags);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_set_new_display_flags(int flags);
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern int al_get_new_display_option(int option, ref int importance);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern int al_get_new_display_option(int option, ref int importance);
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_set_new_display_option(int option, int value, int importance);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_set_new_display_option(int option, int value, int importance);
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_reset_new_display_options();
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_reset_new_display_options();
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_get_new_window_position(ref int x, ref int y);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_get_new_window_position(ref int x, ref int y);
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_set_new_window_position(int x, int y);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_set_new_window_position(int x, int y);
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern int al_get_new_display_refresh_rate();
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern int al_get_new_display_refresh_rate();
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_set_new_display_refresh_rate(int refresh_rate);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_set_new_display_refresh_rate(int refresh_rate);
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern IntPtr al_get_display_event_source(IntPtr display);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern IntPtr al_get_display_event_source(IntPtr display);
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern IntPtr al_get_backbuffer(IntPtr display);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern IntPtr al_get_backbuffer(IntPtr display);
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_flip_display();
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_flip_display();
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_update_display_region(int x, int y, int width, int height);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_update_display_region(int x, int y, int width, int height);
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_wait_for_vsync();
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_wait_for_vsync();
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern int al_get_display_width(IntPtr display);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern int al_get_display_width(IntPtr display);
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern int al_get_display_height(IntPtr display);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern int al_get_display_height(IntPtr display);
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_resize_display(IntPtr display, int width, int height);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_resize_display(IntPtr display, int width, int height);
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_acknowledge_resize(IntPtr display);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_acknowledge_resize(IntPtr display);
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_get_window_position(IntPtr display, ref int x, ref int y);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_get_window_position(IntPtr display, ref int x, ref int y);
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_set_window_position(IntPtr display, int x, int y);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_set_window_position(IntPtr display, int x, int y);
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_get_window_constraints(IntPtr display, ref int min_w, ref int min_h, ref int max_w, ref int max_h);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_get_window_constraints(IntPtr display, ref int min_w, ref int min_h, ref int max_w, ref int max_h);
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_set_window_constraints(IntPtr display, int min_w, int min_h, int max_w, int max_h);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_set_window_constraints(IntPtr display, int min_w, int min_h, int max_w, int max_h);
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_apply_window_constraints(IntPtr display, bool onOff);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_apply_window_constraints(IntPtr display, bool onOff);
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern int al_get_display_flags(IntPtr display);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern int al_get_display_flags(IntPtr display);
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_set_display_flag(IntPtr display, int flag, bool onOff);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_set_display_flag(IntPtr display, int flag, bool onOff);
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern int al_get_display_option(IntPtr display, int options);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern int al_get_display_option(IntPtr display, int options);
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_set_display_option(IntPtr display, int option, int value);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_set_display_option(IntPtr display, int option, int value);
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern int al_get_display_format(IntPtr display);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern int al_get_display_format(IntPtr display);
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern int al_get_display_orientation(IntPtr display);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern int al_get_display_orientation(IntPtr display);
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern int al_get_display_refresh_rate(IntPtr display);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern int al_get_display_refresh_rate(IntPtr display);
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename, CharSet = CharSet.Ansi)]
-        private static extern void al_set_window_title(IntPtr display, [MarshalAs(UnmanagedType.LPStr)] string title);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows, CharSet = CharSet.Ansi)]
+        //private static extern void al_set_window_title(IntPtr display, [MarshalAs(UnmanagedType.LPStr)] string title);
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename, CharSet = CharSet.Ansi)]
-        private static extern void al_set_new_window_title([MarshalAs(UnmanagedType.LPStr)] string title);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows, CharSet = CharSet.Ansi)]
+        //private static extern void al_set_new_window_title([MarshalAs(UnmanagedType.LPStr)] string title);
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern IntPtr al_get_new_window_title();
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern IntPtr al_get_new_window_title();
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_set_display_icon(IntPtr display, IntPtr icon);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_set_display_icon(IntPtr display, IntPtr icon);
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_set_display_icons(IntPtr display, int num_icons, IntPtr bitmaps);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_set_display_icons(IntPtr display, int num_icons, IntPtr bitmaps);
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_acknowledge_drawing_halt(IntPtr display);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_acknowledge_drawing_halt(IntPtr display);
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern void al_acknowledge_drawing_resume(IntPtr display);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern void al_acknowledge_drawing_resume(IntPtr display);
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_inhibit_screensaver(bool inhibit);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_inhibit_screensaver(bool inhibit);
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern IntPtr al_get_clipboard_text(IntPtr display);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern IntPtr al_get_clipboard_text(IntPtr display);
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename, CharSet = CharSet.Ansi)]
-        private static extern bool al_set_clipboard_text(IntPtr display, [MarshalAs(UnmanagedType.LPStr)] string text);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows, CharSet = CharSet.Ansi)]
+        //private static extern bool al_set_clipboard_text(IntPtr display, [MarshalAs(UnmanagedType.LPStr)] string text);
         
-        [DllImport(AlConstants.AllegroMonolithDllFilename)]
-        private static extern bool al_clipboard_has_text(IntPtr display);
+        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        //private static extern bool al_clipboard_has_text(IntPtr display);
         #endregion
     }
 }
