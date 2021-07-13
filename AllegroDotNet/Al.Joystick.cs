@@ -2,7 +2,6 @@
 using System.Runtime.InteropServices;
 using SubC.AllegroDotNet.Enums;
 using SubC.AllegroDotNet.Models;
-using SubC.AllegroDotNet.Native;
 using SubC.AllegroDotNet.Native.Libraries;
 
 namespace SubC.AllegroDotNet

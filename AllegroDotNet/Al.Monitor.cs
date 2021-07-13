@@ -1,6 +1,4 @@
-﻿using System.Runtime.InteropServices;
-using SubC.AllegroDotNet.Models;
-using SubC.AllegroDotNet.Native;
+﻿using SubC.AllegroDotNet.Models;
 using SubC.AllegroDotNet.Native.Libraries;
 
 namespace SubC.AllegroDotNet
