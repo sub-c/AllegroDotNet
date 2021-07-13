@@ -2382,6 +2382,198 @@ namespace SubC.AllegroDotNet.Native.Libraries
             NativeLibrary.LoadNativeFunction<al_ungrab_mouse>(_nativeAllegroLibrary, "al_ungrab_mouse");
         #endregion
 
+        #region Native dialogs support
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_init_native_dialog_addon();
+        public static al_init_native_dialog_addon AlInitNativeDialogAddon =
+            NativeLibrary.LoadNativeFunction<al_init_native_dialog_addon>(_nativeAllegroLibrary, "al_init_native_dialog_addon");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_is_native_dialog_addon_initialized();
+        public static al_is_native_dialog_addon_initialized AlIsNativeDialogAddonInitialized =
+            NativeLibrary.LoadNativeFunction<al_is_native_dialog_addon_initialized>(_nativeAllegroLibrary, "al_is_native_dialog_addon_initialized");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_shutdown_native_dialog_addon();
+        public static al_shutdown_native_dialog_addon AlShutdownNativeDialogAddon =
+            NativeLibrary.LoadNativeFunction<al_shutdown_native_dialog_addon>(_nativeAllegroLibrary, "al_shutdown_native_dialog_addon");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_create_native_file_dialog([MarshalAs(UnmanagedType.LPStr)] string initial_path, [MarshalAs(UnmanagedType.LPStr)] string title, [MarshalAs(UnmanagedType.LPStr)] string patterns, int mode);
+        public static al_create_native_file_dialog AlCreateNativeFileDialog =
+            NativeLibrary.LoadNativeFunction<al_create_native_file_dialog>(_nativeAllegroLibrary, "al_create_native_file_dialog");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_show_native_file_dialog(IntPtr display, IntPtr dialog);
+        public static al_show_native_file_dialog AlShowNativeFileDialog =
+            NativeLibrary.LoadNativeFunction<al_show_native_file_dialog>(_nativeAllegroLibrary, "al_show_native_file_dialog");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate int al_get_native_file_dialog_count(IntPtr dialog);
+        public static al_get_native_file_dialog_count AlGetNativeFileDialogCount =
+            NativeLibrary.LoadNativeFunction<al_get_native_file_dialog_count>(_nativeAllegroLibrary, "al_get_native_file_dialog_count");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_get_native_file_dialog_path(IntPtr dialog, UIntPtr i);
+        public static al_get_native_file_dialog_path AlGetNativeFileDialogPath =
+            NativeLibrary.LoadNativeFunction<al_get_native_file_dialog_path>(_nativeAllegroLibrary, "al_get_native_file_dialog_path");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_destroy_native_file_dialog(IntPtr dialog);
+        public static al_destroy_native_file_dialog AlDestroyNativeFileDialog =
+            NativeLibrary.LoadNativeFunction<al_destroy_native_file_dialog>(_nativeAllegroLibrary, "al_destroy_native_file_dialog");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate int al_show_native_message_box(IntPtr display, [MarshalAs(UnmanagedType.LPStr)] string title, [MarshalAs(UnmanagedType.LPStr)] string heading, [MarshalAs(UnmanagedType.LPStr)] string text, [MarshalAs(UnmanagedType.LPStr)] string buttons, int flags);
+        public static al_show_native_message_box AlShowNativeMessageBox =
+            NativeLibrary.LoadNativeFunction<al_show_native_message_box>(_nativeAllegroLibrary, "al_show_native_message_box");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_open_native_text_log([MarshalAs(UnmanagedType.LPStr)] string title, int flags);
+        public static al_open_native_text_log AlOpenNativeTextLog =
+            NativeLibrary.LoadNativeFunction<al_open_native_text_log>(_nativeAllegroLibrary, "al_open_native_text_log");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_close_native_text_log(IntPtr textlog);
+        public static al_close_native_text_log AlCloseNativeTextLog =
+            NativeLibrary.LoadNativeFunction<al_close_native_text_log>(_nativeAllegroLibrary, "al_close_native_text_log");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_append_native_text_log(IntPtr textlog, string format);
+        public static al_append_native_text_log AlAppendNativeTextLog =
+            NativeLibrary.LoadNativeFunction<al_append_native_text_log>(_nativeAllegroLibrary, "al_append_native_text_log");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_get_native_text_log_event_source(IntPtr textlog);
+        public static al_get_native_text_log_event_source AlGetNativeTextLogEventSource =
+            NativeLibrary.LoadNativeFunction<al_get_native_text_log_event_source>(_nativeAllegroLibrary, "al_get_native_text_log_event_source");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate uint al_get_allegro_native_dialog_version();
+        public static al_get_allegro_native_dialog_version AlGetAllegroNativeDialogVersion =
+            NativeLibrary.LoadNativeFunction<al_get_allegro_native_dialog_version>(_nativeAllegroLibrary, "al_get_allegro_native_dialog_version");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_create_menu();
+        public static al_create_menu AlCreateMenu =
+            NativeLibrary.LoadNativeFunction<al_create_menu>(_nativeAllegroLibrary, "al_create_menu");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_create_popup_menu();
+        public static al_create_popup_menu AlCreatePopupMenu =
+            NativeLibrary.LoadNativeFunction<al_create_popup_menu>(_nativeAllegroLibrary, "al_create_popup_menu");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_build_menu(IntPtr info);
+        public static al_build_menu AlBuildMenu =
+            NativeLibrary.LoadNativeFunction<al_build_menu>(_nativeAllegroLibrary, "al_build_menu");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate int al_append_menu_item(IntPtr parent, [MarshalAs(UnmanagedType.LPStr)] string title, ushort id, int flags, IntPtr icon, IntPtr submenu);
+        public static al_append_menu_item AlAppendMenuItem =
+            NativeLibrary.LoadNativeFunction<al_append_menu_item>(_nativeAllegroLibrary, "al_append_menu_item");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate int al_insert_menu_item(IntPtr parent, int pos, [MarshalAs(UnmanagedType.LPStr)] string title, ushort id, int flags, IntPtr icon, IntPtr submenu);
+        public static al_insert_menu_item AlInsertMenuItem =
+            NativeLibrary.LoadNativeFunction<al_insert_menu_item>(_nativeAllegroLibrary, "al_insert_menu_item");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_remove_menu_item(IntPtr menu, int pos);
+        public static al_remove_menu_item AlRemoveMenuItem =
+            NativeLibrary.LoadNativeFunction<al_remove_menu_item>(_nativeAllegroLibrary, "al_remove_menu_item");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_clone_menu(IntPtr menu);
+        public static al_clone_menu AlCloneMenu =
+            NativeLibrary.LoadNativeFunction<al_clone_menu>(_nativeAllegroLibrary, "al_clone_menu");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_clone_menu_for_popup(IntPtr menu);
+        public static al_clone_menu_for_popup AlCloneMenuForPopup =
+            NativeLibrary.LoadNativeFunction<al_clone_menu_for_popup>(_nativeAllegroLibrary, "al_clone_menu_for_popup");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_destroy_menu(IntPtr menu);
+        public static al_destroy_menu AlDestroyMenu =
+            NativeLibrary.LoadNativeFunction<al_destroy_menu>(_nativeAllegroLibrary, "al_destroy_menu");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_get_menu_item_caption(IntPtr menu, int pos);
+        public static al_get_menu_item_caption AlGetMenuItemCaption =
+            NativeLibrary.LoadNativeFunction<al_get_menu_item_caption>(_nativeAllegroLibrary, "al_get_menu_item_caption");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_set_menu_item_caption(IntPtr menu, int pos, [MarshalAs(UnmanagedType.LPStr)] string caption);
+        public static al_set_menu_item_caption AlSetMenuItemCaption =
+            NativeLibrary.LoadNativeFunction<al_set_menu_item_caption>(_nativeAllegroLibrary, "al_set_menu_item_caption");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate int al_get_menu_item_flags(IntPtr menu, int pos);
+        public static al_get_menu_item_flags AlGetMenuItemFlags =
+            NativeLibrary.LoadNativeFunction<al_get_menu_item_flags>(_nativeAllegroLibrary, "al_get_menu_item_flags");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_set_menu_item_flags(IntPtr menu, int pos, int flags);
+        public static al_set_menu_item_flags AlSetMenuItemFlags =
+            NativeLibrary.LoadNativeFunction<al_set_menu_item_flags>(_nativeAllegroLibrary, "al_set_menu_item_flags");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_get_menu_item_icon(IntPtr menu, int pos);
+        public static al_get_menu_item_icon AlGetMenuItemIcon =
+            NativeLibrary.LoadNativeFunction<al_get_menu_item_icon>(_nativeAllegroLibrary, "al_get_menu_item_icon");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_set_menu_item_icon(IntPtr menu, int pos, IntPtr icon);
+        public static al_set_menu_item_icon AlSetMenuItemIcon =
+            NativeLibrary.LoadNativeFunction<al_set_menu_item_icon>(_nativeAllegroLibrary, "al_set_menu_item_icon");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_find_menu(IntPtr haystack, ushort id);
+        public static al_find_menu AlFindMenu =
+            NativeLibrary.LoadNativeFunction<al_find_menu>(_nativeAllegroLibrary, "al_find_menu");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_find_menu_item(IntPtr haystack, ushort id, ref IntPtr menu, ref int index);
+        public static al_find_menu_item AlFindMenuItem =
+            NativeLibrary.LoadNativeFunction<al_find_menu_item>(_nativeAllegroLibrary, "al_find_menu_item");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_get_default_menu_event_source();
+        public static al_get_default_menu_event_source AlGetDefaultMenuEventSource =
+            NativeLibrary.LoadNativeFunction<al_get_default_menu_event_source>(_nativeAllegroLibrary, "al_get_default_menu_event_source");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_enable_menu_event_source(IntPtr menu);
+        public static al_enable_menu_event_source AlEnableMenuEventSource =
+            NativeLibrary.LoadNativeFunction<al_enable_menu_event_source>(_nativeAllegroLibrary, "al_enable_menu_event_source");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_disable_menu_event_source(IntPtr menu);
+        public static al_disable_menu_event_source AlDisableMenuEventSource =
+            NativeLibrary.LoadNativeFunction<al_disable_menu_event_source>(_nativeAllegroLibrary, "al_disable_menu_event_source");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_get_display_menu(IntPtr display);
+        public static al_get_display_menu AlGetDisplayMenu =
+            NativeLibrary.LoadNativeFunction<al_get_display_menu>(_nativeAllegroLibrary, "al_get_display_menu");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_set_display_menu(IntPtr display, IntPtr menu);
+        public static al_set_display_menu AlSetDisplayMenu =
+            NativeLibrary.LoadNativeFunction<al_set_display_menu>(_nativeAllegroLibrary, "al_set_display_menu");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool al_popup_menu(IntPtr popup, IntPtr display);
+        public static al_popup_menu AlPopupMenu =
+            NativeLibrary.LoadNativeFunction<al_popup_menu>(_nativeAllegroLibrary, "al_popup_menu");
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr al_remove_display_menu(IntPtr display);
+        public static al_remove_display_menu AlRemoveDisplayMenu =
+            NativeLibrary.LoadNativeFunction<al_remove_display_menu>(_nativeAllegroLibrary, "al_remove_display_menu");
+        #endregion
+
         #region Path structures
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate IntPtr al_create_path([MarshalAs(UnmanagedType.LPStr)] string str);
