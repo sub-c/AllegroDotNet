@@ -572,8 +572,10 @@ namespace SubC.AllegroDotNet
         //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         //private static extern IntPtr al_get_backbuffer(IntPtr display);
         
-        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        //private static extern void al_flip_display();
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        private static extern void al_flip_display();
+
+        public static void AlFlipDisplayDllImport() => al_flip_display();
         
         //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         //private static extern void al_update_display_region(int x, int y, int width, int height);

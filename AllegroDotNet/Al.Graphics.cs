@@ -2,6 +2,7 @@
 using System.Runtime.InteropServices;
 using SubC.AllegroDotNet.Enums;
 using SubC.AllegroDotNet.Models;
+using SubC.AllegroDotNet.Native;
 using SubC.AllegroDotNet.Native.Libraries;
 
 namespace SubC.AllegroDotNet
@@ -1516,14 +1517,22 @@ namespace SubC.AllegroDotNet
         //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         //private static extern void al_reparent_bitmap(IntPtr bitmap, IntPtr parent, int x, int y, int w, int h);
 
-        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        //private static extern void al_clear_to_color(NativeAllegroColor color);
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        private static extern void al_clear_to_color(NativeAllegroColor color);
+
+        public static void AlClearToColorDllImport(AllegroColor color) =>
+            al_clear_to_color(color.Native);
 
         //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         //private static extern void al_clear_depth_buffer(float z);
 
-        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        //private static extern void al_draw_bitmap(IntPtr bitmap, float dx, float dy, int flags);
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        private static extern void al_draw_bitmap(IntPtr bitmap, float dx, float dy, int flags);
+
+        public static void DrawBitmapDllImport(AllegroBitmap bitmap, float dx, float dy, FlipFlags flags)
+        {
+            al_draw_bitmap(bitmap.NativeIntPtr, dx, dy, (int)flags);
+        }
 
         //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         //private static extern void al_draw_tinted_bitmap(IntPtr bitmap, NativeAllegroColor tint, float dx, float dy, int flags);
@@ -1570,8 +1579,11 @@ namespace SubC.AllegroDotNet
         //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         //private static extern void al_set_target_bitmap(IntPtr bitmap);
 
-        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        //private static extern void al_set_target_backbuffer(IntPtr display);
+        [DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
+        private static extern void al_set_target_backbuffer(IntPtr display);
+
+        public static void SetTargetBackbufferDllImport(AllegroDisplay display) =>
+            al_set_target_backbuffer(display.NativeIntPtr);
 
         //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
         //private static extern IntPtr al_get_current_display();
