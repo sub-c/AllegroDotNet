@@ -1386,7 +1386,7 @@ namespace SubC.AllegroDotNet.Native.Libraries
             NativeLibrary.LoadNativeFunction<al_destroy_font>(_nativeAllegroLibrary, "al_destroy_font");
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate bool al_register_font_loader([MarshalAs(UnmanagedType.LPStr)] string extension, AlConstants.LoadFontDelegate load_font, int size, int flags);
+        public delegate bool al_register_font_loader([MarshalAs(UnmanagedType.LPStr)] string extension, AlConstants.LoadFontDelegate load_font);
         public static al_register_font_loader AlRegisterFontLoader =
             NativeLibrary.LoadNativeFunction<al_register_font_loader>(_nativeAllegroLibrary, "al_register_font_loader");
 
@@ -1496,7 +1496,7 @@ namespace SubC.AllegroDotNet.Native.Libraries
             NativeLibrary.LoadNativeFunction<al_get_glyph_advance>(_nativeAllegroLibrary, "al_get_glyph_advance");
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate void al_draw_multiline_text(IntPtr font, NativeAllegroColor color, float x, float y, float max_width, float line_height);
+        public delegate void al_draw_multiline_text(IntPtr font, NativeAllegroColor color, float x, float y, float max_width, float line_height, int flags, [MarshalAs(UnmanagedType.LPStr)] string text);
         public static al_draw_multiline_text AlDrawMultilineText =
             NativeLibrary.LoadNativeFunction<al_draw_multiline_text>(_nativeAllegroLibrary, "al_draw_multiline_text");
 

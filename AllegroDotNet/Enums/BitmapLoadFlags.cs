@@ -1,9 +1,11 @@
-﻿namespace SubC.AllegroDotNet.Enums
+﻿using SubC.AllegroDotNet.Models;
+
+namespace SubC.AllegroDotNet.Enums
 {
     /// <summary>
     /// Changes how bitmaps are loaded.
     /// </summary>
-    public enum BitmapLoadFlags
+    public enum BitmapLoadFlags : int
     {
         /// <summary>
         /// Load the bitmap with defaults.
