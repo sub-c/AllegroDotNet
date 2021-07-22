@@ -1,7 +1,7 @@
 ﻿namespace SubC.AllegroDotNet.Enums
 {
     /// <summary>
-    /// Return values for the callbacks of <see cref="Al.ForEachFsEntry"/> and for that function itself.
+    /// Return values for the callbacks of <see cref="ForEachFSEntryResult"/> and for that function itself.
     /// </summary>
     public enum ForEachFSEntryResult : int
     {
