@@ -1,5 +1,8 @@
 ﻿namespace SubC.AllegroDotNet.Enums
 {
+    /// <summary>
+    /// Path flags that use when requesting standard paths.
+    /// </summary>
     public enum StandardPath : int
     {
         /// <summary>
@@ -55,6 +58,10 @@
         /// The full path to the executable.
         /// </summary>
         ExeNamePath,
+
+        /// <summary>
+        /// The total number of standard paths available.
+        /// </summary>
         LastPath
     }
 }

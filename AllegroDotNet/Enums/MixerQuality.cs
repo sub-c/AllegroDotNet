@@ -1,5 +1,8 @@
 ﻿namespace SubC.AllegroDotNet.Enums
 {
+    /// <summary>
+    /// Mixer quality flags.
+    /// </summary>
     public enum MixerQuality : int
     {
         /// <summary>

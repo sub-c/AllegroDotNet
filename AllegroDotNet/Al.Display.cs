@@ -252,7 +252,7 @@ namespace SubC.AllegroDotNet
         /// let the graphics driver know that it can now resize the display. Returns true on success.
         /// <para>
         /// Adjusts the clipping rectangle to the full size of the backbuffer. This also resets the backbuffers projection transform to default
-        /// orthographic transform(see <see cref="UseProjectionTransform"/>).
+        /// orthographic transform (see <see cref="UseProjectionTransform"/>).
         /// </para>
         /// <para>
         /// Note that a resize event may be outdated by the time you acknowledge it; there could be further resize events generated in the meantime.

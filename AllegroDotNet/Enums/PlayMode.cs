@@ -5,6 +5,9 @@
     /// </summary>
     public enum PlayMode : int
     {
+        /// <summary>
+        /// Unknown.
+        /// </summary>
         Unknown = 0,
 
         /// <summary>

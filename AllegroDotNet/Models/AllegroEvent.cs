@@ -22,18 +22,56 @@ namespace SubC.AllegroDotNet.Models
     /// </summary>
     public sealed class AllegroEvent
     {
+        /// <summary>
+        /// Data common to all events.
+        /// </summary>
         public AllegroEvent_All All { get; } = null;
+
+        /// <summary>
+        /// Display event data.
+        /// </summary>
         public AllegroEvent_Display Display { get; } = null;
+
+        /// <summary>
+        /// Joystick event data.
+        /// </summary>
         public AllegroEvent_Joystick Joystick { get; } = null;
+
+        /// <summary>
+        /// Keyboard event data.
+        /// </summary>
         public AllegroEvent_Keyboard Keyboard { get; } = null;
+
+        /// <summary>
+        /// Mouse event data.
+        /// </summary>
         public AllegroEvent_Mouse Mouse { get; } = null;
+
+        /// <summary>
+        /// Timer event data.
+        /// </summary>
         public AllegroEvent_Timer Timer { get; } = null;
+
+        /// <summary>
+        /// Touch event data.
+        /// </summary>
         public AllegroEvent_Touch Touch { get; } = null;
+
+        /// <summary>
+        /// The event type.
+        /// </summary>
         public EventType Type => (EventType)NativeEvent.type;
+
+        /// <summary>
+        /// User event data.
+        /// </summary>
         public AllegroEvent_User User { get; } = null;
 
         internal NativeAllegroEvent NativeEvent = new NativeAllegroEvent();
 
+        /// <summary>
+        /// Initialize a new instance of the <see cref="AllegroEvent"/> class.
+        /// </summary>
         public AllegroEvent()
         {
             All = new AllegroEvent_All(this);

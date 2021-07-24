@@ -1,6 +1,6 @@
 ﻿namespace SubC.AllegroDotNet.Enums
 {
-    public enum RenderFunction
+    public enum RenderFunction : int
     {
         Never,
         Always,

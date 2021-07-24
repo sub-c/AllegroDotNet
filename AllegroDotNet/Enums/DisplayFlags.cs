@@ -1,4 +1,5 @@
 ﻿using System;
+using SubC.AllegroDotNet.Models;
 
 namespace SubC.AllegroDotNet.Enums
 {
@@ -92,7 +93,7 @@ namespace SubC.AllegroDotNet.Enums
 
         /// <summary>
         /// Create a GTK toplevel window for the display, on X. This flag is conditionally defined by the native dialog addon. You must call
-        /// <see cref="InitNativeDialogAddon()"/> for it to succeed. <see cref="GtkTopLevel"/> is incompatible with <see cref="FullScreen"/>.
+        /// <see cref="Al.InitNativeDialogAddon"/> for it to succeed. <see cref="GtkTopLevel"/> is incompatible with <see cref="FullScreen"/>.
         /// </summary>
         GtkTopLevel = 1 << 12,
 

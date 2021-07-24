@@ -1,5 +1,8 @@
 ﻿namespace SubC.AllegroDotNet.Enums
 {
+    /// <summary>
+    /// Specifies how to flip a bitmap.
+    /// </summary>
     public enum FlipFlags : int
     {
         /// <summary>

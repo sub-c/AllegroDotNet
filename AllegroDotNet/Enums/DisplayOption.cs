@@ -1,5 +1,8 @@
 ﻿namespace SubC.AllegroDotNet.Enums
 {
+    /// <summary>
+    /// Display options.
+    /// </summary>
     public enum DisplayOption : int
     {
         /// <summary>
@@ -144,8 +147,9 @@
 
         /// <summary>
         /// When queried this returns the maximum size (width as well as height) a bitmap can have for this display. Calls to
-        /// <see cref="Al.CreateBitmap()"/> or <see cref="Al.LoadBitmap()"/> for bitmaps larger than this size will fail. It does not apply to
-        /// memory bitmaps which always can have arbitrary size (but are slow for drawing).
+        /// <see cref="Al.CreateBitmap(int, int)"/> or <see cref="Al.LoadBitmap(string)"/> for bitmaps larger than
+        /// this size will fail. It does not apply to memory bitmaps which always can have arbitrary size (but are
+        /// slow for drawing).
         /// </summary>
         MaxBitmapSize = 27,
 
@@ -156,25 +160,28 @@
         SupportNpotBitmap = 28,
 
         /// <summary>
-        /// Set to 1 if you can use <see cref="Al.SetTargetBitmap()"/> on bitmaps of this display to draw into them. If this is not the case software
-        /// emulation will be used when drawing into display bitmaps (which can be very slow).
+        /// Set to 1 if you can use <see cref="Al.SetTargetBitmap(Models.AllegroBitmap)"/> on bitmaps of this display
+        /// to draw into them. If this is not the case software emulation will be used when drawing into display
+        /// bitmaps (which can be very slow).
         /// </summary>
         CanDrawIntoBitmap = 29,
 
         /// <summary>
-        /// This is set to 1 if the <see cref="Al.SetSeparateBlender()"/> function is supported. Otherwise the alpha parameters will be ignored.
+        /// This is set to 1 if the
+        /// <see cref="Al.SetSeparateBlender(BlendOperation, BlendMode, BlendMode, BlendOperation, BlendMode, BlendMode)"/>
+        /// function is supported. Otherwise the alpha parameters will be ignored.
         /// </summary>
         SupportSeparateAlpha = 30,
 
         /// <summary>
-        /// This is on by default. It causes any existing memory bitmaps with the <see cref="BitmapFlags.AutoConvertBitmaps"/> flag to be converted
+        /// This is on by default. It causes any existing memory bitmaps with the <see cref="BitmapFlags.ConvertBitmap"/> flag to be converted
         /// to a display bitmap of the newly created display with the option set.
         /// </summary>
         AutoConvertBitmaps = 31,
 
         /// <summary>
         /// This is a bit-combination of the orientations supported by the application. The orientations are the same as for
-        /// <see cref="Al.GetDisplayOrientation()"/> with the additional possibilities:
+        /// <see cref="Al.GetDisplayOrientation(Models.AllegroDisplay)"/> with the additional possibilities:
         /// <para><see cref="DisplayOrientation.Portrait"/></para>
         /// <para><see cref="DisplayOrientation.Landscape"/></para>
         /// <para><see cref="DisplayOrientation.All"/></para>
@@ -182,7 +189,8 @@
         /// <see cref="DisplayOrientation.Portrait"/> means only the two portrait orientations are supported,
         /// <see cref="DisplayOrientation.Landscape"/> means only the two landscape orientations and <see cref="DisplayOrientation.All"/> allows all
         /// four orientations. When the orientation changes between a portrait and a landscape orientation the display needs to be resized. This is
-        /// done by sending an <see cref="EventType.DisplayResize"/> message which should be handled by calling <see cref="Al.AcknowledgeResize()"/>.
+        /// done by sending an <see cref="EventType.DisplayResize"/> message which should be handled by calling
+        /// <see cref="Al.AcknowledgeResize(Models.AllegroDisplay)"/>.
         /// </para>
         /// </summary>
         SupportedOrientations = 32,

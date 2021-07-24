@@ -68,7 +68,7 @@ namespace SubC.AllegroDotNet.Enums
         MouseLeaveDisplay = 24,
 
         /// <summary>
-        /// <see cref="Al.SetMouseXY()"/> was called to move the mouse.
+        /// <see cref="Al.SetMouseXY(AllegroDisplay, int, int)"/> was called to move the mouse.
         /// This event is identical to <see cref="MouseAxes"/> otherwise.
         /// </summary>
         MouseWarped = 25,
@@ -96,9 +96,9 @@ namespace SubC.AllegroDotNet.Enums
         /// <summary>
         /// When using Direct3D, displays can enter a "lost" state. In that state, drawing calls are ignored, and upon
         /// entering the state, bitmap's pixel data can become undefined. Allegro does its best to preserve the
-        /// correct contents of bitmaps (see the <see cref="BitmapOption.NoPreserveTexture"/> flag) and restore them
+        /// correct contents of bitmaps (see the <see cref="BitmapFlags.NoPreserveTexture"/> flag) and restore them
         /// when the device is "found" (see <see cref="DisplayFound"/>). However, this is not 100% fool proof (see
-        /// discussion in <see cref="Al.CreateBitmap()"/>'s documentation).
+        /// discussion in <see cref="Al.CreateBitmap(int, int)"/>'s documentation).
         /// </summary>
         DisplayLost = 43,
 
@@ -114,9 +114,9 @@ namespace SubC.AllegroDotNet.Enums
 
         /// <summary>
         /// The window is no longer active, that is the user might have clicked into another window or "tabbed" away.
-        /// In response to this event you might want to call <see cref="Al.ClearKeyboardState()"/> (possibly passing
-        /// <see cref="AllegroEvent.DisplaySource"/> as its argument) in order to prevent Allegro's keyboard state
-        /// from getting out of sync.
+        /// In response to this event you might want to call Al.ClearKeyboardState() (not implemented - unstable API)
+        /// (possibly passing <see cref="AllegroEvent.Display"/> as its argument) in order to prevent Allegro's
+        /// keyboard state from getting out of sync.
         /// </summary>
         DisplaySwitchOut = 46,
 

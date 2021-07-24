@@ -2,6 +2,9 @@
 
 namespace SubC.AllegroDotNet.Enums
 {
+    /// <summary>
+    /// Flags specifying how to format a message box.
+    /// </summary>
     [Flags]
     public enum MessageBoxFlags : int
     {

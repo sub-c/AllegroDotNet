@@ -2,6 +2,9 @@
 
 namespace SubC.AllegroDotNet.Enums
 {
+    /// <summary>
+    /// File chooser mode flag.
+    /// </summary>
     [Flags]
     public enum FileChooserMode : int
     {
