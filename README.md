@@ -1,31 +1,25 @@
 # AllegroDotNet
-The AllegroDotNet projects aims to make the original [Allegro game programming library](https://liballeg.org/) (written in C) to be useable from C# and feel somewhat .NET-like.
-It achieves this goal by wrapping the native C function calls with platform-invoke calls in C#. Additional wrapping is done to not expose any native pointer types, so what was an ALLEGRO_BITMAP* struct-pointer in C is now an AllegroBitmap class in C#.
+The AllegroDotNet projects aims to make the original [Allegro 5 game programming library](https://liballeg.org/) (written in C) to be useable from C# and feel .NET-like.
+Native C functions, pointers, and structs are wrapped with C# methods and classes.
 
-The current supported requirements:
+Using AllegroDotNet will allow you to create game and multimedia applications in C#.
+
+# Requirements
 * Visual Studio 2019+
 * .NET Core 3.1+
 * Your application targets Windows
 
-Changing the IDE or target platform is certainly possible given platform-invoke is part of .NET and not Windows-specific, but is not officially supported *at this time*.
+Targetting additional OSes is possible, but will require the Allegro 5 library & dependencies available to AllegroDotNet at runtime, as well as adding the OS-specific library loading interop in the `NativeLibrary.cs` class.
 
 # Quick Start (Windows)
-1) Make a new .NET Core 3.1 console project in Visual Studio 2019+
-2) Right-click your project in the solution explorer, and pick "Manage Nuget packages..."
-3) Click the "Browse" tab, then search for "AllegroDotNet"
-4) Install [AllegroDotNet](https://www.nuget.org/packages/AllegroDotNet/) and [AllegroDotNet.Dependencies](https://www.nuget.org/packages/AllegroDotNet.Dependencies/) Nuget packages
-
-Then try adding this code below in your Program.cs file:
-
-- (in your using statements:)
-
+1) Make a new .NET Core 3.1 console project in Visual Studio 2019.
+2) Add the [AllegroDotNet](https://www.nuget.org/packages/AllegroDotNet/) and [AllegroDotNet.Dependencies](https://www.nuget.org/packages/AllegroDotNet.Dependencies/) Nuget packages to your project.
+3) Add the following code to your `Program.cs` file `using` statements:
 ```C#
 using AllegroDotNet;
 using AllegroDotNet.Dependencies;
 ```
-
-- (in your Main() method:)
-
+4) Add the following code to your `Program.cs` file `Main()` method:
 ```C#
 AlDependencyManager.ExtractAllegroDotNetDlls();
 Al.InstallSystem(AlConstants.AllegroVersionInt);
@@ -37,29 +31,26 @@ Al.DestroyDisplay(display);
 Al.UninstallSystem();
 ```
 
-If you can't tell, AllegroDotNet mimics original Allegro function calls by putting them all in the __Al__ namespace. For example, the original Allegro function `al_init_image_addon()` is now `Al.InitImageAddon()`. You can use the [offical Allegro documentation](https://liballeg.org/a5docs/trunk/) as documentation for AllegroDotNet: if the method is implemented in AllegroDotNet, then take the native Allegro method, drop the 'al_' and turn it into 'Al.', then turn the rest of the method into pascal-casing without any underscores.
+# Using AllegroDotNet
+The original Allegro 5 library prefixes all library calls with __al__; AllegroDotNet prefixes all library calls in the __Al__ namespace. Otherwise, the library function names are the same, except for casing which follows .NET coding conventions (ie, pascal-casing). For example, the original Allegro 5 library function `al_init_image_addon()` becomes `Al.InitImageAddon()` in AllegroDotNet.
+
+The [offical Allegro documentation](https://liballeg.org/a5docs/trunk/) is compatible with AllegroDotNet: whatever the function did in Allegro 5, that same function is invoked by AllegroDotNet using native platform invokes.
+
+Parameters are changed to not use pointers, and instead use C# classes. For example, the original Allegro 5 library function `al_set_target_bitmap(ALLEGRO_BITMAP *bitmap)` becomes `Al.SetTargetBitmap(AllegroBitmap bitmap)` in AllegroDotNet.
 
 # Dependencies
+1) However you built the Allegro 5 library, you'll need any dependencies needed to load it; for Windows Visual Studio 2019 builds, that means you'll need the [Visual C++ Redistributable](https://visualstudio.microsoft.com/downloads/#microsoft-visual-c-redistributable-for-visual-studio-2019) to be installed.
+2) You will also need any dependencies needed by Allegro 5, such as the libpng library to load .PNG files, etc.
+3) Finally, You will need the Allegro 5 monolith library itself.
 
-The AllegroDotNet.Dependencies library has Allegro and required third-party DLLs included inside. Calling `AlDependencyManager.ExtractAllegroDotNetDlls()` will extract those DLLs to the user's temporary folder and point the DLL search path there. The version of Allegro included (5.2.7.0) in this library was compiled with VS2019 and includes features I (Sub-C) wanted. It may not include what you want!
-
-Note the licenses of the included software in this dependency project and how they apply to your game/application. If you would like a different build of Allegro included in this project, you can always clone the repo and replace the included DLL(s).
-
-The included DLLs include support for:
-- Most all of the core Allegro functions
-- Image addon and PNG support
-- Audio and AudioCodec addons, with OGG/Vorbis/Theora/FLAC support
-- Font addon and TrueType support
-- Native Dialog addon
+You can either provide these yourself, or use the [AllegroDotNet.Dependencies](https://www.nuget.org/packages/AllegroDotNet.Dependencies/) Nuget package to provide them for you (call `AlDependencyManager.ExtractAllegroDotNetDlls();` to automatically extract the libraries needed) (Windows-only for now).
 
 # Notes
-
 - Not __EVERY__ Allegro function is implemented, but most of them are including events, graphics, sound, displays, input, timers, fonts, and configuration (among others). It's enough to make a game!
 - Some areas of functionality are not implemented at all (ex: fixed-point math, haptic).
 - This project is not fully released yet. There may be bugs in how the interopability is handled; not every method has been verified to work!
 
 # Closing
-
 Thanks to the Allegro team; it's an awesome library and I've been using it since 1999!
 
 You can contact me at halolockdown at yahoo dot com.
