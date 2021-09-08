@@ -36,13 +36,5 @@ namespace SubC.AllegroDotNet
         /// <returns>The (compiled) version of the addon, in the same format as al_get_allegro_version.</returns>
         public static uint GetAllegroPhysfsVersion() =>
             AllegroLibrary.AlGetAllegroPhysfsVersion();
-
-        #region P/Invokes
-        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        //private static extern void al_set_physfs_file_interface();
-
-        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        //private static extern uint al_get_allegro_physfs_version();
-        #endregion
     }
 }

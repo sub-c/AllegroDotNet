@@ -50,19 +50,5 @@ namespace SubC.AllegroDotNet
         /// <returns></returns>
         public static uint GetAllegroImageVersion() =>
             AllegroLibrary.AlGetAllegroImageVersion();
-
-        #region P/Invokes
-        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        //private static extern bool al_init_image_addon();
-
-        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        //private static extern bool al_is_image_addon_initialized();
-
-        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        //private static extern void al_shutdown_image_addon();
-
-        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        //private static extern uint al_get_allegro_image_version();
-        #endregion
     }
 }

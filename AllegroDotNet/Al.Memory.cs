@@ -124,22 +124,5 @@ namespace SubC.AllegroDotNet
         /// <returns>An integer-pointer to allocated memory on success, othewise <see cref="IntPtr.Zero"/>.</returns>
         public static IntPtr CallocWithContext(ulong count, ulong n, int line, string file, string func) =>
             AllegroLibrary.AlCallocWithContext(new UIntPtr(count), new UIntPtr(n), line, file, func);
-
-        #region P/Invokes
-        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        //private static extern IntPtr al_malloc_with_context(UIntPtr n, int line, [MarshalAs(UnmanagedType.LPStr)] string file, [MarshalAs(UnmanagedType.LPStr)] string func);
-
-        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        //private static extern void al_free_with_context(IntPtr ptr, int line, [MarshalAs(UnmanagedType.LPStr)] string file, [MarshalAs(UnmanagedType.LPStr)] string func);
-
-        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        //private static extern IntPtr al_realloc_with_context(IntPtr ptr, UIntPtr n, int line, [MarshalAs(UnmanagedType.LPStr)] string file, [MarshalAs(UnmanagedType.LPStr)] string func);
-
-        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        //private static extern IntPtr al_calloc_with_context(UIntPtr count, UIntPtr n, int line, [MarshalAs(UnmanagedType.LPStr)] string file, [MarshalAs(UnmanagedType.LPStr)] string func);
-
-        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        //private static extern void al_set_memory_interface(IntPtr memoryInterface);
-        #endregion
     }
 }

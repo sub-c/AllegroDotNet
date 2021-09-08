@@ -80,34 +80,5 @@ namespace SubC.AllegroDotNet
             var nativeEventSource = AllegroLibrary.AlGetKeyboardEventSource();
             return nativeEventSource == IntPtr.Zero ? null : new AllegroEventSource { NativeIntPtr = nativeEventSource };
         }
-
-        #region P/Invokes
-        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        //private static extern bool al_install_keyboard();
-
-        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        //private static extern bool al_is_keyboard_installed();
-
-        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        //private static extern void al_uninstall_keyboard();
-
-        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        //private static extern void al_get_keyboard_state(ref NativeKeyboardState retState);
-
-        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        //private static extern void al_clear_keyboard_state(IntPtr display);
-
-        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        //private static extern bool al_key_down(ref NativeKeyboardState state, int keycode);
-
-        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        //private static extern IntPtr al_keycode_to_name(int keycode);
-
-        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        //private static extern bool al_set_keyboard_leds(int leds);
-
-        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        //private static extern IntPtr al_get_keyboard_event_source();
-        #endregion
     }
 }

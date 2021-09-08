@@ -53,7 +53,14 @@ namespace SubC.AllegroDotNet
         /// </summary>
         public const char AllegroNativePathSep = '\\';
 #else
+        /// <summary>
+        /// Unix-specific drive separator character.
+        /// </summary>
         public const char AllegroNativeDriveSep = '\0';
+        
+        /// <summary>
+        /// Unix-specific path/directory separator character.
+        /// </summary>
         public const char AllegroNativePathSep = '/';
 #endif
         /// <summary>
@@ -125,6 +132,6 @@ namespace SubC.AllegroDotNet
         /// The library filename where all Allegro (including addons) functions can be found.
         /// </summary>
         public const string AllegroMonolithDllFilenameWindows = "allegro_monolith-debug-5.2.dll";
-#endregion
+        #endregion
     }
 }

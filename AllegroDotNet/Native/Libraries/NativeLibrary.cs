@@ -14,7 +14,7 @@ namespace SubC.AllegroDotNet.Native.Libraries
             }
             else
             {
-                throw new NotSupportedException("Only Windows is currently supported.");
+                throw new NotSupportedException("Host operating system is not currently supported.");
             }
             return nativeLibrary == IntPtr.Zero
                 ? throw new BadImageFormatException("Could not load/find the Allegro library.")
@@ -30,7 +30,7 @@ namespace SubC.AllegroDotNet.Native.Libraries
             }
             else
             {
-                throw new NotSupportedException("Only Windows is currently supported.");
+                throw new NotSupportedException("Host operating system is not currently supported.");
             }
 
             return nativeFunction == IntPtr.Zero

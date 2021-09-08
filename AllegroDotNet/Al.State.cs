@@ -38,19 +38,5 @@ namespace SubC.AllegroDotNet
         /// <param name="errNum">The error number.</param>
         public static void SetErrNo(int errNum) =>
             AllegroLibrary.AlSetErrno(errNum);
-
-        #region P/Invokes
-        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        //private static extern void al_restore_state(ref NativeState state);
-
-        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        //private static extern void al_store_state(ref NativeState state, int flags);
-
-        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        //private static extern int al_get_errno();
-
-        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        //private static extern void al_set_errno(int errnum);
-        #endregion
     }
 }

@@ -76,25 +76,5 @@ namespace SubC.AllegroDotNet
         /// <returns>The refresh rate of the monitor.</returns>
         public static int GetMonitorRefreshRate(int adapter) =>
             AllegroLibrary.AlGetMonitorRefreshRate(adapter);
-
-        #region P/Invokes
-        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        //private static extern int al_get_new_display_adapter();
-
-        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        //private static extern void al_set_new_display_adapter(int adapter);
-
-        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        //private static extern bool al_get_monitor_info(int adapter, ref NativeMonitorInfo info);
-
-        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        //private static extern int al_get_monitor_dpi(int adapter);
-
-        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        //private static extern int al_get_num_video_adapters();
-
-        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        //private static extern int al_get_monitor_refresh_rate(int adapter);
-        #endregion
     }
 }

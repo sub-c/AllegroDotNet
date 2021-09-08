@@ -3,9 +3,9 @@
 namespace SubC.AllegroDotNet.Models
 {
     /// <summary>
-    /// An ALLEGRO_AUDIO_STREAM object is used to stream generated audio to the sound device, in real-time. This is
-    /// done by reading from a buffer, which is split into a number of fragments. Whenever a fragment has finished
-    /// playing, the user can refill it with new data.
+    /// An <see cref="AllegroAudioStream"/> object is used to stream generated audio to the sound device, in real-time.
+    /// This is done by reading from a buffer, which is split into a number of fragments. Whenever a fragment has
+    /// finished playing, the user can refill it with new data.
     /// <para>
     /// As with ALLEGRO_SAMPLE_INSTANCE objects, streams store information necessary for playback, so you may not
     /// play the same stream multiple times simultaneously. Streams also need to be attached to an ALLEGRO_MIXER,

@@ -42,16 +42,5 @@ namespace SubC.AllegroDotNet
         /// <param name="seconds">The amount of seconds to rest.</param>
         public static void Rest(double seconds) =>
             AllegroLibrary.AlRest(seconds);
-
-        #region P/Invokes
-        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        //private static extern double al_get_time();
-
-        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        //private static extern void al_init_timeout(ref NativeAllegroTimeout timeout, double seconds);
-
-        //[DllImport(AlConstants.AllegroMonolithDllFilenameWindows)]
-        //private static extern void al_rest(double seconds);
-        #endregion
     }
 }
