@@ -43,22 +43,22 @@ namespace SubC.AllegroDotNet
 
         /// <summary>
         /// Allegro is able to cope with users connecting and disconnected joystick devices on-the-fly. On existing
-        /// platforms, the joystick event source will generate an event of type ALLEGRO_EVENT_JOYSTICK_CONFIGURATION
-        /// when a device is plugged in or unplugged. In response, you should call al_reconfigure_joysticks.
+        /// platforms, the joystick event source will generate an event of type <see cref="EventType.JoystickConfiguration"/>
+        /// when a device is plugged in or unplugged. In response, you should call <see cref="ReconfigureJoysticks"/>.
         /// <para>
-        /// Afterwards, the number returned by al_get_num_joysticks may be different, and the handles returned by
-        /// al_get_joystick may be different or be ordered differently.
+        /// Afterwards, the number returned by <see cref="GetNumJoysticks"/> may be different, and the handles returned
+        /// by <see cref="GetJoystick(int)"/> may be different or be ordered differently.
         /// </para>
         /// <para>
-        /// All ALLEGRO_JOYSTICK handles remain valid, but handles for disconnected devices become inactive: their
-        /// states will no longer update, and al_get_joystick will not return the handle. Handles for devices which
+        /// All <see cref="AllegroJoystick"/> handles remain valid, but handles for disconnected devices become inactive: their
+        /// states will no longer update, and <see cref="GetJoystick(int)"/> will not return the handle. Handles for devices which
         /// remain connected will continue to represent the same devices. Previously inactive handles may become
         /// active again, being reused to represent newly connected devices.
         /// </para>
         /// <para>
-        /// It is possible that on some systems, Allegro won’t be able to generate ALLEGRO_EVENT_JOYSTICK_CONFIGURATION
-        /// events. If your game has an input configuration screen or similar, you may wish to call
-        /// al_reconfigure_joysticks when entering that screen.
+        /// It is possible that on some systems, Allegro won’t be able to generate
+        /// <see cref="EventType.JoystickConfiguration"/> events. If your game has an input configuration screen or
+        /// similar, you may wish to call <see cref="ReconfigureJoysticks"/> when entering that screen.
         /// </para>
         /// </summary>
         /// <returns>True if the joystick configuration changed, otherwise returns false.</returns>
@@ -67,7 +67,7 @@ namespace SubC.AllegroDotNet
 
         /// <summary>
         /// Return the number of joysticks currently on the system (or potentially on the system). This number can
-        /// change after al_reconfigure_joysticks is called, in order to support hotplugging.
+        /// change after <see cref="ReconfigureJoysticks"/> is called, in order to support hotplugging.
         /// </summary>
         /// <returns>
         /// 0 if there is no joystick driver installed, otherwise the number of joysticks currently on the system.
@@ -76,13 +76,13 @@ namespace SubC.AllegroDotNet
             AllegroLibrary.AlGetNumJoysticks();
 
         /// <summary>
-        /// Get a handle for a joystick on the system. The number may be from 0 to al_get_num_joysticks-1. If
+        /// Get a handle for a joystick on the system. The number may be from 0 to <see cref="GetNumJoysticks"/>-1. If
         /// successful a pointer to a joystick object is returned, which represents a physical device.
-        /// Otherwise NULL is returned.
+        /// Otherwise <c>null</c> is returned.
         /// <para>
-        /// The handle and the index are only incidentally linked. After al_reconfigure_joysticks is called,
-        /// al_get_joystick may return handles in a different order, and handles which represent disconnected
-        /// devices will not be returned.
+        /// The handle and the index are only incidentally linked. After <see cref="ReconfigureJoysticks"/> is called,
+        /// <see cref="GetJoystick(int)"/> may return handles in a different order, and handles which represent
+        /// disconnected devices will not be returned.
         /// </para>
         /// </summary>
         /// <param name="num"></param>
@@ -102,7 +102,7 @@ namespace SubC.AllegroDotNet
 
         /// <summary>
         /// Return if the joystick handle is “active”, i.e. in the current configuration, the handle represents
-        /// some physical device plugged into the system. al_get_joystick returns active handles. After
+        /// some physical device plugged into the system. <see cref="GetJoystick(int)"/> returns active handles. After
         /// reconfiguration, active handles may become inactive, and vice versa.
         /// </summary>
         /// <param name="joystick">The joystick to check if active.</param>
@@ -122,11 +122,11 @@ namespace SubC.AllegroDotNet
         }
 
         /// <summary>
-        /// Return the name of the given “stick”. If the stick doesn’t exist, NULL is returned.
+        /// Return the name of the given “stick”. If the stick doesn’t exist, <c>null</c> is returned.
         /// </summary>
         /// <param name="joystick">The joystick.</param>
         /// <param name="stick">The stick number.</param>
-        /// <returns>Name of the stick, otherwise null.</returns>
+        /// <returns>Name of the stick, otherwise <c>null</c>.</returns>
         public static string GetJoystickStickName(AllegroJoystick joystick, int stick)
         {
             var nativeString = AllegroLibrary.AlGetJoystickStickName(joystick.NativeIntPtr, stick);
@@ -134,13 +134,13 @@ namespace SubC.AllegroDotNet
         }
 
         /// <summary>
-        /// Return the name of the given axis. If the axis doesn’t exist, null is returned.
+        /// Return the name of the given axis. If the axis doesn’t exist, <c>null</c> is returned.
         /// Indices begin from 0.
         /// </summary>
         /// <param name="joystick">The joystick.</param>
         /// <param name="stick">The stick number.</param>
         /// <param name="axis">The axis number of the stick.</param>
-        /// <returns>The name of the stick axis, otherwise null.</returns>
+        /// <returns>The name of the stick axis, otherwise <c>null</c>.</returns>
         public static string GetJoystickAxisName(AllegroJoystick joystick, int stick, int axis)
         {
             var nativeString = AllegroLibrary.AlGetJoystickAxisName(joystick.NativeIntPtr, stick, axis);
@@ -148,7 +148,7 @@ namespace SubC.AllegroDotNet
         }
 
         /// <summary>
-        /// Return the name of the given button. If the button doesn’t exist, NULL is returned.
+        /// Return the name of the given button. If the button doesn’t exist, <c>null</c> is returned.
         /// Indices begin from 0.
         /// </summary>
         /// <param name="joystick">The joystick.</param>
@@ -161,7 +161,7 @@ namespace SubC.AllegroDotNet
         }
 
         /// <summary>
-        /// Return the flags of the given “stick”. If the stick doesn’t exist, NULL is returned.
+        /// Return the flags of the given “stick”. If the stick doesn’t exist, <c>null</c> is returned.
         /// Indices begin from 0.
         /// </summary>
         /// <param name="joystick">The joystick.</param>
@@ -183,7 +183,7 @@ namespace SubC.AllegroDotNet
         /// </summary>
         /// <param name="joystick">The joystick.</param>
         /// <param name="stick">The stick.</param>
-        /// <returns>The number of axes on the given stick.</returns>
+        /// <returns>The number of axes on the given stick, or 0 if the stick does not exist.</returns>
         public static int GetJoystickNumAxes(AllegroJoystick joystick, int stick) =>
             AllegroLibrary.AlGetJoystickNumAxes(joystick.NativeIntPtr, stick);
 
