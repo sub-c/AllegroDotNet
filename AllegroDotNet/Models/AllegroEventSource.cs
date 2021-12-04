@@ -1,4 +1,5 @@
 ﻿using SubC.AllegroDotNet.Native;
+using System;
 
 namespace SubC.AllegroDotNet.Models
 {
@@ -9,10 +10,20 @@ namespace SubC.AllegroDotNet.Models
     /// You may create your own "user" event sources that emit custom events.
     /// </para>
     /// </summary>
-    public sealed class AllegroEventSource : NativePointerWrapper
+    public sealed class AllegroEventSource : NativePointerWrapper, IEquatable<AllegroEventSource>
     {
         internal AllegroEventSource()
         {
+        }
+
+        /// <summary>
+        /// Determines if two <see cref="AllegroEventSource"/> native pointers are equal.
+        /// </summary>
+        /// <param name="other">The instance to compare equality.</param>
+        /// <returns>True if the native pointers are equal, otherwise false.</returns>
+        public bool Equals(AllegroEventSource other)
+        {
+            throw new NotImplementedException();
         }
     }
 }

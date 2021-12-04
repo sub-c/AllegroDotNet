@@ -1,11 +1,12 @@
 ﻿using SubC.AllegroDotNet.Native;
+using System;
 
 namespace SubC.AllegroDotNet.Models
 {
     /// <summary>
     /// A structure that describes a color in a device independent way.
     /// </summary>
-    public sealed class AllegroColor
+    public sealed class AllegroColor : IEquatable<AllegroColor>
     {
         /// <summary>
         /// Red value.
@@ -44,5 +45,18 @@ namespace SubC.AllegroDotNet.Models
         }
 
         internal NativeAllegroColor Native = new NativeAllegroColor();
+
+        /// <summary>
+        /// Determines if two <see cref="AllegroColor"/> are equal.
+        /// </summary>
+        /// <param name="other">The instance to compare equality.</param>
+        /// <returns>True if the colors are equal, otherwise false.</returns>
+        public bool Equals(AllegroColor other)
+        {
+            return R == other?.R
+                && G == other?.G
+                && B == other?.B
+                && A == other?.A;
+        }
     }
 }

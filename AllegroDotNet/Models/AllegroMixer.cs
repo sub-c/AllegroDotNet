@@ -1,4 +1,5 @@
 ﻿using SubC.AllegroDotNet.Native;
+using System;
 
 namespace SubC.AllegroDotNet.Models
 {
@@ -12,10 +13,20 @@ namespace SubC.AllegroDotNet.Models
     /// by sqrt(2) before adding them to the center channel (if present).
     /// </para>
     /// </summary>
-    public class AllegroMixer : NativePointerWrapper
+    public class AllegroMixer : NativePointerWrapper, IEquatable<AllegroMixer>
     {
         internal AllegroMixer()
         {
+        }
+
+        /// <summary>
+        /// Determines if two <see cref="AllegroMixer"/> native pointers are equal.
+        /// </summary>
+        /// <param name="other">The instance to compare equality.</param>
+        /// <returns>True if the native pointers are equal, otherwise false.</returns>
+        public bool Equals(AllegroMixer other)
+        {
+            throw new NotImplementedException();
         }
     }
 }

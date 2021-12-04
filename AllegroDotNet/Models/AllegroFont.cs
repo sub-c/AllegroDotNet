@@ -1,4 +1,5 @@
 ﻿using SubC.AllegroDotNet.Native;
+using System;
 
 namespace SubC.AllegroDotNet.Models
 {
@@ -9,10 +10,20 @@ namespace SubC.AllegroDotNet.Models
     /// <see cref="Al.LoadBitmap(string)"/> and a font in Allegro’s bitmap font format will be created from it with 
     /// <see cref="Al.GrabFontFromBitmap(AllegroBitmap, int, int[])"/>.
     /// </summary>
-    public sealed class AllegroFont : NativePointerWrapper
+    public sealed class AllegroFont : NativePointerWrapper, IEquatable<AllegroFont>
     {
         internal AllegroFont()
         {
+        }
+
+        /// <summary>
+        /// Determines if two <see cref="AllegroFont"/> native pointers are equal.
+        /// </summary>
+        /// <param name="other">The instance to compare equality.</param>
+        /// <returns>True if the native pointers are equal, otherwise false.</returns>
+        public bool Equals(AllegroFont other)
+        {
+            return NativeIntPtr == other?.NativeIntPtr;
         }
     }
 }

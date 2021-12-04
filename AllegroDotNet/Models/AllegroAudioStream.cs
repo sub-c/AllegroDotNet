@@ -1,4 +1,5 @@
 ﻿using SubC.AllegroDotNet.Native;
+using System;
 
 namespace SubC.AllegroDotNet.Models
 {
@@ -27,10 +28,20 @@ namespace SubC.AllegroDotNet.Models
     /// al_drain_audio_stream when you’re finished with supplying data to the stream.
     /// </para>
     /// </summary>
-    public sealed class AllegroAudioStream : NativePointerWrapper
+    public sealed class AllegroAudioStream : NativePointerWrapper, IEquatable<AllegroAudioStream>
     {
         internal AllegroAudioStream()
         {
+        }
+
+        /// <summary>
+        /// Determines if two <see cref="AllegroAudioStream"/> native pointers are equal.
+        /// </summary>
+        /// <param name="other">The instance to compare equality.</param>
+        /// <returns>True if the native pointers are equal, otherwise false.</returns>
+        public bool Equals(AllegroAudioStream other)
+        {
+            return NativeIntPtr == other?.NativeIntPtr;
         }
     }
 }

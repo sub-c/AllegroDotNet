@@ -1,4 +1,5 @@
 ﻿using SubC.AllegroDotNet.Native;
+using System;
 
 namespace SubC.AllegroDotNet.Models
 {
@@ -16,10 +17,20 @@ namespace SubC.AllegroDotNet.Models
     /// eventually reaches an ALLEGRO_VOICE object.
     /// </para>
     /// </summary>
-    public sealed class AllegroSampleInstance : NativePointerWrapper
+    public sealed class AllegroSampleInstance : NativePointerWrapper, IEquatable<AllegroSampleInstance>
     {
         internal AllegroSampleInstance()
         {
+        }
+
+        /// <summary>
+        /// Determines if two <see cref="AllegroSampleInstance"/> native pointers are equal.
+        /// </summary>
+        /// <param name="other">The instance to compare equality.</param>
+        /// <returns>True if the native pointers are equal, otherwise false.</returns>
+        public bool Equals(AllegroSampleInstance other)
+        {
+            return NativeIntPtr == other?.NativeIntPtr;
         }
     }
 }

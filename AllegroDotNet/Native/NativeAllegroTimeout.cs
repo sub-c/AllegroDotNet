@@ -5,7 +5,7 @@ namespace SubC.AllegroDotNet.Native
     [StructLayout(LayoutKind.Sequential)]
     internal struct NativeAllegroTimeout
     {
-        ulong __pad1__;
-        ulong __pad2__;
+        public ulong __pad1__;
+        public ulong __pad2__;
     }
 }
