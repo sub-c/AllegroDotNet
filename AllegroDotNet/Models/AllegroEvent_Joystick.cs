@@ -20,8 +20,9 @@ namespace SubC.AllegroDotNet.Models
         /// <summary>
         /// The joystick which generated the event. 
         /// </summary>
-        public AllegroJoystick ID
-            => _allegroEvent.NativeEvent.joystick.id == IntPtr.Zero ? null : new AllegroJoystick { NativeIntPtr = _allegroEvent.NativeEvent.joystick.id };
+        public AllegroJoystick ID => _allegroEvent.NativeEvent.joystick.id == IntPtr.Zero
+            ? null
+            : new AllegroJoystick { NativeIntPtr = _allegroEvent.NativeEvent.joystick.id };
 
         /// <summary>
         /// The axis position, from -1.0 to +1.0. 

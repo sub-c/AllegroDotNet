@@ -23,7 +23,7 @@ namespace SubC.AllegroDotNet.Models
         /// <returns>True if the native pointers are equal, otherwise false.</returns>
         public bool Equals(AllegroEventSource other)
         {
-            throw new NotImplementedException();
+            return NativeIntPtr == other?.NativeIntPtr;
         }
     }
 }
