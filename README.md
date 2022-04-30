@@ -41,6 +41,8 @@ Some final notes about using AllegroDotNet:
 
 * Not all of Allegro 5 API is implemented yet; ex: unicode/UTF-8 support is not currently implemented.
 
+* No testing has been done on OSX, and minimal testing was done on Linux. Additional testing from the community would be helpful!
+
 ## Troubleshooting
 * AllegroDotNet requires `allegro_monolith-5.2.dll` to be available to use the native Allegro 5 library (on Windows).
 
