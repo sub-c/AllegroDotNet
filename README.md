@@ -37,6 +37,8 @@ Where Allegro 5 used enumerations / defined constants for flags, AllegroDotNet a
 
 Some final notes about using AllegroDotNet:
 
+* Currently AllegroDotNet uses Allegro v5.2.7.
+
 * If the Allegro function takes or returns a string, that involves extra marshalling from managed/unmanaged code. While this isn't "slow", it isn't as fast as passing pointers and numbers around.
 
 * Not all of Allegro 5 API is implemented yet; ex: unicode/UTF-8 support is not currently implemented.
