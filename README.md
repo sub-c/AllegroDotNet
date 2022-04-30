@@ -50,7 +50,7 @@ Some final notes about using AllegroDotNet:
 
 * You may get "missing function" errors if the `allegro_monolith-5.2.dll` library (on Windows) is missing functions for addons it expects to be available (native dialog functions, acodec functions, etc).
 
-* You may get additional errors if your .DLL did not have dependencies statically linked. You can solve this by using a static-linked Allegro 5 .DLL (such as from SubC.AllegroDotNet.Win64), or place the needed .DLLs with your program output (flac.dll, zlib.dll, etc).
+* You may get additional errors if your .DLL did not have dependencies statically linked. You can solve this by using a static-linked Allegro 5 .DLL (such as from `SubC.AllegroDotNet.Win64`), or place the needed .DLLs with your program output (flac.dll, zlib.dll, etc).
 
 ## Closing
-Thanks to the Allegro team; it's an awesome library that I've been using since DOS / DJGPP days!
+Thanks to the Allegro team; it's an awesome library that I've been using since the DOS / DJGPP days!
