@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <Platforms>x64</Platforms>
+    <StartupObject>Program</StartupObject>
+    <BaseOutputPath>..\..\Artifacts\</BaseOutputPath>
+    <ErrorReport>none</ErrorReport>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AllegroDotNet\AllegroDotNet.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="liballegro_monolith.so">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>
