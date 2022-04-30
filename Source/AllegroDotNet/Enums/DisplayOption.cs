@@ -1,0 +1,42 @@
+﻿namespace SubC.AllegroDotNet.Enums
+{
+  public enum DisplayOption : int
+  {
+    RedSize = 0,
+    GreenSize = 1,
+    BlueSize = 2,
+    AlphaSize = 3,
+    RedShift = 4,
+    GreenShift = 5,
+    BlueShift = 6,
+    AlphaShift = 7,
+    AccRedSize = 8,
+    AccGreenSize = 9,
+    AccBlueSize = 10,
+    AccAlphaSize = 11,
+    Stereo = 12,
+    AuxBuffers = 13,
+    ColorSize = 14,
+    DepthSize = 15,
+    StencilSize = 16,
+    SampleBuffers = 17,
+    Samples = 18,
+    RenderMethod = 19,
+    FloatColor = 20,
+    FloatDepth = 21,
+    SingleBuffer = 22,
+    SwapMethod = 23,
+    CompatibleDisplay = 24,
+    UpdateDisplayRegion = 25,
+    VSync = 26,
+    MaxBitmapSize = 27,
+    SupportNpotBitmap = 28,
+    CanDrawIntoBitmap = 29,
+    SupportSeparateAlpha = 30,
+    AutoConvertBitmaps = 31,
+    SupportedOrientations = 32,
+    OpenGLMajorVersion = 33,
+    OpenGLMinorVersion = 34,
+    DisplayOptionsCount
+  }
+}
