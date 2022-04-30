@@ -33,7 +33,7 @@ Where Allegro 5 used pointers for bitmaps, samples, etc, AllegroDotNet instead u
 
 Where Allegro 5 used enumerations / defined constants for flags, AllegroDotNet always uses C# enums.
 * Allegro 5 `al_set_new_bitmap_flags(int flags)` takes flags that you must remember/look up, like ALLEGRO_NO_PRESERVE_TEXTURE.
-* AllegroDotNet `Al.SetNewBitmapFlags(BitmapFlags flags)` takes an enumeration type, which allows your IDE to show you the values of that enumeration to suggest values to pass.
+* AllegroDotNet `Al.SetNewBitmapFlags(BitmapFlags flags)` takes an enumeration type, which allows your IDE to show you the values of that enumeration to suggest values to pass. These enumerations are in the `SubC.AllegroDotNet.Enums` namespace.
 
 Some final notes about using AllegroDotNet:
 
