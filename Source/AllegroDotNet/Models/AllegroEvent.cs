@@ -34,6 +34,98 @@ namespace SubC.AllegroDotNet.Models
 
     #endregion Keyboard
 
+    #region Mouse
+
+    public int MouseX
+    {
+      get => NativeEvent.mouse.x;
+      set => NativeEvent.mouse.x = value;
+    }
+
+    public int MouseY
+    {
+      get => NativeEvent.mouse.y;
+      set => NativeEvent.mouse.y = value;
+    }
+
+    public int MouseZ
+    {
+      get => NativeEvent.mouse.z;
+      set => NativeEvent.mouse.z = value;
+    }
+
+    public int MouseW
+    {
+      get => NativeEvent.mouse.w;
+      set => NativeEvent.mouse.w = value;
+    }
+
+    public int MouseDX
+    {
+      get => NativeEvent.mouse.dx;
+      set => NativeEvent.mouse.dx = value;
+    }
+
+    public int MouseDY
+    {
+      get => NativeEvent.mouse.dy;
+      set => NativeEvent.mouse.dy = value;
+    }
+
+    public int MouseDZ
+    {
+      get => NativeEvent.mouse.dz;
+      set => NativeEvent.mouse.dz = value;
+    }
+
+    public int MouseDW
+    {
+      get => NativeEvent.mouse.dw;
+      set => NativeEvent.mouse.dw = value;
+    }
+
+    public uint MouseButton
+    {
+      get => NativeEvent.mouse.button;
+      set => NativeEvent.mouse.button = value;
+    }
+
+    public float MousePressure
+    {
+      get => NativeEvent.mouse.pressure;
+      set => NativeEvent.mouse.pressure = value;
+    }
+
+    #endregion
+
+    #region User
+
+    public IntPtr UserData1
+    {
+      get => NativeEvent.user.data1;
+      set => NativeEvent.user.data1 = value;
+    }
+
+    public IntPtr UserData2
+    {
+      get => NativeEvent.user.data2;
+      set => NativeEvent.user.data2 = value;
+    }
+
+    public IntPtr UserData3
+    {
+      get => NativeEvent.user.data3;
+      set => NativeEvent.user.data3 = value;
+    }
+
+    public IntPtr UserData4
+    {
+      get => NativeEvent.user.data4;
+      set => NativeEvent.user.data4 = value;
+    }
+
+    #endregion
+
     public EventType Type
     {
       get => (EventType)NativeEvent.type;
@@ -103,7 +195,7 @@ namespace SubC.AllegroDotNet.Models
       public int button;
     }
 
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     internal struct NativeAllegroKeyboardEvent
     {
       public NativeAllegroEventHeader header;
@@ -157,6 +249,7 @@ namespace SubC.AllegroDotNet.Models
     {
       public NativeAllegroEventHeader header;
       public IntPtr __internal_descr;
+      public uint __shove_over;
       public IntPtr data1;
       public IntPtr data2;
       public IntPtr data3;

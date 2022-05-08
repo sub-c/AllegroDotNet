@@ -104,5 +104,174 @@ namespace SubC.AllegroDotNet
     {
       return NativeFunctions.AlGetAllegroNativeDialogVersion();
     }
+
+    public static AllegroMenu? CreateMenu()
+    {
+      var nativeMenu = NativeFunctions.AlCreateMenu();
+      return NativePointerModel.Create<AllegroMenu>(nativeMenu);
+    }
+
+    public static AllegroMenu? CreatePopupMenu()
+    {
+      var nativeMenu = NativeFunctions.AlCreatePopupMenu();
+      return NativePointerModel.Create<AllegroMenu>(nativeMenu);
+    }
+
+    public static AllegroMenu? BuildMenu(AllegroMenuInfo? info)
+    {
+      throw new NotImplementedException();
+    }
+
+    public static int AppendMenuItem(AllegroMenu? parent, string title, ushort id, MenuItem flags, AllegroBitmap? icon, AllegroMenu? submenu)
+    {
+      var nativeTitle = Marshal.StringToHGlobalAnsi(title);
+      var result = NativeFunctions.AlAppendMenuItem(
+        NativePointerModel.GetPointer(parent),
+        nativeTitle,
+        id,
+        (int)flags,
+        NativePointerModel.GetPointer(icon),
+        NativePointerModel.GetPointer(submenu));
+      Marshal.FreeHGlobal(nativeTitle);
+      return result;
+    }
+
+    public static int InsertMenuItem(
+      AllegroMenu? parent,
+      int position,
+      string title,
+      ushort id,
+      MenuItem flags,
+      AllegroBitmap? icon,
+      AllegroMenu? submenu)
+    {
+      var nativeTitle = Marshal.StringToHGlobalAnsi(title);
+      var result = NativeFunctions.AlInsertMenuItem(
+        NativePointerModel.GetPointer(parent),
+        position,
+        nativeTitle,
+        id,
+        (int)flags,
+        NativePointerModel.GetPointer(icon),
+        NativePointerModel.GetPointer(submenu));
+      Marshal.FreeHGlobal(nativeTitle);
+      return result;
+    }
+
+    public static bool RemoveMenuItem(AllegroMenu? menu, int position)
+    {
+      return NativeFunctions.AlRemoveMenuItem(NativePointerModel.GetPointer(menu), position);
+    }
+
+    public static AllegroMenu? CloneMenu(AllegroMenu? menu)
+    {
+      var nativeMenu = NativeFunctions.AlCloneMenu(NativePointerModel.GetPointer(menu));
+      return NativePointerModel.Create<AllegroMenu>(nativeMenu);
+    }
+
+    public static AllegroMenu? CloneMenuForPopup(AllegroMenu? menu)
+    {
+      var nativeMenu = NativeFunctions.AlCloneMenuForPopup(NativePointerModel.GetPointer(menu));
+      return NativePointerModel.Create<AllegroMenu>(nativeMenu);
+    }
+
+    public static void DestroyMenu(AllegroMenu? menu)
+    {
+      NativeFunctions.AlDestroyMenu(NativePointerModel.GetPointer(menu));
+    }
+
+    public static string? GetMenuItemCaption(AllegroMenu? menu, int position)
+    {
+      var nativeCaption = NativeFunctions.AlGetMenuItemCaption(NativePointerModel.GetPointer(menu), position);
+      return Marshal.PtrToStringAnsi(nativeCaption);
+    }
+
+    public static void SetMenuItemCaption(AllegroMenu? menu, int position, string caption)
+    {
+      var nativeCaption = Marshal.StringToHGlobalAnsi(caption);
+      NativeFunctions.AlSetMenuItemCaption(NativePointerModel.GetPointer(menu), position, nativeCaption);
+      Marshal.FreeHGlobal(nativeCaption);
+    }
+
+    public static MenuItem GetMenuItemFlags(AllegroMenu? menu, int position)
+    {
+      return (MenuItem)NativeFunctions.AlGetMenuItemFlags(NativePointerModel.GetPointer(menu), position);
+    }
+
+    public static void SetMenuItemFlags(AllegroMenu? menu, int position, MenuItem flags)
+    {
+      NativeFunctions.AlSetMenuItemFlags(NativePointerModel.GetPointer(menu), position, (int)flags);
+    }
+
+    public static AllegroBitmap? GetMenuItemIcon(AllegroMenu? menu, int position)
+    {
+      var nativeBitmap = NativeFunctions.AlGetMenuItemIcon(NativePointerModel.GetPointer(menu), position);
+      return NativePointerModel.Create<AllegroBitmap>(nativeBitmap);
+    }
+
+    public static void SetMenuItemIcon(AllegroMenu? menu, int position, AllegroBitmap? icon)
+    {
+      NativeFunctions.AlSetMenuItemIcon(NativePointerModel.GetPointer(menu), position, NativePointerModel.GetPointer(icon));
+    }
+
+    public static AllegroMenu? FindMenu(AllegroMenu? haystack, ushort id)
+    {
+      var nativeMenu = NativeFunctions.AlFindMenu(NativePointerModel.GetPointer(haystack), id);
+      return NativePointerModel.Create<AllegroMenu>(nativeMenu);
+    }
+
+    public static bool FindMenuItem(AllegroMenu haystack, ushort id, AllegroMenu menu, ref int? index)
+    {
+      int nativeIndex = index == null ? 0 : index.Value;
+      var result = NativeFunctions.AlFindMenuItem(
+        NativePointerModel.GetPointer(haystack),
+        id,
+        ref menu.NativePointer,
+        ref nativeIndex);
+      if (index != null)
+      {
+        index = nativeIndex;
+      }
+      return result;
+    }
+
+    public static AllegroEventSource? GetDefaultMenuEventSource()
+    {
+      var nativeSource = NativeFunctions.AlGetDefaultMenuEventSource();
+      return NativePointerModel.Create<AllegroEventSource>(nativeSource);
+    }
+
+    public static AllegroEventSource? EnableMenuEventSource(AllegroMenu? menu)
+    {
+      var nativeSource = NativeFunctions.AlEnableMenuEventSource(NativePointerModel.GetPointer(menu));
+      return NativePointerModel.Create<AllegroEventSource>(nativeSource);
+    }
+
+    public static void DisableMenuEventSource(AllegroMenu? menu)
+    {
+      NativeFunctions.AlDisableMenuEventSource(NativePointerModel.GetPointer(menu));
+    }
+
+    public static AllegroMenu? GetDisplayMenu(AllegroDisplay? display)
+    {
+      var nativeMenu = NativeFunctions.AlGetDisplayMenu(NativePointerModel.GetPointer(display));
+      return NativePointerModel.Create<AllegroMenu>(nativeMenu);
+    }
+
+    public static bool SetDisplayMenu(AllegroDisplay? display, AllegroMenu? menu)
+    {
+      return NativeFunctions.AlSetDisplayMenu(NativePointerModel.GetPointer(display), NativePointerModel.GetPointer(menu));
+    }
+
+    public static bool PopupMenu(AllegroMenu? popupMenu, AllegroDisplay? display)
+    {
+      return NativeFunctions.AlPopupMenu(NativePointerModel.GetPointer(popupMenu), NativePointerModel.GetPointer(display));
+    }
+
+    public static AllegroMenu? RemoveDisplayMenu(AllegroDisplay? display)
+    {
+      var nativeMenu = NativeFunctions.AlRemoveDisplayMenu(NativePointerModel.GetPointer(display));
+      return NativePointerModel.Create<AllegroMenu>(nativeMenu);
+    }
   }
 }

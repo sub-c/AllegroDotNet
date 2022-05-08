@@ -152,7 +152,7 @@ namespace SubC.AllegroDotNet.Native
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_set_voice_playing(IntPtr voice, bool val);
+    public delegate bool al_set_voice_playing(IntPtr voice, [MarshalAs(UnmanagedType.U1)] bool val);
 
     public static al_set_voice_playing AlSetVoicePlaying =
         NativeInterop.LoadFunction<al_set_voice_playing>(_allegroLibrary, nameof(al_set_voice_playing));
@@ -171,7 +171,7 @@ namespace SubC.AllegroDotNet.Native
         NativeInterop.LoadFunction<al_set_voice_position>(_allegroLibrary, nameof(al_set_voice_position));
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_create_sample(IntPtr buf, uint samples, uint freq, int depth, int chan_conf, bool free_buf);
+    public delegate IntPtr al_create_sample(IntPtr buf, uint samples, uint freq, int depth, int chan_conf, [MarshalAs(UnmanagedType.U1)] bool free_buf);
 
     public static al_create_sample AlCreateSample =
         NativeInterop.LoadFunction<al_create_sample>(_allegroLibrary, nameof(al_create_sample));
@@ -368,7 +368,7 @@ namespace SubC.AllegroDotNet.Native
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_set_sample_instance_playing(IntPtr spl, bool val);
+    public delegate bool al_set_sample_instance_playing(IntPtr spl, [MarshalAs(UnmanagedType.U1)] bool val);
 
     public static al_set_sample_instance_playing AlSetSampleInstancePlaying =
         NativeInterop.LoadFunction<al_set_sample_instance_playing>(_allegroLibrary, nameof(al_set_sample_instance_playing));
@@ -525,7 +525,7 @@ namespace SubC.AllegroDotNet.Native
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_set_mixer_playing(IntPtr mixer, bool val);
+    public delegate bool al_set_mixer_playing(IntPtr mixer, [MarshalAs(UnmanagedType.U1)] bool val);
 
     public static al_set_mixer_playing AlSetMixerPlaying =
         NativeInterop.LoadFunction<al_set_mixer_playing>(_allegroLibrary, nameof(al_set_mixer_playing));
@@ -654,7 +654,7 @@ namespace SubC.AllegroDotNet.Native
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_set_audio_stream_playing(IntPtr stream, bool val);
+    public delegate bool al_set_audio_stream_playing(IntPtr stream, [MarshalAs(UnmanagedType.U1)] bool val);
 
     public static al_set_audio_stream_playing AlSetAudioStreamPlaying =
         NativeInterop.LoadFunction<al_set_audio_stream_playing>(_allegroLibrary, nameof(al_set_audio_stream_playing));
@@ -2952,6 +2952,22 @@ namespace SubC.AllegroDotNet.Native
 
     #endregion Path routines
 
+    #region Physfs routines
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void al_set_physfs_file_interface();
+
+    public static al_set_physfs_file_interface AlSetPhysfsFileInterface =
+        NativeInterop.LoadFunction<al_set_physfs_file_interface>(_allegroLibrary, nameof(al_set_physfs_file_interface));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate uint al_get_allegro_physfs_version();
+
+    public static al_get_allegro_physfs_version AlGetAllegroPhysfsVersion =
+        NativeInterop.LoadFunction<al_get_allegro_physfs_version>(_allegroLibrary, nameof(al_get_allegro_physfs_version));
+
+    #endregion
+
     #region State routines
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
@@ -3483,5 +3499,410 @@ namespace SubC.AllegroDotNet.Native
         NativeInterop.LoadFunction<al_vertical_shear_transform>(_allegroLibrary, nameof(al_vertical_shear_transform));
 
     #endregion Transform routines
+
+    #region UTF-8 routines
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate IntPtr al_ustr_new(IntPtr s);
+
+    public static al_ustr_new AlUstrNew =
+        NativeInterop.LoadFunction<al_ustr_new>(_allegroLibrary, nameof(al_ustr_new));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate IntPtr al_ustr_new_from_buffer(IntPtr s, long size);
+
+    public static al_ustr_new_from_buffer AlUstrNewFromBuffer =
+        NativeInterop.LoadFunction<al_ustr_new_from_buffer>(_allegroLibrary, nameof(al_ustr_new_from_buffer));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void al_ustr_free(IntPtr us);
+
+    public static al_ustr_free AlUstrFree =
+        NativeInterop.LoadFunction<al_ustr_free>(_allegroLibrary, nameof(al_ustr_free));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate IntPtr al_cstr(IntPtr us);
+
+    public static al_cstr AlCstr =
+        NativeInterop.LoadFunction<al_cstr>(_allegroLibrary, nameof(al_cstr));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void al_ustr_to_buffer(IntPtr us, IntPtr buffer, int size);
+
+    public static al_ustr_to_buffer AlUstrToBuffer =
+        NativeInterop.LoadFunction<al_ustr_to_buffer>(_allegroLibrary, nameof(al_ustr_to_buffer));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate IntPtr al_cstr_dup(IntPtr us);
+
+    public static al_cstr_dup AlCstrDup =
+        NativeInterop.LoadFunction<al_cstr_dup>(_allegroLibrary, nameof(al_cstr_dup));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate IntPtr al_ustr_dup(IntPtr us);
+
+    public static al_ustr_dup AlUstrDup =
+        NativeInterop.LoadFunction<al_ustr_dup>(_allegroLibrary, nameof(al_ustr_dup));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate IntPtr al_ustr_dup_substr(IntPtr us, int start_pos, int end_pos);
+
+    public static al_ustr_dup_substr AlUstrDupSubstr =
+        NativeInterop.LoadFunction<al_ustr_dup_substr>(_allegroLibrary, nameof(al_ustr_dup_substr));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate IntPtr al_ustr_empty_string();
+
+    public static al_ustr_empty_string AlUstrEmptyString =
+        NativeInterop.LoadFunction<al_ustr_empty_string>(_allegroLibrary, nameof(al_ustr_empty_string));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate IntPtr al_ref_cstr(IntPtr info, IntPtr s);
+
+    public static al_ref_cstr AlRefCstr =
+        NativeInterop.LoadFunction<al_ref_cstr>(_allegroLibrary, nameof(al_ref_cstr));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate IntPtr al_ref_buffer(IntPtr info, IntPtr s, long size);
+
+    public static al_ref_buffer AlRefBuffer =
+        NativeInterop.LoadFunction<al_ref_buffer>(_allegroLibrary, nameof(al_ref_buffer));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate IntPtr al_ref_ustr(IntPtr info, IntPtr us, int start_pos, int end_pos);
+
+    public static al_ref_ustr AlRefUstr =
+        NativeInterop.LoadFunction<al_ref_ustr>(_allegroLibrary, nameof(al_ref_ustr));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate long al_ustr_size(IntPtr us);
+
+    public static al_ustr_size AlUstrSize =
+        NativeInterop.LoadFunction<al_ustr_size>(_allegroLibrary, nameof(al_ustr_size));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate long al_ustr_length(IntPtr us);
+
+    public static al_ustr_length AlUstrLength =
+        NativeInterop.LoadFunction<al_ustr_length>(_allegroLibrary, nameof(al_ustr_length));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate int al_ustr_offset(IntPtr us, int index);
+
+    public static al_ustr_offset AlUstrOffset =
+        NativeInterop.LoadFunction<al_ustr_offset>(_allegroLibrary, nameof(al_ustr_offset));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    [return: MarshalAs(UnmanagedType.U1)]
+    public delegate bool al_ustr_next(IntPtr us, IntPtr pos);
+
+    public static al_ustr_next AlUstrNext =
+        NativeInterop.LoadFunction<al_ustr_next>(_allegroLibrary, nameof(al_ustr_next));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    [return: MarshalAs(UnmanagedType.U1)]
+    public delegate bool al_ustr_prev(IntPtr us, IntPtr pos);
+
+    public static al_ustr_prev AlUstrPrev =
+        NativeInterop.LoadFunction<al_ustr_prev>(_allegroLibrary, nameof(al_ustr_prev));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate int al_ustr_get(IntPtr ub, int pos);
+
+    public static al_ustr_get AlUstrGet =
+        NativeInterop.LoadFunction<al_ustr_get>(_allegroLibrary, nameof(al_ustr_get));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate int al_ustr_get_next(IntPtr ub, ref int pos);
+
+    public static al_ustr_get_next AlUstrGetNext =
+        NativeInterop.LoadFunction<al_ustr_get_next>(_allegroLibrary, nameof(al_ustr_get_next));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate int al_ustr_prev_get(IntPtr ub, ref int pos);
+
+    public static al_ustr_prev_get AlUstrPrevGet =
+        NativeInterop.LoadFunction<al_ustr_prev_get>(_allegroLibrary, nameof(al_ustr_prev_get));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    [return: MarshalAs(UnmanagedType.U1)]
+    public delegate bool al_ustr_insert(IntPtr us1, int pos, IntPtr us2);
+
+    public static al_ustr_insert AlUstrInsert =
+        NativeInterop.LoadFunction<al_ustr_insert>(_allegroLibrary, nameof(al_ustr_insert));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    [return: MarshalAs(UnmanagedType.U1)]
+    public delegate bool al_ustr_insert_cstr(IntPtr us, int pos, IntPtr s);
+
+    public static al_ustr_insert_cstr AlUstrInsertCstr =
+        NativeInterop.LoadFunction<al_ustr_insert_cstr>(_allegroLibrary, nameof(al_ustr_insert_cstr));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate long al_ustr_insert_chr(IntPtr us, int pos, int c);
+
+    public static al_ustr_insert_chr AlUstrInsertChr =
+        NativeInterop.LoadFunction<al_ustr_insert_chr>(_allegroLibrary, nameof(al_ustr_insert_chr));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    [return: MarshalAs(UnmanagedType.U1)]
+    public delegate bool al_ustr_append(IntPtr us1, IntPtr us2);
+
+    public static al_ustr_append AlUstrAppend =
+        NativeInterop.LoadFunction<al_ustr_append>(_allegroLibrary, nameof(al_ustr_append));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    [return: MarshalAs(UnmanagedType.U1)]
+    public delegate bool al_ustr_append_cstr(IntPtr us, IntPtr s);
+
+    public static al_ustr_append_cstr AlUstrAppendCstr =
+        NativeInterop.LoadFunction<al_ustr_append_cstr>(_allegroLibrary, nameof(al_ustr_append_cstr));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate long al_ustr_append_chr(IntPtr us, int c);
+
+    public static al_ustr_append_chr AlUstrAppendChr =
+        NativeInterop.LoadFunction<al_ustr_append_chr>(_allegroLibrary, nameof(al_ustr_append_chr));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    [return: MarshalAs(UnmanagedType.U1)]
+    public delegate bool al_ustr_remove_chr(IntPtr us, int pos);
+
+    public static al_ustr_remove_chr AlUstrRemoveChr =
+        NativeInterop.LoadFunction<al_ustr_remove_chr>(_allegroLibrary, nameof(al_ustr_remove_chr));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    [return: MarshalAs(UnmanagedType.U1)]
+    public delegate bool al_ustr_remove_range(IntPtr us, int start_pos, int end_pos);
+
+    public static al_ustr_remove_range AlUstrRemoveRange =
+        NativeInterop.LoadFunction<al_ustr_remove_range>(_allegroLibrary, nameof(al_ustr_remove_range));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    [return: MarshalAs(UnmanagedType.U1)]
+    public delegate bool al_ustr_truncate(IntPtr us, int start_pos);
+
+    public static al_ustr_truncate AlUstrTruncate =
+        NativeInterop.LoadFunction<al_ustr_truncate>(_allegroLibrary, nameof(al_ustr_truncate));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    [return: MarshalAs(UnmanagedType.U1)]
+    public delegate bool al_ustr_ltrim_ws(IntPtr us);
+
+    public static al_ustr_ltrim_ws AlUstrLtrimWs =
+        NativeInterop.LoadFunction<al_ustr_ltrim_ws>(_allegroLibrary, nameof(al_ustr_ltrim_ws));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    [return: MarshalAs(UnmanagedType.U1)]
+    public delegate bool al_ustr_rtrim_ws(IntPtr us);
+
+    public static al_ustr_rtrim_ws AlUstrRtrimWs =
+        NativeInterop.LoadFunction<al_ustr_rtrim_ws>(_allegroLibrary, nameof(al_ustr_rtrim_ws));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    [return: MarshalAs(UnmanagedType.U1)]
+    public delegate bool al_ustr_trim_ws(IntPtr us);
+
+    public static al_ustr_trim_ws AlUstrTrimWs =
+        NativeInterop.LoadFunction<al_ustr_trim_ws>(_allegroLibrary, nameof(al_ustr_trim_ws));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    [return: MarshalAs(UnmanagedType.U1)]
+    public delegate bool al_ustr_assign(IntPtr us1, IntPtr us2);
+
+    public static al_ustr_assign AlUstrAssign =
+        NativeInterop.LoadFunction<al_ustr_assign>(_allegroLibrary, nameof(al_ustr_assign));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    [return: MarshalAs(UnmanagedType.U1)]
+    public delegate bool al_ustr_assign_substr(IntPtr us1, IntPtr us2, int start_pos, int end_pos);
+
+    public static al_ustr_assign_substr AlUstrAssignSubstr =
+        NativeInterop.LoadFunction<al_ustr_assign_substr>(_allegroLibrary, nameof(al_ustr_assign_substr));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    [return: MarshalAs(UnmanagedType.U1)]
+    public delegate bool al_ustr_assign_cstr(IntPtr us1, IntPtr s);
+
+    public static al_ustr_assign_cstr AlUstrAssignCstr =
+        NativeInterop.LoadFunction<al_ustr_assign_cstr>(_allegroLibrary, nameof(al_ustr_assign_cstr));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate long al_ustr_set_chr(IntPtr us, int start_pos, int c);
+
+    public static al_ustr_set_chr AlUstrSetChr =
+        NativeInterop.LoadFunction<al_ustr_set_chr>(_allegroLibrary, nameof(al_ustr_set_chr));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    [return: MarshalAs(UnmanagedType.U1)]
+    public delegate bool al_ustr_replace_range(IntPtr us1, int start_pos1, int end_pos1, IntPtr us2);
+
+    public static al_ustr_replace_range AlUstrReplaceRange =
+        NativeInterop.LoadFunction<al_ustr_replace_range>(_allegroLibrary, nameof(al_ustr_replace_range));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate int al_ustr_find_chr(IntPtr us, int start_pos1, int c);
+
+    public static al_ustr_find_chr AlUstrFindChr =
+        NativeInterop.LoadFunction<al_ustr_find_chr>(_allegroLibrary, nameof(al_ustr_find_chr));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate int al_ustr_rfind_chr(IntPtr us, int end_pos, int c);
+
+    public static al_ustr_rfind_chr AlUstrRFindChr =
+        NativeInterop.LoadFunction<al_ustr_rfind_chr>(_allegroLibrary, nameof(al_ustr_rfind_chr));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate int al_ustr_find_set(IntPtr us, int start_pos, IntPtr accept);
+
+    public static al_ustr_find_set AlUstrFindSet =
+        NativeInterop.LoadFunction<al_ustr_find_set>(_allegroLibrary, nameof(al_ustr_find_set));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate int al_ustr_find_set_cstr(IntPtr us, int start_pos, IntPtr accept);
+
+    public static al_ustr_find_set_cstr AlUstrFindSetCstr =
+        NativeInterop.LoadFunction<al_ustr_find_set_cstr>(_allegroLibrary, nameof(al_ustr_find_set_cstr));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate int al_ustr_find_cset(IntPtr us, int start_pos, IntPtr reject);
+
+    public static al_ustr_find_cset AlUstrFindCset =
+        NativeInterop.LoadFunction<al_ustr_find_cset>(_allegroLibrary, nameof(al_ustr_find_cset));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate int al_ustr_find_cset_cstr(IntPtr us, int start_pos, IntPtr reject);
+
+    public static al_ustr_find_cset_cstr AlUstrFindCsetCstr =
+        NativeInterop.LoadFunction<al_ustr_find_cset_cstr>(_allegroLibrary, nameof(al_ustr_find_cset_cstr));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate int al_ustr_find_str(IntPtr haystack, int start_pos, IntPtr needle);
+
+    public static al_ustr_find_str AlUstrFindStr =
+        NativeInterop.LoadFunction<al_ustr_find_str>(_allegroLibrary, nameof(al_ustr_find_str));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate int al_ustr_find_cstr(IntPtr haystack, int start_pos, IntPtr needle);
+
+    public static al_ustr_find_cstr AlUstrFindCstr =
+        NativeInterop.LoadFunction<al_ustr_find_cstr>(_allegroLibrary, nameof(al_ustr_find_cstr));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate int al_ustr_rfind_str(IntPtr haystack, int end_pos, IntPtr needle);
+
+    public static al_ustr_rfind_str AlUstrRfindStr =
+        NativeInterop.LoadFunction<al_ustr_rfind_str>(_allegroLibrary, nameof(al_ustr_rfind_str));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate int al_ustr_rfind_cstr(IntPtr haystack, int end_pos, IntPtr needle);
+
+    public static al_ustr_rfind_cstr AlUstrRfindCstr =
+        NativeInterop.LoadFunction<al_ustr_rfind_cstr>(_allegroLibrary, nameof(al_ustr_rfind_cstr));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    [return: MarshalAs(UnmanagedType.U1)]
+    public delegate bool al_ustr_find_replace(IntPtr us, int start_pos, IntPtr find, IntPtr replace);
+
+    public static al_ustr_find_replace AlUstrFindReplace =
+        NativeInterop.LoadFunction<al_ustr_find_replace>(_allegroLibrary, nameof(al_ustr_find_replace));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    [return: MarshalAs(UnmanagedType.U1)]
+    public delegate bool al_ustr_find_replace_cstr(IntPtr us, int start_pos, IntPtr find, IntPtr replace);
+
+    public static al_ustr_find_replace_cstr AlUstrFindReplaceCstr =
+        NativeInterop.LoadFunction<al_ustr_find_replace_cstr>(_allegroLibrary, nameof(al_ustr_find_replace_cstr));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    [return: MarshalAs(UnmanagedType.U1)]
+    public delegate bool al_ustr_equal(IntPtr us1, IntPtr us2);
+
+    public static al_ustr_equal AlUstrEqual =
+        NativeInterop.LoadFunction<al_ustr_equal>(_allegroLibrary, nameof(al_ustr_equal));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate int al_ustr_compare(IntPtr us1, IntPtr us2);
+
+    public static al_ustr_compare AlUstrCompare =
+        NativeInterop.LoadFunction<al_ustr_compare>(_allegroLibrary, nameof(al_ustr_compare));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate int al_ustr_ncompare(IntPtr us1, IntPtr us2, int n);
+
+    public static al_ustr_ncompare AlUstrNcompare =
+        NativeInterop.LoadFunction<al_ustr_ncompare>(_allegroLibrary, nameof(al_ustr_ncompare));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    [return: MarshalAs(UnmanagedType.U1)]
+    public delegate bool al_ustr_has_prefix(IntPtr us1, IntPtr us2);
+
+    public static al_ustr_has_prefix AlUstrHasPrefix =
+        NativeInterop.LoadFunction<al_ustr_has_prefix>(_allegroLibrary, nameof(al_ustr_has_prefix));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    [return: MarshalAs(UnmanagedType.U1)]
+    public delegate bool al_ustr_has_prefix_cstr(IntPtr us1, IntPtr us2);
+
+    public static al_ustr_has_prefix_cstr AlUstrHasPrefixCstr =
+        NativeInterop.LoadFunction<al_ustr_has_prefix_cstr>(_allegroLibrary, nameof(al_ustr_has_prefix_cstr));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    [return: MarshalAs(UnmanagedType.U1)]
+    public delegate bool al_ustr_has_suffix(IntPtr us1, IntPtr us2);
+
+    public static al_ustr_has_suffix AlUstrHasSuffix =
+        NativeInterop.LoadFunction<al_ustr_has_suffix>(_allegroLibrary, nameof(al_ustr_has_suffix));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    [return: MarshalAs(UnmanagedType.U1)]
+    public delegate bool al_ustr_has_suffix_cstr(IntPtr us1, IntPtr s2);
+
+    public static al_ustr_has_suffix_cstr AlUstrHasSuffixCstr =
+        NativeInterop.LoadFunction<al_ustr_has_suffix_cstr>(_allegroLibrary, nameof(al_ustr_has_suffix_cstr));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate IntPtr al_ustr_new_from_utf16(IntPtr s);
+
+    public static al_ustr_new_from_utf16 AlUstrNewFromUtf16 =
+        NativeInterop.LoadFunction<al_ustr_new_from_utf16>(_allegroLibrary, nameof(al_ustr_new_from_utf16));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate long al_ustr_size_utf16(IntPtr us);
+
+    public static al_ustr_size_utf16 AlUstrSizeUtf16 =
+        NativeInterop.LoadFunction<al_ustr_size_utf16>(_allegroLibrary, nameof(al_ustr_size_utf16));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate long al_ustr_encode_utf16(IntPtr us, ref ushort s, long n);
+
+    public static al_ustr_encode_utf16 AlUstrEncodeUtf16 =
+        NativeInterop.LoadFunction<al_ustr_encode_utf16>(_allegroLibrary, nameof(al_ustr_encode_utf16));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate long al_utf8_width(int c);
+
+    public static al_utf8_width AlUtf8Width =
+        NativeInterop.LoadFunction<al_utf8_width>(_allegroLibrary, nameof(al_utf8_width));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate long al_utf8_encode(IntPtr s, int c);
+
+    public static al_utf8_encode AlUtf8Encode =
+        NativeInterop.LoadFunction<al_utf8_encode>(_allegroLibrary, nameof(al_utf8_encode));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate long al_utf16_width(int c);
+
+    public static al_utf16_width AlUtf16Width =
+        NativeInterop.LoadFunction<al_utf16_width>(_allegroLibrary, nameof(al_utf16_width));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate long al_utf16_encode(IntPtr s, int c);
+
+    public static al_utf16_encode AlUtf16Encode =
+        NativeInterop.LoadFunction<al_utf16_encode>(_allegroLibrary, nameof(al_utf16_encode));
+
+    #endregion
   }
 }

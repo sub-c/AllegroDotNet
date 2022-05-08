@@ -3,9 +3,12 @@ using SubC.AllegroDotNet.Enums;
 using SubC.AllegroDotNet.Models;
 using System;
 using System.Runtime.InteropServices;
+using System.Text;
 
 internal static class Program
 {
+  private const ushort FileExitID = 1;
+
   public static IntPtr MyBitmapLoader(IntPtr filename, int flags)
   {
     return IntPtr.Zero;
@@ -81,6 +84,15 @@ internal static class Program
     var display = Al.CreateDisplay(1280, 720) ?? throw new Exception("disp null");
     var displayEventSource = Al.GetDisplayEventSource(display) ?? throw new Exception("disp source null");
 
+    var menu = Al.CreateMenu();
+    var fileMenu = Al.CreateMenu();
+    Al.AppendMenuItem(fileMenu, "New", 2, MenuItem.Enabled, null, null);
+    Al.AppendMenuItem(fileMenu, "Open", 3, MenuItem.Enabled, null, null);
+    Al.AppendMenuItem(fileMenu, "Save", 4, MenuItem.Enabled, null, null);
+    Al.AppendMenuItem(fileMenu, "Exit", FileExitID, MenuItem.Enabled, null, null);
+    Al.AppendMenuItem(menu, "File", 2, MenuItem.Enabled, null, fileMenu);
+    Al.SetDisplayMenu(display, menu);
+
     //var fileDialog = Al.CreateNativeFileDialog("D:/", "My title", "*.*", FileChooser.FileMustExist) ?? throw new NullReferenceException(); ;
     //Al.ShowNativeFileDialog(display, fileDialog);
 
@@ -97,6 +109,7 @@ internal static class Program
     Al.RegisterEventSource(eventQueue, displayEventSource);
     Al.RegisterEventSource(eventQueue, timerEventSource);
     Al.RegisterEventSource(eventQueue, Al.GetKeyboardEventSource() ?? throw new Exception("key source null"));
+    Al.RegisterEventSource(eventQueue, Al.GetDefaultMenuEventSource());
     Al.StartTimer(timer);
 
     Al.InitUserEventSource(out var userEventSource);
@@ -133,6 +146,20 @@ internal static class Program
       if (aEvent.Type == EventType.DisplayClose)
       {
         isRunning = false;
+      }
+
+      if (aEvent.Type == EventType.MenuClick)
+      {
+        var a = new IntPtr(FileExitID);
+        var b = a.ToInt64();
+        if (aEvent.UserData1 == new IntPtr(FileExitID))
+        {
+          isRunning = false;
+        }
+      }
+
+      if (aEvent.Type == EventType.DisplayResize)
+      {
       }
 
       if (aEvent.Type == EventType.KeyDown)

@@ -37,6 +37,10 @@
     TouchCancel = 53,
 
     DisplayConnected = 60,
-    DisplayDisconnected = 61
+    DisplayDisconnected = 61,
+
+    // Native dialog events
+    NativeDialogClose = 600,
+    MenuClick = 601
   }
 }
