@@ -25,7 +25,7 @@
     DisplayClose = 42,
     DisplayLost = 43,
     DisplayFound = 44,
-    DisplaySwitchIN = 45,
+    DisplaySwitchIn = 45,
     DisplaySwitchOut = 46,
     DisplayOrientation = 47,
     DisplayHaltDrawing = 48,

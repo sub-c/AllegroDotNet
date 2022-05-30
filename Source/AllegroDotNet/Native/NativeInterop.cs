@@ -41,6 +41,11 @@ namespace SubC.AllegroDotNet.Native
           : library;
     }
 
+    public static T LoadFunction<T>(IntPtr library)
+    {
+      return LoadFunction<T>(library, typeof(T).Name);
+    }
+
     public static T LoadFunction<T>(IntPtr library, string functionName)
     {
       IntPtr function;

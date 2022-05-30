@@ -647,7 +647,7 @@ namespace SubC.AllegroDotNet
       return NativePointerModel.Create<AllegroSample>(result);
     }
 
-    public static AllegroSample? LoadSampleF(AllegroFile file, string identifier)
+    public static AllegroSample? LoadSampleF(AllegroFile? file, string identifier)
     {
       var nativeIdentifier = Marshal.StringToHGlobalAnsi(identifier);
       var result = NativeFunctions.AlLoadSampleF(NativePointerModel.GetPointer(file), nativeIdentifier);
@@ -663,7 +663,7 @@ namespace SubC.AllegroDotNet
       return NativePointerModel.Create<AllegroAudioStream>(result);
     }
 
-    public static AllegroAudioStream? LoadAudioStreamF(AllegroFile file, string identifier, long buffers, uint samples)
+    public static AllegroAudioStream? LoadAudioStreamF(AllegroFile? file, string identifier, long buffers, uint samples)
     {
       var nativeIdentifier = Marshal.StringToHGlobalAnsi(identifier);
       var result = NativeFunctions.AlLoadAudioStreamF(NativePointerModel.GetPointer(file), nativeIdentifier, buffers, samples);

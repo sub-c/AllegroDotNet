@@ -84,6 +84,8 @@ internal static class Program
     var display = Al.CreateDisplay(1280, 720) ?? throw new Exception("disp null");
     var displayEventSource = Al.GetDisplayEventSource(display) ?? throw new Exception("disp source null");
 
+    var windowHandle = Al.GetWinWindowHandle(display);
+
     var menu = Al.CreateMenu();
     var fileMenu = Al.CreateMenu();
     Al.AppendMenuItem(fileMenu, "New", 2, MenuItem.Enabled, null, null);
