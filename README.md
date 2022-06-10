@@ -5,7 +5,8 @@ Native C functions, pointers, and structs are wrapped by C# methods and classes 
 Using AllegroDotNet will allow you to create game and multimedia applications in C#.
 
 ## Requirements
-* .NET 6
+* .NET Standard 2.0 -OR- .NET 6 project
+* Native Allegro 5 (v5.2.8) library available
 
 ## Quick Start (Windows)
 1) Add a NuGet package reference to `SubC.AllegroDotNet`.
@@ -46,9 +47,11 @@ Some final notes about using AllegroDotNet:
 * No testing has been done on OSX, and minimal testing was done on Linux. Additional testing from the community would be helpful!
 
 ## Troubleshooting
-* AllegroDotNet requires `allegro_monolith-5.2.dll` to be available to use the native Allegro 5 library (on Windows).
+* Note you need the correct version of the Allegro 5 library or the call to `Al.Init()` will fail. Currently, AllegroDotNet supports v5.2.8; verify you have the correct version of Allegro if you encounter problems calling `Al.Init()`.
 
-* You may get "missing function" errors if the `allegro_monolith-5.2.dll` library (on Windows) is missing functions for addons it expects to be available (native dialog functions, acodec functions, etc).
+* AllegroDotNet requires a monolith version of Allegro (ie, `allegro_monolith-5.2.dll`) to be available to use the native Allegro 5 library.
+
+* You will get "missing function" errors if the `allegro_monolith-5.2.dll` library (on Windows) is missing functions for addons it expects to be available (ex: your .DLL did not include native dialog functions, acodec functions, etc).
 
 * You may get additional errors if your .DLL did not have dependencies statically linked. You can solve this by using a static-linked Allegro 5 .DLL (such as from `SubC.AllegroDotNet.Win64`), or place the needed .DLLs with your program output (flac.dll, zlib.dll, etc).
 

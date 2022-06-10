@@ -1,7 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFrameworks>netstandard2.0;net6.0</TargetFrameworks>
+    <LangVersion>10.0</LangVersion>
     <ImplicitUsings>disable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <Platforms>x64</Platforms>
@@ -10,20 +11,19 @@
     <DebugType>portable</DebugType>
     <BaseOutputPath>..\..\Artifacts\</BaseOutputPath>
     <ProduceReferenceAssembly>False</ProduceReferenceAssembly>
-    <ErrorReport>none</ErrorReport>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <PackageId>SubC.AllegroDotNet</PackageId>
     <Authors>Sub-C</Authors>
     <Version>0.4.0</Version>
     <Company>Sub-C</Company>
     <Product>AllegroDotNet</Product>
-    <Description>Interop framework to consume the Allegro 5 game programming library from C#.</Description>
+    <Description>Interop framework to consume the Allegro 5 (v5.2.8) game programming library from C#.</Description>
     <PackageProjectUrl>https://github.com/sub-c/AllegroDotNet</PackageProjectUrl>
     <RepositoryUrl>https://github.com/sub-c/AllegroDotNet</RepositoryUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>game 2d allegro allegro5 interop directx opengl multimedia sound input graphics</PackageTags>
     <RepositoryType>git</RepositoryType>
-    <PackageReleaseNotes>This release contains breaking changes; targets .NET6+ and many previously implemented functions are missing due to refactoring. Use v0.3.0 until refactoring is complete if required.</PackageReleaseNotes>
+    <PackageReleaseNotes>This release adds support for .NET Standard 2.0 to the original .NET 6.0 support. Additionally, assumes Allegro 5 v5.2.8 is available; ensure to use SubC.AllegroDotNet.Win64 v5.2.8 NuGet package (or your own Allegro 5 v5.2.8 library).</PackageReleaseNotes>
     <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
   </PropertyGroup>
 
