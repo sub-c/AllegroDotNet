@@ -5,6 +5,7 @@ Native C functions, pointers, and structs are wrapped by C# methods and classes 
 Using AllegroDotNet will allow you to create game and multimedia applications in C#.
 
 ## Requirements
+* Target x64 (*NOT AnyCPU*)
 * .NET Standard 2.0 -OR- .NET 6 project
 * Native Allegro 5 (v5.2.8) library available
 
@@ -47,6 +48,8 @@ Some final notes about using AllegroDotNet:
 * No testing has been done on OSX, and minimal testing was done on Linux. Additional testing from the community would be helpful!
 
 ## Troubleshooting
+* If you get "unbalanced stack" errors, ensure your application is targeting *x64* architecture. *AnyCPU* will not work.
+
 * Note you need the correct version of the Allegro 5 library or the call to `Al.Init()` will fail. Currently, AllegroDotNet supports v5.2.8; verify you have the correct version of Allegro if you encounter problems calling `Al.Init()`.
 
 * AllegroDotNet requires a monolith version of Allegro (ie, `allegro_monolith-5.2.dll`) to be available to use the native Allegro 5 library.
