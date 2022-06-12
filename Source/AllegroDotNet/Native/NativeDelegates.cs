@@ -10,6 +10,10 @@ namespace SubC.AllegroDotNet.Native
 
     public delegate IntPtr DetachedThreadProcess(IntPtr arg);
 
+    public delegate bool DoMultilineText(int line_num, IntPtr line, int size, IntPtr extra);
+
+    public delegate bool DoMultilineUstr(int line_num, IntPtr line, IntPtr extra);
+
     public delegate FsEntryResult ForEachFsEntry(IntPtr dir, IntPtr extra);
 
     public delegate IntPtr MemoryInterfaceCalloc(UIntPtr count, UIntPtr n, int line, IntPtr file, IntPtr func);
@@ -39,6 +43,8 @@ namespace SubC.AllegroDotNet.Native
     public delegate bool RegisterBitmapSaver(IntPtr filename, IntPtr bmp);
 
     public delegate bool RegisterBitmapSaverF(IntPtr fp, IntPtr bmp);
+
+    public delegate IntPtr RegisterFontLoader(IntPtr filename, int size, int flags);
 
     public delegate bool RegisterSampleIdentifier(IntPtr fp);
 

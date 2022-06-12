@@ -34,6 +34,8 @@ internal static class Program
     Console.WriteLine($"IsNativeDialog: {Al.IsNativeDialogAddonInitialized()}");
     Console.WriteLine($"InitNativeDialog: {Al.InitNativeDialogAddon()}");
     Console.WriteLine($"InitImageAddon: {Al.InitImageAddon()}");
+    Console.WriteLine($"InitFont: {Al.InitFontAddon()}");
+    Console.WriteLine($"InitTtf: {Al.InitTtfAddon()}");
 
     Console.WriteLine($"InstallAudio: {Al.InstallAudio()}");
     Console.WriteLine($"ReserveSamples: {Al.ReserveSamples(16)}");
@@ -85,6 +87,8 @@ internal static class Program
     var displayEventSource = Al.GetDisplayEventSource(display) ?? throw new Exception("disp source null");
 
     var windowHandle = Al.GetWinWindowHandle(display);
+
+    var builtinFont = Al.CreateBuiltinFont();
 
     var menu = Al.CreateMenu();
     var fileMenu = Al.CreateMenu();
@@ -186,6 +190,7 @@ internal static class Program
       {
         Al.SetTargetBitmap(bitmap);
         Al.ClearToColor(redColor);
+        Al.DrawText(builtinFont, Al.MapRgb(255, 255, 255), 32, 32, FontAlignFlags.Left, "THE builtin FONT!");
         Al.SetTargetBackbuffer(display);
         Al.DrawBitmap(bitmap, 8, 8, FlipFlags.None);
         Al.FlipDisplay();
@@ -218,6 +223,8 @@ internal static class Program
       sample = null;
     }
 
+    Al.ShutdownTtfAddon();
+    Al.ShutdownFontAddon();
     Al.UninstallAudio();
     Al.ShutdownImageAddon();
     Al.ShutdownNativeDialogAddon();

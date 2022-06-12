@@ -1567,6 +1567,212 @@ namespace SubC.AllegroDotNet.Native
 
     #endregion File system routines
 
+    #region Font routines
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    [return: MarshalAs(UnmanagedType.U1)]
+    public delegate bool al_init_font_addon();
+
+    public static al_init_font_addon AlInitFontAddon =
+      NativeInterop.LoadFunction<al_init_font_addon>(AllegroLibrary, nameof(al_init_font_addon));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    [return: MarshalAs(UnmanagedType.U1)]
+    public delegate bool al_is_font_addon_initialized();
+
+    public static al_is_font_addon_initialized AlIsFontAddonInitialized =
+      NativeInterop.LoadFunction<al_is_font_addon_initialized>(AllegroLibrary, nameof(al_is_font_addon_initialized));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void al_shutdown_font_addon();
+
+    public static al_shutdown_font_addon AlShutdownFontAddon =
+        NativeInterop.LoadFunction<al_shutdown_font_addon>(AllegroLibrary, nameof(al_shutdown_font_addon));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate IntPtr al_load_font(IntPtr filename, int size, int flags);
+
+    public static al_load_font AlLoadFont =
+        NativeInterop.LoadFunction<al_load_font>(AllegroLibrary, nameof(al_load_font));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void al_destroy_font(IntPtr f);
+
+    public static al_destroy_font AlDestroyFont =
+        NativeInterop.LoadFunction<al_destroy_font>(AllegroLibrary, nameof(al_destroy_font));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    [return: MarshalAs(UnmanagedType.U1)]
+    public delegate bool al_register_font_loader(IntPtr extension, RegisterFontLoader load_font);
+
+    public static al_register_font_loader AlRegisterFontLoader =
+        NativeInterop.LoadFunction<al_register_font_loader>(AllegroLibrary, nameof(al_register_font_loader));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate int al_get_font_line_height(IntPtr f);
+
+    public static al_get_font_line_height AlGetFontLineHeight =
+        NativeInterop.LoadFunction<al_get_font_line_height>(AllegroLibrary, nameof(al_get_font_line_height));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate int al_get_font_ascent(IntPtr f);
+
+    public static al_get_font_ascent AlGetFontAscent =
+        NativeInterop.LoadFunction<al_get_font_ascent>(AllegroLibrary, nameof(al_get_font_ascent));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate int al_get_font_descent(IntPtr f);
+
+    public static al_get_font_descent AlGetFontDescent =
+        NativeInterop.LoadFunction<al_get_font_descent>(AllegroLibrary, nameof(al_get_font_descent));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate int al_get_text_width(IntPtr f, IntPtr str);
+
+    public static al_get_text_width AlGetTextWidth =
+        NativeInterop.LoadFunction<al_get_text_width>(AllegroLibrary, nameof(al_get_text_width));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate int al_get_ustr_width(IntPtr f, IntPtr ustr);
+
+    public static al_get_ustr_width AlGetUstrWidth =
+        NativeInterop.LoadFunction<al_get_ustr_width>(AllegroLibrary, nameof(al_get_ustr_width));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void al_draw_text(IntPtr font, AllegroColor color, float x, float y, int flags, IntPtr text);
+
+    public static al_draw_text AlDrawText =
+        NativeInterop.LoadFunction<al_draw_text>(AllegroLibrary, nameof(al_draw_text));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void al_draw_ustr(IntPtr font, AllegroColor color, float x, float y, int flags, IntPtr ustr);
+
+    public static al_draw_ustr AlDrawUstr =
+        NativeInterop.LoadFunction<al_draw_ustr>(AllegroLibrary, nameof(al_draw_ustr));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void al_draw_justified_text(IntPtr font, AllegroColor color, float x1, float x2, float y, float diff, int flags, IntPtr text);
+
+    public static al_draw_justified_text AlDrawJustifiedText =
+        NativeInterop.LoadFunction<al_draw_justified_text>(AllegroLibrary, nameof(al_draw_justified_text));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void al_draw_justified_ustr(IntPtr font, AllegroColor color, float x1, float x2, float y, float diff, int flags, IntPtr ustr);
+
+    public static al_draw_justified_ustr AlDrawJustifiedUstr =
+        NativeInterop.LoadFunction<al_draw_justified_ustr>(AllegroLibrary, nameof(al_draw_justified_ustr));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void al_get_text_dimensions(IntPtr f, IntPtr text, ref int bbx, ref int bby, ref int bbw, ref int bbh);
+
+    public static al_get_text_dimensions AlGetTextDimensions =
+        NativeInterop.LoadFunction<al_get_text_dimensions>(AllegroLibrary, nameof(al_get_text_dimensions));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void al_get_ustr_dimensions(IntPtr f, IntPtr ustr, ref int bbx, ref int bby, ref int bbw, ref int bbh);
+
+    public static al_get_ustr_dimensions AlGetUstrDimensions =
+        NativeInterop.LoadFunction<al_get_ustr_dimensions>(AllegroLibrary, nameof(al_get_ustr_dimensions));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate uint al_get_allegro_font_version();
+
+    public static al_get_allegro_font_version AlGetAllegroFontVersion =
+        NativeInterop.LoadFunction<al_get_allegro_font_version>(AllegroLibrary, nameof(al_get_allegro_font_version));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate int al_get_font_ranges(IntPtr f, int ranges_count, ref int[] ranges);
+
+    public static al_get_font_ranges AlGetFontRanges =
+        NativeInterop.LoadFunction<al_get_font_ranges>(AllegroLibrary, nameof(al_get_font_ranges));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void al_set_fallback_font(IntPtr font, IntPtr fallback);
+
+    public static al_set_fallback_font AlSetFallbackFont =
+        NativeInterop.LoadFunction<al_set_fallback_font>(AllegroLibrary, nameof(al_set_fallback_font));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate IntPtr al_get_fallback_font(IntPtr font);
+
+    public static al_get_fallback_font AlGetFallbackFont =
+        NativeInterop.LoadFunction<al_get_fallback_font>(AllegroLibrary, nameof(al_get_fallback_font));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void al_draw_glyph(IntPtr f, AllegroColor color, float x, float y, int codepoint);
+
+    public static al_draw_glyph AlDrawGlyph =
+        NativeInterop.LoadFunction<al_draw_glyph>(AllegroLibrary, nameof(al_draw_glyph));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate int al_get_glyph_width(IntPtr f, int codepoint);
+
+    public static al_get_glyph_width AlGetGlyphWidth =
+        NativeInterop.LoadFunction<al_get_glyph_width>(AllegroLibrary, nameof(al_get_glyph_width));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    [return: MarshalAs(UnmanagedType.U1)]
+    public delegate bool al_get_glyph_dimensions(IntPtr f, int codepoint, ref int bbx, ref int bby, ref int bbw, ref int bbh);
+
+    public static al_get_glyph_dimensions AlGetGlyphDimensions =
+        NativeInterop.LoadFunction<al_get_glyph_dimensions>(AllegroLibrary, nameof(al_get_glyph_dimensions));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate int al_get_glyph_advance(IntPtr f, int codepoint1, int codepoint2);
+
+    public static al_get_glyph_advance AlGetGlyphAdvance =
+        NativeInterop.LoadFunction<al_get_glyph_advance>(AllegroLibrary, nameof(al_get_glyph_advance));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void al_draw_multiline_text(IntPtr font, AllegroColor color, float x, float y, float max_width, float line_height, int flags, IntPtr text);
+
+    public static al_draw_multiline_text AlDrawMultilineText =
+        NativeInterop.LoadFunction<al_draw_multiline_text>(AllegroLibrary, nameof(al_draw_multiline_text));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void al_draw_multiline_ustr(IntPtr font, AllegroColor color, float x, float y, float max_width, float line_height, int flags, IntPtr ustr);
+
+    public static al_draw_multiline_ustr AlDrawMultilineUstr =
+        NativeInterop.LoadFunction<al_draw_multiline_ustr>(AllegroLibrary, nameof(al_draw_multiline_ustr));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void al_do_multiline_text(IntPtr font, float max_width, IntPtr text, DoMultilineText cb, IntPtr extra);
+
+    public static al_do_multiline_text AlDoMultilineText =
+        NativeInterop.LoadFunction<al_do_multiline_text>(AllegroLibrary, nameof(al_do_multiline_text));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void al_do_multiline_ustr(IntPtr font, float max_width, IntPtr ustr, DoMultilineUstr cb, IntPtr extra);
+
+    public static al_do_multiline_ustr AlDoMultilineUstr =
+        NativeInterop.LoadFunction<al_do_multiline_ustr>(AllegroLibrary, nameof(al_do_multiline_ustr));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate IntPtr al_grab_font_from_bitmap(IntPtr bmp, int ranges_n, int[] ranges);
+
+    public static al_grab_font_from_bitmap AlGrabFontFromBitmap =
+        NativeInterop.LoadFunction<al_grab_font_from_bitmap>(AllegroLibrary, nameof(al_grab_font_from_bitmap));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate IntPtr al_load_bitmap_font(IntPtr fname);
+
+    public static al_load_bitmap_font AlLoadBitmapFont =
+        NativeInterop.LoadFunction<al_load_bitmap_font>(AllegroLibrary, nameof(al_load_bitmap_font));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate IntPtr al_load_bitmap_font_flags(IntPtr fname, int flags);
+
+    public static al_load_bitmap_font_flags AlLoadBitmapFontFlags =
+        NativeInterop.LoadFunction<al_load_bitmap_font_flags>(AllegroLibrary, nameof(al_load_bitmap_font_flags));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate IntPtr al_create_builtin_font();
+
+    public static al_create_builtin_font AlCreateBuiltinFont =
+        NativeInterop.LoadFunction<al_create_builtin_font>(AllegroLibrary, nameof(al_create_builtin_font));
+
+    #endregion
+
     #region Fullscreen routines
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
@@ -3532,6 +3738,60 @@ namespace SubC.AllegroDotNet.Native
         NativeInterop.LoadFunction<al_vertical_shear_transform>(AllegroLibrary, nameof(al_vertical_shear_transform));
 
     #endregion Transform routines
+
+    #region TTF routines
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    [return: MarshalAs(UnmanagedType.U1)]
+    public delegate bool al_init_ttf_addon();
+
+    public static al_init_ttf_addon AlInitTtfAddon =
+        NativeInterop.LoadFunction<al_init_ttf_addon>(AllegroLibrary, nameof(al_init_ttf_addon));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    [return: MarshalAs(UnmanagedType.U1)]
+    public delegate bool al_is_ttf_addon_initialized();
+
+    public static al_is_ttf_addon_initialized AlIsTtfAddonInitialized =
+        NativeInterop.LoadFunction<al_is_ttf_addon_initialized>(AllegroLibrary, nameof(al_is_ttf_addon_initialized));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void al_shutdown_ttf_addon();
+
+    public static al_shutdown_ttf_addon AlShutdownTtfAddon =
+        NativeInterop.LoadFunction<al_shutdown_ttf_addon>(AllegroLibrary, nameof(al_shutdown_ttf_addon));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate IntPtr al_load_ttf_font(IntPtr filename, int size, int flags);
+
+    public static al_load_ttf_font AlLoadTtfFont =
+        NativeInterop.LoadFunction<al_load_ttf_font>(AllegroLibrary, nameof(al_load_ttf_font));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate IntPtr al_load_ttf_font_f(IntPtr file, IntPtr filename, int size, int flags);
+
+    public static al_load_ttf_font_f AlLoadTtfFontF =
+        NativeInterop.LoadFunction<al_load_ttf_font_f>(AllegroLibrary, nameof(al_load_ttf_font_f));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate IntPtr al_load_ttf_font_stretch(IntPtr filename, int w, int h, int flags);
+
+    public static al_load_ttf_font_stretch AlLoadTtfFontStretch =
+        NativeInterop.LoadFunction<al_load_ttf_font_stretch>(AllegroLibrary, nameof(al_load_ttf_font_stretch));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate IntPtr al_load_ttf_font_stretch_f(IntPtr file, IntPtr filename, int w, int h, int flags);
+
+    public static al_load_ttf_font_stretch_f AlLoadTtfFontStretchF =
+        NativeInterop.LoadFunction<al_load_ttf_font_stretch_f>(AllegroLibrary, nameof(al_load_ttf_font_stretch_f));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate uint al_get_allegro_ttf_version();
+
+    public static al_get_allegro_ttf_version AlGetAllegroTtfVersion =
+        NativeInterop.LoadFunction<al_get_allegro_ttf_version>(AllegroLibrary, nameof(al_get_allegro_ttf_version));
+
+    #endregion
 
     #region UTF-8 routines
 
