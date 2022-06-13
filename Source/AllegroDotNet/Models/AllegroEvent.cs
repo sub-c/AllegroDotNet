@@ -200,6 +200,7 @@ namespace SubC.AllegroDotNet.Models
     {
       public NativeAllegroEventHeader header;
       public IntPtr display;
+      public uint __shove_over;
       public int keycode;
       public int unichar;
       public uint modifiers;

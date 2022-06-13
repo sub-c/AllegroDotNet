@@ -179,6 +179,7 @@ internal static class Program
           aUserEvent.Type = myUserEventType;
           Al.EmitUserEvent(userEventSource, aUserEvent, null);
         }
+        Console.WriteLine($"KeyCode: {aEvent.KeyCode}");
       }
 
       if (aEvent.Type == myUserEventType)
