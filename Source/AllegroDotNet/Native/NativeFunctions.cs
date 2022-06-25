@@ -3850,19 +3850,19 @@ namespace SubC.AllegroDotNet.Native
         NativeInterop.LoadFunction<al_ustr_empty_string>(AllegroLibrary, nameof(al_ustr_empty_string));
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_ref_cstr(IntPtr info, IntPtr s);
+    public delegate IntPtr al_ref_cstr(ref AllegroUstrInfo.NativeAllegroUstrInfo info, IntPtr s);
 
     public static al_ref_cstr AlRefCstr =
         NativeInterop.LoadFunction<al_ref_cstr>(AllegroLibrary, nameof(al_ref_cstr));
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_ref_buffer(IntPtr info, IntPtr s, long size);
+    public delegate IntPtr al_ref_buffer(ref AllegroUstrInfo.NativeAllegroUstrInfo info, IntPtr s, long size);
 
     public static al_ref_buffer AlRefBuffer =
         NativeInterop.LoadFunction<al_ref_buffer>(AllegroLibrary, nameof(al_ref_buffer));
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_ref_ustr(IntPtr info, IntPtr us, int start_pos, int end_pos);
+    public delegate IntPtr al_ref_ustr(ref AllegroUstrInfo.NativeAllegroUstrInfo info, IntPtr us, int start_pos, int end_pos);
 
     public static al_ref_ustr AlRefUstr =
         NativeInterop.LoadFunction<al_ref_ustr>(AllegroLibrary, nameof(al_ref_ustr));
@@ -3887,14 +3887,14 @@ namespace SubC.AllegroDotNet.Native
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_ustr_next(IntPtr us, IntPtr pos);
+    public delegate bool al_ustr_next(IntPtr us, ref int pos);
 
     public static al_ustr_next AlUstrNext =
         NativeInterop.LoadFunction<al_ustr_next>(AllegroLibrary, nameof(al_ustr_next));
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_ustr_prev(IntPtr us, IntPtr pos);
+    public delegate bool al_ustr_prev(IntPtr us, ref int pos);
 
     public static al_ustr_prev AlUstrPrev =
         NativeInterop.LoadFunction<al_ustr_prev>(AllegroLibrary, nameof(al_ustr_prev));

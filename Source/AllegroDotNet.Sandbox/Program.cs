@@ -76,6 +76,10 @@ internal static class Program
     var exeCstr = Al.PathCstr(exePath, Al.ALLEGRO_NATIVE_PATH_SEP);
     var exeUstr = Al.PathUstr(exePath, Al.ALLEGRO_NATIVE_PATH_SEP);
 
+    var utfIn = Al.UstrNew("hello world");
+    var utfOut = Al.Cstr(utfIn);
+    Console.WriteLine($"UTF output: {utfOut}");
+
     var state = new AllegroState();
     Al.StoreState(state, StateFlags.All);
     Al.RestoreState(state);

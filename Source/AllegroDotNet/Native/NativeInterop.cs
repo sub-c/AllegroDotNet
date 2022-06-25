@@ -7,7 +7,7 @@ namespace SubC.AllegroDotNet.Native
 {
   internal static class NativeInterop
   {
-    private const string LinuxLibraryFilename = "./liballegro_monolith.so";
+    private const string LinuxLibraryFilename = "./liballegro_monolith.so.5.2.8";
     private const string OSXLibraryFilename = "liballegro_monolith.so";
     private const int RTLD_LAZY = 0x0001;
     private const string WindowsLibraryFilename = "allegro_monolith-5.2.dll";
