@@ -391,3 +391,4 @@ FodyWeavers.xsd
 
 !Dependencies/*.pdb
 !Dependencies/*.dll
+!Dependencies/x86/

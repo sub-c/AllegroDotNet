@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>SubC.AllegroDotNet.Win32</id>
+    <version>5.2.8</version>
+    <title>Allegro 5 binaries for x86 Windows.</title>
+    <authors>SubC</authors>
+    <owners>SubC</owners>
+    <projectUrl>https://github.com/sub-c/AllegroDotNet</projectUrl>
+    <license type="expression">MIT</license>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>The native x86 Windows binary of the Allegro 5 library v5.2.8 for projects using SubC.AllegroDotNet in Windows (MSVC v143).</description>
+    <language>en-US</language>
+    <tags>interop game library</tags>
+    <dependencies />
+    <contentFiles>
+      <files include="/any/any/allegro_monolith-5.2.dll" buildAction="none" copyToOutput="true" />
+    </contentFiles>
+  </metadata>
+  <files>
+    <file src="..\..\Dependencies\x86\allegro_monolith-5.2.dll" target="/contentFiles/any/any" />
+  </files>
+</package>

@@ -203,8 +203,7 @@ internal static class Program
     }
 
     Al.SetThreadShouldStop(thread);
-    IntPtr returnIntPtr = new();
-    Al.JoinThread(thread, ref returnIntPtr);
+    Al.JoinThread(thread, out var returnIntPtr);
     Al.DestroyCond(cond);
     Al.DestroyMutex(mutex);
     Al.DestroyThread(thread);

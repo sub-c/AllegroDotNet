@@ -5,7 +5,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>disable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <Platforms>x64</Platforms>
+    <Platforms>x64;x86</Platforms>
     <StartupObject>Program</StartupObject>
     <BaseOutputPath>..\..\Artifacts\</BaseOutputPath>
     <ErrorReport>none</ErrorReport>

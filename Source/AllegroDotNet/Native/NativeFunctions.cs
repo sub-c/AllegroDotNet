@@ -3207,6 +3207,192 @@ namespace SubC.AllegroDotNet.Native
 
     #endregion
 
+    #region Primitives routines
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate uint al_get_allegro_primitives_version();
+
+    public static al_get_allegro_primitives_version AlGetAllegroPrimitivesVersion =
+        NativeInterop.LoadFunction<al_get_allegro_primitives_version>(AllegroLibrary, nameof(al_get_allegro_primitives_version));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    [return: MarshalAs(UnmanagedType.U1)]
+    public delegate bool al_init_primitives_addon();
+
+    public static al_init_primitives_addon AlInitPrimitivesAddon =
+        NativeInterop.LoadFunction<al_init_primitives_addon>(AllegroLibrary, nameof(al_init_primitives_addon));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    [return: MarshalAs(UnmanagedType.U1)]
+    public delegate bool al_is_primitives_addon_initialized();
+
+    public static al_is_primitives_addon_initialized AlIsPrimitivesAddonInitialized =
+        NativeInterop.LoadFunction<al_is_primitives_addon_initialized>(AllegroLibrary, nameof(al_is_primitives_addon_initialized));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void al_shutdown_primitives_addon();
+
+    public static al_shutdown_primitives_addon AlShutdownPrimitivesAddon =
+        NativeInterop.LoadFunction<al_shutdown_primitives_addon>(AllegroLibrary, nameof(al_shutdown_primitives_addon));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void al_draw_line(float x1, float y1, float x2, float y2, AllegroColor color, float thickness);
+
+    public static al_draw_line AlDrawLine =
+        NativeInterop.LoadFunction<al_draw_line>(AllegroLibrary, nameof(al_draw_line));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void al_draw_triangle(float x1, float y1, float x2, float y2, float x3, float y3, AllegroColor color, float thickness);
+
+    public static al_draw_triangle AlDrawTriangle =
+        NativeInterop.LoadFunction<al_draw_triangle>(AllegroLibrary, nameof(al_draw_triangle));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void al_draw_filled_triangle(float x1, float y1, float x2, float y2, float x3, float y3, AllegroColor color);
+
+    public static al_draw_filled_triangle AlDrawFilledTriangle =
+        NativeInterop.LoadFunction<al_draw_filled_triangle>(AllegroLibrary, nameof(al_draw_filled_triangle));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void al_draw_rectangle(float x1, float y1, float x2, float y2, AllegroColor color, float thickness);
+
+    public static al_draw_rectangle AlDrawRectangle =
+        NativeInterop.LoadFunction<al_draw_rectangle>(AllegroLibrary, nameof(al_draw_rectangle));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void al_draw_filled_rectangle(float x1, float y1, float x2, float y2, AllegroColor color);
+
+    public static al_draw_filled_rectangle AlDrawFilledRectangle =
+        NativeInterop.LoadFunction<al_draw_filled_rectangle>(AllegroLibrary, nameof(al_draw_filled_rectangle));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void al_draw_rounded_rectangle(float x1, float y1, float x2, float y2, float rx, float ry, AllegroColor color, float thickness);
+
+    public static al_draw_rounded_rectangle AlDrawRoundedRectangle =
+        NativeInterop.LoadFunction<al_draw_rounded_rectangle>(AllegroLibrary, nameof(al_draw_rounded_rectangle));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void al_draw_filled_rounded_rectangle(float x1, float y1, float x2, float y2, float rx, float ry, AllegroColor color);
+
+    public static al_draw_filled_rounded_rectangle AlDrawFilledRoundedRectangle =
+        NativeInterop.LoadFunction<al_draw_filled_rounded_rectangle>(AllegroLibrary, nameof(al_draw_filled_rounded_rectangle));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void al_calculate_arc(ref float dest, int stride, float cx, float cy, float rx, float ry, float start_theta, float delta_theta, float thickness, int num_points);
+
+    public static al_calculate_arc AlCalculateArc =
+        NativeInterop.LoadFunction<al_calculate_arc>(AllegroLibrary, nameof(al_calculate_arc));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void al_draw_pieslice(float cx, float cy, float r, float start_theta, float delta_theta, AllegroColor color, float thickness);
+
+    public static al_draw_pieslice AlDrawPieslice =
+        NativeInterop.LoadFunction<al_draw_pieslice>(AllegroLibrary, nameof(al_draw_pieslice));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void al_draw_filled_pieslice(float cx, float cy, float r, float start_theta, float delta_theta, AllegroColor color);
+
+    public static al_draw_filled_pieslice AlDrawFilledPieslice =
+        NativeInterop.LoadFunction<al_draw_filled_pieslice>(AllegroLibrary, nameof(al_draw_filled_pieslice));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void al_draw_ellipse(float cx, float cy, float rx, float ry, AllegroColor color, float thickness);
+
+    public static al_draw_ellipse AlDrawEllipse =
+        NativeInterop.LoadFunction<al_draw_ellipse>(AllegroLibrary, nameof(al_draw_ellipse));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void al_draw_filled_ellipse(float cx, float cy, float rx, float ry, AllegroColor color, float thickness);
+
+    public static al_draw_filled_ellipse AlDrawFilledEllipse =
+        NativeInterop.LoadFunction<al_draw_filled_ellipse>(AllegroLibrary, nameof(al_draw_filled_ellipse));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void al_draw_circle(float cx, float cy, float r, AllegroColor color, float thickness);
+
+    public static al_draw_circle AlDrawCircle =
+        NativeInterop.LoadFunction<al_draw_circle>(AllegroLibrary, nameof(al_draw_circle));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void al_draw_filled_circle(float cx, float cy, float r, AllegroColor color);
+
+    public static al_draw_filled_circle AlDrawFilledCircle =
+        NativeInterop.LoadFunction<al_draw_filled_circle>(AllegroLibrary, nameof(al_draw_filled_circle));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void al_draw_arc(float cx, float cy, float r, float start_theta, float delta_theta, AllegroColor color, float thickness);
+
+    public static al_draw_arc AlDrawArc =
+        NativeInterop.LoadFunction<al_draw_arc>(AllegroLibrary, nameof(al_draw_arc));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void al_draw_elliptical_arc(float cx, float cy, float rx, float ry, float start_theta, float delta_theta, AllegroColor color, float thickness);
+
+    public static al_draw_elliptical_arc AlDrawEllipticalArc =
+        NativeInterop.LoadFunction<al_draw_elliptical_arc>(AllegroLibrary, nameof(al_draw_elliptical_arc));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void al_calculate_spline(ref float dest, int stride, IntPtr points, float thickness, int num_segments);
+
+    public static al_calculate_spline AlCalculateSpline =
+        NativeInterop.LoadFunction<al_calculate_spline>(AllegroLibrary, nameof(al_calculate_spline));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void al_draw_spline(IntPtr points, AllegroColor color, float thickness);
+
+    public static al_draw_spline AlDrawSpline =
+        NativeInterop.LoadFunction<al_draw_spline>(AllegroLibrary, nameof(al_draw_spline));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void al_calculate_ribbon(ref float dest, int dest_stride, IntPtr points, int points_stride, float thickness, int num_segments);
+
+    public static al_calculate_ribbon AlCalculateRibbon =
+        NativeInterop.LoadFunction<al_calculate_ribbon>(AllegroLibrary, nameof(al_calculate_ribbon));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void al_draw_ribbon(IntPtr points, int points_stride, AllegroColor color, float thickness, int num_segments);
+
+    public static al_draw_ribbon AlDrawRibbon =
+        NativeInterop.LoadFunction<al_draw_ribbon>(AllegroLibrary, nameof(al_draw_ribbon));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate int al_draw_prim(IntPtr vtxs, IntPtr decl, IntPtr texture, int start, int end, int type);
+
+    public static al_draw_prim AlDrawPrim =
+        NativeInterop.LoadFunction<al_draw_prim>(AllegroLibrary, nameof(al_draw_prim));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate int al_draw_indexed_prim(IntPtr vtxs, IntPtr decl, IntPtr texture, ref int indices, int num_vtx, int type);
+
+    public static al_draw_indexed_prim AlDrawIndexedPrim =
+        NativeInterop.LoadFunction<al_draw_indexed_prim>(AllegroLibrary, nameof(al_draw_indexed_prim));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate int al_draw_vertex_buffer(IntPtr vertex_buffer, IntPtr texture, int start, int end, int type);
+
+    public static al_draw_vertex_buffer AlDrawVertexBuffer =
+        NativeInterop.LoadFunction<al_draw_vertex_buffer>(AllegroLibrary, nameof(al_draw_vertex_buffer));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate int al_draw_indexed_buffer(IntPtr vertex_buffer, IntPtr texture, IntPtr index_buffer, int start, int end, int type);
+
+    public static al_draw_indexed_buffer AlDrawIndexedBuffer =
+        NativeInterop.LoadFunction<al_draw_indexed_buffer>(AllegroLibrary, nameof(al_draw_indexed_buffer));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate int al_draw_soft_triangle(IntPtr v1, IntPtr v2, IntPtr v3, UIntPtr state, IntPtr init, IntPtr first, IntPtr step, IntPtr draw);
+
+    public static al_draw_soft_triangle AlDrawSoftTriangle =
+        NativeInterop.LoadFunction<al_draw_soft_triangle>(AllegroLibrary, nameof(al_draw_soft_triangle));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate int al_draw_soft_line(IntPtr v1, IntPtr v2, UIntPtr state, IntPtr first, IntPtr step, IntPtr draw);
+
+    public static al_draw_soft_line AlDrawSoftLine =
+        NativeInterop.LoadFunction<al_draw_soft_line>(AllegroLibrary, nameof(al_draw_soft_line));
+
+    #endregion
+
     #region State routines
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]

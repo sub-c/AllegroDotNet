@@ -7,7 +7,6 @@ namespace SubC.AllegroDotNet.Models
   public sealed class AllegroEvent
   {
     #region Keyboard
-
     public KeyCode KeyCode
     {
       get => (KeyCode)NativeEvent.keyboard.keycode;
@@ -31,11 +30,9 @@ namespace SubC.AllegroDotNet.Models
       get => NativeEvent.keyboard.repeat;
       set => NativeEvent.keyboard.repeat = value;
     }
-
     #endregion Keyboard
 
     #region Mouse
-
     public int MouseX
     {
       get => NativeEvent.mouse.x;
@@ -95,11 +92,9 @@ namespace SubC.AllegroDotNet.Models
       get => NativeEvent.mouse.pressure;
       set => NativeEvent.mouse.pressure = value;
     }
-
     #endregion
 
     #region User
-
     public IntPtr UserData1
     {
       get => NativeEvent.user.data1;
@@ -123,7 +118,6 @@ namespace SubC.AllegroDotNet.Models
       get => NativeEvent.user.data4;
       set => NativeEvent.user.data4 = value;
     }
-
     #endregion
 
     public EventType Type
@@ -176,7 +170,7 @@ namespace SubC.AllegroDotNet.Models
       public NativeAllegroUserEvent user;
     }
 
-    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    [StructLayout(LayoutKind.Sequential)]
     public struct NativeAllegroEventHeader
     {
       public uint type;
@@ -184,8 +178,8 @@ namespace SubC.AllegroDotNet.Models
       public double timestamp;
     }
 
-    [StructLayout(LayoutKind.Sequential, Pack = 1)]
-    internal struct NativeAllegroJoystickEvent
+    [StructLayout(LayoutKind.Sequential)]
+    public struct NativeAllegroJoystickEvent
     {
       public NativeAllegroEventHeader header;
       public IntPtr id;
@@ -195,20 +189,19 @@ namespace SubC.AllegroDotNet.Models
       public int button;
     }
 
-    [StructLayout(LayoutKind.Sequential, Pack = 1)]
-    internal struct NativeAllegroKeyboardEvent
+    [StructLayout(LayoutKind.Sequential)]
+    public struct NativeAllegroKeyboardEvent
     {
       public NativeAllegroEventHeader header;
       public IntPtr display;
-      public uint __shove_over;
       public int keycode;
       public int unichar;
       public uint modifiers;
       public bool repeat;
     }
 
-    [StructLayout(LayoutKind.Sequential, Pack = 1)]
-    internal struct NativeAllegroMouseEvent
+    [StructLayout(LayoutKind.Sequential)]
+    public struct NativeAllegroMouseEvent
     {
       public NativeAllegroEventHeader header;
       public IntPtr display;
@@ -224,16 +217,16 @@ namespace SubC.AllegroDotNet.Models
       public float pressure;
     }
 
-    [StructLayout(LayoutKind.Sequential, Pack = 1)]
-    internal struct NativeAllegroTimerEvent
+    [StructLayout(LayoutKind.Sequential)]
+    public struct NativeAllegroTimerEvent
     {
       public NativeAllegroEventHeader header;
       public long count;
       public double error;
     }
 
-    [StructLayout(LayoutKind.Sequential, Pack = 1)]
-    internal struct NativeAllegroTouchEvent
+    [StructLayout(LayoutKind.Sequential)]
+    public struct NativeAllegroTouchEvent
     {
       public NativeAllegroEventHeader header;
       public IntPtr display;
@@ -245,12 +238,11 @@ namespace SubC.AllegroDotNet.Models
       public bool primary;
     }
 
-    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    [StructLayout(LayoutKind.Sequential)]
     public struct NativeAllegroUserEvent
     {
       public NativeAllegroEventHeader header;
       public IntPtr __internal_descr;
-      public uint __shove_over;
       public IntPtr data1;
       public IntPtr data2;
       public IntPtr data3;

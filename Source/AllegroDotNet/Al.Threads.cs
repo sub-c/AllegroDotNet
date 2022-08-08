@@ -17,8 +17,9 @@ namespace SubC.AllegroDotNet
       NativeFunctions.AlStartThread(NativePointerModel.GetPointer(thread));
     }
 
-    public static void JoinThread(AllegroThread? thread, ref IntPtr returnValue)
+    public static void JoinThread(AllegroThread? thread, out IntPtr returnValue)
     {
+      returnValue = IntPtr.Zero;
       NativeFunctions.AlJoinThread(NativePointerModel.GetPointer(thread), ref returnValue);
     }
 
