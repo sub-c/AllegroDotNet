@@ -46,9 +46,9 @@ namespace SubC.AllegroDotNet
       return NativeFunctions.AlMouseButtonDown(ref mouseState.MouseState, button);
     }
 
-    public static bool SetMouseXY(AllegroDisplay display, int x, int y)
+    public static bool SetMouseXY(AllegroDisplay? display, int x, int y)
     {
-      return NativeFunctions.AlSetMouseXY(display.NativePointer, x, y);
+      return NativeFunctions.AlSetMouseXY(NativePointerModel.GetPointer(display), x, y);
     }
 
     public static bool SetMouseZ(int z)
@@ -82,25 +82,25 @@ namespace SubC.AllegroDotNet
       return NativeFunctions.AlGetMouseWheelPrecision();
     }
 
-    public static AllegroMouseCursor? CreateMouseCursor(AllegroBitmap bitmap, int xFocus, int yFocus)
+    public static AllegroMouseCursor? CreateMouseCursor(AllegroBitmap? bitmap, int xFocus, int yFocus)
     {
-      var nativeCursor = NativeFunctions.AlCreateMouseCursor(bitmap.NativePointer, xFocus, yFocus);
+      var nativeCursor = NativeFunctions.AlCreateMouseCursor(NativePointerModel.GetPointer(bitmap), xFocus, yFocus);
       return NativePointerModel.Create<AllegroMouseCursor>(nativeCursor);
     }
 
-    public static void DestroyMouseCursor(AllegroMouseCursor cursor)
+    public static void DestroyMouseCursor(AllegroMouseCursor? cursor)
     {
-      NativeFunctions.AlDestroyMouseCursor(cursor.NativePointer);
+      NativeFunctions.AlDestroyMouseCursor(NativePointerModel.GetPointer(cursor));
     }
 
-    public static bool SetMouseCursor(AllegroDisplay display, AllegroMouseCursor cursor)
+    public static bool SetMouseCursor(AllegroDisplay? display, AllegroMouseCursor? cursor)
     {
-      return NativeFunctions.AlSetMouseCursor(display.NativePointer, cursor.NativePointer);
+      return NativeFunctions.AlSetMouseCursor(NativePointerModel.GetPointer(display), NativePointerModel.GetPointer(cursor));
     }
 
-    public static bool SetSystemMouseCursor(AllegroDisplay display, MouseCursor cursor)
+    public static bool SetSystemMouseCursor(AllegroDisplay? display, MouseCursor cursor)
     {
-      return NativeFunctions.AlSetSystemMouseCursor(display.NativePointer, (int)cursor);
+      return NativeFunctions.AlSetSystemMouseCursor(NativePointerModel.GetPointer(display), (int)cursor);
     }
 
     public static bool GetMouseCursorPosition(ref int x, ref int y)
@@ -108,19 +108,19 @@ namespace SubC.AllegroDotNet
       return NativeFunctions.AlGetMouseCursorPosition(ref x, ref y);
     }
 
-    public static bool HideMouseCursor(AllegroDisplay display)
+    public static bool HideMouseCursor(AllegroDisplay? display)
     {
-      return NativeFunctions.AlHideMouseCursor(display.NativePointer);
+      return NativeFunctions.AlHideMouseCursor(NativePointerModel.GetPointer(display));
     }
 
-    public static bool ShowMouseCursor(AllegroDisplay display)
+    public static bool ShowMouseCursor(AllegroDisplay? display)
     {
-      return NativeFunctions.AlShowMouseCursor(display.NativePointer);
+      return NativeFunctions.AlShowMouseCursor(NativePointerModel.GetPointer(display));
     }
 
-    public static bool GrabMouse(AllegroDisplay display)
+    public static bool GrabMouse(AllegroDisplay? display)
     {
-      return NativeFunctions.AlGrabMouse(display.NativePointer);
+      return NativeFunctions.AlGrabMouse(NativePointerModel.GetPointer(display));
     }
 
     public static bool UngrabMouse()

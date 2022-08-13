@@ -6,6 +6,84 @@ namespace SubC.AllegroDotNet.Models
 {
   public sealed class AllegroEvent
   {
+    #region Any
+    public AllegroDisplay? Source
+    {
+      get => NativePointerModel.Create<AllegroDisplay>(NativeEvent.any.source);
+      set => NativeEvent.any.source = NativePointerModel.GetPointer(value);
+    }
+
+    public double Timestamp
+    {
+      get => NativeEvent.any.timestamp;
+      set => NativeEvent.any.timestamp = value;
+    }
+    #endregion
+
+    #region Display
+    public AllegroDisplay? DisplaySource
+    {
+      get => NativePointerModel.Create<AllegroDisplay>(NativeEvent.any.source);
+      set => NativeEvent.any.source = NativePointerModel.GetPointer(value);
+    }
+
+    public int DisplayX
+    {
+      get => NativeEvent.display.x;
+      set => NativeEvent.display.x = value;
+    }
+
+    public int DisplayY
+    {
+      get => NativeEvent.display.y;
+      set => NativeEvent.display.y = value;
+    }
+
+    public int DisplayWidth
+    {
+      get => NativeEvent.display.width;
+      set => NativeEvent.display.width = value;
+    }
+
+    public int DisplayHeight
+    {
+      get => NativeEvent.display.height;
+      set => NativeEvent.display.height = value;
+    }
+    #endregion
+
+    #region Joystick
+    public AllegroJoystick? JoystickID
+    {
+      get => NativePointerModel.Create<AllegroJoystick>(NativeEvent.joystick.id);
+      set => NativeEvent.joystick.id = NativePointerModel.GetPointer(value);
+    }
+
+    public int JoystickStick
+    {
+      get => NativeEvent.joystick.stick;
+      set => NativeEvent.joystick.stick = value;
+    }
+
+    public int JoystickAxis
+    {
+      get => NativeEvent.joystick.axis;
+      set => NativeEvent.joystick.axis = value;
+    }
+
+    public float JoystickPos
+    {
+      get => NativeEvent.joystick.pos;
+      set => NativeEvent.joystick.pos = value;
+    }
+
+    public int JoystickButton
+    {
+      get => NativeEvent.joystick.button;
+      set => NativeEvent.joystick.button = value;
+    }
+    #endregion
+
     #region Keyboard
     public KeyCode KeyCode
     {
@@ -91,6 +169,14 @@ namespace SubC.AllegroDotNet.Models
     {
       get => NativeEvent.mouse.pressure;
       set => NativeEvent.mouse.pressure = value;
+    }
+    #endregion
+
+    #region Timer
+    public long TimerCount
+    {
+      get => NativeEvent.timer.count;
+      set => NativeEvent.timer.count = value;
     }
     #endregion
 
