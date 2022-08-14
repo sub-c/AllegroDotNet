@@ -199,12 +199,12 @@ namespace SubC.AllegroDotNet
       NativeFunctions.AlSetDisplayIcon(NativePointerModel.GetPointer(display), NativePointerModel.GetPointer(icon));
     }
 
-    public static void SetDisplayIcons(AllegroDisplay? display, int numIcons, AllegroBitmap[] icons)
+    public static void SetDisplayIcons(AllegroDisplay? display, int numIcons, AllegroBitmap?[] icons)
     {
       var nativeIcons = new IntPtr[numIcons];
       for (var i = 0; i < numIcons; ++i)
       {
-        nativeIcons[i] = icons[i].NativePointer;
+        nativeIcons[i] = NativePointerModel.GetPointer(icons[i]);
       }
       NativeFunctions.AlSetDisplayIcons(NativePointerModel.GetPointer(display), numIcons, ref nativeIcons);
     }

@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AllegroDotNet.Extensions\AllegroDotNet.Extensions.csproj" />
     <ProjectReference Include="..\AllegroDotNet\AllegroDotNet.csproj" />
   </ItemGroup>
 

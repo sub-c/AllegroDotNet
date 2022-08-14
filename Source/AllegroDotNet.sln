@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AllegroDotNet", "AllegroDot
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AllegroDotNet.Sandbox", "AllegroDotNet.Sandbox\AllegroDotNet.Sandbox.csproj", "{C4685ABD-7DEB-451E-B17F-23439B05AA45}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AllegroDotNet.Extensions", "AllegroDotNet.Extensions\AllegroDotNet.Extensions.csproj", "{AFBBED73-79FC-4B42-AA1F-51692DC652B4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -29,8 +31,16 @@ Global
 		{C4685ABD-7DEB-451E-B17F-23439B05AA45}.Debug|x86.Build.0 = Debug|x86
 		{C4685ABD-7DEB-451E-B17F-23439B05AA45}.Release|x64.ActiveCfg = Release|x64
 		{C4685ABD-7DEB-451E-B17F-23439B05AA45}.Release|x64.Build.0 = Release|x64
-		{C4685ABD-7DEB-451E-B17F-23439B05AA45}.Release|x86.ActiveCfg = Release|x86
-		{C4685ABD-7DEB-451E-B17F-23439B05AA45}.Release|x86.Build.0 = Release|x86
+		{C4685ABD-7DEB-451E-B17F-23439B05AA45}.Release|x86.ActiveCfg = Release|x64
+		{C4685ABD-7DEB-451E-B17F-23439B05AA45}.Release|x86.Build.0 = Release|x64
+		{AFBBED73-79FC-4B42-AA1F-51692DC652B4}.Debug|x64.ActiveCfg = Debug|x64
+		{AFBBED73-79FC-4B42-AA1F-51692DC652B4}.Debug|x64.Build.0 = Debug|x64
+		{AFBBED73-79FC-4B42-AA1F-51692DC652B4}.Debug|x86.ActiveCfg = Debug|x64
+		{AFBBED73-79FC-4B42-AA1F-51692DC652B4}.Debug|x86.Build.0 = Debug|x64
+		{AFBBED73-79FC-4B42-AA1F-51692DC652B4}.Release|x64.ActiveCfg = Release|x64
+		{AFBBED73-79FC-4B42-AA1F-51692DC652B4}.Release|x64.Build.0 = Release|x64
+		{AFBBED73-79FC-4B42-AA1F-51692DC652B4}.Release|x86.ActiveCfg = Release|x64
+		{AFBBED73-79FC-4B42-AA1F-51692DC652B4}.Release|x86.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

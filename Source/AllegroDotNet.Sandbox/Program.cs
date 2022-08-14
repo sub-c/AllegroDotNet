@@ -1,5 +1,6 @@
 ﻿using SubC.AllegroDotNet;
 using SubC.AllegroDotNet.Enums;
+using SubC.AllegroDotNet.Extensions;
 using SubC.AllegroDotNet.Models;
 using System;
 using System.Runtime.InteropServices;
@@ -107,16 +108,19 @@ internal static class Program
     //Al.ShowNativeFileDialog(display, fileDialog);
 
     var mouseCursorBitmap = Al.CreateBitmap(64, 64) ?? throw new Exception();
-    Al.SetTargetBitmap(mouseCursorBitmap);
+    //Al.SetTargetBitmap(mouseCursorBitmap);
+    mouseCursorBitmap.SetTargetBitmap();
     Al.ClearToColor(Al.MapRgb(50, 50, 200));
     var mouseCursor = Al.CreateMouseCursor(mouseCursorBitmap, 0, 0) ?? throw new Exception();
     Al.SetMouseCursor(display, mouseCursor);
 
     var timer = Al.CreateTimer(Al.BpsToSecs(60)) ?? throw new Exception("timer null");
-    var timerEventSource = Al.GetTimerEventSource(timer) ?? throw new Exception("timer source null");
+    //var timerEventSource = Al.GetTimerEventSource(timer) ?? throw new Exception("timer source null");
+    var timerEventSource = timer.GetTimerEventSource() ?? throw new Exception("timer source null");
 
     var eventQueue = Al.CreateEventQueue() ?? throw new Exception("eq null");
-    Al.RegisterEventSource(eventQueue, displayEventSource);
+    //Al.RegisterEventSource(eventQueue, displayEventSource);
+    eventQueue.RegisterEventSource(display.GetDisplayEventSource());
     Al.RegisterEventSource(eventQueue, timerEventSource);
     Al.RegisterEventSource(eventQueue, Al.GetKeyboardEventSource() ?? throw new Exception("key source null"));
     Al.RegisterEventSource(eventQueue, Al.GetDefaultMenuEventSource());
