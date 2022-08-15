@@ -5,7 +5,14 @@ Native C functions, pointers, and structs are wrapped by C# methods and classes 
 Using AllegroDotNet will allow you to create game and multimedia applications in C#.
 
 # AllegroDotNet.Extensions
-This extension project adds object-oriented extension methods to (some of) the AllegroDotNet classes. Example: `Al.RegisterEventSource(myEventSource, Al.GetDisplayEventSource(myDisplay))` becomes `myEventQueue.RegisterEventSource(myDisplay.GetDisplayEventSource());`.
+This extension project adds object-oriented extension methods to (some of) the AllegroDotNet classes. Example:
+```C#
+Al.RegisterEventSource(myEventSource, Al.GetDisplayEventSource(myDisplay))
+```
+becomes
+```C#
+myEventQueue.RegisterEventSource(myDisplay.GetDisplayEventSource());
+```
 
 Current the models with extension methods are AllegroBitmap, AllegroDisplay, AllegroEventQueue, and AllegroTimer.
 
