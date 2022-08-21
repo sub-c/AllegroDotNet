@@ -14,7 +14,7 @@ becomes
 myEventQueue.RegisterEventSource(myDisplay.GetDisplayEventSource());
 ```
 
-Current the models with extension methods are AllegroBitmap, AllegroDisplay, AllegroEventQueue, and AllegroTimer.
+Current the models with extension methods are AllegroBitmap, AllegroDisplay, AllegroEventQueue, AllegroTimer, AllegroMutex, and AllegroCond.
 
 ## Requirements
 * Target x64 architecture (AnyCPU will not work)

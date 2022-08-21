@@ -23,7 +23,7 @@
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageTags>game 2d allegro allegro5 interop directx opengl multimedia sound input graphics</PackageTags>
 		<RepositoryType>git</RepositoryType>
-		<PackageReleaseNotes>Initial release.</PackageReleaseNotes>
+		<PackageReleaseNotes>Added extensions for AllegroMutex and AllegroCond.</PackageReleaseNotes>
 		<AllowUnsafeBlocks>False</AllowUnsafeBlocks>
   </PropertyGroup>
 
