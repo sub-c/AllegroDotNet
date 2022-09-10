@@ -23,7 +23,7 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>game 2d allegro allegro5 interop directx opengl multimedia sound input graphics</PackageTags>
     <RepositoryType>git</RepositoryType>
-    <PackageReleaseNotes>This release adds support for .NET Standard 2.0 to the original .NET 6.0 support. Additionally, assumes Allegro 5 v5.2.8 is available; ensure to use SubC.AllegroDotNet.Win64 v5.2.8 NuGet package (or your own Allegro 5 v5.2.8 library).</PackageReleaseNotes>
+    <PackageReleaseNotes>This release adds the Allegro File I/O routines.</PackageReleaseNotes>
     <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
   </PropertyGroup>
 
@@ -42,5 +42,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
     <WarningLevel>5</WarningLevel>
   </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.md" Pack="true" PackagePath="\"/>
+  </ItemGroup>
 
 </Project>

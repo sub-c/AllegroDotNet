@@ -35,30 +35,35 @@ namespace SubC.AllegroDotNet
       return NativePointerModel.Create<AllegroFileChooser>(nativeChooser);
     }
 
-    public static bool ShowNativeFileDialog(AllegroDisplay display, AllegroFileChooser fileChooser)
+    public static bool ShowNativeFileDialog(AllegroDisplay? display, AllegroFileChooser? fileChooser)
     {
-      return NativeFunctions.AlShowNativeFileDialog(display.NativePointer, fileChooser.NativePointer);
+      var nativeDisplay = NativePointerModel.GetPointer(display);
+      var nativeFileChooser = NativePointerModel.GetPointer(fileChooser);
+      return NativeFunctions.AlShowNativeFileDialog(nativeDisplay, nativeFileChooser);
     }
 
-    public static int GetNativeFileDialogCount(AllegroFileChooser fileChooser)
+    public static int GetNativeFileDialogCount(AllegroFileChooser? fileChooser)
     {
-      return NativeFunctions.AlGetNativeFileDialogCount(fileChooser.NativePointer);
+      var nativeFileChooser = NativePointerModel.GetPointer(fileChooser);
+      return NativeFunctions.AlGetNativeFileDialogCount(nativeFileChooser);
     }
 
-    public static string? GetNativeFileDialogPath(AllegroFileChooser fileChooser, ulong index)
+    public static string? GetNativeFileDialogPath(AllegroFileChooser? fileChooser, ulong index)
     {
-      var nativePath = NativeFunctions.AlGetNativeFileDialogPath(fileChooser.NativePointer, index);
+      var nativeFileChooser = NativePointerModel.GetPointer(fileChooser);
+      var nativePath = NativeFunctions.AlGetNativeFileDialogPath(nativeFileChooser, index);
       return Marshal.PtrToStringAnsi(nativePath);
     }
 
-    public static void DestroyNativeFileDialog(AllegroFileChooser fileChooser)
+    public static void DestroyNativeFileDialog(AllegroFileChooser? fileChooser)
     {
-      NativeFunctions.AlDestroyNativeFileDialog(fileChooser.NativePointer);
+      var nativeFileChooser = NativePointerModel.GetPointer(fileChooser);
+      NativeFunctions.AlDestroyNativeFileDialog(nativeFileChooser);
     }
 
     public static MessageBoxResponse ShowNativeMessageBox(AllegroDisplay? display, string title, string heading, string text, string? buttons, MessageBoxFlags flags)
     {
-      var nativeDisplay = display == null ? IntPtr.Zero : display.NativePointer;
+      var nativeDisplay = NativePointerModel.GetPointer(display);
       var nativeTitle = Marshal.StringToHGlobalAnsi(title);
       var nativeHeading = Marshal.StringToHGlobalAnsi(heading);
       var nativeText = Marshal.StringToHGlobalAnsi(text);
@@ -82,21 +87,24 @@ namespace SubC.AllegroDotNet
       return NativePointerModel.Create<AllegroTextLog>(nativeTextLog);
     }
 
-    public static void CloseNativeTextLog(AllegroTextLog textLog)
+    public static void CloseNativeTextLog(AllegroTextLog? textLog)
     {
-      NativeFunctions.AlCloseNativeTextLog(textLog.NativePointer);
+      var nativeTextLog = NativePointerModel.GetPointer(textLog);
+      NativeFunctions.AlCloseNativeTextLog(nativeTextLog);
     }
 
-    public static void AppendNativeTextLog(AllegroTextLog textLog, string format)
+    public static void AppendNativeTextLog(AllegroTextLog? textLog, string format)
     {
       var nativeFormat = Marshal.StringToHGlobalAnsi(format);
-      NativeFunctions.AlAppendNativeTextLog(textLog.NativePointer, nativeFormat);
+      var nativeTextLog = NativePointerModel.GetPointer(textLog);
+      NativeFunctions.AlAppendNativeTextLog(nativeTextLog, nativeFormat);
       Marshal.FreeHGlobal(nativeFormat);
     }
 
-    public static AllegroEventSource? GetNativeTextLogEventSource(AllegroTextLog textLog)
+    public static AllegroEventSource? GetNativeTextLogEventSource(AllegroTextLog? textLog)
     {
-      var nativeSource = NativeFunctions.AlGetNativeTextLogEventSource(textLog.NativePointer);
+      var nativeTextLog = NativePointerModel.GetPointer(textLog);
+      var nativeSource = NativeFunctions.AlGetNativeTextLogEventSource(nativeTextLog);
       return NativePointerModel.Create<AllegroEventSource>(nativeSource);
     }
 
@@ -220,7 +228,7 @@ namespace SubC.AllegroDotNet
       return NativePointerModel.Create<AllegroMenu>(nativeMenu);
     }
 
-    public static bool FindMenuItem(AllegroMenu haystack, ushort id, AllegroMenu menu, ref int? index)
+    public static bool FindMenuItem(AllegroMenu? haystack, ushort id, AllegroMenu menu, ref int? index)
     {
       int nativeIndex = index == null ? 0 : index.Value;
       var result = NativeFunctions.AlFindMenuItem(

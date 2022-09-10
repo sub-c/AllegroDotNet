@@ -34,9 +34,9 @@ namespace SubC.AllegroDotNet
       return NativeFunctions.AlUpdateFsEntry(NativePointerModel.GetPointer(fsEntry));
     }
 
-    public static FileMode GetFsEntryMode(AllegroFsEntry? fsEntry)
+    public static FSMode GetFsEntryMode(AllegroFsEntry? fsEntry)
     {
-      return (FileMode)NativeFunctions.AlGetFsEntryMode(NativePointerModel.GetPointer(fsEntry));
+      return (FSMode)NativeFunctions.AlGetFsEntryMode(NativePointerModel.GetPointer(fsEntry));
     }
 
     public static ulong GetFsEntryATime(AllegroFsEntry? fsEntry)

@@ -98,9 +98,9 @@ namespace SubC.AllegroDotNet
       Marshal.FreeHGlobal(nativeDirectory);
     }
 
-    public static void InsertPathComponent(AllegroPath? path, int index, string directory)
+    public static void InsertPathComponent(AllegroPath? path, int index, string component)
     {
-      var nativeDirectory = Marshal.StringToHGlobalAnsi(directory);
+      var nativeDirectory = Marshal.StringToHGlobalAnsi(component);
       NativeFunctions.AlInsertPathComponent(NativePointerModel.GetPointer(path), index, nativeDirectory);
       Marshal.FreeHGlobal(nativeDirectory);
     }
@@ -129,11 +129,12 @@ namespace SubC.AllegroDotNet
       Marshal.FreeHGlobal(nativeFilename);
     }
 
-    public static void SetPathExtension(AllegroPath? path, string extension)
+    public static bool SetPathExtension(AllegroPath? path, string extension)
     {
       var nativeExtension = Marshal.StringToHGlobalAnsi(extension);
-      NativeFunctions.AlSetPathExtension(NativePointerModel.GetPointer(path), nativeExtension);
+      var result = NativeFunctions.AlSetPathExtension(NativePointerModel.GetPointer(path), nativeExtension);
       Marshal.FreeHGlobal(nativeExtension);
+      return result;
     }
 
     public static string? PathCstr(AllegroPath? path, char deliminator)

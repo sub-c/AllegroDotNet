@@ -14,6 +14,32 @@ namespace SubC.AllegroDotNet.Native
 
     public delegate bool DoMultilineUstr(int line_num, IntPtr line, IntPtr extra);
 
+    public delegate IntPtr FileInterfaceFOpen(IntPtr path, IntPtr mode);
+
+    public delegate bool FileInterfaceFClose(IntPtr handle);
+
+    public delegate long FileInterfaceFRead(IntPtr f, IntPtr ptr, long size);
+
+    public delegate long FileInterfaceFWrite(IntPtr f, IntPtr ptr, long size);
+
+    public delegate bool FileInterfaceFFlush(IntPtr f);
+
+    public delegate long FileInterfaceFTell(IntPtr f);
+
+    public delegate bool FileInterfaceFSeek(IntPtr f, long offset, int whence);
+
+    public delegate bool FileInterfaceFEof(IntPtr f);
+
+    public delegate int FileInterfaceFError(IntPtr f);
+
+    public delegate IntPtr FileInterfaceFErrMsg(IntPtr f);
+
+    public delegate void FileInterfaceFClearErr(IntPtr f);
+
+    public delegate int FileInterfaceFunGetC(IntPtr f, int c);
+
+    public delegate int FileInterfaceFSize(IntPtr f);
+
     public delegate FsEntryResult ForEachFsEntry(IntPtr dir, IntPtr extra);
 
     public delegate IntPtr MemoryInterfaceCalloc(UIntPtr count, UIntPtr n, int line, IntPtr file, IntPtr func);

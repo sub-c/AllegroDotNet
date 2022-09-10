@@ -106,5 +106,8 @@ namespace SubC.AllegroDotNet.Extensions
 
     public static void ConvertMaskToAlpha(this AllegroBitmap? bitmap, AllegroColor maskColor)
       => Al.ConvertMaskToAlpha(bitmap, maskColor);
+
+    public static AllegroFont? GrabFontFromBitmap(this AllegroBitmap? bitmap, int rangesCount, int[] ranges)
+      => Al.GrabFontFromBitmap(bitmap, rangesCount, ranges);
   }
 }

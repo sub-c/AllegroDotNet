@@ -1,12 +1,15 @@
-﻿namespace SubC.AllegroDotNet.Enums
+﻿using System;
+
+namespace SubC.AllegroDotNet.Enums
 {
-  public enum FileMode : int
+  [Flags]
+  public enum FileMode
   {
-    Read = 1,
-    Write = 1 << 1,
-    Execute = 1 << 2,
-    Hidden = 1 << 3,
-    IsFile = 1 << 4,
-    IsDir = 1 << 5
+    ReadAccess = 1,
+    WriteAccess = 1 << 1,
+    UsingBinary = 1 << 2,
+    Expandable = 1 << 3,
+    EnableSeekToEndOfSlice = 1 << 4,
+    DisableSeekToEndOfSlice = 1 << 5
   }
 }

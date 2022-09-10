@@ -143,7 +143,7 @@ namespace SubC.AllegroDotNet
       return result;
     }
 
-    public static void StopSample(AllegroSampleID sampleID)
+    public static void StopSample(AllegroSampleID? sampleID)
     {
       NativeFunctions.AlStopSample(NativePointerModel.GetPointer(sampleID));
     }

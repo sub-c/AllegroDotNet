@@ -2,6 +2,7 @@
 using System;
 using System.Runtime.InteropServices;
 using static SubC.AllegroDotNet.Native.NativeDelegates;
+using static SubC.AllegroDotNet.Native.NativeFunctions;
 
 namespace SubC.AllegroDotNet.Native
 {
@@ -1403,10 +1404,188 @@ namespace SubC.AllegroDotNet.Native
     #region File IO routines
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate IntPtr al_fopen(IntPtr path, IntPtr mode);
+
+    public static al_fopen AlFOpen = NativeInterop.LoadFunction<al_fopen>(AllegroLibrary);
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate IntPtr al_fopen_interface(ref AllegroFileInterface.NativeAllegroFileInterface drv, IntPtr path, IntPtr mode);
+
+    public static al_fopen_interface AlFOpenInterface = NativeInterop.LoadFunction<al_fopen_interface>(AllegroLibrary);
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate IntPtr al_fopen_slice(IntPtr fp, long initial_size, IntPtr mode);
+
+    public static al_fopen_slice AlFOpenSlice = NativeInterop.LoadFunction<al_fopen_slice>(AllegroLibrary);
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     [return: MarshalAs(UnmanagedType.U1)]
     public delegate bool al_fclose(IntPtr f);
 
     public static al_fclose AlFClose = NativeInterop.LoadFunction<al_fclose>(AllegroLibrary);
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate long al_fread(IntPtr f, IntPtr ptr, long size);
+
+    public static al_fread AlFRead = NativeInterop.LoadFunction<al_fread>(AllegroLibrary);
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate long al_fwrite(IntPtr f, IntPtr ptr, long size);
+
+    public static al_fwrite AlFWrite = NativeInterop.LoadFunction<al_fwrite>(AllegroLibrary);
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    [return: MarshalAs(UnmanagedType.U1)]
+    public delegate bool al_fflush(IntPtr f);
+
+    public static al_fflush AlFFlush = NativeInterop.LoadFunction<al_fflush>(AllegroLibrary);
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate long al_ftell(IntPtr f);
+
+    public static al_ftell AlFTell = NativeInterop.LoadFunction<al_ftell>(AllegroLibrary);
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    [return: MarshalAs(UnmanagedType.U1)]
+    public delegate bool al_fseek(IntPtr f, long offset, int whence);
+
+    public static al_fseek AlFSeek = NativeInterop.LoadFunction<al_fseek>(AllegroLibrary);
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    [return: MarshalAs(UnmanagedType.U1)]
+    public delegate bool al_feof(IntPtr f);
+
+    public static al_feof AlFEof = NativeInterop.LoadFunction<al_feof>(AllegroLibrary);
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate int al_ferror(IntPtr f);
+
+    public static al_ferror AlFError = NativeInterop.LoadFunction<al_ferror>(AllegroLibrary);
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate IntPtr al_ferrmsg(IntPtr f);
+
+    public static al_ferrmsg AlFErrMsg = NativeInterop.LoadFunction<al_ferrmsg>(AllegroLibrary);
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void al_fclearerr(IntPtr f);
+
+    public static al_fclearerr AlFClearErr = NativeInterop.LoadFunction<al_fclearerr>(AllegroLibrary);
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate int al_fungetc(IntPtr f, int c);
+
+    public static al_fungetc AlFUngetC = NativeInterop.LoadFunction<al_fungetc>(AllegroLibrary);
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate long al_fsize(IntPtr f);
+
+    public static al_fsize AlFSize = NativeInterop.LoadFunction<al_fsize>(AllegroLibrary);
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate int al_fgetc(IntPtr f);
+
+    public static al_fgetc AlFGetC = NativeInterop.LoadFunction<al_fgetc>(AllegroLibrary);
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate int al_fputc(IntPtr f, int c);
+
+    public static al_fputc AlFPutC = NativeInterop.LoadFunction<al_fputc>(AllegroLibrary);
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate int al_fprintf(IntPtr f, IntPtr format);
+
+    public static al_fprintf AlFPrintF = NativeInterop.LoadFunction<al_fprintf>(AllegroLibrary);
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate short al_fread16le(IntPtr f);
+
+    public static al_fread16le AlFRead16le = NativeInterop.LoadFunction<al_fread16le>(AllegroLibrary);
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate short al_fread16be(IntPtr f);
+
+    public static al_fread16be AlFRead16be = NativeInterop.LoadFunction<al_fread16be>(AllegroLibrary);
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate long al_fwrite16le(IntPtr f, short w);
+
+    public static al_fwrite16le AlFWrite16le = NativeInterop.LoadFunction<al_fwrite16le>(AllegroLibrary);
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate long al_fwrite16be(IntPtr f, short w);
+
+    public static al_fwrite16be AlFWrite16be = NativeInterop.LoadFunction<al_fwrite16be>(AllegroLibrary);
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate int al_fread32le(IntPtr f);
+
+    public static al_fread32le AlFRead32le = NativeInterop.LoadFunction<al_fread32le>(AllegroLibrary);
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate int al_fread32be(IntPtr f);
+
+    public static al_fread32be AlFRead32be = NativeInterop.LoadFunction<al_fread32be>(AllegroLibrary);
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate long al_fwrite32le(IntPtr f, int l);
+
+    public static al_fwrite32le AlFWrite32le = NativeInterop.LoadFunction<al_fwrite32le>(AllegroLibrary);
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate long al_fwrite32be(IntPtr f, int l);
+
+    public static al_fwrite32be AlFWrite32be = NativeInterop.LoadFunction<al_fwrite32be>(AllegroLibrary);
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate IntPtr al_fgets(IntPtr f, IntPtr buf, long max);
+
+    public static al_fgets AlFGetS = NativeInterop.LoadFunction<al_fgets>(AllegroLibrary);
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate IntPtr al_fget_ustr(IntPtr f);
+
+    public static al_fget_ustr AlFGetUstr = NativeInterop.LoadFunction<al_fget_ustr>(AllegroLibrary);
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate int al_fputs(IntPtr f, IntPtr p);
+
+    public static al_fputs AlFPutS = NativeInterop.LoadFunction<al_fputs>(AllegroLibrary);
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate IntPtr al_fopen_fd(int fd, IntPtr mode);
+
+    public static al_fopen_fd AlFOpenFd = NativeInterop.LoadFunction<al_fopen_fd>(AllegroLibrary);
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate IntPtr al_make_temp_file(IntPtr template, ref IntPtr ret_path);
+
+    public static al_make_temp_file AlMakeTempFile = NativeInterop.LoadFunction<al_make_temp_file>(AllegroLibrary);
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void al_set_new_file_interface(ref AllegroFileInterface.NativeAllegroFileInterface file_interface);
+
+    public static al_set_new_file_interface AlSetNewFileInterface = NativeInterop.LoadFunction<al_set_new_file_interface>(AllegroLibrary);
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void al_set_standard_file_interface();
+
+    public static al_set_standard_file_interface AlSetStandardFileInterface = NativeInterop.LoadFunction<al_set_standard_file_interface>(AllegroLibrary);
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate IntPtr al_get_new_file_interface();
+
+    public static al_get_new_file_interface AlGetNewFileInterface = NativeInterop.LoadFunction<al_get_new_file_interface>(AllegroLibrary);
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate IntPtr al_create_file_handle(ref AllegroFileInterface.NativeAllegroFileInterface drv, IntPtr userdata);
+
+    public static al_create_file_handle AlCreateFileHandle = NativeInterop.LoadFunction<al_create_file_handle>(AllegroLibrary);
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate IntPtr al_get_file_userdata(IntPtr drv);
+
+    public static al_get_file_userdata AlGetFileUserdata = NativeInterop.LoadFunction<al_get_file_userdata>(AllegroLibrary);
 
     #endregion
 

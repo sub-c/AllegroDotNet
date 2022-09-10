@@ -4,7 +4,6 @@ using SubC.AllegroDotNet.Extensions;
 using SubC.AllegroDotNet.Models;
 using System;
 using System.Runtime.InteropServices;
-using System.Text;
 
 internal static class Program
 {
@@ -41,11 +40,35 @@ internal static class Program
     Console.WriteLine($"InstallAudio: {Al.InstallAudio()}");
     Console.WriteLine($"ReserveSamples: {Al.ReserveSamples(16)}");
     Console.WriteLine($"InitACodec: {Al.InitAcodecAddon()}");
-    var sample = Al.LoadSample("D:/intro_music.ogg");
+
+    var sample = Al.LoadSample("E:/intro_music.ogg");
+    AllegroSampleInstance? sampleInstance = default;
+    AllegroVoice? voice = default;
+    AllegroMixer? mixer = default;
     if (sample != null)
     {
-      Al.PlaySample(sample, 1, 0, 1, Playmode.Once, null);
+      //Al.PlaySample(sample, 1, 0, 1, Playmode.Once, null);
+      voice = Al.CreateVoice(44100, AudioDepth.Int16, ChannelConfig.Channels2) ?? throw new Exception("no voice");
+      mixer = Al.CreateMixer(44100, AudioDepth.Float32, ChannelConfig.Channels2) ?? throw new Exception("no mixer");
+      Al.AttachMixerToVoice(mixer, voice);
+
+      sampleInstance = Al.CreateSampleInstance(sample);
+      Al.AttachSampleInstanceToMixer(sampleInstance, mixer);
+
+      Al.SetSampleInstancePlaymode(sampleInstance, Playmode.Once);
+      Al.SetSampleInstanceGain(sampleInstance, 0.5f);
+      Al.PlaySampleInstance(sampleInstance);
     }
+
+    var fileInterface = new AllegroFileInterface();
+    //  public delegate IntPtr FileInterfaceFOpen(IntPtr path, IntPtr mode);
+    fileInterface.FOpen = (x, y) =>
+    {
+      var thePath = Marshal.PtrToStringAnsi(x);
+      var theMode = Marshal.PtrToStringAnsi(y);
+      return IntPtr.Zero;
+    };
+    var fOpenedInterface = Al.FOpenInterface(fileInterface, "E:/intro_music.ogg", FileMode.ReadAccess | FileMode.UsingBinary);
 
     Console.WriteLine($"Num Video Adapters: {Al.GetNumVideoAdapters()}");
     for (var index = 0; index < Al.GetNumVideoAdapters(); ++index)
@@ -225,11 +248,19 @@ internal static class Program
     Al.DestroyBitmap(mouseCursorBitmap);
     Al.DestroyDisplay(display);
 
-    if (sample != null)
+    if (sample != null && sampleInstance != null)
     {
+      Al.SetSample(sampleInstance, null);
+      Al.DestroySampleInstance(sampleInstance);
+      sampleInstance = null;
+
       Al.DestroySample(sample);
       sample = null;
     }
+    if (voice is not null)
+      Al.DestroyVoice(voice);
+    if (mixer is not null)
+      Al.DestroyMixer(mixer);
 
     Al.ShutdownTtfAddon();
     Al.ShutdownFontAddon();

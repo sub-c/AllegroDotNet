@@ -14,6 +14,6 @@
 
     public const double ALLEGRO_PI = 3.14159265358979323846;
 
-    public const int ALLEGRO_VERSION_INT = 84019201; // v5.2.8
+    public const int ALLEGRO_VERSION_INT = 84019201; // v5.2.8 = 84019201, v5.2.7 = 84018945
   }
 }
