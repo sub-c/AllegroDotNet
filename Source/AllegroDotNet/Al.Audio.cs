@@ -692,17 +692,42 @@ namespace SubC.AllegroDotNet
 
     public static bool RegisterSampleIdentifier(string extension, RegisterSampleIdentifier identifier)
     {
-      throw new NotImplementedException();
+      var nativeExtension = Marshal.StringToHGlobalAnsi(extension);
+      var result = NativeFunctions.AlRegisterSampleIdentifier(nativeExtension, identifier);
+      Marshal.FreeHGlobal(nativeExtension);
+      return result;
     }
 
     public static string IdentifySample(string filename)
     {
-      throw new NotImplementedException();
+      var nativeFilename = Marshal.StringToHGlobalAnsi(filename);
+      var nativeResult = NativeFunctions.AlIdentifySample(nativeFilename);
+      var result = Marshal.PtrToStringAnsi(nativeResult);
+      Marshal.FreeHGlobal(nativeFilename);
+      return result;
     }
 
-    public static string IdentifySampleF(AllegroFile file)
+    public static string IdentifySampleF(AllegroFile? file)
     {
-      throw new NotImplementedException();
+      var nativeResult = NativeFunctions.AlIdentifySampleF(NativePointerModel.GetPointer(file));
+      return Marshal.PtrToStringAnsi(nativeResult);
+    }
+
+    public static int GetNumAudioOutputDevices()
+    {
+      return NativeFunctions.AlGetNumAudioOutputDevices();
+    }
+
+    public static AllegroAudioDevice? GetAudioOutputDevice(int index)
+    {
+      var result = NativeFunctions.AlGetAudioOutputDevice(index);
+      return NativePointerModel.Create<AllegroAudioDevice>(result);
+    }
+
+    public static string? GetAudioDeviceName(AllegroAudioDevice? device)
+    {
+      var result = NativeFunctions.AlGetAudioDeviceName(NativePointerModel.GetPointer(device));
+      return result == IntPtr.Zero ? null : Marshal.PtrToStringAnsi(result);
     }
   }
 }

@@ -10,13 +10,9 @@ namespace SubC.AllegroDotNet
     public static IntPtr GetWinWindowHandle(AllegroDisplay? display)
     {
       if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-      {
         throw new NotSupportedException($"{nameof(GetWinWindowHandle)} is only supported on Windows.");
-      }
-      if (NativeFunctions.AlGetWinWindowHandle == null)
-      {
-        NativeFunctions.AlGetWinWindowHandle = NativeInterop.LoadFunction<NativeFunctions.al_get_win_window_handle>(NativeFunctions.AllegroLibrary);
-      }
+
+      NativeFunctions.AlGetWinWindowHandle ??= NativeInterop.LoadFunction<NativeFunctions.al_get_win_window_handle>(NativeFunctions.AllegroLibrary);
       return NativeFunctions.AlGetWinWindowHandle(NativePointerModel.GetPointer(display));
     }
   }

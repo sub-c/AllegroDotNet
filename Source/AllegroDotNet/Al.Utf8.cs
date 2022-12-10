@@ -350,5 +350,45 @@ namespace SubC.AllegroDotNet
       Marshal.FreeHGlobal(nativeStr);
       return result;
     }
+
+    public static AllegroUstr? UstrNewFromUtf16(string str)
+    {
+      var nativeStr = Marshal.StringToHGlobalUni(str);
+      var result = NativeFunctions.AlUstrNewFromUtf16(nativeStr);
+      Marshal.FreeHGlobal(nativeStr);
+      return NativePointerModel.Create<AllegroUstr>(result);
+    }
+
+    public static long UstrSizeUtf16(AllegroUstr? ustr)
+    {
+      var nativeUstr = NativePointerModel.GetPointer(ustr);
+      return NativeFunctions.AlUstrSizeUtf16(nativeUstr);
+    }
+
+    public static long UstrEncodeUtf16(AllegroUstr? ustr, IntPtr buffer, long size)
+    {
+      var nativeUstr = NativePointerModel.GetPointer(ustr);
+      return NativeFunctions.AlUstrEncodeUtf16(nativeUstr, buffer, size);
+    }
+
+    public static long Utf8Width(int c)
+    {
+      return NativeFunctions.AlUtf8Width(c);
+    }
+
+    public static long Utf8Encode(IntPtr buffer, int c)
+    {
+      return NativeFunctions.AlUtf8Encode(buffer, c);
+    }
+
+    public static long Utf16Width(int c)
+    {
+      return NativeFunctions.AlUtf16Width(c);
+    }
+
+    public static long Utf16Encode(IntPtr buffer, int c)
+    {
+      return NativeFunctions.AlUtf16Encode(buffer, c);
+    }
   }
 }

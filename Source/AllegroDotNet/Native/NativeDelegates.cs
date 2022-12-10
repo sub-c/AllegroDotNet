@@ -14,6 +14,8 @@ namespace SubC.AllegroDotNet.Native
 
     public delegate bool DoMultilineUstr(int line_num, IntPtr line, IntPtr extra);
 
+    public delegate void EmitTriangle(int point1, int point2, int point3, IntPtr userdata);
+
     public delegate IntPtr FileInterfaceFOpen(IntPtr path, IntPtr mode);
 
     public delegate bool FileInterfaceFClose(IntPtr handle);

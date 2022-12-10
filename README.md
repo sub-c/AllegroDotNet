@@ -10,9 +10,8 @@ Using AllegroDotNet will allow you to create game and multimedia applications in
 * Native Allegro 5 (v5.2.8) library available (see Quick Start)
 
 ## Quick Start (Windows)
-1) Add a NuGet package reference to `SubC.AllegroDotNet`.
-2) Add a NuGet package reference to `SubC.AllegroDotNet.Win64` (or add your own Allegro v5.2.8 monolith .DLL (`allegro_monolith-5.2.dll`) to your project output).
-3) Add the following test code to your source code:
+1) Add NuGet package references to [SubC.AllegroDotNet](https://www.nuget.org/packages/SubC.AllegroDotNet) and [SubC.AllegroDotNet.Win64](https://www.nuget.org/packages/SubC.AllegroDotNet.Win64).
+2) Add the following test code to your source code:
 ```C#
 using SubC.AllegroDotNet;
 // ...
@@ -22,34 +21,32 @@ Al.Rest(3);
 Al.DestroyDisplay(display);
 Al.UninstallSystem();
 ```
-4) Compile and run.
+3) Compile and run.
 
 For more example code, see the AllegroDotNet.Sandbox project in this repository.
 
-## Using AllegroDotNet
-AllegroDotNet tries to be as familiar for users of Allegro 5 as possible. The Allegro 5 documentation applies to AllegroDotNet, because AllegroDotNet is only wrapping Allegro 5 functionality. Following existing Allegro 5 tutorials will apply to AllegroDotNet, at least as far as what Allegro function to call with what parameters.
-
 ## Differences between Allegro 5 and AllegroDotNet
+AllegroDotNet tries to mimic Allegro 5 as closely as possible while also translating the original C library to modern .NET. You can use documentation and tutorials for Allegro 5 with AllegroDotNet, as long as you note the differences between the two:
 
-* AllegroDotNet uses .NET-style naming conventions, so all functions use pascal-casing and removing underscores.
-* AllegroDotNet removes the `al_` prefix from all functions.
-* AllegroDotNet places all Allegro functions in the static class named `Al`.
+* AllegroDotNet uses .NET-style naming conventions, so Allegro 5's snake casing is turned into pascal casing.
+  
+* Allegro 5 prefixed all functions with `al_`. AllegroDotNet instead puts all functions into the static class `Al`. For example, `al_init()` becomes `Al.Init()`.
 
-Where Allegro 5 used functions named similar to `al_create_bitmap(100, 50)`, AllegroDotNet would call this function via `Al.CreateBitmap(100, 50)`. All functions are in the static `SubC.AllegroDotNet.Al` class.
+* Allegro 5 functions are all placed in the static `SubC.AllegroDotNet.Al` class.
 
-Where Allegro 5 used pointers (ie, `ALLEGRO_BITMAP*`), AllegroDotNet uses classes (ie, `AllegroBitmap`). These classes are in the `SubC.AllegroDotNet.Models` namespace.
+* Allegro 5 pointers (ex: `ALLEGRO_BITMAP*`) are turned into classes (ex: `AllegroBitmap`). These classes are all in the `SubC.AllegroDotNet.Models` namespace.
 
-Where Allegro 5 used `#DEFINE` constants (ie, `ALLEGRO_NO_PRESERVE_TEXTURE`), AllegroDotNet uses enumerations (ie, `BitmapFlags.NoPreserveTexture`). Enumerations are in the `SubC.AllegroDotNet.Enums` namespace.
+* Allegro 5 constants (ex: `ALLEGRO_NO_PRESERVE_TEXTURE`) are grouped and turned into enumerations (ex: `BitmapFlags.NoPreserveTexture`). These enumerations are all in the `SubC.AllegroDotNet.Enums` namespace.
 
-Where Allegro 5 used macros (ie, `ALLEGRO_BPS_TO_SECS(x)`), AllegroDotNet uses methods (ie, `Al.BpmToSecs(x)`). All macros are in the static `SubC.AllegroDotNet.Al` class.
+* Allegro 5 macros (ex: `ALLEGRO_BPS_TO_SECS(x)`) are turned into static methods (ex: `Al.BpmToSecs(x)`). These static methods are part of the `SubC.AllegroDotNet.Al` static class.
 
-Some final notes about using AllegroDotNet:
+## Notes about using AllegroDotNet:
 
-* Currently AllegroDotNet uses Allegro v5.2.8.
+* Currently AllegroDotNet uses Allegro version 5.2.8.
 
 * If the Allegro function takes or returns a string, that involves extra marshalling from managed/unmanaged code. While this isn't "slow", it isn't as fast as passing pointers and numbers around.
 
-* Not all of Allegro 5 API is implemented yet; for example, haptic routines are currently not implemented.
+* Not every Allegro 5 function is available (ex: no shader, color addon, or video streaming addon routines). More functions will be added in the future.
 
 * No testing has been done on OSX, and minimal testing was done on Linux. Would you want to test it on those platforms?
 
@@ -58,7 +55,7 @@ Some final notes about using AllegroDotNet:
 
 * If calling `Al.Init()` is failing, ensure you have the correct version of the Allegro 5 library. Currently, AllegroDotNet requires v5.2.8. See NuGet packages SubC.AllegroDotNet.Win64 or SubC.AllegroDotNet.Linux64 for known working native Allegro libraries to use.
 
-* AllegroDotNet requires a monolith version of Allegro (ie, `allegro_monolith-5.2.dll`) to be available.
+* AllegroDotNet requires a monolith version of Allegro to be available (ex: `allegro_monolith-5.2.dll`).
 
 * If you'd rather use the offical Allegro 5 binaries instead of `SubC.AllegroDotNet.Win64`, that is also an option. However, you will need to do the work to make sure the monolith .DLL file is available to your executable (the NuGet package automatically adds the .DLL to your project's output).
 
@@ -74,7 +71,7 @@ Al.RegisterEventSource(myEventSource, Al.GetDisplayEventSource(myDisplay))
 ```
 becomes
 ```C#
-myEventQueue.RegisterEventSource(myDisplay.GetDisplayEventSource());
+myEventSource.RegisterEventSource(myDisplay.GetDisplayEventSource());
 ```
 
 

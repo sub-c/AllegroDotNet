@@ -25,6 +25,8 @@ internal static class Program
     Console.WriteLine($"InstallKeyboard: {Al.InstallKeyboard()}");
     Console.WriteLine($"InstallJoystick: {Al.InstallJoystick()}");
     Console.WriteLine($"InstallMouse: {Al.InstallMouse()}");
+    Console.WriteLine($"InstallTouch: {Al.InstallTouchInput()}");
+
     Console.WriteLine($"IsSystemInstalled: {Al.IsSystemInstalled()}");
     Console.WriteLine($"GetAllegroVersion: {Al.GetAllegroVersion()}");
     Console.WriteLine($"GetTime: {Al.GetTime()}");
@@ -36,6 +38,7 @@ internal static class Program
     Console.WriteLine($"InitImageAddon: {Al.InitImageAddon()}");
     Console.WriteLine($"InitFont: {Al.InitFontAddon()}");
     Console.WriteLine($"InitTtf: {Al.InitTtfAddon()}");
+    Console.WriteLine($"InitPrimitives: {Al.InitPrimitivesAddon()}");
 
     Console.WriteLine($"InstallAudio: {Al.InstallAudio()}");
     Console.WriteLine($"ReserveSamples: {Al.ReserveSamples(16)}");
@@ -152,6 +155,11 @@ internal static class Program
     Al.InitUserEventSource(out var userEventSource);
     Al.RegisterEventSource(eventQueue, userEventSource);
 
+    var touchState = new AllegroTouchInputState();
+    Al.GetTouchInputState(touchState);
+    var touchEventSource = Al.GetTouchInputEventSource();
+    eventQueue.RegisterEventSource(touchEventSource);
+
     Al.SetNewBitmapFlags(BitmapFlags.ConvertBitmap | BitmapFlags.NoPreserveTexture);
     var bitmap = Al.CreateBitmap(320, 240) ?? throw new Exception("!");
     var redColor = Al.MapRgb(128, 32, 64);
@@ -222,6 +230,8 @@ internal static class Program
       {
         Al.SetTargetBitmap(bitmap);
         Al.ClearToColor(redColor);
+        Al.DrawRoundedRectangle(50, 50, 150, 150, 10, 10, Al.MapRgb(128, 128, 128), 3);
+        Al.DrawLine(50, 50, 150, 150, Al.MapRgb(255, 255, 255), 5);
         Al.DrawText(builtinFont, Al.MapRgb(255, 255, 255), 32, 32, FontAlignFlags.Left, "THE builtin FONT!");
         Al.SetTargetBackbuffer(display);
         Al.DrawBitmap(bitmap, 8, 8, FlipFlags.None);
@@ -262,6 +272,7 @@ internal static class Program
     if (mixer is not null)
       Al.DestroyMixer(mixer);
 
+    Al.ShutdownPrimitivesAddon();
     Al.ShutdownTtfAddon();
     Al.ShutdownFontAddon();
     Al.UninstallAudio();

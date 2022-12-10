@@ -1,6 +1,8 @@
 ﻿using SubC.AllegroDotNet.Models;
 using System;
 using System.Runtime.InteropServices;
+using static SubC.AllegroDotNet.Models.AllegroTouchInputState;
+using static SubC.AllegroDotNet.Models.AllegroVertexElement;
 using static SubC.AllegroDotNet.Native.NativeDelegates;
 using static SubC.AllegroDotNet.Native.NativeFunctions;
 
@@ -824,48 +826,42 @@ namespace SubC.AllegroDotNet.Native
     public static al_save_sample_f AlSaveSampleF =
         NativeInterop.LoadFunction<al_save_sample_f>(AllegroLibrary, nameof(al_save_sample_f));
 
-    // 5.2.8 only
-    //[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    //[return: MarshalAs(UnmanagedType.U1)]
-    //public delegate bool al_register_sample_identifier(IntPtr ext, RegisterSampleIdentifier identifier);
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    [return: MarshalAs(UnmanagedType.U1)]
+    public delegate bool al_register_sample_identifier(IntPtr ext, RegisterSampleIdentifier identifier);
 
-    //public static al_register_sample_identifier AlRegisterSampleIdentifier =
-    //    NativeInterop.LoadFunction<al_register_sample_identifier>(_allegroLibrary, nameof(al_register_sample_identifier));
+    public static al_register_sample_identifier AlRegisterSampleIdentifier =
+        NativeInterop.LoadFunction<al_register_sample_identifier>(AllegroLibrary, nameof(al_register_sample_identifier));
 
-    // 5.2.8 only
-    //[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    //public delegate IntPtr al_identify_sample(IntPtr filename);
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate IntPtr al_identify_sample(IntPtr filename);
 
-    //public static al_identify_sample AlIdentifySample =
-    //    NativeInterop.LoadFunction<al_identify_sample>(_allegroLibrary, nameof(al_identify_sample));
+    public static al_identify_sample AlIdentifySample =
+        NativeInterop.LoadFunction<al_identify_sample>(AllegroLibrary, nameof(al_identify_sample));
 
-    // 5.2.8 only
-    //[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    //public delegate IntPtr al_identify_sample_f(IntPtr filename);
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate IntPtr al_identify_sample_f(IntPtr fp);
 
-    //public static al_identify_sample_f AlIdentifySampleF =
-    //    NativeInterop.LoadFunction<al_identify_sample_f>(_allegroLibrary, nameof(al_identify_sample_f));
+    public static al_identify_sample_f AlIdentifySampleF =
+        NativeInterop.LoadFunction<al_identify_sample_f>(AllegroLibrary, nameof(al_identify_sample_f));
 
-    // 5.2.8 only
-    //[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    //public delegate int al_get_num_audio_output_devices();
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate int al_get_num_audio_output_devices();
 
-    //public static al_get_num_audio_output_devices AlGetNumAudioOutputDevices =
-    //    NativeInterop.LoadFunction<al_get_num_audio_output_devices>(_allegroLibrary, nameof(al_get_num_audio_output_devices));
+    public static al_get_num_audio_output_devices AlGetNumAudioOutputDevices =
+        NativeInterop.LoadFunction<al_get_num_audio_output_devices>(AllegroLibrary, nameof(al_get_num_audio_output_devices));
 
-    // 5.2.8 only
-    //[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    //public delegate IntPtr al_get_audio_output_device(int index);
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate IntPtr al_get_audio_output_device(int index);
 
-    //public static al_get_audio_output_device AlGetAudioOutputDevice =
-    //    NativeInterop.LoadFunction<al_get_audio_output_device>(_allegroLibrary, nameof(al_get_audio_output_device));
+    public static al_get_audio_output_device AlGetAudioOutputDevice =
+        NativeInterop.LoadFunction<al_get_audio_output_device>(AllegroLibrary, nameof(al_get_audio_output_device));
 
-    // 5.2.8 only
-    //[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    //public delegate IntPtr al_get_audio_device_name(IntPtr device);
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate IntPtr al_get_audio_device_name(IntPtr device);
 
-    //public static al_get_audio_device_name AlGetAudioDeviceName =
-    //    NativeInterop.LoadFunction<al_get_audio_device_name>(_allegroLibrary, nameof(al_get_audio_device_name));
+    public static al_get_audio_device_name AlGetAudioDeviceName =
+        NativeInterop.LoadFunction<al_get_audio_device_name>(AllegroLibrary, nameof(al_get_audio_device_name));
 
     #endregion
 
@@ -3457,7 +3453,7 @@ namespace SubC.AllegroDotNet.Native
         NativeInterop.LoadFunction<al_draw_filled_rounded_rectangle>(AllegroLibrary, nameof(al_draw_filled_rounded_rectangle));
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_calculate_arc(ref float dest, int stride, float cx, float cy, float rx, float ry, float start_theta, float delta_theta, float thickness, int num_points);
+    public delegate void al_calculate_arc(ref float[] dest, int stride, float cx, float cy, float rx, float ry, float start_theta, float delta_theta, float thickness, int num_points);
 
     public static al_calculate_arc AlCalculateArc =
         NativeInterop.LoadFunction<al_calculate_arc>(AllegroLibrary, nameof(al_calculate_arc));
@@ -3481,7 +3477,7 @@ namespace SubC.AllegroDotNet.Native
         NativeInterop.LoadFunction<al_draw_ellipse>(AllegroLibrary, nameof(al_draw_ellipse));
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_draw_filled_ellipse(float cx, float cy, float rx, float ry, AllegroColor color, float thickness);
+    public delegate void al_draw_filled_ellipse(float cx, float cy, float rx, float ry, AllegroColor color);
 
     public static al_draw_filled_ellipse AlDrawFilledEllipse =
         NativeInterop.LoadFunction<al_draw_filled_ellipse>(AllegroLibrary, nameof(al_draw_filled_ellipse));
@@ -3511,37 +3507,37 @@ namespace SubC.AllegroDotNet.Native
         NativeInterop.LoadFunction<al_draw_elliptical_arc>(AllegroLibrary, nameof(al_draw_elliptical_arc));
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_calculate_spline(ref float dest, int stride, IntPtr points, float thickness, int num_segments);
+    public delegate void al_calculate_spline(ref float[] dest, int stride, float[] points, float thickness, int num_segments);
 
     public static al_calculate_spline AlCalculateSpline =
         NativeInterop.LoadFunction<al_calculate_spline>(AllegroLibrary, nameof(al_calculate_spline));
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_draw_spline(IntPtr points, AllegroColor color, float thickness);
+    public delegate void al_draw_spline(float[] points, AllegroColor color, float thickness);
 
     public static al_draw_spline AlDrawSpline =
         NativeInterop.LoadFunction<al_draw_spline>(AllegroLibrary, nameof(al_draw_spline));
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_calculate_ribbon(ref float dest, int dest_stride, IntPtr points, int points_stride, float thickness, int num_segments);
+    public delegate void al_calculate_ribbon(ref float[] dest, int dest_stride, ref float[] points, int points_stride, float thickness, int num_segments);
 
     public static al_calculate_ribbon AlCalculateRibbon =
         NativeInterop.LoadFunction<al_calculate_ribbon>(AllegroLibrary, nameof(al_calculate_ribbon));
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_draw_ribbon(IntPtr points, int points_stride, AllegroColor color, float thickness, int num_segments);
+    public delegate void al_draw_ribbon(ref float[] points, int points_stride, AllegroColor color, float thickness, int num_segments);
 
     public static al_draw_ribbon AlDrawRibbon =
         NativeInterop.LoadFunction<al_draw_ribbon>(AllegroLibrary, nameof(al_draw_ribbon));
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_draw_prim(IntPtr vtxs, IntPtr decl, IntPtr texture, int start, int end, int type);
+    public delegate int al_draw_prim(ref AllegroVertex[] vtxs, IntPtr decl, IntPtr texture, int start, int end, int type);
 
     public static al_draw_prim AlDrawPrim =
         NativeInterop.LoadFunction<al_draw_prim>(AllegroLibrary, nameof(al_draw_prim));
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_draw_indexed_prim(IntPtr vtxs, IntPtr decl, IntPtr texture, ref int indices, int num_vtx, int type);
+    public delegate int al_draw_indexed_prim(ref AllegroVertex[] vtxs, IntPtr decl, IntPtr texture, ref int[] indices, int num_vtx, int type);
 
     public static al_draw_indexed_prim AlDrawIndexedPrim =
         NativeInterop.LoadFunction<al_draw_indexed_prim>(AllegroLibrary, nameof(al_draw_indexed_prim));
@@ -3569,6 +3565,109 @@ namespace SubC.AllegroDotNet.Native
 
     public static al_draw_soft_line AlDrawSoftLine =
         NativeInterop.LoadFunction<al_draw_soft_line>(AllegroLibrary, nameof(al_draw_soft_line));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate IntPtr al_create_vertex_decl(NativeAllegroVertexElement[] elements, int stride);
+
+    public static al_create_vertex_decl AlCreateVertexDecl =
+        NativeInterop.LoadFunction<al_create_vertex_decl>(AllegroLibrary, nameof(al_create_vertex_decl));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void al_destroy_vertex_decl(IntPtr decl);
+
+    public static al_destroy_vertex_decl AlDestroyVertexDecl =
+        NativeInterop.LoadFunction<al_destroy_vertex_decl>(AllegroLibrary, nameof(al_destroy_vertex_decl));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate IntPtr al_create_vertex_buffer(IntPtr decl, IntPtr initial_data, int num_vertices, int flags);
+
+    public static al_create_vertex_buffer AlCreateVertexBuffer =
+        NativeInterop.LoadFunction<al_create_vertex_buffer>(AllegroLibrary, nameof(al_create_vertex_buffer));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void al_destroy_vertex_buffer(IntPtr buffer);
+
+    public static al_destroy_vertex_buffer AlDestroyVertexBuffer =
+        NativeInterop.LoadFunction<al_destroy_vertex_buffer>(AllegroLibrary, nameof(al_destroy_vertex_buffer));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate IntPtr al_lock_vertex_buffer(IntPtr buffer, int offset, int length, int flags);
+
+    public static al_lock_vertex_buffer AlLockVertexBuffer =
+        NativeInterop.LoadFunction<al_lock_vertex_buffer>(AllegroLibrary, nameof(al_lock_vertex_buffer));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void al_unlock_vertex_buffer(IntPtr buffer);
+
+    public static al_unlock_vertex_buffer AlUnlockVertexBuffer =
+        NativeInterop.LoadFunction<al_unlock_vertex_buffer>(AllegroLibrary, nameof(al_unlock_vertex_buffer));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate int al_get_vertex_buffer_size(IntPtr buffer);
+
+    public static al_get_vertex_buffer_size AlGetVertexBufferSize =
+        NativeInterop.LoadFunction<al_get_vertex_buffer_size>(AllegroLibrary, nameof(al_get_vertex_buffer_size));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate IntPtr al_create_index_buffer(int index_size, IntPtr initial_data, int num_indices, int flags);
+
+    public static al_create_index_buffer AlCreateIndexBuffer =
+        NativeInterop.LoadFunction<al_create_index_buffer>(AllegroLibrary, nameof(al_create_index_buffer));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void al_destroy_index_buffer(IntPtr buffer);
+
+    public static al_destroy_index_buffer AlDestroyIndexBuffer =
+        NativeInterop.LoadFunction<al_destroy_index_buffer>(AllegroLibrary, nameof(al_destroy_index_buffer));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate IntPtr al_lock_index_buffer(IntPtr buffer, int offset, int length, int flags);
+
+    public static al_lock_index_buffer AlLockIndexBuffer =
+        NativeInterop.LoadFunction<al_lock_index_buffer>(AllegroLibrary, nameof(al_lock_index_buffer));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void al_unlock_index_buffer(IntPtr buffer);
+
+    public static al_unlock_index_buffer AlUnlockIndexBuffer =
+        NativeInterop.LoadFunction<al_unlock_index_buffer>(AllegroLibrary, nameof(al_unlock_index_buffer));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate int al_get_index_buffer_size(IntPtr buffer);
+
+    public static al_get_index_buffer_size AlGetIndexBufferSize =
+        NativeInterop.LoadFunction<al_get_index_buffer_size>(AllegroLibrary, nameof(al_get_index_buffer_size));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void al_draw_polyline(IntPtr vertices, int vertex_stride, int vertex_count, int join_style, int cap_style, AllegroColor color, float thickness, float miter_limit);
+
+    public static al_draw_polyline AlDrawPolyline =
+        NativeInterop.LoadFunction<al_draw_polyline>(AllegroLibrary, nameof(al_draw_polyline));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void al_draw_polygon(IntPtr vertices, int vertex_count, int join_style, AllegroColor color, float thickness, float miter_limit);
+
+    public static al_draw_polygon AlDrawPolygon =
+        NativeInterop.LoadFunction<al_draw_polygon>(AllegroLibrary, nameof(al_draw_polygon));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void al_draw_filled_polygon(IntPtr vertices, int vertex_count, AllegroColor color);
+
+    public static al_draw_filled_polygon AlDrawFilledPolygon =
+        NativeInterop.LoadFunction<al_draw_filled_polygon>(AllegroLibrary, nameof(al_draw_filled_polygon));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void al_draw_filled_polygon_with_holes(IntPtr vertices, IntPtr vertexCounts, AllegroColor color);
+
+    public static al_draw_filled_polygon_with_holes AlDrawFilledPolygonWithHoles =
+        NativeInterop.LoadFunction<al_draw_filled_polygon_with_holes>(AllegroLibrary, nameof(al_draw_filled_polygon_with_holes));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    [return: MarshalAs(UnmanagedType.U1)]
+    public delegate bool al_triangulate_polygon(IntPtr vertices, long vertex_stride, IntPtr vertex_counts, EmitTriangle emit_triangle, IntPtr userdata);
+
+    public static al_triangulate_polygon AlTriangulatePolygon =
+        NativeInterop.LoadFunction<al_triangulate_polygon>(AllegroLibrary, nameof(al_triangulate_polygon));
 
     #endregion
 
@@ -3836,6 +3935,42 @@ namespace SubC.AllegroDotNet.Native
         NativeInterop.LoadFunction<al_rest>(AllegroLibrary, nameof(al_rest));
 
     #endregion Time routines
+
+    #region Touch routines
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    [return: MarshalAs(UnmanagedType.U1)]
+    public delegate bool al_install_touch_input();
+
+    public static al_install_touch_input AlInstallTouchInput =
+        NativeInterop.LoadFunction<al_install_touch_input>(AllegroLibrary, nameof(al_install_touch_input));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void al_uninstall_touch_input();
+
+    public static al_uninstall_touch_input AlUninstallTouchInput =
+        NativeInterop.LoadFunction<al_uninstall_touch_input>(AllegroLibrary, nameof(al_uninstall_touch_input));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    [return: MarshalAs(UnmanagedType.U1)]
+    public delegate bool al_is_touch_input_installed();
+
+    public static al_is_touch_input_installed AlIsTouchInputInstalled =
+        NativeInterop.LoadFunction<al_is_touch_input_installed>(AllegroLibrary, nameof(al_is_touch_input_installed));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void al_get_touch_input_state(ref NativeAllegroTouchInputState ret_state);
+
+    public static al_get_touch_input_state AlGetTouchInputState =
+        NativeInterop.LoadFunction<al_get_touch_input_state>(AllegroLibrary, nameof(al_get_touch_input_state));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate IntPtr al_get_touch_input_event_source();
+
+    public static al_get_touch_input_event_source AlGetTouchInputEventSource =
+        NativeInterop.LoadFunction<al_get_touch_input_event_source>(AllegroLibrary, nameof(al_get_touch_input_event_source));
+
+    #endregion
 
     #region Timer routines
 
@@ -4532,7 +4667,7 @@ namespace SubC.AllegroDotNet.Native
         NativeInterop.LoadFunction<al_ustr_size_utf16>(AllegroLibrary, nameof(al_ustr_size_utf16));
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate long al_ustr_encode_utf16(IntPtr us, ref ushort s, long n);
+    public delegate long al_ustr_encode_utf16(IntPtr us, IntPtr s, long n);
 
     public static al_ustr_encode_utf16 AlUstrEncodeUtf16 =
         NativeInterop.LoadFunction<al_ustr_encode_utf16>(AllegroLibrary, nameof(al_ustr_encode_utf16));
