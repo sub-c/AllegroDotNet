@@ -180,6 +180,43 @@ internal static class Program
 
     var transform = Al.GetCurrentTransform();
 
+    // textured primitive setup
+    //var vertexes = new AllegroVertex[5];
+    //vertexes[0].x = 32;
+    //vertexes[0].y = 32;
+    //vertexes[0].z = 32;
+    //vertexes[0].u = 16;
+    //vertexes[0].v = 16;
+    //vertexes[0].color = Al.MapRgb(255, 255, 255);
+    //vertexes[1].x = 128;
+    //vertexes[1].y = 32;
+    //vertexes[1].z = 32;
+    //vertexes[1].u = 16;
+    //vertexes[1].v = 16;
+    //vertexes[1].color = Al.MapRgb(255, 255, 255);
+    //vertexes[2].x = 128;
+    //vertexes[2].y = 128;
+    //vertexes[2].z = 32;
+    //vertexes[2].u = 16;
+    //vertexes[2].v = 16;
+    //vertexes[2].color = Al.MapRgb(255, 255, 255);
+    //vertexes[3].x = 32;
+    //vertexes[3].y = 64;
+    //vertexes[3].z = 32;
+    //vertexes[3].u = 16;
+    //vertexes[3].v = 16;
+    //vertexes[3].color = Al.MapRgb(255, 255, 255);
+
+    //var vertexTexture = Al.CreateBitmap(256, 256);
+    //vertexTexture.SetTargetBitmap();
+    //Al.ClearToColor(Al.MapRgb(64, 128, 255));
+    //Al.DrawLine(32, 32, 224, 244, Al.MapRgb(255, 255, 255), 5);
+    //display.SetTargetBackbuffer();
+
+    //var mainTransform = new AllegroTransform();
+    //Al.BuildTransform(mainTransform, display.GetDisplayWidth() / 2, display.GetDisplayHeight() / 2, 1, 1, 0.001f);
+
+    // event loop
     var aEvent = new AllegroEvent();
     var aUserEvent = new AllegroEvent();
     var myUserEventType = Al.GetEventType('M', 'I', 'N', 'E');
@@ -230,11 +267,16 @@ internal static class Program
       {
         Al.SetTargetBitmap(bitmap);
         Al.ClearToColor(redColor);
+
         Al.DrawRoundedRectangle(50, 50, 150, 150, 10, 10, Al.MapRgb(128, 128, 128), 3);
         Al.DrawLine(50, 50, 150, 150, Al.MapRgb(255, 255, 255), 5);
         Al.DrawText(builtinFont, Al.MapRgb(255, 255, 255), 32, 32, FontAlignFlags.Left, "THE builtin FONT!");
         Al.SetTargetBackbuffer(display);
         Al.DrawBitmap(bitmap, 8, 8, FlipFlags.None);
+
+        //Al.UseTransform(mainTransform); 
+        //Al.DrawPrim(ref vertexes, null, vertexTexture, 0, 3, PrimitiveType.PointList);
+
         Al.FlipDisplay();
       }
     }

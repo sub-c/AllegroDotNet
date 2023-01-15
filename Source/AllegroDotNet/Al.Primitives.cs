@@ -128,20 +128,20 @@ namespace SubC.AllegroDotNet
       NativeFunctions.AlDrawRibbon(ref points, pointsStride, color, thickness, numSegments);
     }
 
-    public static void DrawPrim(ref AllegroVertex[] vertexes, AllegroVertexDecl? declaration, AllegroBitmap? texture, int start, int end, PrimitiveType type)
+    public static void DrawPrim(AllegroVertex[] vertexes, AllegroVertexDecl? declaration, AllegroBitmap? texture, int start, int end, PrimitiveType type)
     {
       if (declaration is not null)
         throw new NotImplementedException("Vertex declarations are not implemented, pass null instead.");
 
-      NativeFunctions.AlDrawPrim(ref vertexes, IntPtr.Zero, NativePointerModel.GetPointer(texture), start, end, (int)type);
+      NativeFunctions.AlDrawPrim(vertexes, IntPtr.Zero, NativePointerModel.GetPointer(texture), start, end, (int)type);
     }
 
-    public static int DrawIndexedPrim(ref AllegroVertex[] vertexes, AllegroVertexDecl? declaration, AllegroBitmap? texture, ref int[] indices, int vertexCount, PrimitiveType type)
+    public static int DrawIndexedPrim(AllegroVertex[] vertexes, AllegroVertexDecl? declaration, AllegroBitmap? texture, int[] indices, int vertexCount, PrimitiveType type)
     {
       if (declaration is not null)
         throw new NotImplementedException("Vertex declarations are not implemented, pass null instead.");
 
-      return NativeFunctions.AlDrawIndexedPrim(ref vertexes, IntPtr.Zero, NativePointerModel.GetPointer(texture), ref indices, vertexCount, (int)type);
+      return NativeFunctions.AlDrawIndexedPrim(vertexes, IntPtr.Zero, NativePointerModel.GetPointer(texture), indices, vertexCount, (int)type);
     }
 
     public static int DrawVertexBuffer(AllegroVertexBuffer? vertexBuffer, AllegroBitmap? texture, int start, int end, PrimitiveType type)

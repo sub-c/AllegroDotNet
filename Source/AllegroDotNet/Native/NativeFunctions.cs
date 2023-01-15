@@ -3531,13 +3531,25 @@ namespace SubC.AllegroDotNet.Native
         NativeInterop.LoadFunction<al_draw_ribbon>(AllegroLibrary, nameof(al_draw_ribbon));
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_draw_prim(ref AllegroVertex[] vtxs, IntPtr decl, IntPtr texture, int start, int end, int type);
+    public delegate int al_draw_prim(
+      [MarshalAs(UnmanagedType.LPArray)] AllegroVertex[] vtxs,
+      IntPtr decl,
+      IntPtr texture,
+      int start,
+      int end,
+      int type);
 
     public static al_draw_prim AlDrawPrim =
         NativeInterop.LoadFunction<al_draw_prim>(AllegroLibrary, nameof(al_draw_prim));
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_draw_indexed_prim(ref AllegroVertex[] vtxs, IntPtr decl, IntPtr texture, ref int[] indices, int num_vtx, int type);
+    public delegate int al_draw_indexed_prim(
+      [MarshalAs(UnmanagedType.LPArray)] AllegroVertex[] vtxs,
+      IntPtr decl,
+      IntPtr texture,
+      [MarshalAs(UnmanagedType.LPArray)] int[] indices,
+      int num_vtx,
+      int type);
 
     public static al_draw_indexed_prim AlDrawIndexedPrim =
         NativeInterop.LoadFunction<al_draw_indexed_prim>(AllegroLibrary, nameof(al_draw_indexed_prim));
