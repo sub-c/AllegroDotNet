@@ -4,7 +4,6 @@ using System.Runtime.InteropServices;
 using static SubC.AllegroDotNet.Models.AllegroTouchInputState;
 using static SubC.AllegroDotNet.Models.AllegroVertexElement;
 using static SubC.AllegroDotNet.Native.NativeDelegates;
-using static SubC.AllegroDotNet.Native.NativeFunctions;
 
 namespace SubC.AllegroDotNet.Native
 {

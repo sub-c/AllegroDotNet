@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <Platforms>x64</Platforms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\AllegroDotNet\AllegroDotNet.csproj" />
+    <ProjectReference Include="..\Ex.Common\Ex.Common.csproj" />
+  </ItemGroup>
+
+</Project>
