@@ -23,7 +23,7 @@ Al.UninstallSystem();
 ```
 3) Compile and run.
 
-For more example code, see the AllegroDotNet.Sandbox project in this repository.
+For more example code, see the projects in the `Source/Examples/` folder.
 
 ## Differences between Allegro 5 and AllegroDotNet
 AllegroDotNet tries to mimic Allegro 5 as closely as possible while also translating the original C library to modern .NET. You can use documentation and tutorials for Allegro 5 with AllegroDotNet, as long as you note the differences between the two:
@@ -43,6 +43,8 @@ AllegroDotNet tries to mimic Allegro 5 as closely as possible while also transla
 ## Notes about using AllegroDotNet:
 
 * Currently AllegroDotNet uses Allegro version 5.2.8.
+
+* Older versions of AllegroDotNet loaded the native Allegro functions into delegates via static initialization. This caused issues if you want to handle the case where the native Allegro library is unavailable. In newer versions, the first time `Al.Init()` or `Al.InstallSystem()` is called the library is loaded. If you try to invoke any other Allegro methods before this, you will get a null reference exception thrown. If you want to load the library without initializing, call `Al.SetupAllegroInterop()`.
 
 * If the Allegro function takes or returns a string, that involves extra marshalling from managed/unmanaged code. While this isn't "slow", it isn't as fast as passing pointers and numbers around.
 
