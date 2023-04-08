@@ -1,100 +1,119 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-namespace SubC.AllegroDotNet.Native
+namespace SubC.AllegroDotNet.Native;
+
+internal static class NativeInterop
 {
-  internal static class NativeInterop
+  private const string LinuxLibraryFilename = "./liballegro_monolith.so.5.2.8";
+  private const string OSXLibraryFilename = "liballegro_monolith.so";
+  private const int RTLD_LAZY = 0x0001;
+  private const string WindowsLibraryFilename = "allegro_monolith-5.2.dll";
+
+  public static IntPtr LoadAllegroLibrary()
   {
-    private const string LinuxLibraryFilename = "./liballegro_monolith.so.5.2.8";
-    private const string OSXLibraryFilename = "liballegro_monolith.so";
-    private const int RTLD_LAZY = 0x0001;
-    private const string WindowsLibraryFilename = "allegro_monolith-5.2.dll";
-
-    public static IntPtr LoadAllegroLibrary()
+    IntPtr library;
+    if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
     {
-      IntPtr library;
-      if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-      {
-        library = Windows.LoadLibraryW(WindowsLibraryFilename);
-      }
-      else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-      {
-        library = Linux.dlopen(LinuxLibraryFilename, RTLD_LAZY);
-      }
-      else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-      {
-        library = OSX.dlopen(OSXLibraryFilename, RTLD_LAZY);
-        if (library == IntPtr.Zero)
-        {
-          // Look in Frameworks for .app bundles
-          library = OSX.dlopen(Path.Combine(Assembly.GetExecutingAssembly().Location, "..", "Frameworks", OSXLibraryFilename), RTLD_LAZY);
-        }
-      }
-      else
-      {
-        throw new NotSupportedException("This OS is not supported by AllegroDotNet.");
-      }
-      return library == IntPtr.Zero
-          ? throw new BadImageFormatException("Could not load Allegro library file.")
-          : library;
+      library = Windows.LoadLibraryW(WindowsLibraryFilename);
     }
-
-    public static T LoadFunction<T>(IntPtr library)
+    else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
     {
-      return LoadFunction<T>(library, typeof(T).Name);
+      library = Linux.dlopen(LinuxLibraryFilename, RTLD_LAZY);
     }
-
-    public static T LoadFunction<T>(IntPtr library, string functionName)
+    else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
     {
-      IntPtr function;
-      if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+      library = OSX.dlopen(OSXLibraryFilename, RTLD_LAZY);
+      if (library == IntPtr.Zero)
       {
-        function = Windows.GetProcAddress(library, functionName);
+        // Look in Frameworks for .app bundles
+        library = OSX.dlopen(Path.Combine(Assembly.GetExecutingAssembly().Location, "..", "Frameworks", OSXLibraryFilename), RTLD_LAZY);
       }
-      else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-      {
-        function = Linux.dlsym(library, functionName);
-      }
-      else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-      {
-        function = OSX.dlsym(library, functionName);
-      }
-      else
-      {
-        throw new NotSupportedException("This OS is not supported by AllegroDotNet.");
-      }
-      return function == IntPtr.Zero
-          ? throw new BadImageFormatException($"Could not load the function \"{functionName}\" from the library.")
-          : Marshal.GetDelegateForFunctionPointer<T>(function);
     }
-
-    private static class Linux
+    else
     {
-      [DllImport("libdl.so.2", CallingConvention = CallingConvention.Cdecl, EntryPoint = "dlopen")]
-      public static extern IntPtr dlopen(string path, int flags);
-
-      [DllImport("libdl.so.2", CallingConvention = CallingConvention.Cdecl, EntryPoint = "dlsym")]
-      public static extern IntPtr dlsym(IntPtr handle, string symbol);
+      throw new NotSupportedException("This OS is not supported by AllegroDotNet.");
     }
+    return library == IntPtr.Zero
+        ? throw new BadImageFormatException("Could not load Allegro library file.")
+        : library;
+  }
 
-    private static class OSX
+  public static T LoadFunction<T>(IntPtr library)
+  {
+    return LoadFunction<T>(library, typeof(T).Name);
+  }
+
+  public static T LoadFunction<T>(IntPtr library, string functionName)
+  {
+    IntPtr function;
+    if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
     {
-      [DllImport("/usr/lib/libSystem.dylib", CallingConvention = CallingConvention.Cdecl, EntryPoint = "dlopen")]
-      public static extern IntPtr dlopen(string path, int flags);
-
-      [DllImport("/usr/lib/libSystem.dylib", CallingConvention = CallingConvention.Cdecl, EntryPoint = "dlsym")]
-      public static extern IntPtr dlsym(IntPtr handle, string symbol);
+      function = Windows.GetProcAddress(library, functionName);
     }
-
-    private static class Windows
+    else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
     {
-      [DllImport("kernel32.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi, EntryPoint = "GetProcAddress", ExactSpelling = true, SetLastError = true)]
-      public static extern IntPtr GetProcAddress(IntPtr hModule, string procName);
-
-      [DllImport("kernel32.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode, EntryPoint = "LoadLibraryW", SetLastError = true)]
-      public static extern IntPtr LoadLibraryW(string lpszLib);
+      function = Linux.dlsym(library, functionName);
     }
+    else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+    {
+      function = OSX.dlsym(library, functionName);
+    }
+    else
+    {
+      throw new NotSupportedException("This OS is not supported by AllegroDotNet.");
+    }
+    return function == IntPtr.Zero
+        ? throw new BadImageFormatException($"Could not load the function \"{functionName}\" from the library.")
+        : Marshal.GetDelegateForFunctionPointer<T>(function);
+  }
+
+  public static void SetupAllegroInterop()
+  {
+    if (NativeFunctions.AllegroLibrary != IntPtr.Zero)
+      return;
+
+    NativeFunctions.AllegroLibrary = LoadAllegroLibrary();
+
+    var loadFunctionMethod = typeof(NativeInterop).GetMethod(nameof(LoadFunction), new Type[] { typeof(IntPtr) })
+      ?? throw new Exception($"Cannot use reflection to get the {nameof(MethodInfo)} for '{nameof(LoadFunction)}'.");
+    var nativeAllegroDelegateFields = typeof(NativeFunctions).GetFields().Where(x => x.FieldType.Name.StartsWith("al_"));
+
+    foreach (var nativeAllegroDelegateField in nativeAllegroDelegateFields)
+    {
+      var genericLoadFunctionMethod = loadFunctionMethod.MakeGenericMethod(new Type[] { nativeAllegroDelegateField.FieldType });
+      var nativeAllegroFunction = genericLoadFunctionMethod.Invoke(null, new object[] { NativeFunctions.AllegroLibrary });
+      nativeAllegroDelegateField.SetValue(null, nativeAllegroFunction);
+    }
+  }
+
+  private static class Linux
+  {
+    [DllImport("libdl.so.2", CallingConvention = CallingConvention.Cdecl, EntryPoint = "dlopen")]
+    public static extern IntPtr dlopen(string path, int flags);
+
+    [DllImport("libdl.so.2", CallingConvention = CallingConvention.Cdecl, EntryPoint = "dlsym")]
+    public static extern IntPtr dlsym(IntPtr handle, string symbol);
+  }
+
+  private static class OSX
+  {
+    [DllImport("/usr/lib/libSystem.dylib", CallingConvention = CallingConvention.Cdecl, EntryPoint = "dlopen")]
+    public static extern IntPtr dlopen(string path, int flags);
+
+    [DllImport("/usr/lib/libSystem.dylib", CallingConvention = CallingConvention.Cdecl, EntryPoint = "dlsym")]
+    public static extern IntPtr dlsym(IntPtr handle, string symbol);
+  }
+
+  private static class Windows
+  {
+    [DllImport("kernel32.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi, EntryPoint = "GetProcAddress", ExactSpelling = true, SetLastError = true)]
+    public static extern IntPtr GetProcAddress(IntPtr hModule, string procName);
+
+    [DllImport("kernel32.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode, EntryPoint = "LoadLibraryW", SetLastError = true)]
+    public static extern IntPtr LoadLibraryW(string lpszLib);
   }
 }

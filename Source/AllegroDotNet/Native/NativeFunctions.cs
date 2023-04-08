@@ -1,4712 +1,4019 @@
 ﻿using SubC.AllegroDotNet.Models;
 using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using static SubC.AllegroDotNet.Models.AllegroTouchInputState;
 using static SubC.AllegroDotNet.Models.AllegroVertexElement;
 using static SubC.AllegroDotNet.Native.NativeDelegates;
 
-namespace SubC.AllegroDotNet.Native
+namespace SubC.AllegroDotNet.Native;
+
+internal static class NativeFunctions
 {
-  internal static class NativeFunctions
-  {
-    public static IntPtr AllegroLibrary { get; } = NativeInterop.LoadAllegroLibrary();
+  public static IntPtr AllegroLibrary { get; set; } = IntPtr.Zero;
 
-    #region Audio codecs routines
+  #region Audio codecs routines
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_init_acodec_addon();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_init_acodec_addon();
 
-    public static al_init_acodec_addon AlInitAcodecAddon =
-        NativeInterop.LoadFunction<al_init_acodec_addon>(AllegroLibrary, nameof(al_init_acodec_addon));
+  public static al_init_acodec_addon AlInitAcodecAddon = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_is_acodec_addon_initialized();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_is_acodec_addon_initialized();
 
-    public static al_is_acodec_addon_initialized AlIsAcodecAddonInitialized =
-        NativeInterop.LoadFunction<al_is_acodec_addon_initialized>(AllegroLibrary, nameof(al_is_acodec_addon_initialized));
+  public static al_is_acodec_addon_initialized AlIsAcodecAddonInitialized = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate uint al_get_allegro_acodec_version();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate uint al_get_allegro_acodec_version();
 
-    public static al_get_allegro_acodec_version AlGetAllegroAcodecVersion =
-        NativeInterop.LoadFunction<al_get_allegro_acodec_version>(AllegroLibrary, nameof(al_get_allegro_acodec_version));
+  public static al_get_allegro_acodec_version AlGetAllegroAcodecVersion = null!;
 
-    #endregion
+  #endregion
 
-    #region Audio routines
+  #region Audio routines
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_install_audio();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_install_audio();
 
-    public static al_install_audio AlInstallAudio =
-        NativeInterop.LoadFunction<al_install_audio>(AllegroLibrary, nameof(al_install_audio));
+  public static al_install_audio AlInstallAudio = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_uninstall_audio();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_uninstall_audio();
 
-    public static al_uninstall_audio AlUninstallAudio =
-        NativeInterop.LoadFunction<al_uninstall_audio>(AllegroLibrary, nameof(al_uninstall_audio));
+  public static al_uninstall_audio AlUninstallAudio = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_is_audio_installed();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_is_audio_installed();
 
-    public static al_is_audio_installed AlIsAudioInstalled =
-        NativeInterop.LoadFunction<al_is_audio_installed>(AllegroLibrary, nameof(al_is_audio_installed));
+  public static al_is_audio_installed AlIsAudioInstalled = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_reserve_samples(int reserve_samples);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_reserve_samples(int reserve_samples);
 
-    public static al_reserve_samples AlReserveSamples =
-        NativeInterop.LoadFunction<al_reserve_samples>(AllegroLibrary, nameof(al_reserve_samples));
+  public static al_reserve_samples AlReserveSamples = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate uint al_get_allegro_audio_version();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate uint al_get_allegro_audio_version();
 
-    public static al_get_allegro_audio_version AlGetAllegroAudioVersion =
-        NativeInterop.LoadFunction<al_get_allegro_audio_version>(AllegroLibrary, nameof(al_get_allegro_audio_version));
+  public static al_get_allegro_audio_version AlGetAllegroAudioVersion = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate long al_get_audio_depth_size(int depth);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate long al_get_audio_depth_size(int depth);
 
-    public static al_get_audio_depth_size AlGetAudioDepthSize =
-        NativeInterop.LoadFunction<al_get_audio_depth_size>(AllegroLibrary, nameof(al_get_audio_depth_size));
+  public static al_get_audio_depth_size AlGetAudioDepthSize = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate long al_get_channel_count(int conf);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate long al_get_channel_count(int conf);
 
-    public static al_get_channel_count AlGetChannelCount =
-        NativeInterop.LoadFunction<al_get_channel_count>(AllegroLibrary, nameof(al_get_channel_count));
+  public static al_get_channel_count AlGetChannelCount = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_fill_silence(IntPtr buf, uint samples, int depth, int chan_conf);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_fill_silence(IntPtr buf, uint samples, int depth, int chan_conf);
 
-    public static al_fill_silence AlFillSilence =
-        NativeInterop.LoadFunction<al_fill_silence>(AllegroLibrary, nameof(al_fill_silence));
+  public static al_fill_silence AlFillSilence = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_create_voice(uint freq, int depth, int chan_conf);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_create_voice(uint freq, int depth, int chan_conf);
 
-    public static al_create_voice AlCreateVoice =
-        NativeInterop.LoadFunction<al_create_voice>(AllegroLibrary, nameof(al_create_voice));
+  public static al_create_voice AlCreateVoice = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_destroy_voice(IntPtr voice);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_destroy_voice(IntPtr voice);
 
-    public static al_destroy_voice AlDestroyVoice =
-        NativeInterop.LoadFunction<al_destroy_voice>(AllegroLibrary, nameof(al_destroy_voice));
+  public static al_destroy_voice AlDestroyVoice = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_detach_voice(IntPtr voice);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_detach_voice(IntPtr voice);
 
-    public static al_detach_voice AlDetachVoice =
-        NativeInterop.LoadFunction<al_detach_voice>(AllegroLibrary, nameof(al_detach_voice));
+  public static al_detach_voice AlDetachVoice = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_attach_audio_stream_to_voice(IntPtr stream, IntPtr voice);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_attach_audio_stream_to_voice(IntPtr stream, IntPtr voice);
 
-    public static al_attach_audio_stream_to_voice AlAttachAudioStreamToVoice =
-        NativeInterop.LoadFunction<al_attach_audio_stream_to_voice>(AllegroLibrary, nameof(al_attach_audio_stream_to_voice));
+  public static al_attach_audio_stream_to_voice AlAttachAudioStreamToVoice = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_attach_mixer_to_voice(IntPtr mixer, IntPtr voice);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_attach_mixer_to_voice(IntPtr mixer, IntPtr voice);
 
-    public static al_attach_mixer_to_voice AlAttachMixerToVoice =
-        NativeInterop.LoadFunction<al_attach_mixer_to_voice>(AllegroLibrary, nameof(al_attach_mixer_to_voice));
+  public static al_attach_mixer_to_voice AlAttachMixerToVoice = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_attach_sample_instance_to_voice(IntPtr spl, IntPtr voice);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_attach_sample_instance_to_voice(IntPtr spl, IntPtr voice);
 
-    public static al_attach_sample_instance_to_voice AlAttachSampleInstanceToVoice =
-        NativeInterop.LoadFunction<al_attach_sample_instance_to_voice>(AllegroLibrary, nameof(al_attach_sample_instance_to_voice));
+  public static al_attach_sample_instance_to_voice AlAttachSampleInstanceToVoice = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate uint al_get_voice_frequency(IntPtr voice);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate uint al_get_voice_frequency(IntPtr voice);
 
-    public static al_get_voice_frequency AlGetVoiceFrequency =
-        NativeInterop.LoadFunction<al_get_voice_frequency>(AllegroLibrary, nameof(al_get_voice_frequency));
+  public static al_get_voice_frequency AlGetVoiceFrequency = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_get_voice_channels(IntPtr voice);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_get_voice_channels(IntPtr voice);
 
-    public static al_get_voice_channels AlGetVoiceChannels =
-        NativeInterop.LoadFunction<al_get_voice_channels>(AllegroLibrary, nameof(al_get_voice_channels));
+  public static al_get_voice_channels AlGetVoiceChannels = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_get_voice_depth(IntPtr voice);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_get_voice_depth(IntPtr voice);
 
-    public static al_get_voice_depth AlGetVoiceDepth =
-        NativeInterop.LoadFunction<al_get_voice_depth>(AllegroLibrary, nameof(al_get_voice_depth));
+  public static al_get_voice_depth AlGetVoiceDepth = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_get_voice_playing(IntPtr voice);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_get_voice_playing(IntPtr voice);
 
-    public static al_get_voice_playing AlGetVoicePlaying =
-        NativeInterop.LoadFunction<al_get_voice_playing>(AllegroLibrary, nameof(al_get_voice_playing));
+  public static al_get_voice_playing AlGetVoicePlaying = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_set_voice_playing(IntPtr voice, [MarshalAs(UnmanagedType.U1)] bool val);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_set_voice_playing(IntPtr voice, [MarshalAs(UnmanagedType.U1)] bool val);
 
-    public static al_set_voice_playing AlSetVoicePlaying =
-        NativeInterop.LoadFunction<al_set_voice_playing>(AllegroLibrary, nameof(al_set_voice_playing));
+  public static al_set_voice_playing AlSetVoicePlaying = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate uint al_get_voice_position(IntPtr voice);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate uint al_get_voice_position(IntPtr voice);
 
-    public static al_get_voice_position AlGetVoicePosition =
-        NativeInterop.LoadFunction<al_get_voice_position>(AllegroLibrary, nameof(al_get_voice_position));
+  public static al_get_voice_position AlGetVoicePosition = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_set_voice_position(IntPtr voice, uint val);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_set_voice_position(IntPtr voice, uint val);
 
-    public static al_set_voice_position AlSetVoicePosition =
-        NativeInterop.LoadFunction<al_set_voice_position>(AllegroLibrary, nameof(al_set_voice_position));
+  public static al_set_voice_position AlSetVoicePosition = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_create_sample(IntPtr buf, uint samples, uint freq, int depth, int chan_conf, [MarshalAs(UnmanagedType.U1)] bool free_buf);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_create_sample(IntPtr buf, uint samples, uint freq, int depth, int chan_conf, [MarshalAs(UnmanagedType.U1)] bool free_buf);
 
-    public static al_create_sample AlCreateSample =
-        NativeInterop.LoadFunction<al_create_sample>(AllegroLibrary, nameof(al_create_sample));
+  public static al_create_sample AlCreateSample = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_destroy_sample(IntPtr spl);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_destroy_sample(IntPtr spl);
 
-    public static al_destroy_sample AlDestroySample =
-        NativeInterop.LoadFunction<al_destroy_sample>(AllegroLibrary, nameof(al_destroy_sample));
+  public static al_destroy_sample AlDestroySample = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_play_sample(IntPtr spl, float gain, float pan, float speed, int loop, IntPtr ret_id);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_play_sample(IntPtr spl, float gain, float pan, float speed, int loop, IntPtr ret_id);
 
-    public static al_play_sample AlPlaySample =
-        NativeInterop.LoadFunction<al_play_sample>(AllegroLibrary, nameof(al_play_sample));
+  public static al_play_sample AlPlaySample = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_stop_sample(IntPtr spl_id);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_stop_sample(IntPtr spl_id);
 
-    public static al_stop_sample AlStopSample =
-        NativeInterop.LoadFunction<al_stop_sample>(AllegroLibrary, nameof(al_stop_sample));
+  public static al_stop_sample AlStopSample = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_stop_samples();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_stop_samples();
 
-    public static al_stop_samples AlStopSamples =
-        NativeInterop.LoadFunction<al_stop_samples>(AllegroLibrary, nameof(al_stop_samples));
+  public static al_stop_samples AlStopSamples = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_get_sample_channels(IntPtr spl);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_get_sample_channels(IntPtr spl);
 
-    public static al_get_sample_channels AlGetSampleChannels =
-        NativeInterop.LoadFunction<al_get_sample_channels>(AllegroLibrary, nameof(al_get_sample_channels));
+  public static al_get_sample_channels AlGetSampleChannels = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_get_sample_depth(IntPtr spl);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_get_sample_depth(IntPtr spl);
 
-    public static al_get_sample_depth AlGetSampleDepth =
-        NativeInterop.LoadFunction<al_get_sample_depth>(AllegroLibrary, nameof(al_get_sample_depth));
+  public static al_get_sample_depth AlGetSampleDepth = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate uint al_get_sample_frequency(IntPtr spl);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate uint al_get_sample_frequency(IntPtr spl);
 
-    public static al_get_sample_frequency AlGetSampleFrequency =
-        NativeInterop.LoadFunction<al_get_sample_frequency>(AllegroLibrary, nameof(al_get_sample_frequency));
+  public static al_get_sample_frequency AlGetSampleFrequency = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate uint al_get_sample_length(IntPtr spl);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate uint al_get_sample_length(IntPtr spl);
 
-    public static al_get_sample_length AlGetSampleLength =
-        NativeInterop.LoadFunction<al_get_sample_length>(AllegroLibrary, nameof(al_get_sample_length));
+  public static al_get_sample_length AlGetSampleLength = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_get_sample_data(IntPtr spl);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_get_sample_data(IntPtr spl);
 
-    public static al_get_sample_data AlGetSampleData =
-        NativeInterop.LoadFunction<al_get_sample_data>(AllegroLibrary, nameof(al_get_sample_data));
+  public static al_get_sample_data AlGetSampleData = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_create_sample_instance(IntPtr sample_data);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_create_sample_instance(IntPtr sample_data);
 
-    public static al_create_sample_instance AlCreateSampleInstance =
-        NativeInterop.LoadFunction<al_create_sample_instance>(AllegroLibrary, nameof(al_create_sample_instance));
+  public static al_create_sample_instance AlCreateSampleInstance = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_destroy_sample_instance(IntPtr spl);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_destroy_sample_instance(IntPtr spl);
 
-    public static al_destroy_sample_instance AlDestroySampleInstance =
-        NativeInterop.LoadFunction<al_destroy_sample_instance>(AllegroLibrary, nameof(al_destroy_sample_instance));
+  public static al_destroy_sample_instance AlDestroySampleInstance = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_play_sample_instance(IntPtr spl);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_play_sample_instance(IntPtr spl);
 
-    public static al_play_sample_instance AlPlaySampleInstance =
-        NativeInterop.LoadFunction<al_play_sample_instance>(AllegroLibrary, nameof(al_play_sample_instance));
+  public static al_play_sample_instance AlPlaySampleInstance = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_stop_sample_instance(IntPtr spl);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_stop_sample_instance(IntPtr spl);
 
-    public static al_stop_sample_instance AlStopSampleInstance =
-        NativeInterop.LoadFunction<al_stop_sample_instance>(AllegroLibrary, nameof(al_stop_sample_instance));
+  public static al_stop_sample_instance AlStopSampleInstance = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_get_sample_instance_channels(IntPtr spl);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_get_sample_instance_channels(IntPtr spl);
 
-    public static al_get_sample_instance_channels AlGetSampleInstanceChannels =
-        NativeInterop.LoadFunction<al_get_sample_instance_channels>(AllegroLibrary, nameof(al_get_sample_instance_channels));
+  public static al_get_sample_instance_channels AlGetSampleInstanceChannels = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_get_sample_instance_depth(IntPtr spl);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_get_sample_instance_depth(IntPtr spl);
 
-    public static al_get_sample_instance_depth AlGetSampleInstanceDepth =
-        NativeInterop.LoadFunction<al_get_sample_instance_depth>(AllegroLibrary, nameof(al_get_sample_instance_depth));
+  public static al_get_sample_instance_depth AlGetSampleInstanceDepth = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate uint al_get_sample_instance_frequency(IntPtr spl);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate uint al_get_sample_instance_frequency(IntPtr spl);
 
-    public static al_get_sample_instance_frequency AlGetSampleInstanceFrequency =
-        NativeInterop.LoadFunction<al_get_sample_instance_frequency>(AllegroLibrary, nameof(al_get_sample_instance_frequency));
+  public static al_get_sample_instance_frequency AlGetSampleInstanceFrequency = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate uint al_get_sample_instance_length(IntPtr spl);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate uint al_get_sample_instance_length(IntPtr spl);
 
-    public static al_get_sample_instance_length AlGetSampleInstanceLength =
-        NativeInterop.LoadFunction<al_get_sample_instance_length>(AllegroLibrary, nameof(al_get_sample_instance_length));
+  public static al_get_sample_instance_length AlGetSampleInstanceLength = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_set_sample_instance_length(IntPtr spl, uint val);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_set_sample_instance_length(IntPtr spl, uint val);
 
-    public static al_set_sample_instance_length AlSetSampleInstanceLength =
-        NativeInterop.LoadFunction<al_set_sample_instance_length>(AllegroLibrary, nameof(al_set_sample_instance_length));
+  public static al_set_sample_instance_length AlSetSampleInstanceLength = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate uint al_get_sample_instance_position(IntPtr spl);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate uint al_get_sample_instance_position(IntPtr spl);
 
-    public static al_get_sample_instance_position AlGetSampleInstancePosition =
-        NativeInterop.LoadFunction<al_get_sample_instance_position>(AllegroLibrary, nameof(al_get_sample_instance_position));
+  public static al_get_sample_instance_position AlGetSampleInstancePosition = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_set_sample_instance_position(IntPtr spl, uint val);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_set_sample_instance_position(IntPtr spl, uint val);
 
-    public static al_set_sample_instance_position AlSetSampleInstancePosition =
-        NativeInterop.LoadFunction<al_set_sample_instance_position>(AllegroLibrary, nameof(al_set_sample_instance_position));
+  public static al_set_sample_instance_position AlSetSampleInstancePosition = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate float al_get_sample_instance_speed(IntPtr spl);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate float al_get_sample_instance_speed(IntPtr spl);
 
-    public static al_get_sample_instance_speed AlGetSampleInstanceSpeed =
-        NativeInterop.LoadFunction<al_get_sample_instance_speed>(AllegroLibrary, nameof(al_get_sample_instance_speed));
+  public static al_get_sample_instance_speed AlGetSampleInstanceSpeed = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_set_sample_instance_speed(IntPtr spl, float val);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_set_sample_instance_speed(IntPtr spl, float val);
 
-    public static al_set_sample_instance_speed AlSetSampleInstanceSpeed =
-        NativeInterop.LoadFunction<al_set_sample_instance_speed>(AllegroLibrary, nameof(al_set_sample_instance_speed));
+  public static al_set_sample_instance_speed AlSetSampleInstanceSpeed = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate float al_get_sample_instance_gain(IntPtr spl);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate float al_get_sample_instance_gain(IntPtr spl);
 
-    public static al_get_sample_instance_gain AlGetSampleInstanceGain =
-        NativeInterop.LoadFunction<al_get_sample_instance_gain>(AllegroLibrary, nameof(al_get_sample_instance_gain));
+  public static al_get_sample_instance_gain AlGetSampleInstanceGain = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_set_sample_instance_gain(IntPtr spl, float val);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_set_sample_instance_gain(IntPtr spl, float val);
 
-    public static al_set_sample_instance_gain AlSetSampleInstanceGain =
-        NativeInterop.LoadFunction<al_set_sample_instance_gain>(AllegroLibrary, nameof(al_set_sample_instance_gain));
+  public static al_set_sample_instance_gain AlSetSampleInstanceGain = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate float al_get_sample_instance_pan(IntPtr spl);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate float al_get_sample_instance_pan(IntPtr spl);
 
-    public static al_get_sample_instance_pan AlGetSampleInstancePan =
-        NativeInterop.LoadFunction<al_get_sample_instance_pan>(AllegroLibrary, nameof(al_get_sample_instance_pan));
+  public static al_get_sample_instance_pan AlGetSampleInstancePan = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_set_sample_instance_pan(IntPtr spl, float val);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_set_sample_instance_pan(IntPtr spl, float val);
 
-    public static al_set_sample_instance_pan AlSetSampleInstancePan =
-        NativeInterop.LoadFunction<al_set_sample_instance_pan>(AllegroLibrary, nameof(al_set_sample_instance_pan));
+  public static al_set_sample_instance_pan AlSetSampleInstancePan = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate float al_get_sample_instance_time(IntPtr spl);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate float al_get_sample_instance_time(IntPtr spl);
 
-    public static al_get_sample_instance_time AlGetSampleInstanceTime =
-        NativeInterop.LoadFunction<al_get_sample_instance_time>(AllegroLibrary, nameof(al_get_sample_instance_time));
+  public static al_get_sample_instance_time AlGetSampleInstanceTime = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_get_sample_instance_playmode(IntPtr spl);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_get_sample_instance_playmode(IntPtr spl);
 
-    public static al_get_sample_instance_playmode AlGetSampleInstancePlaymode =
-        NativeInterop.LoadFunction<al_get_sample_instance_playmode>(AllegroLibrary, nameof(al_get_sample_instance_playmode));
+  public static al_get_sample_instance_playmode AlGetSampleInstancePlaymode = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_set_sample_instance_playmode(IntPtr spl, int val);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_set_sample_instance_playmode(IntPtr spl, int val);
 
-    public static al_set_sample_instance_playmode AlSetSampleInstancePlaymode =
-        NativeInterop.LoadFunction<al_set_sample_instance_playmode>(AllegroLibrary, nameof(al_set_sample_instance_playmode));
+  public static al_set_sample_instance_playmode AlSetSampleInstancePlaymode = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_get_sample_instance_playing(IntPtr spl);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_get_sample_instance_playing(IntPtr spl);
 
-    public static al_get_sample_instance_playing AlGetSampleInstancePlaying =
-        NativeInterop.LoadFunction<al_get_sample_instance_playing>(AllegroLibrary, nameof(al_get_sample_instance_playing));
+  public static al_get_sample_instance_playing AlGetSampleInstancePlaying = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_set_sample_instance_playing(IntPtr spl, [MarshalAs(UnmanagedType.U1)] bool val);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_set_sample_instance_playing(IntPtr spl, [MarshalAs(UnmanagedType.U1)] bool val);
 
-    public static al_set_sample_instance_playing AlSetSampleInstancePlaying =
-        NativeInterop.LoadFunction<al_set_sample_instance_playing>(AllegroLibrary, nameof(al_set_sample_instance_playing));
+  public static al_set_sample_instance_playing AlSetSampleInstancePlaying = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_get_sample_instance_attached(IntPtr spl);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_get_sample_instance_attached(IntPtr spl);
 
-    public static al_get_sample_instance_attached AlGetSampleInstanceAttached =
-        NativeInterop.LoadFunction<al_get_sample_instance_attached>(AllegroLibrary, nameof(al_get_sample_instance_attached));
+  public static al_get_sample_instance_attached AlGetSampleInstanceAttached = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_detach_sample_instance(IntPtr spl);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_detach_sample_instance(IntPtr spl);
 
-    public static al_detach_sample_instance AlDetachSampleInstance =
-        NativeInterop.LoadFunction<al_detach_sample_instance>(AllegroLibrary, nameof(al_detach_sample_instance));
+  public static al_detach_sample_instance AlDetachSampleInstance = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_get_sample(IntPtr spl);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_get_sample(IntPtr spl);
 
-    public static al_get_sample AlGetSample =
-        NativeInterop.LoadFunction<al_get_sample>(AllegroLibrary, nameof(al_get_sample));
+  public static al_get_sample AlGetSample = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_set_sample(IntPtr spl, IntPtr data);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_set_sample(IntPtr spl, IntPtr data);
 
-    public static al_set_sample AlSetSample =
-        NativeInterop.LoadFunction<al_set_sample>(AllegroLibrary, nameof(al_set_sample));
+  public static al_set_sample AlSetSample = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_create_mixer(uint freq, int depth, int chan_conf);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_create_mixer(uint freq, int depth, int chan_conf);
 
-    public static al_create_mixer AlCreateMixer =
-        NativeInterop.LoadFunction<al_create_mixer>(AllegroLibrary, nameof(al_create_mixer));
+  public static al_create_mixer AlCreateMixer = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_destroy_mixer(IntPtr mixer);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_destroy_mixer(IntPtr mixer);
 
-    public static al_destroy_mixer AlDestroyMixer =
-        NativeInterop.LoadFunction<al_destroy_mixer>(AllegroLibrary, nameof(al_destroy_mixer));
+  public static al_destroy_mixer AlDestroyMixer = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_get_default_mixer();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_get_default_mixer();
 
-    public static al_get_default_mixer AlGetDefaultMixer =
-        NativeInterop.LoadFunction<al_get_default_mixer>(AllegroLibrary, nameof(al_get_default_mixer));
+  public static al_get_default_mixer AlGetDefaultMixer = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_set_default_mixer(IntPtr mixer);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_set_default_mixer(IntPtr mixer);
 
-    public static al_set_default_mixer AlSetDefaultMixer =
-        NativeInterop.LoadFunction<al_set_default_mixer>(AllegroLibrary, nameof(al_set_default_mixer));
+  public static al_set_default_mixer AlSetDefaultMixer = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_restore_default_mixer();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_restore_default_mixer();
 
-    public static al_restore_default_mixer AlRestoreDefaultMixer =
-        NativeInterop.LoadFunction<al_restore_default_mixer>(AllegroLibrary, nameof(al_restore_default_mixer));
+  public static al_restore_default_mixer AlRestoreDefaultMixer = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_get_default_voice();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_get_default_voice();
 
-    public static al_get_default_voice AlGetDefaultVoice =
-        NativeInterop.LoadFunction<al_get_default_voice>(AllegroLibrary, nameof(al_get_default_voice));
+  public static al_get_default_voice AlGetDefaultVoice = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_set_default_voice(IntPtr voice);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_set_default_voice(IntPtr voice);
 
-    public static al_set_default_voice AlSetDefaultVoice =
-        NativeInterop.LoadFunction<al_set_default_voice>(AllegroLibrary, nameof(al_set_default_voice));
+  public static al_set_default_voice AlSetDefaultVoice = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_attach_mixer_to_mixer(IntPtr stream, IntPtr mixer);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_attach_mixer_to_mixer(IntPtr stream, IntPtr mixer);
 
-    public static al_attach_mixer_to_mixer AlAttachMixerToMixer =
-        NativeInterop.LoadFunction<al_attach_mixer_to_mixer>(AllegroLibrary, nameof(al_attach_mixer_to_mixer));
+  public static al_attach_mixer_to_mixer AlAttachMixerToMixer = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_attach_sample_instance_to_mixer(IntPtr spl, IntPtr mixer);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_attach_sample_instance_to_mixer(IntPtr spl, IntPtr mixer);
 
-    public static al_attach_sample_instance_to_mixer AlAttachSampleInstanceToMixer =
-        NativeInterop.LoadFunction<al_attach_sample_instance_to_mixer>(AllegroLibrary, nameof(al_attach_sample_instance_to_mixer));
+  public static al_attach_sample_instance_to_mixer AlAttachSampleInstanceToMixer = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_attach_audio_stream_to_mixer(IntPtr stream, IntPtr mixer);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_attach_audio_stream_to_mixer(IntPtr stream, IntPtr mixer);
 
-    public static al_attach_audio_stream_to_mixer AlAttachAudioStreamToMixer =
-        NativeInterop.LoadFunction<al_attach_audio_stream_to_mixer>(AllegroLibrary, nameof(al_attach_audio_stream_to_mixer));
+  public static al_attach_audio_stream_to_mixer AlAttachAudioStreamToMixer = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate uint al_get_mixer_frequency(IntPtr mixer);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate uint al_get_mixer_frequency(IntPtr mixer);
 
-    public static al_get_mixer_frequency AlGetMixerFrequency =
-        NativeInterop.LoadFunction<al_get_mixer_frequency>(AllegroLibrary, nameof(al_get_mixer_frequency));
+  public static al_get_mixer_frequency AlGetMixerFrequency = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_set_mixer_frequency(IntPtr mixer, uint val);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_set_mixer_frequency(IntPtr mixer, uint val);
 
-    public static al_set_mixer_frequency AlSetMixerFrequency =
-        NativeInterop.LoadFunction<al_set_mixer_frequency>(AllegroLibrary, nameof(al_set_mixer_frequency));
+  public static al_set_mixer_frequency AlSetMixerFrequency = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_get_mixer_channels(IntPtr mixer);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_get_mixer_channels(IntPtr mixer);
 
-    public static al_get_mixer_channels AlGetMixerChannels =
-        NativeInterop.LoadFunction<al_get_mixer_channels>(AllegroLibrary, nameof(al_get_mixer_channels));
+  public static al_get_mixer_channels AlGetMixerChannels = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_get_mixer_depth(IntPtr mixer);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_get_mixer_depth(IntPtr mixer);
 
-    public static al_get_mixer_depth AlGetMixerDepth =
-        NativeInterop.LoadFunction<al_get_mixer_depth>(AllegroLibrary, nameof(al_get_mixer_depth));
+  public static al_get_mixer_depth AlGetMixerDepth = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate float al_get_mixer_gain(IntPtr mixer);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate float al_get_mixer_gain(IntPtr mixer);
 
-    public static al_get_mixer_gain AlGetMixerGain =
-        NativeInterop.LoadFunction<al_get_mixer_gain>(AllegroLibrary, nameof(al_get_mixer_gain));
+  public static al_get_mixer_gain AlGetMixerGain = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_set_mixer_gain(IntPtr mixer, float new_gain);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_set_mixer_gain(IntPtr mixer, float new_gain);
 
-    public static al_set_mixer_gain AlSetMixerGain =
-        NativeInterop.LoadFunction<al_set_mixer_gain>(AllegroLibrary, nameof(al_set_mixer_gain));
+  public static al_set_mixer_gain AlSetMixerGain = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_get_mixer_quality(IntPtr mixer);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_get_mixer_quality(IntPtr mixer);
 
-    public static al_get_mixer_quality AlGetMixerQuality =
-        NativeInterop.LoadFunction<al_get_mixer_quality>(AllegroLibrary, nameof(al_get_mixer_quality));
+  public static al_get_mixer_quality AlGetMixerQuality = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_set_mixer_quality(IntPtr mixer, int new_quality);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_set_mixer_quality(IntPtr mixer, int new_quality);
 
-    public static al_set_mixer_quality AlSetMixerQuality =
-        NativeInterop.LoadFunction<al_set_mixer_quality>(AllegroLibrary, nameof(al_set_mixer_quality));
+  public static al_set_mixer_quality AlSetMixerQuality = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_get_mixer_playing(IntPtr mixer);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_get_mixer_playing(IntPtr mixer);
 
-    public static al_get_mixer_playing AlGetMixerPlaying =
-        NativeInterop.LoadFunction<al_get_mixer_playing>(AllegroLibrary, nameof(al_get_mixer_playing));
+  public static al_get_mixer_playing AlGetMixerPlaying = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_set_mixer_playing(IntPtr mixer, [MarshalAs(UnmanagedType.U1)] bool val);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_set_mixer_playing(IntPtr mixer, [MarshalAs(UnmanagedType.U1)] bool val);
 
-    public static al_set_mixer_playing AlSetMixerPlaying =
-        NativeInterop.LoadFunction<al_set_mixer_playing>(AllegroLibrary, nameof(al_set_mixer_playing));
+  public static al_set_mixer_playing AlSetMixerPlaying = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_get_mixer_attached(IntPtr mixer);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_get_mixer_attached(IntPtr mixer);
 
-    public static al_get_mixer_attached AlGetMixerAttached =
-        NativeInterop.LoadFunction<al_get_mixer_attached>(AllegroLibrary, nameof(al_get_mixer_attached));
+  public static al_get_mixer_attached AlGetMixerAttached = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_detach_mixer(IntPtr mixer);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_detach_mixer(IntPtr mixer);
 
-    public static al_detach_mixer AlDetachMixer =
-        NativeInterop.LoadFunction<al_detach_mixer>(AllegroLibrary, nameof(al_detach_mixer));
+  public static al_detach_mixer AlDetachMixer = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_set_mixer_postprocess_callback(IntPtr mixer, MixerPostprocessCallback pp_callback, IntPtr pp_callback_userdata);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_set_mixer_postprocess_callback(IntPtr mixer, MixerPostprocessCallback pp_callback, IntPtr pp_callback_userdata);
 
-    public static al_set_mixer_postprocess_callback AlSetMixerPostprocessCallback =
-        NativeInterop.LoadFunction<al_set_mixer_postprocess_callback>(AllegroLibrary, nameof(al_set_mixer_postprocess_callback));
+  public static al_set_mixer_postprocess_callback AlSetMixerPostprocessCallback = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_create_audio_stream(long fragment_count, uint frag_samples, uint freq, int depth, int chan_conf);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_create_audio_stream(long fragment_count, uint frag_samples, uint freq, int depth, int chan_conf);
 
-    public static al_create_audio_stream AlCreateAudioStream =
-        NativeInterop.LoadFunction<al_create_audio_stream>(AllegroLibrary, nameof(al_create_audio_stream));
+  public static al_create_audio_stream AlCreateAudioStream = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_destroy_audio_stream(IntPtr stream);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_destroy_audio_stream(IntPtr stream);
 
-    public static al_destroy_audio_stream AlDestroyAudioStream =
-        NativeInterop.LoadFunction<al_destroy_audio_stream>(AllegroLibrary, nameof(al_destroy_audio_stream));
+  public static al_destroy_audio_stream AlDestroyAudioStream = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_get_audio_stream_event_source(IntPtr stream);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_get_audio_stream_event_source(IntPtr stream);
 
-    public static al_get_audio_stream_event_source AlGetAudioStreamEventSource =
-        NativeInterop.LoadFunction<al_get_audio_stream_event_source>(AllegroLibrary, nameof(al_get_audio_stream_event_source));
+  public static al_get_audio_stream_event_source AlGetAudioStreamEventSource = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_drain_audio_stream(IntPtr stream);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_drain_audio_stream(IntPtr stream);
 
-    public static al_drain_audio_stream AlDrainAudioStream =
-        NativeInterop.LoadFunction<al_drain_audio_stream>(AllegroLibrary, nameof(al_drain_audio_stream));
+  public static al_drain_audio_stream AlDrainAudioStream = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_rewind_audio_stream(IntPtr stream);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_rewind_audio_stream(IntPtr stream);
 
-    public static al_rewind_audio_stream AlRewindAudioStream =
-        NativeInterop.LoadFunction<al_rewind_audio_stream>(AllegroLibrary, nameof(al_rewind_audio_stream));
+  public static al_rewind_audio_stream AlRewindAudioStream = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate uint al_get_audio_stream_frequency(IntPtr stream);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate uint al_get_audio_stream_frequency(IntPtr stream);
 
-    public static al_get_audio_stream_frequency AlGetAudioStreamFrequency =
-        NativeInterop.LoadFunction<al_get_audio_stream_frequency>(AllegroLibrary, nameof(al_get_audio_stream_frequency));
+  public static al_get_audio_stream_frequency AlGetAudioStreamFrequency = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_get_audio_stream_channels(IntPtr stream);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_get_audio_stream_channels(IntPtr stream);
 
-    public static al_get_audio_stream_channels AlGetAudioStreamChannels =
-        NativeInterop.LoadFunction<al_get_audio_stream_channels>(AllegroLibrary, nameof(al_get_audio_stream_channels));
+  public static al_get_audio_stream_channels AlGetAudioStreamChannels = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_get_audio_stream_depth(IntPtr stream);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_get_audio_stream_depth(IntPtr stream);
 
-    public static al_get_audio_stream_depth AlGetAudioStreamDepth =
-        NativeInterop.LoadFunction<al_get_audio_stream_depth>(AllegroLibrary, nameof(al_get_audio_stream_depth));
+  public static al_get_audio_stream_depth AlGetAudioStreamDepth = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate uint al_get_audio_stream_length(IntPtr stream);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate uint al_get_audio_stream_length(IntPtr stream);
 
-    public static al_get_audio_stream_length AlGetAudioStreamLength =
-        NativeInterop.LoadFunction<al_get_audio_stream_length>(AllegroLibrary, nameof(al_get_audio_stream_length));
+  public static al_get_audio_stream_length AlGetAudioStreamLength = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate float al_get_audio_stream_speed(IntPtr stream);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate float al_get_audio_stream_speed(IntPtr stream);
 
-    public static al_get_audio_stream_speed AlGetAudioStreamSpeed =
-        NativeInterop.LoadFunction<al_get_audio_stream_speed>(AllegroLibrary, nameof(al_get_audio_stream_speed));
+  public static al_get_audio_stream_speed AlGetAudioStreamSpeed = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_set_audio_stream_speed(IntPtr stream, float val);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_set_audio_stream_speed(IntPtr stream, float val);
 
-    public static al_set_audio_stream_speed AlSetAudioStreamSpeed =
-        NativeInterop.LoadFunction<al_set_audio_stream_speed>(AllegroLibrary, nameof(al_set_audio_stream_speed));
+  public static al_set_audio_stream_speed AlSetAudioStreamSpeed = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate float al_get_audio_stream_gain(IntPtr stream);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate float al_get_audio_stream_gain(IntPtr stream);
 
-    public static al_get_audio_stream_gain AlGetAudioStreamGain =
-        NativeInterop.LoadFunction<al_get_audio_stream_gain>(AllegroLibrary, nameof(al_get_audio_stream_gain));
+  public static al_get_audio_stream_gain AlGetAudioStreamGain = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_set_audio_stream_gain(IntPtr stream, float val);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_set_audio_stream_gain(IntPtr stream, float val);
 
-    public static al_set_audio_stream_gain AlSetAudioStreamGain =
-        NativeInterop.LoadFunction<al_set_audio_stream_gain>(AllegroLibrary, nameof(al_set_audio_stream_gain));
+  public static al_set_audio_stream_gain AlSetAudioStreamGain = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate float al_get_audio_stream_pan(IntPtr stream);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate float al_get_audio_stream_pan(IntPtr stream);
 
-    public static al_get_audio_stream_pan AlGetAudioStreamPan =
-        NativeInterop.LoadFunction<al_get_audio_stream_pan>(AllegroLibrary, nameof(al_get_audio_stream_pan));
+  public static al_get_audio_stream_pan AlGetAudioStreamPan = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_set_audio_stream_pan(IntPtr stream, float val);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_set_audio_stream_pan(IntPtr stream, float val);
 
-    public static al_set_audio_stream_pan AlSetAudioStreamPan =
-        NativeInterop.LoadFunction<al_set_audio_stream_pan>(AllegroLibrary, nameof(al_set_audio_stream_pan));
+  public static al_set_audio_stream_pan AlSetAudioStreamPan = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_get_audio_stream_playing(IntPtr stream);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_get_audio_stream_playing(IntPtr stream);
 
-    public static al_get_audio_stream_playing AlGetAudioStreamPlaying =
-        NativeInterop.LoadFunction<al_get_audio_stream_playing>(AllegroLibrary, nameof(al_get_audio_stream_playing));
+  public static al_get_audio_stream_playing AlGetAudioStreamPlaying = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_set_audio_stream_playing(IntPtr stream, [MarshalAs(UnmanagedType.U1)] bool val);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_set_audio_stream_playing(IntPtr stream, [MarshalAs(UnmanagedType.U1)] bool val);
 
-    public static al_set_audio_stream_playing AlSetAudioStreamPlaying =
-        NativeInterop.LoadFunction<al_set_audio_stream_playing>(AllegroLibrary, nameof(al_set_audio_stream_playing));
+  public static al_set_audio_stream_playing AlSetAudioStreamPlaying = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_get_audio_stream_playmode(IntPtr stream);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_get_audio_stream_playmode(IntPtr stream);
 
-    public static al_get_audio_stream_playmode AlGetAudioStreamPlaymode =
-        NativeInterop.LoadFunction<al_get_audio_stream_playmode>(AllegroLibrary, nameof(al_get_audio_stream_playmode));
+  public static al_get_audio_stream_playmode AlGetAudioStreamPlaymode = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_set_audio_stream_playmode(IntPtr stream, int val);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_set_audio_stream_playmode(IntPtr stream, int val);
 
-    public static al_set_audio_stream_playmode AlSetAudioStreamPlaymode =
-        NativeInterop.LoadFunction<al_set_audio_stream_playmode>(AllegroLibrary, nameof(al_set_audio_stream_playmode));
+  public static al_set_audio_stream_playmode AlSetAudioStreamPlaymode = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_get_audio_stream_attached(IntPtr stream);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_get_audio_stream_attached(IntPtr stream);
 
-    public static al_get_audio_stream_attached AlGetAudioStreamAttached =
-        NativeInterop.LoadFunction<al_get_audio_stream_attached>(AllegroLibrary, nameof(al_get_audio_stream_attached));
+  public static al_get_audio_stream_attached AlGetAudioStreamAttached = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_detach_audio_stream(IntPtr stream);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_detach_audio_stream(IntPtr stream);
 
-    public static al_detach_audio_stream AlDetachAudioStream =
-        NativeInterop.LoadFunction<al_detach_audio_stream>(AllegroLibrary, nameof(al_detach_audio_stream));
+  public static al_detach_audio_stream AlDetachAudioStream = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate ulong al_get_audio_stream_played_samples(IntPtr stream);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate ulong al_get_audio_stream_played_samples(IntPtr stream);
 
-    public static al_get_audio_stream_played_samples AlGetAudioStreamPlayedSamples =
-        NativeInterop.LoadFunction<al_get_audio_stream_played_samples>(AllegroLibrary, nameof(al_get_audio_stream_played_samples));
+  public static al_get_audio_stream_played_samples AlGetAudioStreamPlayedSamples = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_get_audio_stream_fragment(IntPtr stream);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_get_audio_stream_fragment(IntPtr stream);
 
-    public static al_get_audio_stream_fragment AlGetAudioStreamFragment =
-        NativeInterop.LoadFunction<al_get_audio_stream_fragment>(AllegroLibrary, nameof(al_get_audio_stream_fragment));
+  public static al_get_audio_stream_fragment AlGetAudioStreamFragment = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_set_audio_stream_fragment(IntPtr stream, IntPtr val);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_set_audio_stream_fragment(IntPtr stream, IntPtr val);
 
-    public static al_set_audio_stream_fragment AlSetAudioStreamFragment =
-        NativeInterop.LoadFunction<al_set_audio_stream_fragment>(AllegroLibrary, nameof(al_set_audio_stream_fragment));
+  public static al_set_audio_stream_fragment AlSetAudioStreamFragment = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate uint al_get_audio_stream_fragments(IntPtr stream);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate uint al_get_audio_stream_fragments(IntPtr stream);
 
-    public static al_get_audio_stream_fragments AlGetAudioStreamFragments =
-        NativeInterop.LoadFunction<al_get_audio_stream_fragments>(AllegroLibrary, nameof(al_get_audio_stream_fragments));
+  public static al_get_audio_stream_fragments AlGetAudioStreamFragments = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate uint al_get_available_audio_stream_fragments(IntPtr stream);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate uint al_get_available_audio_stream_fragments(IntPtr stream);
 
-    public static al_get_available_audio_stream_fragments AlGetAvailableAudioStreamFragments =
-        NativeInterop.LoadFunction<al_get_available_audio_stream_fragments>(AllegroLibrary, nameof(al_get_available_audio_stream_fragments));
+  public static al_get_available_audio_stream_fragments AlGetAvailableAudioStreamFragments = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_seek_audio_stream_secs(IntPtr stream, double time);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_seek_audio_stream_secs(IntPtr stream, double time);
 
-    public static al_seek_audio_stream_secs AlSeekAudioStreamSecs =
-        NativeInterop.LoadFunction<al_seek_audio_stream_secs>(AllegroLibrary, nameof(al_seek_audio_stream_secs));
+  public static al_seek_audio_stream_secs AlSeekAudioStreamSecs = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate double al_get_audio_stream_position_secs(IntPtr stream);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate double al_get_audio_stream_position_secs(IntPtr stream);
 
-    public static al_get_audio_stream_position_secs AlGetAudioStreamPositionSecs =
-        NativeInterop.LoadFunction<al_get_audio_stream_position_secs>(AllegroLibrary, nameof(al_get_audio_stream_position_secs));
+  public static al_get_audio_stream_position_secs AlGetAudioStreamPositionSecs = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate double al_get_audio_stream_length_secs(IntPtr stream);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate double al_get_audio_stream_length_secs(IntPtr stream);
 
-    public static al_get_audio_stream_length_secs AlGetAudioStreamLengthSecs =
-        NativeInterop.LoadFunction<al_get_audio_stream_length_secs>(AllegroLibrary, nameof(al_get_audio_stream_length_secs));
+  public static al_get_audio_stream_length_secs AlGetAudioStreamLengthSecs = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_set_audio_stream_loop_secs(IntPtr stream, double start, double end);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_set_audio_stream_loop_secs(IntPtr stream, double start, double end);
 
-    public static al_set_audio_stream_loop_secs AlSetAudioStreamLoopSecs =
-        NativeInterop.LoadFunction<al_set_audio_stream_loop_secs>(AllegroLibrary, nameof(al_set_audio_stream_loop_secs));
+  public static al_set_audio_stream_loop_secs AlSetAudioStreamLoopSecs = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_register_sample_loader(IntPtr ext, RegisterSampleLoader loader);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_register_sample_loader(IntPtr ext, RegisterSampleLoader loader);
 
-    public static al_register_sample_loader AlRegisterSampleLoader =
-        NativeInterop.LoadFunction<al_register_sample_loader>(AllegroLibrary, nameof(al_register_sample_loader));
+  public static al_register_sample_loader AlRegisterSampleLoader = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_register_sample_loader_f(IntPtr ext, RegisterSampleLoaderF loader);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_register_sample_loader_f(IntPtr ext, RegisterSampleLoaderF loader);
 
-    public static al_register_sample_loader_f AlRegisterSampleLoaderF =
-        NativeInterop.LoadFunction<al_register_sample_loader_f>(AllegroLibrary, nameof(al_register_sample_loader_f));
+  public static al_register_sample_loader_f AlRegisterSampleLoaderF = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_register_sample_saver(IntPtr ext, RegisterSampleSaver saver);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_register_sample_saver(IntPtr ext, RegisterSampleSaver saver);
 
-    public static al_register_sample_saver AlRegisterSampleSaver =
-        NativeInterop.LoadFunction<al_register_sample_saver>(AllegroLibrary, nameof(al_register_sample_saver));
+  public static al_register_sample_saver AlRegisterSampleSaver = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_register_sample_saver_f(IntPtr ext, RegisterSampleSaverF saver);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_register_sample_saver_f(IntPtr ext, RegisterSampleSaverF saver);
 
-    public static al_register_sample_saver_f AlRegisterSampleSaverF =
-        NativeInterop.LoadFunction<al_register_sample_saver_f>(AllegroLibrary, nameof(al_register_sample_saver_f));
+  public static al_register_sample_saver_f AlRegisterSampleSaverF = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_register_audio_stream_loader(IntPtr ext, RegisterAudioStreamLoader stream_loader);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_register_audio_stream_loader(IntPtr ext, RegisterAudioStreamLoader stream_loader);
 
-    public static al_register_audio_stream_loader AlRegisterAudioStreamLoader =
-        NativeInterop.LoadFunction<al_register_audio_stream_loader>(AllegroLibrary, nameof(al_register_audio_stream_loader));
+  public static al_register_audio_stream_loader AlRegisterAudioStreamLoader = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_register_audio_stream_loader_f(IntPtr ext, RegisterAudioStreamLoaderF stream_loader);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_register_audio_stream_loader_f(IntPtr ext, RegisterAudioStreamLoaderF stream_loader);
 
-    public static al_register_audio_stream_loader_f AlRegisterAudioStreamLoaderF =
-        NativeInterop.LoadFunction<al_register_audio_stream_loader_f>(AllegroLibrary, nameof(al_register_audio_stream_loader_f));
+  public static al_register_audio_stream_loader_f AlRegisterAudioStreamLoaderF = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_load_sample(IntPtr filename);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_load_sample(IntPtr filename);
 
-    public static al_load_sample AlLoadSample =
-        NativeInterop.LoadFunction<al_load_sample>(AllegroLibrary, nameof(al_load_sample));
+  public static al_load_sample AlLoadSample = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_load_sample_f(IntPtr fp, IntPtr ident);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_load_sample_f(IntPtr fp, IntPtr ident);
 
-    public static al_load_sample_f AlLoadSampleF =
-        NativeInterop.LoadFunction<al_load_sample_f>(AllegroLibrary, nameof(al_load_sample_f));
+  public static al_load_sample_f AlLoadSampleF = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_load_audio_stream(IntPtr filename, long buffer_count, uint samples);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_load_audio_stream(IntPtr filename, long buffer_count, uint samples);
 
-    public static al_load_audio_stream AlLoadAudioStream =
-        NativeInterop.LoadFunction<al_load_audio_stream>(AllegroLibrary, nameof(al_load_audio_stream));
+  public static al_load_audio_stream AlLoadAudioStream = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_load_audio_stream_f(IntPtr fp, IntPtr ident, long buffer_count, uint samples);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_load_audio_stream_f(IntPtr fp, IntPtr ident, long buffer_count, uint samples);
 
-    public static al_load_audio_stream_f AlLoadAudioStreamF =
-        NativeInterop.LoadFunction<al_load_audio_stream_f>(AllegroLibrary, nameof(al_load_audio_stream_f));
+  public static al_load_audio_stream_f AlLoadAudioStreamF = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_save_sample(IntPtr filename, IntPtr spl);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_save_sample(IntPtr filename, IntPtr spl);
 
-    public static al_save_sample AlSaveSample =
-        NativeInterop.LoadFunction<al_save_sample>(AllegroLibrary, nameof(al_save_sample));
+  public static al_save_sample AlSaveSample = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_save_sample_f(IntPtr fp, IntPtr ident, IntPtr spl);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_save_sample_f(IntPtr fp, IntPtr ident, IntPtr spl);
 
-    public static al_save_sample_f AlSaveSampleF =
-        NativeInterop.LoadFunction<al_save_sample_f>(AllegroLibrary, nameof(al_save_sample_f));
+  public static al_save_sample_f AlSaveSampleF = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_register_sample_identifier(IntPtr ext, RegisterSampleIdentifier identifier);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_register_sample_identifier(IntPtr ext, RegisterSampleIdentifier identifier);
 
-    public static al_register_sample_identifier AlRegisterSampleIdentifier =
-        NativeInterop.LoadFunction<al_register_sample_identifier>(AllegroLibrary, nameof(al_register_sample_identifier));
+  public static al_register_sample_identifier AlRegisterSampleIdentifier = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_identify_sample(IntPtr filename);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_identify_sample(IntPtr filename);
 
-    public static al_identify_sample AlIdentifySample =
-        NativeInterop.LoadFunction<al_identify_sample>(AllegroLibrary, nameof(al_identify_sample));
+  public static al_identify_sample AlIdentifySample = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_identify_sample_f(IntPtr fp);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_identify_sample_f(IntPtr fp);
 
-    public static al_identify_sample_f AlIdentifySampleF =
-        NativeInterop.LoadFunction<al_identify_sample_f>(AllegroLibrary, nameof(al_identify_sample_f));
+  public static al_identify_sample_f AlIdentifySampleF = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_get_num_audio_output_devices();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_get_num_audio_output_devices();
 
-    public static al_get_num_audio_output_devices AlGetNumAudioOutputDevices =
-        NativeInterop.LoadFunction<al_get_num_audio_output_devices>(AllegroLibrary, nameof(al_get_num_audio_output_devices));
+  public static al_get_num_audio_output_devices AlGetNumAudioOutputDevices = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_get_audio_output_device(int index);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_get_audio_output_device(int index);
 
-    public static al_get_audio_output_device AlGetAudioOutputDevice =
-        NativeInterop.LoadFunction<al_get_audio_output_device>(AllegroLibrary, nameof(al_get_audio_output_device));
+  public static al_get_audio_output_device AlGetAudioOutputDevice = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_get_audio_device_name(IntPtr device);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_get_audio_device_name(IntPtr device);
 
-    public static al_get_audio_device_name AlGetAudioDeviceName =
-        NativeInterop.LoadFunction<al_get_audio_device_name>(AllegroLibrary, nameof(al_get_audio_device_name));
+  public static al_get_audio_device_name AlGetAudioDeviceName = null!;
 
-    #endregion
+  #endregion
 
-    #region Configuration routines
+  #region Configuration routines
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_create_config();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_create_config();
 
-    public static al_create_config AlCreateConfig =
-        NativeInterop.LoadFunction<al_create_config>(AllegroLibrary, nameof(al_create_config));
+  public static al_create_config AlCreateConfig = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_destroy_config(IntPtr config);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_destroy_config(IntPtr config);
 
-    public static al_destroy_config AlDestroyConfig =
-        NativeInterop.LoadFunction<al_destroy_config>(AllegroLibrary, nameof(al_destroy_config));
+  public static al_destroy_config AlDestroyConfig = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_load_config_file(IntPtr filename);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_load_config_file(IntPtr filename);
 
-    public static al_load_config_file AlLoadConfigFile =
-        NativeInterop.LoadFunction<al_load_config_file>(AllegroLibrary, nameof(al_load_config_file));
+  public static al_load_config_file AlLoadConfigFile = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_load_config_file_f(IntPtr file);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_load_config_file_f(IntPtr file);
 
-    public static al_load_config_file_f AlLoadConfigFileF =
-        NativeInterop.LoadFunction<al_load_config_file_f>(AllegroLibrary, nameof(al_load_config_file_f));
+  public static al_load_config_file_f AlLoadConfigFileF = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_save_config_file(IntPtr filename, IntPtr config);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_save_config_file(IntPtr filename, IntPtr config);
 
-    public static al_save_config_file AlSaveConfigFile =
-        NativeInterop.LoadFunction<al_save_config_file>(AllegroLibrary, nameof(al_save_config_file));
+  public static al_save_config_file AlSaveConfigFile = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_save_config_file_f(IntPtr file, IntPtr config);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_save_config_file_f(IntPtr file, IntPtr config);
 
-    public static al_save_config_file_f AlSaveConfigFileF =
-        NativeInterop.LoadFunction<al_save_config_file_f>(AllegroLibrary, nameof(al_save_config_file_f));
+  public static al_save_config_file_f AlSaveConfigFileF = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_add_config_section(IntPtr config, IntPtr name);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_add_config_section(IntPtr config, IntPtr name);
 
-    public static al_add_config_section AlAddConfigSection =
-        NativeInterop.LoadFunction<al_add_config_section>(AllegroLibrary, nameof(al_add_config_section));
+  public static al_add_config_section AlAddConfigSection = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_remove_config_section(IntPtr config, IntPtr section);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_remove_config_section(IntPtr config, IntPtr section);
 
-    public static al_remove_config_section AlRemoveConfigSection =
-        NativeInterop.LoadFunction<al_remove_config_section>(AllegroLibrary, nameof(al_remove_config_section));
+  public static al_remove_config_section AlRemoveConfigSection = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_add_config_comment(IntPtr config, IntPtr section, IntPtr comment);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_add_config_comment(IntPtr config, IntPtr section, IntPtr comment);
 
-    public static al_add_config_comment AlAddConfigComment =
-        NativeInterop.LoadFunction<al_add_config_comment>(AllegroLibrary, nameof(al_add_config_comment));
+  public static al_add_config_comment AlAddConfigComment = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_get_config_value(IntPtr config, IntPtr section, IntPtr key);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_get_config_value(IntPtr config, IntPtr section, IntPtr key);
 
-    public static al_get_config_value AlGetConfigValue =
-        NativeInterop.LoadFunction<al_get_config_value>(AllegroLibrary, nameof(al_get_config_value));
+  public static al_get_config_value AlGetConfigValue = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_set_config_value(IntPtr config, IntPtr section, IntPtr key, IntPtr value);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_set_config_value(IntPtr config, IntPtr section, IntPtr key, IntPtr value);
 
-    public static al_set_config_value AlSetConfigValue =
-        NativeInterop.LoadFunction<al_set_config_value>(AllegroLibrary, nameof(al_set_config_value));
+  public static al_set_config_value AlSetConfigValue = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_remove_config_key(IntPtr config, IntPtr section, IntPtr key);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_remove_config_key(IntPtr config, IntPtr section, IntPtr key);
 
-    public static al_remove_config_key AlRemoveConfigKey =
-        NativeInterop.LoadFunction<al_remove_config_key>(AllegroLibrary, nameof(al_remove_config_key));
+  public static al_remove_config_key AlRemoveConfigKey = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_get_first_config_section(IntPtr config, ref IntPtr iterator);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_get_first_config_section(IntPtr config, ref IntPtr iterator);
 
-    public static al_get_first_config_section AlGetFirstConfigSection =
-        NativeInterop.LoadFunction<al_get_first_config_section>(AllegroLibrary, nameof(al_get_first_config_section));
+  public static al_get_first_config_section AlGetFirstConfigSection = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_get_next_config_section(ref IntPtr iterator);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_get_next_config_section(ref IntPtr iterator);
 
-    public static al_get_next_config_section AlGetNextConfigSection =
-        NativeInterop.LoadFunction<al_get_next_config_section>(AllegroLibrary, nameof(al_get_next_config_section));
+  public static al_get_next_config_section AlGetNextConfigSection = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_get_first_config_entry(IntPtr config, IntPtr section, ref IntPtr iterator);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_get_first_config_entry(IntPtr config, IntPtr section, ref IntPtr iterator);
 
-    public static al_get_first_config_entry AlGetFirstConfigEntry =
-        NativeInterop.LoadFunction<al_get_first_config_entry>(AllegroLibrary, nameof(al_get_first_config_entry));
+  public static al_get_first_config_entry AlGetFirstConfigEntry = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_get_next_config_entry(ref IntPtr iterator);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_get_next_config_entry(ref IntPtr iterator);
 
-    public static al_get_next_config_entry AlGetNextConfigEntry =
-        NativeInterop.LoadFunction<al_get_next_config_entry>(AllegroLibrary, nameof(al_get_next_config_entry));
+  public static al_get_next_config_entry AlGetNextConfigEntry = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_merge_config(IntPtr cfg1, IntPtr cfg2);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_merge_config(IntPtr cfg1, IntPtr cfg2);
 
-    public static al_merge_config AlMergeConfig =
-        NativeInterop.LoadFunction<al_merge_config>(AllegroLibrary, nameof(al_merge_config));
+  public static al_merge_config AlMergeConfig = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_merge_config_into(IntPtr master, IntPtr add);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_merge_config_into(IntPtr master, IntPtr add);
 
-    public static al_merge_config_into AlMergeConfigInto =
-        NativeInterop.LoadFunction<al_merge_config_into>(AllegroLibrary, nameof(al_merge_config_into));
+  public static al_merge_config_into AlMergeConfigInto = null!;
 
-    #endregion Configuration routines
+  #endregion Configuration routines
 
-    #region Display routines
+  #region Display routines
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_create_display(int w, int h);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_create_display(int w, int h);
 
-    public static al_create_display AlCreateDisplay =
-        NativeInterop.LoadFunction<al_create_display>(AllegroLibrary, nameof(al_create_display));
+  public static al_create_display AlCreateDisplay = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_destroy_display(IntPtr display);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_destroy_display(IntPtr display);
 
-    public static al_destroy_display AlDestroyDisplay =
-        NativeInterop.LoadFunction<al_destroy_display>(AllegroLibrary, nameof(al_destroy_display));
+  public static al_destroy_display AlDestroyDisplay = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_get_new_display_flags();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_get_new_display_flags();
 
-    public static al_get_new_display_flags AlGetNewDisplayFlags =
-        NativeInterop.LoadFunction<al_get_new_display_flags>(AllegroLibrary, nameof(al_get_new_display_flags));
+  public static al_get_new_display_flags AlGetNewDisplayFlags = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_set_new_display_flags(int flags);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_set_new_display_flags(int flags);
 
-    public static al_set_new_display_flags AlSetNewDisplayFlags =
-        NativeInterop.LoadFunction<al_set_new_display_flags>(AllegroLibrary, nameof(al_set_new_display_flags));
+  public static al_set_new_display_flags AlSetNewDisplayFlags = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_get_new_display_option(int option, ref int importance);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_get_new_display_option(int option, ref int importance);
 
-    public static al_get_new_display_option AlGetNewDisplayOption =
-        NativeInterop.LoadFunction<al_get_new_display_option>(AllegroLibrary, nameof(al_get_new_display_option));
+  public static al_get_new_display_option AlGetNewDisplayOption = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_set_new_display_option(int option, int value, int importance);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_set_new_display_option(int option, int value, int importance);
 
-    public static al_set_new_display_option AlSetNewDisplayOption =
-        NativeInterop.LoadFunction<al_set_new_display_option>(AllegroLibrary, nameof(al_set_new_display_option));
+  public static al_set_new_display_option AlSetNewDisplayOption = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_reset_new_display_options();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_reset_new_display_options();
 
-    public static al_reset_new_display_options AlResetNewDisplayOptions =
-        NativeInterop.LoadFunction<al_reset_new_display_options>(AllegroLibrary, nameof(al_reset_new_display_options));
+  public static al_reset_new_display_options AlResetNewDisplayOptions = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_get_new_window_position(ref int x, ref int y);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_get_new_window_position(ref int x, ref int y);
 
-    public static al_get_new_window_position AlGetNewWindowPosition =
-        NativeInterop.LoadFunction<al_get_new_window_position>(AllegroLibrary, nameof(al_get_new_window_position));
+  public static al_get_new_window_position AlGetNewWindowPosition = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_set_new_window_position(int x, int y);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_set_new_window_position(int x, int y);
 
-    public static al_set_new_window_position AlSetNewWindowPosition =
-        NativeInterop.LoadFunction<al_set_new_window_position>(AllegroLibrary, nameof(al_set_new_window_position));
+  public static al_set_new_window_position AlSetNewWindowPosition = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_get_new_display_refresh_rate();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_get_new_display_refresh_rate();
 
-    public static al_get_new_display_refresh_rate AlGetNewDisplayRefreshRate =
-        NativeInterop.LoadFunction<al_get_new_display_refresh_rate>(AllegroLibrary, nameof(al_get_new_display_refresh_rate));
+  public static al_get_new_display_refresh_rate AlGetNewDisplayRefreshRate = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_set_new_display_refresh_rate(int refresh_rate);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_set_new_display_refresh_rate(int refresh_rate);
 
-    public static al_set_new_display_refresh_rate AlSetNewDisplayRefreshRate =
-        NativeInterop.LoadFunction<al_set_new_display_refresh_rate>(AllegroLibrary, nameof(al_set_new_display_refresh_rate));
+  public static al_set_new_display_refresh_rate AlSetNewDisplayRefreshRate = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_get_display_event_source(IntPtr display);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_get_display_event_source(IntPtr display);
 
-    public static al_get_display_event_source AlGetDisplayEventSource =
-        NativeInterop.LoadFunction<al_get_display_event_source>(AllegroLibrary, nameof(al_get_display_event_source));
+  public static al_get_display_event_source AlGetDisplayEventSource = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_get_backbuffer(IntPtr display);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_get_backbuffer(IntPtr display);
 
-    public static al_get_backbuffer AlGetBackbuffer =
-        NativeInterop.LoadFunction<al_get_backbuffer>(AllegroLibrary, nameof(al_get_backbuffer));
+  public static al_get_backbuffer AlGetBackbuffer = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_flip_display();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_flip_display();
 
-    public static al_flip_display AlFlipDisplay =
-        NativeInterop.LoadFunction<al_flip_display>(AllegroLibrary, nameof(al_flip_display));
+  public static al_flip_display AlFlipDisplay = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_update_display_region(int x, int y, int width, int height);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_update_display_region(int x, int y, int width, int height);
 
-    public static al_update_display_region AlUpdateDisplayRegion =
-        NativeInterop.LoadFunction<al_update_display_region>(AllegroLibrary, nameof(al_update_display_region));
+  public static al_update_display_region AlUpdateDisplayRegion = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_wait_for_vsync();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_wait_for_vsync();
 
-    public static al_wait_for_vsync AlWaitForVSync =
-        NativeInterop.LoadFunction<al_wait_for_vsync>(AllegroLibrary, nameof(al_wait_for_vsync));
+  public static al_wait_for_vsync AlWaitForVSync = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_get_display_width(IntPtr display);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_get_display_width(IntPtr display);
 
-    public static al_get_display_width AlGetDisplayWidth =
-        NativeInterop.LoadFunction<al_get_display_width>(AllegroLibrary, nameof(al_get_display_width));
+  public static al_get_display_width AlGetDisplayWidth = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_get_display_height(IntPtr display);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_get_display_height(IntPtr display);
 
-    public static al_get_display_height AlGetDisplayHeight =
-        NativeInterop.LoadFunction<al_get_display_height>(AllegroLibrary, nameof(al_get_display_height));
+  public static al_get_display_height AlGetDisplayHeight = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_resize_display(IntPtr display, int width, int height);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_resize_display(IntPtr display, int width, int height);
 
-    public static al_resize_display AlResizeDisplay =
-        NativeInterop.LoadFunction<al_resize_display>(AllegroLibrary, nameof(al_resize_display));
+  public static al_resize_display AlResizeDisplay = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_acknowledge_resize(IntPtr display);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_acknowledge_resize(IntPtr display);
 
-    public static al_acknowledge_resize AlAcknowledgeResize =
-        NativeInterop.LoadFunction<al_acknowledge_resize>(AllegroLibrary, nameof(al_acknowledge_resize));
+  public static al_acknowledge_resize AlAcknowledgeResize = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_get_window_position(IntPtr display, ref int x, ref int y);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_get_window_position(IntPtr display, ref int x, ref int y);
 
-    public static al_get_window_position AlGetWindowPosition =
-        NativeInterop.LoadFunction<al_get_window_position>(AllegroLibrary, nameof(al_get_window_position));
+  public static al_get_window_position AlGetWindowPosition = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_set_window_position(IntPtr display, int x, int y);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_set_window_position(IntPtr display, int x, int y);
 
-    public static al_set_window_position AlSetWindowPosition =
-        NativeInterop.LoadFunction<al_set_window_position>(AllegroLibrary, nameof(al_set_window_position));
+  public static al_set_window_position AlSetWindowPosition = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_get_window_constraints(IntPtr display, ref int min_w, ref int min_h, ref int max_w, ref int max_h);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_get_window_constraints(IntPtr display, ref int min_w, ref int min_h, ref int max_w, ref int max_h);
 
-    public static al_get_window_constraints AlGetWindowConstraints =
-        NativeInterop.LoadFunction<al_get_window_constraints>(AllegroLibrary, nameof(al_get_window_constraints));
+  public static al_get_window_constraints AlGetWindowConstraints = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_set_window_constraints(IntPtr display, int min_w, int min_h, int max_w, int max_h);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_set_window_constraints(IntPtr display, int min_w, int min_h, int max_w, int max_h);
 
-    public static al_set_window_constraints AlSetWindowConstraints =
-        NativeInterop.LoadFunction<al_set_window_constraints>(AllegroLibrary, nameof(al_set_window_constraints));
+  public static al_set_window_constraints AlSetWindowConstraints = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate bool al_apply_window_constraints(IntPtr display, [MarshalAs(UnmanagedType.U1)] bool onoff);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate bool al_apply_window_constraints(IntPtr display, [MarshalAs(UnmanagedType.U1)] bool onoff);
 
-    public static al_apply_window_constraints AlApplyWindowConstraints =
-        NativeInterop.LoadFunction<al_apply_window_constraints>(AllegroLibrary, nameof(al_apply_window_constraints));
+  public static al_apply_window_constraints AlApplyWindowConstraints = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_get_display_flags(IntPtr display);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_get_display_flags(IntPtr display);
 
-    public static al_get_display_flags AlGetDisplayFlags =
-        NativeInterop.LoadFunction<al_get_display_flags>(AllegroLibrary, nameof(al_get_display_flags));
+  public static al_get_display_flags AlGetDisplayFlags = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_set_display_flag(IntPtr display, int flag, [MarshalAs(UnmanagedType.U1)] bool onoff);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_set_display_flag(IntPtr display, int flag, [MarshalAs(UnmanagedType.U1)] bool onoff);
 
-    public static al_set_display_flag AlSetDisplayFlag =
-        NativeInterop.LoadFunction<al_set_display_flag>(AllegroLibrary, nameof(al_set_display_flag));
+  public static al_set_display_flag AlSetDisplayFlag = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_get_display_option(IntPtr display, int option);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_get_display_option(IntPtr display, int option);
 
-    public static al_get_display_option AlGetDisplayOption =
-        NativeInterop.LoadFunction<al_get_display_option>(AllegroLibrary, nameof(al_get_display_option));
+  public static al_get_display_option AlGetDisplayOption = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_set_display_option(IntPtr display, int option, int value);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_set_display_option(IntPtr display, int option, int value);
 
-    public static al_set_display_option AlSetDisplayOption =
-        NativeInterop.LoadFunction<al_set_display_option>(AllegroLibrary, nameof(al_set_display_option));
+  public static al_set_display_option AlSetDisplayOption = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_get_display_format(IntPtr display);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_get_display_format(IntPtr display);
 
-    public static al_get_display_format AlGetDisplayFormat =
-        NativeInterop.LoadFunction<al_get_display_format>(AllegroLibrary, nameof(al_get_display_format));
+  public static al_get_display_format AlGetDisplayFormat = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_get_display_orientation(IntPtr display);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_get_display_orientation(IntPtr display);
 
-    public static al_get_display_orientation AlGetDisplayOrientation =
-        NativeInterop.LoadFunction<al_get_display_orientation>(AllegroLibrary, nameof(al_get_display_orientation));
+  public static al_get_display_orientation AlGetDisplayOrientation = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_get_display_refresh_rate(IntPtr display);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_get_display_refresh_rate(IntPtr display);
 
-    public static al_get_display_refresh_rate AlGetDisplayRefreshRate =
-        NativeInterop.LoadFunction<al_get_display_refresh_rate>(AllegroLibrary, nameof(al_get_display_refresh_rate));
+  public static al_get_display_refresh_rate AlGetDisplayRefreshRate = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_set_window_title(IntPtr display, IntPtr title);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_set_window_title(IntPtr display, IntPtr title);
 
-    public static al_set_window_title AlSetWindowTitle =
-        NativeInterop.LoadFunction<al_set_window_title>(AllegroLibrary, nameof(al_set_window_title));
+  public static al_set_window_title AlSetWindowTitle = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_set_new_window_title(IntPtr title);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_set_new_window_title(IntPtr title);
 
-    public static al_set_new_window_title AlSetNewWindowTitle =
-        NativeInterop.LoadFunction<al_set_new_window_title>(AllegroLibrary, nameof(al_set_new_window_title));
+  public static al_set_new_window_title AlSetNewWindowTitle = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_get_new_window_title();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_get_new_window_title();
 
-    public static al_get_new_window_title AlGetNewWindowTitle =
-        NativeInterop.LoadFunction<al_get_new_window_title>(AllegroLibrary, nameof(al_get_new_window_title));
+  public static al_get_new_window_title AlGetNewWindowTitle = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_set_display_icon(IntPtr display, IntPtr icon);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_set_display_icon(IntPtr display, IntPtr icon);
 
-    public static al_set_display_icon AlSetDisplayIcon =
-        NativeInterop.LoadFunction<al_set_display_icon>(AllegroLibrary, nameof(al_set_display_icon));
+  public static al_set_display_icon AlSetDisplayIcon = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_set_display_icons(IntPtr display, int num_icons, ref IntPtr[] icon);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_set_display_icons(IntPtr display, int num_icons, ref IntPtr[] icon);
 
-    public static al_set_display_icons AlSetDisplayIcons =
-        NativeInterop.LoadFunction<al_set_display_icons>(AllegroLibrary, nameof(al_set_display_icons));
+  public static al_set_display_icons AlSetDisplayIcons = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_acknowledge_drawing_halt(IntPtr display);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_acknowledge_drawing_halt(IntPtr display);
 
-    public static al_acknowledge_drawing_halt AlAcknowledgeDrawingHalt =
-        NativeInterop.LoadFunction<al_acknowledge_drawing_halt>(AllegroLibrary, nameof(al_acknowledge_drawing_halt));
+  public static al_acknowledge_drawing_halt AlAcknowledgeDrawingHalt = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_acknowledge_drawing_resume(IntPtr display);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_acknowledge_drawing_resume(IntPtr display);
 
-    public static al_acknowledge_drawing_resume AlAcknowledgeDrawingResume =
-        NativeInterop.LoadFunction<al_acknowledge_drawing_resume>(AllegroLibrary, nameof(al_acknowledge_drawing_resume));
+  public static al_acknowledge_drawing_resume AlAcknowledgeDrawingResume = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_inhibit_screensaver([MarshalAs(UnmanagedType.U1)] bool inhibit);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_inhibit_screensaver([MarshalAs(UnmanagedType.U1)] bool inhibit);
 
-    public static al_inhibit_screensaver AlInhibitScreensaver =
-        NativeInterop.LoadFunction<al_inhibit_screensaver>(AllegroLibrary, nameof(al_inhibit_screensaver));
+  public static al_inhibit_screensaver AlInhibitScreensaver = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_get_clipboard_text(IntPtr display);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_get_clipboard_text(IntPtr display);
 
-    public static al_get_clipboard_text AlGetClipboardText =
-        NativeInterop.LoadFunction<al_get_clipboard_text>(AllegroLibrary, nameof(al_get_clipboard_text));
+  public static al_get_clipboard_text AlGetClipboardText = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_set_clipboard_text(IntPtr display, IntPtr text);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_set_clipboard_text(IntPtr display, IntPtr text);
 
-    public static al_set_clipboard_text AlSetClipboardText =
-        NativeInterop.LoadFunction<al_set_clipboard_text>(AllegroLibrary, nameof(al_set_clipboard_text));
+  public static al_set_clipboard_text AlSetClipboardText = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_clipboard_has_text(IntPtr display);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_clipboard_has_text(IntPtr display);
 
-    public static al_clipboard_has_text AlClipboardHasText =
-        NativeInterop.LoadFunction<al_clipboard_has_text>(AllegroLibrary, nameof(al_clipboard_has_text));
+  public static al_clipboard_has_text AlClipboardHasText = null!;
 
-    #endregion Display routines
+  #endregion Display routines
 
-    #region Event routines
+  #region Event routines
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_create_event_queue();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_create_event_queue();
 
-    public static al_create_event_queue AlCreateEventQueue =
-        NativeInterop.LoadFunction<al_create_event_queue>(AllegroLibrary, nameof(al_create_event_queue));
+  public static al_create_event_queue AlCreateEventQueue = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_destroy_event_queue(IntPtr queue);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_destroy_event_queue(IntPtr queue);
 
-    public static al_destroy_event_queue AlDestroyEventQueue =
-        NativeInterop.LoadFunction<al_destroy_event_queue>(AllegroLibrary, nameof(al_destroy_event_queue));
+  public static al_destroy_event_queue AlDestroyEventQueue = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_register_event_source(IntPtr queue, IntPtr source);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_register_event_source(IntPtr queue, IntPtr source);
 
-    public static al_register_event_source AlRegisterEventSource =
-        NativeInterop.LoadFunction<al_register_event_source>(AllegroLibrary, nameof(al_register_event_source));
+  public static al_register_event_source AlRegisterEventSource = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_unregister_event_source(IntPtr queue, IntPtr source);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_unregister_event_source(IntPtr queue, IntPtr source);
 
-    public static al_unregister_event_source AlUnregisterEventSource =
-        NativeInterop.LoadFunction<al_unregister_event_source>(AllegroLibrary, nameof(al_unregister_event_source));
+  public static al_unregister_event_source AlUnregisterEventSource = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_is_event_source_registered(IntPtr queue, IntPtr source);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_is_event_source_registered(IntPtr queue, IntPtr source);
 
-    public static al_is_event_source_registered AlIsEventSourceRegistered =
-        NativeInterop.LoadFunction<al_is_event_source_registered>(AllegroLibrary, nameof(al_is_event_source_registered));
+  public static al_is_event_source_registered AlIsEventSourceRegistered = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_pause_event_queue(IntPtr queue, [MarshalAs(UnmanagedType.U1)] bool pause);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_pause_event_queue(IntPtr queue, [MarshalAs(UnmanagedType.U1)] bool pause);
 
-    public static al_pause_event_queue AlPauseEventQueue =
-        NativeInterop.LoadFunction<al_pause_event_queue>(AllegroLibrary, nameof(al_pause_event_queue));
+  public static al_pause_event_queue AlPauseEventQueue = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_is_event_queue_paused(IntPtr queue);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_is_event_queue_paused(IntPtr queue);
 
-    public static al_is_event_queue_paused AlIsEventQueuePaused =
-        NativeInterop.LoadFunction<al_is_event_queue_paused>(AllegroLibrary, nameof(al_is_event_queue_paused));
+  public static al_is_event_queue_paused AlIsEventQueuePaused = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_is_event_queue_empty(IntPtr queue);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_is_event_queue_empty(IntPtr queue);
 
-    public static al_is_event_queue_empty AlIsEventQueueEmpty =
-        NativeInterop.LoadFunction<al_is_event_queue_empty>(AllegroLibrary, nameof(al_is_event_queue_empty));
+  public static al_is_event_queue_empty AlIsEventQueueEmpty = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_get_next_event(IntPtr queue, ref AllegroEvent.NativeAllegroEvent ret_event);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_get_next_event(IntPtr queue, ref AllegroEvent.NativeAllegroEvent ret_event);
 
-    public static al_get_next_event AlGetNextEvent =
-        NativeInterop.LoadFunction<al_get_next_event>(AllegroLibrary, nameof(al_get_next_event));
+  public static al_get_next_event AlGetNextEvent = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_peek_next_event(IntPtr queue, ref AllegroEvent.NativeAllegroEvent ret_event);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_peek_next_event(IntPtr queue, ref AllegroEvent.NativeAllegroEvent ret_event);
 
-    public static al_peek_next_event AlPeekNextEvent =
-        NativeInterop.LoadFunction<al_peek_next_event>(AllegroLibrary, nameof(al_peek_next_event));
+  public static al_peek_next_event AlPeekNextEvent = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_drop_next_event(IntPtr queue);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_drop_next_event(IntPtr queue);
 
-    public static al_drop_next_event AlDropNextEvent =
-        NativeInterop.LoadFunction<al_drop_next_event>(AllegroLibrary, nameof(al_drop_next_event));
+  public static al_drop_next_event AlDropNextEvent = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_flush_event_queue(IntPtr queue);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_flush_event_queue(IntPtr queue);
 
-    public static al_flush_event_queue AlFlushEventQueue =
-        NativeInterop.LoadFunction<al_flush_event_queue>(AllegroLibrary, nameof(al_flush_event_queue));
+  public static al_flush_event_queue AlFlushEventQueue = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_wait_for_event(IntPtr queue, ref AllegroEvent.NativeAllegroEvent ret_event);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_wait_for_event(IntPtr queue, ref AllegroEvent.NativeAllegroEvent ret_event);
 
-    public static al_wait_for_event AlWaitForEvent =
-        NativeInterop.LoadFunction<al_wait_for_event>(AllegroLibrary, nameof(al_wait_for_event));
+  public static al_wait_for_event AlWaitForEvent = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_wait_for_event_timed(IntPtr queue, ref AllegroEvent.NativeAllegroEvent ret_event, float secs);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_wait_for_event_timed(IntPtr queue, ref AllegroEvent.NativeAllegroEvent ret_event, float secs);
 
-    public static al_wait_for_event_timed AlWaitForEventTimed =
-        NativeInterop.LoadFunction<al_wait_for_event_timed>(AllegroLibrary, nameof(al_wait_for_event_timed));
+  public static al_wait_for_event_timed AlWaitForEventTimed = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_wait_for_event_until(
-        IntPtr queue,
-        ref AllegroEvent.NativeAllegroEvent ret_event,
-        ref AllegroTimeout.NativeAllegroTimeout timeout);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_wait_for_event_until(
+      IntPtr queue,
+      ref AllegroEvent.NativeAllegroEvent ret_event,
+      ref AllegroTimeout.NativeAllegroTimeout timeout);
 
-    public static al_wait_for_event_until AlWaitForEventUntil =
-        NativeInterop.LoadFunction<al_wait_for_event_until>(AllegroLibrary, nameof(al_wait_for_event_until));
+  public static al_wait_for_event_until AlWaitForEventUntil = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_init_user_event_source(IntPtr source);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_init_user_event_source(IntPtr source);
 
-    public static al_init_user_event_source AlInitUserEventSource =
-        NativeInterop.LoadFunction<al_init_user_event_source>(AllegroLibrary, nameof(al_init_user_event_source));
+  public static al_init_user_event_source AlInitUserEventSource = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_destroy_user_event_source(IntPtr source);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_destroy_user_event_source(IntPtr source);
 
-    public static al_destroy_user_event_source AlDestroyUserEventSource =
-        NativeInterop.LoadFunction<al_destroy_user_event_source>(AllegroLibrary, nameof(al_destroy_user_event_source));
+  public static al_destroy_user_event_source AlDestroyUserEventSource = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_emit_user_event(
-        IntPtr source,
-        ref AllegroEvent.NativeAllegroEvent alEvent,
-        UserEventDelegate? userEventHandler);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_emit_user_event(
+      IntPtr source,
+      ref AllegroEvent.NativeAllegroEvent alEvent,
+      UserEventDelegate? userEventHandler);
 
-    public static al_emit_user_event AlEmitUserEvent =
-        NativeInterop.LoadFunction<al_emit_user_event>(AllegroLibrary, nameof(al_emit_user_event));
+  public static al_emit_user_event AlEmitUserEvent = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_unref_user_event(ref AllegroEvent.NativeAllegroUserEvent userEvent);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_unref_user_event(ref AllegroEvent.NativeAllegroUserEvent userEvent);
 
-    public static al_unref_user_event AlUnrefUserEvent =
-        NativeInterop.LoadFunction<al_unref_user_event>(AllegroLibrary, nameof(al_unref_user_event));
+  public static al_unref_user_event AlUnrefUserEvent = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_get_event_source_data(IntPtr source);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_get_event_source_data(IntPtr source);
 
-    public static al_get_event_source_data AlGetEventSourceData =
-        NativeInterop.LoadFunction<al_get_event_source_data>(AllegroLibrary, nameof(al_get_event_source_data));
+  public static al_get_event_source_data AlGetEventSourceData = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_set_event_source_data(IntPtr source, IntPtr data);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_set_event_source_data(IntPtr source, IntPtr data);
 
-    public static al_set_event_source_data AlSetEventSourceData =
-        NativeInterop.LoadFunction<al_set_event_source_data>(AllegroLibrary, nameof(al_set_event_source_data));
+  public static al_set_event_source_data AlSetEventSourceData = null!;
 
-    #endregion Event routines
+  #endregion Event routines
 
-    #region File IO routines
+  #region File IO routines
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_fopen(IntPtr path, IntPtr mode);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_fopen(IntPtr path, IntPtr mode);
 
-    public static al_fopen AlFOpen = NativeInterop.LoadFunction<al_fopen>(AllegroLibrary);
+  public static al_fopen AlFOpen = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_fopen_interface(ref AllegroFileInterface.NativeAllegroFileInterface drv, IntPtr path, IntPtr mode);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_fopen_interface(ref AllegroFileInterface.NativeAllegroFileInterface drv, IntPtr path, IntPtr mode);
 
-    public static al_fopen_interface AlFOpenInterface = NativeInterop.LoadFunction<al_fopen_interface>(AllegroLibrary);
+  public static al_fopen_interface AlFOpenInterface = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_fopen_slice(IntPtr fp, long initial_size, IntPtr mode);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_fopen_slice(IntPtr fp, long initial_size, IntPtr mode);
 
-    public static al_fopen_slice AlFOpenSlice = NativeInterop.LoadFunction<al_fopen_slice>(AllegroLibrary);
+  public static al_fopen_slice AlFOpenSlice = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_fclose(IntPtr f);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_fclose(IntPtr f);
 
-    public static al_fclose AlFClose = NativeInterop.LoadFunction<al_fclose>(AllegroLibrary);
+  public static al_fclose AlFClose = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate long al_fread(IntPtr f, IntPtr ptr, long size);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate long al_fread(IntPtr f, IntPtr ptr, long size);
 
-    public static al_fread AlFRead = NativeInterop.LoadFunction<al_fread>(AllegroLibrary);
+  public static al_fread AlFRead = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate long al_fwrite(IntPtr f, IntPtr ptr, long size);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate long al_fwrite(IntPtr f, IntPtr ptr, long size);
 
-    public static al_fwrite AlFWrite = NativeInterop.LoadFunction<al_fwrite>(AllegroLibrary);
+  public static al_fwrite AlFWrite = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_fflush(IntPtr f);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_fflush(IntPtr f);
 
-    public static al_fflush AlFFlush = NativeInterop.LoadFunction<al_fflush>(AllegroLibrary);
+  public static al_fflush AlFFlush = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate long al_ftell(IntPtr f);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate long al_ftell(IntPtr f);
 
-    public static al_ftell AlFTell = NativeInterop.LoadFunction<al_ftell>(AllegroLibrary);
+  public static al_ftell AlFTell = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_fseek(IntPtr f, long offset, int whence);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_fseek(IntPtr f, long offset, int whence);
 
-    public static al_fseek AlFSeek = NativeInterop.LoadFunction<al_fseek>(AllegroLibrary);
+  public static al_fseek AlFSeek = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_feof(IntPtr f);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_feof(IntPtr f);
 
-    public static al_feof AlFEof = NativeInterop.LoadFunction<al_feof>(AllegroLibrary);
+  public static al_feof AlFEof = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_ferror(IntPtr f);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_ferror(IntPtr f);
 
-    public static al_ferror AlFError = NativeInterop.LoadFunction<al_ferror>(AllegroLibrary);
+  public static al_ferror AlFError = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_ferrmsg(IntPtr f);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_ferrmsg(IntPtr f);
 
-    public static al_ferrmsg AlFErrMsg = NativeInterop.LoadFunction<al_ferrmsg>(AllegroLibrary);
+  public static al_ferrmsg AlFErrMsg = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_fclearerr(IntPtr f);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_fclearerr(IntPtr f);
 
-    public static al_fclearerr AlFClearErr = NativeInterop.LoadFunction<al_fclearerr>(AllegroLibrary);
+  public static al_fclearerr AlFClearErr = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_fungetc(IntPtr f, int c);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_fungetc(IntPtr f, int c);
 
-    public static al_fungetc AlFUngetC = NativeInterop.LoadFunction<al_fungetc>(AllegroLibrary);
+  public static al_fungetc AlFUngetC = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate long al_fsize(IntPtr f);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate long al_fsize(IntPtr f);
 
-    public static al_fsize AlFSize = NativeInterop.LoadFunction<al_fsize>(AllegroLibrary);
+  public static al_fsize AlFSize = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_fgetc(IntPtr f);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_fgetc(IntPtr f);
 
-    public static al_fgetc AlFGetC = NativeInterop.LoadFunction<al_fgetc>(AllegroLibrary);
+  public static al_fgetc AlFGetC = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_fputc(IntPtr f, int c);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_fputc(IntPtr f, int c);
 
-    public static al_fputc AlFPutC = NativeInterop.LoadFunction<al_fputc>(AllegroLibrary);
+  public static al_fputc AlFPutC = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_fprintf(IntPtr f, IntPtr format);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_fprintf(IntPtr f, IntPtr format);
 
-    public static al_fprintf AlFPrintF = NativeInterop.LoadFunction<al_fprintf>(AllegroLibrary);
+  public static al_fprintf AlFPrintF = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate short al_fread16le(IntPtr f);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate short al_fread16le(IntPtr f);
 
-    public static al_fread16le AlFRead16le = NativeInterop.LoadFunction<al_fread16le>(AllegroLibrary);
+  public static al_fread16le AlFRead16le = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate short al_fread16be(IntPtr f);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate short al_fread16be(IntPtr f);
 
-    public static al_fread16be AlFRead16be = NativeInterop.LoadFunction<al_fread16be>(AllegroLibrary);
+  public static al_fread16be AlFRead16be = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate long al_fwrite16le(IntPtr f, short w);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate long al_fwrite16le(IntPtr f, short w);
 
-    public static al_fwrite16le AlFWrite16le = NativeInterop.LoadFunction<al_fwrite16le>(AllegroLibrary);
+  public static al_fwrite16le AlFWrite16le = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate long al_fwrite16be(IntPtr f, short w);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate long al_fwrite16be(IntPtr f, short w);
 
-    public static al_fwrite16be AlFWrite16be = NativeInterop.LoadFunction<al_fwrite16be>(AllegroLibrary);
+  public static al_fwrite16be AlFWrite16be = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_fread32le(IntPtr f);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_fread32le(IntPtr f);
 
-    public static al_fread32le AlFRead32le = NativeInterop.LoadFunction<al_fread32le>(AllegroLibrary);
+  public static al_fread32le AlFRead32le = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_fread32be(IntPtr f);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_fread32be(IntPtr f);
 
-    public static al_fread32be AlFRead32be = NativeInterop.LoadFunction<al_fread32be>(AllegroLibrary);
+  public static al_fread32be AlFRead32be = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate long al_fwrite32le(IntPtr f, int l);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate long al_fwrite32le(IntPtr f, int l);
 
-    public static al_fwrite32le AlFWrite32le = NativeInterop.LoadFunction<al_fwrite32le>(AllegroLibrary);
+  public static al_fwrite32le AlFWrite32le = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate long al_fwrite32be(IntPtr f, int l);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate long al_fwrite32be(IntPtr f, int l);
 
-    public static al_fwrite32be AlFWrite32be = NativeInterop.LoadFunction<al_fwrite32be>(AllegroLibrary);
+  public static al_fwrite32be AlFWrite32be = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_fgets(IntPtr f, IntPtr buf, long max);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_fgets(IntPtr f, IntPtr buf, long max);
 
-    public static al_fgets AlFGetS = NativeInterop.LoadFunction<al_fgets>(AllegroLibrary);
+  public static al_fgets AlFGetS = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_fget_ustr(IntPtr f);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_fget_ustr(IntPtr f);
 
-    public static al_fget_ustr AlFGetUstr = NativeInterop.LoadFunction<al_fget_ustr>(AllegroLibrary);
+  public static al_fget_ustr AlFGetUstr = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_fputs(IntPtr f, IntPtr p);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_fputs(IntPtr f, IntPtr p);
 
-    public static al_fputs AlFPutS = NativeInterop.LoadFunction<al_fputs>(AllegroLibrary);
+  public static al_fputs AlFPutS = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_fopen_fd(int fd, IntPtr mode);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_fopen_fd(int fd, IntPtr mode);
 
-    public static al_fopen_fd AlFOpenFd = NativeInterop.LoadFunction<al_fopen_fd>(AllegroLibrary);
+  public static al_fopen_fd AlFOpenFd = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_make_temp_file(IntPtr template, ref IntPtr ret_path);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_make_temp_file(IntPtr template, ref IntPtr ret_path);
 
-    public static al_make_temp_file AlMakeTempFile = NativeInterop.LoadFunction<al_make_temp_file>(AllegroLibrary);
+  public static al_make_temp_file AlMakeTempFile = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_set_new_file_interface(ref AllegroFileInterface.NativeAllegroFileInterface file_interface);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_set_new_file_interface(ref AllegroFileInterface.NativeAllegroFileInterface file_interface);
 
-    public static al_set_new_file_interface AlSetNewFileInterface = NativeInterop.LoadFunction<al_set_new_file_interface>(AllegroLibrary);
+  public static al_set_new_file_interface AlSetNewFileInterface = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_set_standard_file_interface();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_set_standard_file_interface();
 
-    public static al_set_standard_file_interface AlSetStandardFileInterface = NativeInterop.LoadFunction<al_set_standard_file_interface>(AllegroLibrary);
+  public static al_set_standard_file_interface AlSetStandardFileInterface = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_get_new_file_interface();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_get_new_file_interface();
 
-    public static al_get_new_file_interface AlGetNewFileInterface = NativeInterop.LoadFunction<al_get_new_file_interface>(AllegroLibrary);
+  public static al_get_new_file_interface AlGetNewFileInterface = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_create_file_handle(ref AllegroFileInterface.NativeAllegroFileInterface drv, IntPtr userdata);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_create_file_handle(ref AllegroFileInterface.NativeAllegroFileInterface drv, IntPtr userdata);
 
-    public static al_create_file_handle AlCreateFileHandle = NativeInterop.LoadFunction<al_create_file_handle>(AllegroLibrary);
+  public static al_create_file_handle AlCreateFileHandle = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_get_file_userdata(IntPtr drv);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_get_file_userdata(IntPtr drv);
 
-    public static al_get_file_userdata AlGetFileUserdata = NativeInterop.LoadFunction<al_get_file_userdata>(AllegroLibrary);
+  public static al_get_file_userdata AlGetFileUserdata = null!;
 
-    #endregion
+  #endregion
 
-    #region File system routines
+  #region File system routines
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_create_fs_entry(IntPtr path);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_create_fs_entry(IntPtr path);
 
-    public static al_create_fs_entry AlCreateFsEntry =
-        NativeInterop.LoadFunction<al_create_fs_entry>(AllegroLibrary, nameof(al_create_fs_entry));
+  public static al_create_fs_entry AlCreateFsEntry = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_destroy_fs_entry(IntPtr fh);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_destroy_fs_entry(IntPtr fh);
 
-    public static al_destroy_fs_entry AlDestroyFsEntry =
-        NativeInterop.LoadFunction<al_destroy_fs_entry>(AllegroLibrary, nameof(al_destroy_fs_entry));
+  public static al_destroy_fs_entry AlDestroyFsEntry = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_get_fs_entry_name(IntPtr e);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_get_fs_entry_name(IntPtr e);
 
-    public static al_get_fs_entry_name AlGetFsEntryName =
-        NativeInterop.LoadFunction<al_get_fs_entry_name>(AllegroLibrary, nameof(al_get_fs_entry_name));
+  public static al_get_fs_entry_name AlGetFsEntryName = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_update_fs_entry(IntPtr e);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_update_fs_entry(IntPtr e);
 
-    public static al_update_fs_entry AlUpdateFsEntry =
-        NativeInterop.LoadFunction<al_update_fs_entry>(AllegroLibrary, nameof(al_update_fs_entry));
+  public static al_update_fs_entry AlUpdateFsEntry = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate uint al_get_fs_entry_mode(IntPtr e);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate uint al_get_fs_entry_mode(IntPtr e);
 
-    public static al_get_fs_entry_mode AlGetFsEntryMode =
-        NativeInterop.LoadFunction<al_get_fs_entry_mode>(AllegroLibrary, nameof(al_get_fs_entry_mode));
+  public static al_get_fs_entry_mode AlGetFsEntryMode = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate ulong al_get_fs_entry_atime(IntPtr e);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate ulong al_get_fs_entry_atime(IntPtr e);
 
-    public static al_get_fs_entry_atime AlGetFsEntryATime =
-        NativeInterop.LoadFunction<al_get_fs_entry_atime>(AllegroLibrary, nameof(al_get_fs_entry_atime));
+  public static al_get_fs_entry_atime AlGetFsEntryATime = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate ulong al_get_fs_entry_ctime(IntPtr e);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate ulong al_get_fs_entry_ctime(IntPtr e);
 
-    public static al_get_fs_entry_ctime AlGetFsEntryCTime =
-        NativeInterop.LoadFunction<al_get_fs_entry_ctime>(AllegroLibrary, nameof(al_get_fs_entry_ctime));
+  public static al_get_fs_entry_ctime AlGetFsEntryCTime = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate ulong al_get_fs_entry_mtime(IntPtr e);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate ulong al_get_fs_entry_mtime(IntPtr e);
 
-    public static al_get_fs_entry_mtime AlGetFsEntryMTime =
-        NativeInterop.LoadFunction<al_get_fs_entry_mtime>(AllegroLibrary, nameof(al_get_fs_entry_mtime));
+  public static al_get_fs_entry_mtime AlGetFsEntryMTime = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate long al_get_fs_entry_size(IntPtr e);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate long al_get_fs_entry_size(IntPtr e);
 
-    public static al_get_fs_entry_size AlGetFsEntrySize =
-        NativeInterop.LoadFunction<al_get_fs_entry_size>(AllegroLibrary, nameof(al_get_fs_entry_size));
+  public static al_get_fs_entry_size AlGetFsEntrySize = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_fs_entry_exists(IntPtr e);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_fs_entry_exists(IntPtr e);
 
-    public static al_fs_entry_exists AlFsEntryExists =
-        NativeInterop.LoadFunction<al_fs_entry_exists>(AllegroLibrary, nameof(al_fs_entry_exists));
+  public static al_fs_entry_exists AlFsEntryExists = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_remove_fs_entry(IntPtr e);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_remove_fs_entry(IntPtr e);
 
-    public static al_remove_fs_entry AlRemoveFsEntry =
-        NativeInterop.LoadFunction<al_remove_fs_entry>(AllegroLibrary, nameof(al_remove_fs_entry));
+  public static al_remove_fs_entry AlRemoveFsEntry = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_filename_exists(IntPtr path);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_filename_exists(IntPtr path);
 
-    public static al_filename_exists AlFilenameExists =
-        NativeInterop.LoadFunction<al_filename_exists>(AllegroLibrary, nameof(al_filename_exists));
+  public static al_filename_exists AlFilenameExists = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_remove_filename(IntPtr path);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_remove_filename(IntPtr path);
 
-    public static al_remove_filename AlRemoveFilename =
-        NativeInterop.LoadFunction<al_remove_filename>(AllegroLibrary, nameof(al_remove_filename));
+  public static al_remove_filename AlRemoveFilename = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_open_directory(IntPtr e);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_open_directory(IntPtr e);
 
-    public static al_open_directory AlOpenDirectory =
-        NativeInterop.LoadFunction<al_open_directory>(AllegroLibrary, nameof(al_open_directory));
+  public static al_open_directory AlOpenDirectory = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_read_directory(IntPtr e);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_read_directory(IntPtr e);
 
-    public static al_read_directory AlReadDirectory =
-        NativeInterop.LoadFunction<al_read_directory>(AllegroLibrary, nameof(al_read_directory));
+  public static al_read_directory AlReadDirectory = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_close_directory(IntPtr e);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_close_directory(IntPtr e);
 
-    public static al_close_directory AlCloseDirectory =
-        NativeInterop.LoadFunction<al_close_directory>(AllegroLibrary, nameof(al_close_directory));
+  public static al_close_directory AlCloseDirectory = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_get_current_directory();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_get_current_directory();
 
-    public static al_get_current_directory AlGetCurrentDirectory =
-        NativeInterop.LoadFunction<al_get_current_directory>(AllegroLibrary, nameof(al_get_current_directory));
+  public static al_get_current_directory AlGetCurrentDirectory = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_change_directory(IntPtr path);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_change_directory(IntPtr path);
 
-    public static al_change_directory AlChangeDirectory =
-        NativeInterop.LoadFunction<al_change_directory>(AllegroLibrary, nameof(al_change_directory));
+  public static al_change_directory AlChangeDirectory = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_make_directory(IntPtr path);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_make_directory(IntPtr path);
 
-    public static al_make_directory AlMakeDirectory =
-        NativeInterop.LoadFunction<al_make_directory>(AllegroLibrary, nameof(al_make_directory));
+  public static al_make_directory AlMakeDirectory = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_open_fs_entry(IntPtr e, IntPtr mode);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_open_fs_entry(IntPtr e, IntPtr mode);
 
-    public static al_open_fs_entry AlOpenFsEntry =
-        NativeInterop.LoadFunction<al_open_fs_entry>(AllegroLibrary, nameof(al_open_fs_entry));
+  public static al_open_fs_entry AlOpenFsEntry = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_for_each_fs_entry(IntPtr dir, ForEachFsEntry callback, IntPtr extra);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_for_each_fs_entry(IntPtr dir, ForEachFsEntry callback, IntPtr extra);
 
-    public static al_for_each_fs_entry AlForEachFsEntry =
-        NativeInterop.LoadFunction<al_for_each_fs_entry>(AllegroLibrary, nameof(al_for_each_fs_entry));
+  public static al_for_each_fs_entry AlForEachFsEntry = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_set_fs_interface(IntPtr fs_interface);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_set_fs_interface(IntPtr fs_interface);
 
-    public static al_set_fs_interface AlSetFsInterface =
-        NativeInterop.LoadFunction<al_set_fs_interface>(AllegroLibrary, nameof(al_set_fs_interface));
+  public static al_set_fs_interface AlSetFsInterface = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_set_standard_fs_interface();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_set_standard_fs_interface();
 
-    public static al_set_standard_fs_interface AlSetStandardFsInterface =
-        NativeInterop.LoadFunction<al_set_standard_fs_interface>(AllegroLibrary, nameof(al_set_standard_fs_interface));
+  public static al_set_standard_fs_interface AlSetStandardFsInterface = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_get_fs_interface();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_get_fs_interface();
 
-    public static al_get_fs_interface AlGetFsInterface =
-        NativeInterop.LoadFunction<al_get_fs_interface>(AllegroLibrary, nameof(al_get_fs_interface));
+  public static al_get_fs_interface AlGetFsInterface = null!;
 
-    #endregion File system routines
+  #endregion File system routines
 
-    #region Font routines
+  #region Font routines
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_init_font_addon();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_init_font_addon();
 
-    public static al_init_font_addon AlInitFontAddon =
-      NativeInterop.LoadFunction<al_init_font_addon>(AllegroLibrary, nameof(al_init_font_addon));
+  public static al_init_font_addon AlInitFontAddon = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_is_font_addon_initialized();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_is_font_addon_initialized();
 
-    public static al_is_font_addon_initialized AlIsFontAddonInitialized =
-      NativeInterop.LoadFunction<al_is_font_addon_initialized>(AllegroLibrary, nameof(al_is_font_addon_initialized));
+  public static al_is_font_addon_initialized AlIsFontAddonInitialized = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_shutdown_font_addon();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_shutdown_font_addon();
 
-    public static al_shutdown_font_addon AlShutdownFontAddon =
-        NativeInterop.LoadFunction<al_shutdown_font_addon>(AllegroLibrary, nameof(al_shutdown_font_addon));
+  public static al_shutdown_font_addon AlShutdownFontAddon = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_load_font(IntPtr filename, int size, int flags);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_load_font(IntPtr filename, int size, int flags);
 
-    public static al_load_font AlLoadFont =
-        NativeInterop.LoadFunction<al_load_font>(AllegroLibrary, nameof(al_load_font));
+  public static al_load_font AlLoadFont = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_destroy_font(IntPtr f);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_destroy_font(IntPtr f);
 
-    public static al_destroy_font AlDestroyFont =
-        NativeInterop.LoadFunction<al_destroy_font>(AllegroLibrary, nameof(al_destroy_font));
+  public static al_destroy_font AlDestroyFont = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_register_font_loader(IntPtr extension, RegisterFontLoader load_font);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_register_font_loader(IntPtr extension, RegisterFontLoader load_font);
 
-    public static al_register_font_loader AlRegisterFontLoader =
-        NativeInterop.LoadFunction<al_register_font_loader>(AllegroLibrary, nameof(al_register_font_loader));
+  public static al_register_font_loader AlRegisterFontLoader = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_get_font_line_height(IntPtr f);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_get_font_line_height(IntPtr f);
 
-    public static al_get_font_line_height AlGetFontLineHeight =
-        NativeInterop.LoadFunction<al_get_font_line_height>(AllegroLibrary, nameof(al_get_font_line_height));
+  public static al_get_font_line_height AlGetFontLineHeight = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_get_font_ascent(IntPtr f);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_get_font_ascent(IntPtr f);
 
-    public static al_get_font_ascent AlGetFontAscent =
-        NativeInterop.LoadFunction<al_get_font_ascent>(AllegroLibrary, nameof(al_get_font_ascent));
+  public static al_get_font_ascent AlGetFontAscent = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_get_font_descent(IntPtr f);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_get_font_descent(IntPtr f);
 
-    public static al_get_font_descent AlGetFontDescent =
-        NativeInterop.LoadFunction<al_get_font_descent>(AllegroLibrary, nameof(al_get_font_descent));
+  public static al_get_font_descent AlGetFontDescent = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_get_text_width(IntPtr f, IntPtr str);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_get_text_width(IntPtr f, IntPtr str);
 
-    public static al_get_text_width AlGetTextWidth =
-        NativeInterop.LoadFunction<al_get_text_width>(AllegroLibrary, nameof(al_get_text_width));
+  public static al_get_text_width AlGetTextWidth = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_get_ustr_width(IntPtr f, IntPtr ustr);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_get_ustr_width(IntPtr f, IntPtr ustr);
 
-    public static al_get_ustr_width AlGetUstrWidth =
-        NativeInterop.LoadFunction<al_get_ustr_width>(AllegroLibrary, nameof(al_get_ustr_width));
+  public static al_get_ustr_width AlGetUstrWidth = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_draw_text(IntPtr font, AllegroColor color, float x, float y, int flags, IntPtr text);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_draw_text(IntPtr font, AllegroColor color, float x, float y, int flags, IntPtr text);
 
-    public static al_draw_text AlDrawText =
-        NativeInterop.LoadFunction<al_draw_text>(AllegroLibrary, nameof(al_draw_text));
+  public static al_draw_text AlDrawText = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_draw_ustr(IntPtr font, AllegroColor color, float x, float y, int flags, IntPtr ustr);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_draw_ustr(IntPtr font, AllegroColor color, float x, float y, int flags, IntPtr ustr);
 
-    public static al_draw_ustr AlDrawUstr =
-        NativeInterop.LoadFunction<al_draw_ustr>(AllegroLibrary, nameof(al_draw_ustr));
+  public static al_draw_ustr AlDrawUstr = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_draw_justified_text(IntPtr font, AllegroColor color, float x1, float x2, float y, float diff, int flags, IntPtr text);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_draw_justified_text(IntPtr font, AllegroColor color, float x1, float x2, float y, float diff, int flags, IntPtr text);
 
-    public static al_draw_justified_text AlDrawJustifiedText =
-        NativeInterop.LoadFunction<al_draw_justified_text>(AllegroLibrary, nameof(al_draw_justified_text));
+  public static al_draw_justified_text AlDrawJustifiedText = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_draw_justified_ustr(IntPtr font, AllegroColor color, float x1, float x2, float y, float diff, int flags, IntPtr ustr);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_draw_justified_ustr(IntPtr font, AllegroColor color, float x1, float x2, float y, float diff, int flags, IntPtr ustr);
 
-    public static al_draw_justified_ustr AlDrawJustifiedUstr =
-        NativeInterop.LoadFunction<al_draw_justified_ustr>(AllegroLibrary, nameof(al_draw_justified_ustr));
+  public static al_draw_justified_ustr AlDrawJustifiedUstr = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_get_text_dimensions(IntPtr f, IntPtr text, ref int bbx, ref int bby, ref int bbw, ref int bbh);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_get_text_dimensions(IntPtr f, IntPtr text, ref int bbx, ref int bby, ref int bbw, ref int bbh);
 
-    public static al_get_text_dimensions AlGetTextDimensions =
-        NativeInterop.LoadFunction<al_get_text_dimensions>(AllegroLibrary, nameof(al_get_text_dimensions));
+  public static al_get_text_dimensions AlGetTextDimensions = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_get_ustr_dimensions(IntPtr f, IntPtr ustr, ref int bbx, ref int bby, ref int bbw, ref int bbh);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_get_ustr_dimensions(IntPtr f, IntPtr ustr, ref int bbx, ref int bby, ref int bbw, ref int bbh);
 
-    public static al_get_ustr_dimensions AlGetUstrDimensions =
-        NativeInterop.LoadFunction<al_get_ustr_dimensions>(AllegroLibrary, nameof(al_get_ustr_dimensions));
+  public static al_get_ustr_dimensions AlGetUstrDimensions = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate uint al_get_allegro_font_version();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate uint al_get_allegro_font_version();
 
-    public static al_get_allegro_font_version AlGetAllegroFontVersion =
-        NativeInterop.LoadFunction<al_get_allegro_font_version>(AllegroLibrary, nameof(al_get_allegro_font_version));
+  public static al_get_allegro_font_version AlGetAllegroFontVersion = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_get_font_ranges(IntPtr f, int ranges_count, ref int[] ranges);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_get_font_ranges(IntPtr f, int ranges_count, ref int[] ranges);
 
-    public static al_get_font_ranges AlGetFontRanges =
-        NativeInterop.LoadFunction<al_get_font_ranges>(AllegroLibrary, nameof(al_get_font_ranges));
+  public static al_get_font_ranges AlGetFontRanges = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_set_fallback_font(IntPtr font, IntPtr fallback);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_set_fallback_font(IntPtr font, IntPtr fallback);
 
-    public static al_set_fallback_font AlSetFallbackFont =
-        NativeInterop.LoadFunction<al_set_fallback_font>(AllegroLibrary, nameof(al_set_fallback_font));
+  public static al_set_fallback_font AlSetFallbackFont = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_get_fallback_font(IntPtr font);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_get_fallback_font(IntPtr font);
 
-    public static al_get_fallback_font AlGetFallbackFont =
-        NativeInterop.LoadFunction<al_get_fallback_font>(AllegroLibrary, nameof(al_get_fallback_font));
+  public static al_get_fallback_font AlGetFallbackFont = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_draw_glyph(IntPtr f, AllegroColor color, float x, float y, int codepoint);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_draw_glyph(IntPtr f, AllegroColor color, float x, float y, int codepoint);
 
-    public static al_draw_glyph AlDrawGlyph =
-        NativeInterop.LoadFunction<al_draw_glyph>(AllegroLibrary, nameof(al_draw_glyph));
+  public static al_draw_glyph AlDrawGlyph = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_get_glyph_width(IntPtr f, int codepoint);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_get_glyph_width(IntPtr f, int codepoint);
 
-    public static al_get_glyph_width AlGetGlyphWidth =
-        NativeInterop.LoadFunction<al_get_glyph_width>(AllegroLibrary, nameof(al_get_glyph_width));
+  public static al_get_glyph_width AlGetGlyphWidth = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_get_glyph_dimensions(IntPtr f, int codepoint, ref int bbx, ref int bby, ref int bbw, ref int bbh);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_get_glyph_dimensions(IntPtr f, int codepoint, ref int bbx, ref int bby, ref int bbw, ref int bbh);
 
-    public static al_get_glyph_dimensions AlGetGlyphDimensions =
-        NativeInterop.LoadFunction<al_get_glyph_dimensions>(AllegroLibrary, nameof(al_get_glyph_dimensions));
+  public static al_get_glyph_dimensions AlGetGlyphDimensions = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_get_glyph_advance(IntPtr f, int codepoint1, int codepoint2);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_get_glyph_advance(IntPtr f, int codepoint1, int codepoint2);
 
-    public static al_get_glyph_advance AlGetGlyphAdvance =
-        NativeInterop.LoadFunction<al_get_glyph_advance>(AllegroLibrary, nameof(al_get_glyph_advance));
+  public static al_get_glyph_advance AlGetGlyphAdvance = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_draw_multiline_text(IntPtr font, AllegroColor color, float x, float y, float max_width, float line_height, int flags, IntPtr text);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_draw_multiline_text(IntPtr font, AllegroColor color, float x, float y, float max_width, float line_height, int flags, IntPtr text);
 
-    public static al_draw_multiline_text AlDrawMultilineText =
-        NativeInterop.LoadFunction<al_draw_multiline_text>(AllegroLibrary, nameof(al_draw_multiline_text));
+  public static al_draw_multiline_text AlDrawMultilineText = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_draw_multiline_ustr(IntPtr font, AllegroColor color, float x, float y, float max_width, float line_height, int flags, IntPtr ustr);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_draw_multiline_ustr(IntPtr font, AllegroColor color, float x, float y, float max_width, float line_height, int flags, IntPtr ustr);
 
-    public static al_draw_multiline_ustr AlDrawMultilineUstr =
-        NativeInterop.LoadFunction<al_draw_multiline_ustr>(AllegroLibrary, nameof(al_draw_multiline_ustr));
+  public static al_draw_multiline_ustr AlDrawMultilineUstr = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_do_multiline_text(IntPtr font, float max_width, IntPtr text, DoMultilineText cb, IntPtr extra);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_do_multiline_text(IntPtr font, float max_width, IntPtr text, DoMultilineText cb, IntPtr extra);
 
-    public static al_do_multiline_text AlDoMultilineText =
-        NativeInterop.LoadFunction<al_do_multiline_text>(AllegroLibrary, nameof(al_do_multiline_text));
+  public static al_do_multiline_text AlDoMultilineText = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_do_multiline_ustr(IntPtr font, float max_width, IntPtr ustr, DoMultilineUstr cb, IntPtr extra);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_do_multiline_ustr(IntPtr font, float max_width, IntPtr ustr, DoMultilineUstr cb, IntPtr extra);
 
-    public static al_do_multiline_ustr AlDoMultilineUstr =
-        NativeInterop.LoadFunction<al_do_multiline_ustr>(AllegroLibrary, nameof(al_do_multiline_ustr));
+  public static al_do_multiline_ustr AlDoMultilineUstr = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_grab_font_from_bitmap(IntPtr bmp, int ranges_n, int[] ranges);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_grab_font_from_bitmap(IntPtr bmp, int ranges_n, int[] ranges);
 
-    public static al_grab_font_from_bitmap AlGrabFontFromBitmap =
-        NativeInterop.LoadFunction<al_grab_font_from_bitmap>(AllegroLibrary, nameof(al_grab_font_from_bitmap));
+  public static al_grab_font_from_bitmap AlGrabFontFromBitmap = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_load_bitmap_font(IntPtr fname);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_load_bitmap_font(IntPtr fname);
 
-    public static al_load_bitmap_font AlLoadBitmapFont =
-        NativeInterop.LoadFunction<al_load_bitmap_font>(AllegroLibrary, nameof(al_load_bitmap_font));
+  public static al_load_bitmap_font AlLoadBitmapFont = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_load_bitmap_font_flags(IntPtr fname, int flags);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_load_bitmap_font_flags(IntPtr fname, int flags);
 
-    public static al_load_bitmap_font_flags AlLoadBitmapFontFlags =
-        NativeInterop.LoadFunction<al_load_bitmap_font_flags>(AllegroLibrary, nameof(al_load_bitmap_font_flags));
+  public static al_load_bitmap_font_flags AlLoadBitmapFontFlags = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_create_builtin_font();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_create_builtin_font();
 
-    public static al_create_builtin_font AlCreateBuiltinFont =
-        NativeInterop.LoadFunction<al_create_builtin_font>(AllegroLibrary, nameof(al_create_builtin_font));
+  public static al_create_builtin_font AlCreateBuiltinFont = null!;
 
-    #endregion
+  #endregion
 
-    #region Fullscreen routines
+  #region Fullscreen routines
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_get_display_mode(int index, ref AllegroDisplayMode.NativeDisplayMode mode);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_get_display_mode(int index, ref AllegroDisplayMode.NativeDisplayMode mode);
 
-    public static al_get_display_mode AlGetDisplayMode =
-        NativeInterop.LoadFunction<al_get_display_mode>(AllegroLibrary, nameof(al_get_display_mode));
+  public static al_get_display_mode AlGetDisplayMode = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_get_num_display_modes();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_get_num_display_modes();
 
-    public static al_get_num_display_modes AlGetNumDisplayModes =
-        NativeInterop.LoadFunction<al_get_num_display_modes>(AllegroLibrary, nameof(al_get_num_display_modes));
+  public static al_get_num_display_modes AlGetNumDisplayModes = null!;
 
-    #endregion Fullscreen routines
+  #endregion Fullscreen routines
 
-    #region Graphics routines
+  #region Graphics routines
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate AllegroColor al_map_rgb(byte r, byte g, byte b);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate AllegroColor al_map_rgb(byte r, byte g, byte b);
 
-    public static al_map_rgb AlMapRgb =
-        NativeInterop.LoadFunction<al_map_rgb>(AllegroLibrary, nameof(al_map_rgb));
+  public static al_map_rgb AlMapRgb = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate AllegroColor al_map_rgb_f(float r, float g, float b);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate AllegroColor al_map_rgb_f(float r, float g, float b);
 
-    public static al_map_rgb_f AlMapRgbF =
-        NativeInterop.LoadFunction<al_map_rgb_f>(AllegroLibrary, nameof(al_map_rgb_f));
+  public static al_map_rgb_f AlMapRgbF = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate AllegroColor al_map_rgba(byte r, byte g, byte b, byte a);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate AllegroColor al_map_rgba(byte r, byte g, byte b, byte a);
 
-    public static al_map_rgba AlMapRgba =
-        NativeInterop.LoadFunction<al_map_rgba>(AllegroLibrary, nameof(al_map_rgba));
+  public static al_map_rgba AlMapRgba = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate AllegroColor al_premul_rgba(byte r, byte g, byte b, byte a);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate AllegroColor al_premul_rgba(byte r, byte g, byte b, byte a);
 
-    public static al_premul_rgba AlPremulRgba =
-        NativeInterop.LoadFunction<al_premul_rgba>(AllegroLibrary, nameof(al_premul_rgba));
+  public static al_premul_rgba AlPremulRgba = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate AllegroColor al_map_rgba_f(float r, float g, float b, float a);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate AllegroColor al_map_rgba_f(float r, float g, float b, float a);
 
-    public static al_map_rgba_f AlMapRgbaF =
-        NativeInterop.LoadFunction<al_map_rgba_f>(AllegroLibrary, nameof(al_map_rgba_f));
+  public static al_map_rgba_f AlMapRgbaF = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate AllegroColor al_premul_rgba_f(float r, float g, float b, float a);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate AllegroColor al_premul_rgba_f(float r, float g, float b, float a);
 
-    public static al_premul_rgba_f AlPremulRgbaF =
-        NativeInterop.LoadFunction<al_premul_rgba_f>(AllegroLibrary, nameof(al_premul_rgba_f));
+  public static al_premul_rgba_f AlPremulRgbaF = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_unmap_rgb(ref byte r, ref byte g, ref byte b);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_unmap_rgb(ref byte r, ref byte g, ref byte b);
 
-    public static al_unmap_rgb AlUnmapRgb =
-        NativeInterop.LoadFunction<al_unmap_rgb>(AllegroLibrary, nameof(al_unmap_rgb));
+  public static al_unmap_rgb AlUnmapRgb = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_unmap_rgb_f(ref float r, ref float g, ref float b);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_unmap_rgb_f(ref float r, ref float g, ref float b);
 
-    public static al_unmap_rgb_f AlUnmapRgbF =
-        NativeInterop.LoadFunction<al_unmap_rgb_f>(AllegroLibrary, nameof(al_unmap_rgb_f));
+  public static al_unmap_rgb_f AlUnmapRgbF = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_unmap_rgba(ref byte r, ref byte g, ref byte b, ref byte a);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_unmap_rgba(ref byte r, ref byte g, ref byte b, ref byte a);
 
-    public static al_unmap_rgba AlUnmapRgba =
-        NativeInterop.LoadFunction<al_unmap_rgba>(AllegroLibrary, nameof(al_unmap_rgba));
+  public static al_unmap_rgba AlUnmapRgba = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_unmap_rgba_f(ref float r, ref float g, ref float b, ref float a);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_unmap_rgba_f(ref float r, ref float g, ref float b, ref float a);
 
-    public static al_unmap_rgba_f AlUnmapRgbaF =
-        NativeInterop.LoadFunction<al_unmap_rgba_f>(AllegroLibrary, nameof(al_unmap_rgba_f));
+  public static al_unmap_rgba_f AlUnmapRgbaF = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_get_pixel_size(int format);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_get_pixel_size(int format);
 
-    public static al_get_pixel_size AlGetPixelSize =
-        NativeInterop.LoadFunction<al_get_pixel_size>(AllegroLibrary, nameof(al_get_pixel_size));
+  public static al_get_pixel_size AlGetPixelSize = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_get_pixel_format_bits(int format);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_get_pixel_format_bits(int format);
 
-    public static al_get_pixel_format_bits AlGetPixelFormatBits =
-        NativeInterop.LoadFunction<al_get_pixel_format_bits>(AllegroLibrary, nameof(al_get_pixel_format_bits));
+  public static al_get_pixel_format_bits AlGetPixelFormatBits = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_get_pixel_block_size(int format);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_get_pixel_block_size(int format);
 
-    public static al_get_pixel_block_size AlGetPixelBlockSize =
-        NativeInterop.LoadFunction<al_get_pixel_block_size>(AllegroLibrary, nameof(al_get_pixel_block_size));
+  public static al_get_pixel_block_size AlGetPixelBlockSize = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_get_pixel_block_width(int format);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_get_pixel_block_width(int format);
 
-    public static al_get_pixel_block_width AlGetPixelBlockWidth =
-        NativeInterop.LoadFunction<al_get_pixel_block_width>(AllegroLibrary, nameof(al_get_pixel_block_width));
+  public static al_get_pixel_block_width AlGetPixelBlockWidth = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_get_pixel_block_height(int format);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_get_pixel_block_height(int format);
 
-    public static al_get_pixel_block_height AlGetPixelBlockHeight =
-        NativeInterop.LoadFunction<al_get_pixel_block_height>(AllegroLibrary, nameof(al_get_pixel_block_height));
+  public static al_get_pixel_block_height AlGetPixelBlockHeight = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_lock_bitmap(IntPtr bitmap, int format, int flags);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_lock_bitmap(IntPtr bitmap, int format, int flags);
 
-    public static al_lock_bitmap AlLockBitmap =
-        NativeInterop.LoadFunction<al_lock_bitmap>(AllegroLibrary, nameof(al_lock_bitmap));
+  public static al_lock_bitmap AlLockBitmap = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_lock_bitmap_region(IntPtr bitmap, int x, int y, int width, int height, int format, int flags);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_lock_bitmap_region(IntPtr bitmap, int x, int y, int width, int height, int format, int flags);
 
-    public static al_lock_bitmap_region AlLockBitmapRegion =
-        NativeInterop.LoadFunction<al_lock_bitmap_region>(AllegroLibrary, nameof(al_lock_bitmap_region));
+  public static al_lock_bitmap_region AlLockBitmapRegion = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_unlock_bitmap(IntPtr bitmap);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_unlock_bitmap(IntPtr bitmap);
 
-    public static al_unlock_bitmap AlUnlockBitmap =
-        NativeInterop.LoadFunction<al_unlock_bitmap>(AllegroLibrary, nameof(al_unlock_bitmap));
+  public static al_unlock_bitmap AlUnlockBitmap = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_lock_bitmap_blocked(IntPtr bitmap, int flags);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_lock_bitmap_blocked(IntPtr bitmap, int flags);
 
-    public static al_lock_bitmap_blocked AlLockBitmapBlocked =
-        NativeInterop.LoadFunction<al_lock_bitmap_blocked>(AllegroLibrary, nameof(al_lock_bitmap_blocked));
+  public static al_lock_bitmap_blocked AlLockBitmapBlocked = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_lock_bitmap_region_blocked(IntPtr bitmap, int x_block, int y_block, int width_block, int height_block, int flags);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_lock_bitmap_region_blocked(IntPtr bitmap, int x_block, int y_block, int width_block, int height_block, int flags);
 
-    public static al_lock_bitmap_region_blocked AlLockBitmapRegionBlocked =
-        NativeInterop.LoadFunction<al_lock_bitmap_region_blocked>(AllegroLibrary, nameof(al_lock_bitmap_region_blocked));
+  public static al_lock_bitmap_region_blocked AlLockBitmapRegionBlocked = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_create_bitmap(int w, int h);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_create_bitmap(int w, int h);
 
-    public static al_create_bitmap AlCreateBitmap =
-        NativeInterop.LoadFunction<al_create_bitmap>(AllegroLibrary, nameof(al_create_bitmap));
+  public static al_create_bitmap AlCreateBitmap = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_create_sub_bitmap(IntPtr parent, int x, int y, int w, int h);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_create_sub_bitmap(IntPtr parent, int x, int y, int w, int h);
 
-    public static al_create_sub_bitmap AlCreateSubBitmap =
-        NativeInterop.LoadFunction<al_create_sub_bitmap>(AllegroLibrary, nameof(al_create_sub_bitmap));
+  public static al_create_sub_bitmap AlCreateSubBitmap = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_clone_bitmap(IntPtr parent);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_clone_bitmap(IntPtr parent);
 
-    public static al_clone_bitmap AlCloneBitmap =
-        NativeInterop.LoadFunction<al_clone_bitmap>(AllegroLibrary, nameof(al_clone_bitmap));
+  public static al_clone_bitmap AlCloneBitmap = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_convert_bitmap(IntPtr parent);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_convert_bitmap(IntPtr parent);
 
-    public static al_convert_bitmap AlConvertBitmap =
-        NativeInterop.LoadFunction<al_convert_bitmap>(AllegroLibrary, nameof(al_convert_bitmap));
+  public static al_convert_bitmap AlConvertBitmap = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_convert_memory_bitmaps();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_convert_memory_bitmaps();
 
-    public static al_convert_memory_bitmaps AlConvertMemoryBitmaps =
-        NativeInterop.LoadFunction<al_convert_memory_bitmaps>(AllegroLibrary, nameof(al_convert_memory_bitmaps));
+  public static al_convert_memory_bitmaps AlConvertMemoryBitmaps = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_destroy_bitmap(IntPtr bitmap);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_destroy_bitmap(IntPtr bitmap);
 
-    public static al_destroy_bitmap AlDestroyBitmap =
-        NativeInterop.LoadFunction<al_destroy_bitmap>(AllegroLibrary, nameof(al_destroy_bitmap));
+  public static al_destroy_bitmap AlDestroyBitmap = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_get_new_bitmap_flags();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_get_new_bitmap_flags();
 
-    public static al_get_new_bitmap_flags AlGetNewBitmapFlags =
-        NativeInterop.LoadFunction<al_get_new_bitmap_flags>(AllegroLibrary, nameof(al_get_new_bitmap_flags));
+  public static al_get_new_bitmap_flags AlGetNewBitmapFlags = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_get_new_bitmap_format();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_get_new_bitmap_format();
 
-    public static al_get_new_bitmap_format AlGetNewBitmapFormat =
-        NativeInterop.LoadFunction<al_get_new_bitmap_format>(AllegroLibrary, nameof(al_get_new_bitmap_format));
+  public static al_get_new_bitmap_format AlGetNewBitmapFormat = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_set_new_bitmap_flags(int flags);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_set_new_bitmap_flags(int flags);
 
-    public static al_set_new_bitmap_flags AlSetNewBitmapFlags =
-        NativeInterop.LoadFunction<al_set_new_bitmap_flags>(AllegroLibrary, nameof(al_set_new_bitmap_flags));
+  public static al_set_new_bitmap_flags AlSetNewBitmapFlags = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_add_new_bitmap_flag(int flag);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_add_new_bitmap_flag(int flag);
 
-    public static al_add_new_bitmap_flag AlAddNewBitmapFlag =
-        NativeInterop.LoadFunction<al_add_new_bitmap_flag>(AllegroLibrary, nameof(al_add_new_bitmap_flag));
+  public static al_add_new_bitmap_flag AlAddNewBitmapFlag = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_set_new_bitmap_format(int flag);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_set_new_bitmap_format(int flag);
 
-    public static al_set_new_bitmap_format AlSetNewBitmapFormat =
-        NativeInterop.LoadFunction<al_set_new_bitmap_format>(AllegroLibrary, nameof(al_set_new_bitmap_format));
+  public static al_set_new_bitmap_format AlSetNewBitmapFormat = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_get_bitmap_flags(IntPtr bitmap);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_get_bitmap_flags(IntPtr bitmap);
 
-    public static al_get_bitmap_flags AlGetBitmapFlags =
-        NativeInterop.LoadFunction<al_get_bitmap_flags>(AllegroLibrary, nameof(al_get_bitmap_flags));
+  public static al_get_bitmap_flags AlGetBitmapFlags = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_get_bitmap_format(IntPtr bitmap);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_get_bitmap_format(IntPtr bitmap);
 
-    public static al_get_bitmap_format AlGetBitmapFormat =
-        NativeInterop.LoadFunction<al_get_bitmap_format>(AllegroLibrary, nameof(al_get_bitmap_format));
+  public static al_get_bitmap_format AlGetBitmapFormat = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_get_bitmap_height(IntPtr bitmap);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_get_bitmap_height(IntPtr bitmap);
 
-    public static al_get_bitmap_height AlGetBitmapHeight =
-        NativeInterop.LoadFunction<al_get_bitmap_height>(AllegroLibrary, nameof(al_get_bitmap_height));
+  public static al_get_bitmap_height AlGetBitmapHeight = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_get_bitmap_width(IntPtr bitmap);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_get_bitmap_width(IntPtr bitmap);
 
-    public static al_get_bitmap_width AlGetBitmapWidth =
-        NativeInterop.LoadFunction<al_get_bitmap_width>(AllegroLibrary, nameof(al_get_bitmap_width));
+  public static al_get_bitmap_width AlGetBitmapWidth = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate AllegroColor al_get_pixel(IntPtr bitmap, int x, int y);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate AllegroColor al_get_pixel(IntPtr bitmap, int x, int y);
 
-    public static al_get_pixel AlGetPixel =
-        NativeInterop.LoadFunction<al_get_pixel>(AllegroLibrary, nameof(al_get_pixel));
+  public static al_get_pixel AlGetPixel = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_is_bitmap_locked(IntPtr bitmap);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_is_bitmap_locked(IntPtr bitmap);
 
-    public static al_is_bitmap_locked AlIsBitmapLocked =
-        NativeInterop.LoadFunction<al_is_bitmap_locked>(AllegroLibrary, nameof(al_is_bitmap_locked));
+  public static al_is_bitmap_locked AlIsBitmapLocked = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_is_compatible_bitmap(IntPtr bitmap);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_is_compatible_bitmap(IntPtr bitmap);
 
-    public static al_is_compatible_bitmap AlIsCompatibleBitmap =
-        NativeInterop.LoadFunction<al_is_compatible_bitmap>(AllegroLibrary, nameof(al_is_compatible_bitmap));
+  public static al_is_compatible_bitmap AlIsCompatibleBitmap = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_is_sub_bitmap(IntPtr bitmap);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_is_sub_bitmap(IntPtr bitmap);
 
-    public static al_is_sub_bitmap AlIsSubBitmap =
-        NativeInterop.LoadFunction<al_is_sub_bitmap>(AllegroLibrary, nameof(al_is_sub_bitmap));
+  public static al_is_sub_bitmap AlIsSubBitmap = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_get_parent_bitmap(IntPtr bitmap);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_get_parent_bitmap(IntPtr bitmap);
 
-    public static al_get_parent_bitmap AlGetParentBitmap =
-        NativeInterop.LoadFunction<al_get_parent_bitmap>(AllegroLibrary, nameof(al_get_parent_bitmap));
+  public static al_get_parent_bitmap AlGetParentBitmap = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_get_bitmap_x(IntPtr bitmap);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_get_bitmap_x(IntPtr bitmap);
 
-    public static al_get_bitmap_x AlGetBitmapX =
-        NativeInterop.LoadFunction<al_get_bitmap_x>(AllegroLibrary, nameof(al_get_bitmap_x));
+  public static al_get_bitmap_x AlGetBitmapX = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_get_bitmap_y(IntPtr bitmap);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_get_bitmap_y(IntPtr bitmap);
 
-    public static al_get_bitmap_y AlGetBitmapY =
-        NativeInterop.LoadFunction<al_get_bitmap_y>(AllegroLibrary, nameof(al_get_bitmap_y));
+  public static al_get_bitmap_y AlGetBitmapY = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_reparent_bitmap(IntPtr bitmap, IntPtr parent, int x, int y, int w, int h);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_reparent_bitmap(IntPtr bitmap, IntPtr parent, int x, int y, int w, int h);
 
-    public static al_reparent_bitmap AlReparentBitmap =
-        NativeInterop.LoadFunction<al_reparent_bitmap>(AllegroLibrary, nameof(al_reparent_bitmap));
+  public static al_reparent_bitmap AlReparentBitmap = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_clear_to_color(AllegroColor color);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_clear_to_color(AllegroColor color);
 
-    public static al_clear_to_color AlClearToColor =
-        NativeInterop.LoadFunction<al_clear_to_color>(AllegroLibrary, nameof(al_clear_to_color));
+  public static al_clear_to_color AlClearToColor = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_clear_depth_buffer(float z);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_clear_depth_buffer(float z);
 
-    public static al_clear_depth_buffer AlClearDepthBuffer =
-        NativeInterop.LoadFunction<al_clear_depth_buffer>(AllegroLibrary, nameof(al_clear_depth_buffer));
+  public static al_clear_depth_buffer AlClearDepthBuffer = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_draw_bitmap(IntPtr bitmap, float dx, float dy, int flags);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_draw_bitmap(IntPtr bitmap, float dx, float dy, int flags);
 
-    public static al_draw_bitmap AlDrawBitmap =
-        NativeInterop.LoadFunction<al_draw_bitmap>(AllegroLibrary, nameof(al_draw_bitmap));
+  public static al_draw_bitmap AlDrawBitmap = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_draw_tinted_bitmap(IntPtr bitmap, AllegroColor tint, float dx, float dy, int flags);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_draw_tinted_bitmap(IntPtr bitmap, AllegroColor tint, float dx, float dy, int flags);
 
-    public static al_draw_tinted_bitmap AlDrawTintedBitmap =
-        NativeInterop.LoadFunction<al_draw_tinted_bitmap>(AllegroLibrary, nameof(al_draw_tinted_bitmap));
+  public static al_draw_tinted_bitmap AlDrawTintedBitmap = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_draw_bitmap_region(IntPtr bitmap, float sx, float sy, float sw, float sh, float dx, float dy, int flags);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_draw_bitmap_region(IntPtr bitmap, float sx, float sy, float sw, float sh, float dx, float dy, int flags);
 
-    public static al_draw_bitmap_region AlDrawBitmapRegion =
-        NativeInterop.LoadFunction<al_draw_bitmap_region>(AllegroLibrary, nameof(al_draw_bitmap_region));
+  public static al_draw_bitmap_region AlDrawBitmapRegion = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_draw_tinted_bitmap_region(IntPtr bitmap, AllegroColor tint, float sx, float sy, float sw, float sh, float dx, float dy, int flags);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_draw_tinted_bitmap_region(IntPtr bitmap, AllegroColor tint, float sx, float sy, float sw, float sh, float dx, float dy, int flags);
 
-    public static al_draw_tinted_bitmap_region AlDrawTintedBitmapRegion =
-        NativeInterop.LoadFunction<al_draw_tinted_bitmap_region>(AllegroLibrary, nameof(al_draw_tinted_bitmap_region));
+  public static al_draw_tinted_bitmap_region AlDrawTintedBitmapRegion = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_draw_pixel(float x, float y, AllegroColor color);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_draw_pixel(float x, float y, AllegroColor color);
 
-    public static al_draw_pixel AlDrawPixel =
-        NativeInterop.LoadFunction<al_draw_pixel>(AllegroLibrary, nameof(al_draw_pixel));
+  public static al_draw_pixel AlDrawPixel = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_draw_rotated_bitmap(IntPtr bitmap, float cx, float cy, float dx, float dy, float angle, int flags);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_draw_rotated_bitmap(IntPtr bitmap, float cx, float cy, float dx, float dy, float angle, int flags);
 
-    public static al_draw_rotated_bitmap AlDrawRotatedBitmap =
-        NativeInterop.LoadFunction<al_draw_rotated_bitmap>(AllegroLibrary, nameof(al_draw_rotated_bitmap));
+  public static al_draw_rotated_bitmap AlDrawRotatedBitmap = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_draw_tinted_rotated_bitmap(IntPtr bitmap, AllegroColor tint, float cx, float cy, float dx, float dy, float angle, int flags);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_draw_tinted_rotated_bitmap(IntPtr bitmap, AllegroColor tint, float cx, float cy, float dx, float dy, float angle, int flags);
 
-    public static al_draw_tinted_rotated_bitmap AlDrawTintedRotatedBitmap =
-        NativeInterop.LoadFunction<al_draw_tinted_rotated_bitmap>(AllegroLibrary, nameof(al_draw_tinted_rotated_bitmap));
+  public static al_draw_tinted_rotated_bitmap AlDrawTintedRotatedBitmap = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_draw_scaled_rotated_bitmap(IntPtr bitmap, float cx, float cy, float dx, float dy, float xscale, float yscale, float angle, int flags);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_draw_scaled_rotated_bitmap(IntPtr bitmap, float cx, float cy, float dx, float dy, float xscale, float yscale, float angle, int flags);
 
-    public static al_draw_scaled_rotated_bitmap AlDrawScaledRotatedBitmap =
-        NativeInterop.LoadFunction<al_draw_scaled_rotated_bitmap>(AllegroLibrary, nameof(al_draw_scaled_rotated_bitmap));
+  public static al_draw_scaled_rotated_bitmap AlDrawScaledRotatedBitmap = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_draw_tinted_scaled_rotated_bitmap(IntPtr bitmap, AllegroColor tint, float cx, float cy, float dx, float dy, float xscale, float yscale, float angle, int flags);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_draw_tinted_scaled_rotated_bitmap(IntPtr bitmap, AllegroColor tint, float cx, float cy, float dx, float dy, float xscale, float yscale, float angle, int flags);
 
-    public static al_draw_tinted_scaled_rotated_bitmap AlDrawTintedScaledRotatedBitmap =
-        NativeInterop.LoadFunction<al_draw_tinted_scaled_rotated_bitmap>(AllegroLibrary, nameof(al_draw_tinted_scaled_rotated_bitmap));
+  public static al_draw_tinted_scaled_rotated_bitmap AlDrawTintedScaledRotatedBitmap = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_draw_tinted_scaled_rotated_bitmap_region(IntPtr bitmap, float sx, float sy, float sw, float sh, AllegroColor tint, float cx, float cy, float dx, float dy, float xscale, float yscale, float angle, int flags);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_draw_tinted_scaled_rotated_bitmap_region(IntPtr bitmap, float sx, float sy, float sw, float sh, AllegroColor tint, float cx, float cy, float dx, float dy, float xscale, float yscale, float angle, int flags);
 
-    public static al_draw_tinted_scaled_rotated_bitmap_region AlDrawTintedScaledRotatedBitmapRegion =
-        NativeInterop.LoadFunction<al_draw_tinted_scaled_rotated_bitmap_region>(AllegroLibrary, nameof(al_draw_tinted_scaled_rotated_bitmap_region));
+  public static al_draw_tinted_scaled_rotated_bitmap_region AlDrawTintedScaledRotatedBitmapRegion = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_draw_scaled_bitmap(IntPtr bitmap, float sx, float sy, float sw, float sh, float dx, float dy, float dw, float dh, int flags);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_draw_scaled_bitmap(IntPtr bitmap, float sx, float sy, float sw, float sh, float dx, float dy, float dw, float dh, int flags);
 
-    public static al_draw_scaled_bitmap AlDrawScaledBitmap =
-        NativeInterop.LoadFunction<al_draw_scaled_bitmap>(AllegroLibrary, nameof(al_draw_scaled_bitmap));
+  public static al_draw_scaled_bitmap AlDrawScaledBitmap = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_draw_tinted_scaled_bitmap(IntPtr bitmap, AllegroColor tint, float sx, float sy, float sw, float sh, float dx, float dy, float dw, float dh, int flags);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_draw_tinted_scaled_bitmap(IntPtr bitmap, AllegroColor tint, float sx, float sy, float sw, float sh, float dx, float dy, float dw, float dh, int flags);
 
-    public static al_draw_tinted_scaled_bitmap AlDrawTintedScaledBitmap =
-        NativeInterop.LoadFunction<al_draw_tinted_scaled_bitmap>(AllegroLibrary, nameof(al_draw_tinted_scaled_bitmap));
+  public static al_draw_tinted_scaled_bitmap AlDrawTintedScaledBitmap = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_get_target_bitmap();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_get_target_bitmap();
 
-    public static al_get_target_bitmap AlGetTargetBitmap =
-        NativeInterop.LoadFunction<al_get_target_bitmap>(AllegroLibrary, nameof(al_get_target_bitmap));
+  public static al_get_target_bitmap AlGetTargetBitmap = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_put_pixel(int x, int y, AllegroColor color);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_put_pixel(int x, int y, AllegroColor color);
 
-    public static al_put_pixel AlPutPixel =
-        NativeInterop.LoadFunction<al_put_pixel>(AllegroLibrary, nameof(al_put_pixel));
+  public static al_put_pixel AlPutPixel = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_put_blended_pixel(int x, int y, AllegroColor color);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_put_blended_pixel(int x, int y, AllegroColor color);
 
-    public static al_put_blended_pixel AlPutBlendedPixel =
-        NativeInterop.LoadFunction<al_put_blended_pixel>(AllegroLibrary, nameof(al_put_blended_pixel));
+  public static al_put_blended_pixel AlPutBlendedPixel = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_set_target_bitmap(IntPtr bitmap);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_set_target_bitmap(IntPtr bitmap);
 
-    public static al_set_target_bitmap AlSetTargetBitmap =
-        NativeInterop.LoadFunction<al_set_target_bitmap>(AllegroLibrary, nameof(al_set_target_bitmap));
+  public static al_set_target_bitmap AlSetTargetBitmap = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_set_target_backbuffer(IntPtr display);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_set_target_backbuffer(IntPtr display);
 
-    public static al_set_target_backbuffer AlSetTargetBackbuffer =
-        NativeInterop.LoadFunction<al_set_target_backbuffer>(AllegroLibrary, nameof(al_set_target_backbuffer));
+  public static al_set_target_backbuffer AlSetTargetBackbuffer = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_get_current_display();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_get_current_display();
 
-    public static al_get_current_display AlGetCurrentDisplay =
-        NativeInterop.LoadFunction<al_get_current_display>(AllegroLibrary, nameof(al_get_current_display));
+  public static al_get_current_display AlGetCurrentDisplay = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_get_blender(ref int op, ref int src, ref int dst);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_get_blender(ref int op, ref int src, ref int dst);
 
-    public static al_get_blender AlGetBlender =
-        NativeInterop.LoadFunction<al_get_blender>(AllegroLibrary, nameof(al_get_blender));
+  public static al_get_blender AlGetBlender = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_get_separate_blender(ref int op, ref int src, ref int dst, ref int alpha_op, ref int alpha_src, ref int alpha_dst);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_get_separate_blender(ref int op, ref int src, ref int dst, ref int alpha_op, ref int alpha_src, ref int alpha_dst);
 
-    public static al_get_separate_blender AlGetSeparateBlender =
-        NativeInterop.LoadFunction<al_get_separate_blender>(AllegroLibrary, nameof(al_get_separate_blender));
+  public static al_get_separate_blender AlGetSeparateBlender = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate AllegroColor al_get_blend_color();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate AllegroColor al_get_blend_color();
 
-    public static al_get_blend_color AlGetBlendColor =
-        NativeInterop.LoadFunction<al_get_blend_color>(AllegroLibrary, nameof(al_get_blend_color));
+  public static al_get_blend_color AlGetBlendColor = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_set_blender(int op, int src, int dst);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_set_blender(int op, int src, int dst);
 
-    public static al_set_blender AlSetBlender =
-        NativeInterop.LoadFunction<al_set_blender>(AllegroLibrary, nameof(al_set_blender));
+  public static al_set_blender AlSetBlender = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_set_separate_blender(int op, int src, int dst, int alpha_op, int alpha_src, int alpha_dst);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_set_separate_blender(int op, int src, int dst, int alpha_op, int alpha_src, int alpha_dst);
 
-    public static al_set_separate_blender AlSetSeparateBlender =
-        NativeInterop.LoadFunction<al_set_separate_blender>(AllegroLibrary, nameof(al_set_separate_blender));
+  public static al_set_separate_blender AlSetSeparateBlender = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_set_blend_color(AllegroColor color);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_set_blend_color(AllegroColor color);
 
-    public static al_set_blend_color AlSetBlendColor =
-        NativeInterop.LoadFunction<al_set_blend_color>(AllegroLibrary, nameof(al_set_blend_color));
+  public static al_set_blend_color AlSetBlendColor = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_get_clipping_rectangle(ref int x, ref int y, ref int w, ref int h);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_get_clipping_rectangle(ref int x, ref int y, ref int w, ref int h);
 
-    public static al_get_clipping_rectangle AlGetClippingRectangle =
-        NativeInterop.LoadFunction<al_get_clipping_rectangle>(AllegroLibrary, nameof(al_get_clipping_rectangle));
+  public static al_get_clipping_rectangle AlGetClippingRectangle = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_set_clipping_rectangle(int x, int y, int width, int height);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_set_clipping_rectangle(int x, int y, int width, int height);
 
-    public static al_set_clipping_rectangle AlSetClippingRectangle =
-        NativeInterop.LoadFunction<al_set_clipping_rectangle>(AllegroLibrary, nameof(al_set_clipping_rectangle));
+  public static al_set_clipping_rectangle AlSetClippingRectangle = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_reset_clipping_rectangle();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_reset_clipping_rectangle();
 
-    public static al_reset_clipping_rectangle AlResetClippingRectangle =
-        NativeInterop.LoadFunction<al_reset_clipping_rectangle>(AllegroLibrary, nameof(al_reset_clipping_rectangle));
+  public static al_reset_clipping_rectangle AlResetClippingRectangle = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_convert_mask_to_alpha(IntPtr bitmap, AllegroColor mask_color);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_convert_mask_to_alpha(IntPtr bitmap, AllegroColor mask_color);
 
-    public static al_convert_mask_to_alpha AlConvertMaskToAlpha =
-        NativeInterop.LoadFunction<al_convert_mask_to_alpha>(AllegroLibrary, nameof(al_convert_mask_to_alpha));
+  public static al_convert_mask_to_alpha AlConvertMaskToAlpha = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_hold_bitmap_drawing([MarshalAs(UnmanagedType.U1)] bool hold);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_hold_bitmap_drawing([MarshalAs(UnmanagedType.U1)] bool hold);
 
-    public static al_hold_bitmap_drawing AlHoldBitmapDrawing =
-        NativeInterop.LoadFunction<al_hold_bitmap_drawing>(AllegroLibrary, nameof(al_hold_bitmap_drawing));
+  public static al_hold_bitmap_drawing AlHoldBitmapDrawing = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_is_bitmap_drawing_held();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_is_bitmap_drawing_held();
 
-    public static al_is_bitmap_drawing_held AlIsBitmapDrawingHeld =
-        NativeInterop.LoadFunction<al_is_bitmap_drawing_held>(AllegroLibrary, nameof(al_is_bitmap_drawing_held));
+  public static al_is_bitmap_drawing_held AlIsBitmapDrawingHeld = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_register_bitmap_loader(IntPtr extension, RegisterBitmapLoader loader);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_register_bitmap_loader(IntPtr extension, RegisterBitmapLoader loader);
 
-    public static al_register_bitmap_loader AlRegisterBitmapLoader =
-        NativeInterop.LoadFunction<al_register_bitmap_loader>(AllegroLibrary, nameof(al_register_bitmap_loader));
+  public static al_register_bitmap_loader AlRegisterBitmapLoader = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_register_bitmap_saver(IntPtr extension, RegisterBitmapSaver saver);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_register_bitmap_saver(IntPtr extension, RegisterBitmapSaver saver);
 
-    public static al_register_bitmap_saver AlRegisterBitmapSaver =
-        NativeInterop.LoadFunction<al_register_bitmap_saver>(AllegroLibrary, nameof(al_register_bitmap_saver));
+  public static al_register_bitmap_saver AlRegisterBitmapSaver = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_register_bitmap_loader_f(IntPtr extension, RegisterBitmapLoaderF fs_loader);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_register_bitmap_loader_f(IntPtr extension, RegisterBitmapLoaderF fs_loader);
 
-    public static al_register_bitmap_loader_f AlRegisterBitmapLoaderF =
-        NativeInterop.LoadFunction<al_register_bitmap_loader_f>(AllegroLibrary, nameof(al_register_bitmap_loader_f));
+  public static al_register_bitmap_loader_f AlRegisterBitmapLoaderF = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_register_bitmap_saver_f(IntPtr extension, RegisterBitmapSaverF fs_saver);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_register_bitmap_saver_f(IntPtr extension, RegisterBitmapSaverF fs_saver);
 
-    public static al_register_bitmap_saver_f AlRegisterBitmapSaverF =
-        NativeInterop.LoadFunction<al_register_bitmap_saver_f>(AllegroLibrary, nameof(al_register_bitmap_saver_f));
+  public static al_register_bitmap_saver_f AlRegisterBitmapSaverF = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_load_bitmap(IntPtr filename);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_load_bitmap(IntPtr filename);
 
-    public static al_load_bitmap AlLoadBitmap =
-        NativeInterop.LoadFunction<al_load_bitmap>(AllegroLibrary, nameof(al_load_bitmap));
+  public static al_load_bitmap AlLoadBitmap = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_load_bitmap_flags(IntPtr filename, int flags);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_load_bitmap_flags(IntPtr filename, int flags);
 
-    public static al_load_bitmap_flags AlLoadBitmapFlags =
-        NativeInterop.LoadFunction<al_load_bitmap_flags>(AllegroLibrary, nameof(al_load_bitmap_flags));
+  public static al_load_bitmap_flags AlLoadBitmapFlags = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_load_bitmap_f(IntPtr fp, IntPtr ident);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_load_bitmap_f(IntPtr fp, IntPtr ident);
 
-    public static al_load_bitmap_f AlLoadBitmapF =
-        NativeInterop.LoadFunction<al_load_bitmap_f>(AllegroLibrary, nameof(al_load_bitmap_f));
+  public static al_load_bitmap_f AlLoadBitmapF = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_load_bitmap_flags_f(IntPtr fp, IntPtr ident, int flags);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_load_bitmap_flags_f(IntPtr fp, IntPtr ident, int flags);
 
-    public static al_load_bitmap_flags_f AlLoadBitmapFlagsF =
-        NativeInterop.LoadFunction<al_load_bitmap_flags_f>(AllegroLibrary, nameof(al_load_bitmap_flags_f));
+  public static al_load_bitmap_flags_f AlLoadBitmapFlagsF = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_save_bitmap(IntPtr filename, IntPtr bitmap);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_save_bitmap(IntPtr filename, IntPtr bitmap);
 
-    public static al_save_bitmap AlSaveBitmap =
-        NativeInterop.LoadFunction<al_save_bitmap>(AllegroLibrary, nameof(al_save_bitmap));
+  public static al_save_bitmap AlSaveBitmap = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_save_bitmap_f(IntPtr fp, IntPtr ident, IntPtr bitmap);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_save_bitmap_f(IntPtr fp, IntPtr ident, IntPtr bitmap);
 
-    public static al_save_bitmap_f AlSaveBitmapF =
-        NativeInterop.LoadFunction<al_save_bitmap_f>(AllegroLibrary, nameof(al_save_bitmap_f));
+  public static al_save_bitmap_f AlSaveBitmapF = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_register_bitmap_identifier(IntPtr extension, RegisterBitmapIdentifier identifier);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_register_bitmap_identifier(IntPtr extension, RegisterBitmapIdentifier identifier);
 
-    public static al_register_bitmap_identifier AlRegisterBitmapIdentifier =
-        NativeInterop.LoadFunction<al_register_bitmap_identifier>(AllegroLibrary, nameof(al_register_bitmap_identifier));
+  public static al_register_bitmap_identifier AlRegisterBitmapIdentifier = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_identify_bitmap(IntPtr filename);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_identify_bitmap(IntPtr filename);
 
-    public static al_identify_bitmap AlIdentifyBitmap =
-        NativeInterop.LoadFunction<al_identify_bitmap>(AllegroLibrary, nameof(al_identify_bitmap));
+  public static al_identify_bitmap AlIdentifyBitmap = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_identify_bitmap_f(IntPtr fp);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_identify_bitmap_f(IntPtr fp);
 
-    public static al_identify_bitmap_f AlIdentifyBitmapF =
-        NativeInterop.LoadFunction<al_identify_bitmap_f>(AllegroLibrary, nameof(al_identify_bitmap_f));
+  public static al_identify_bitmap_f AlIdentifyBitmapF = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_set_render_state(int state, int value);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_set_render_state(int state, int value);
 
-    public static al_set_render_state AlSetRenderState =
-        NativeInterop.LoadFunction<al_set_render_state>(AllegroLibrary, nameof(al_set_render_state));
+  public static al_set_render_state AlSetRenderState = null!;
 
-    #endregion Graphics routines
+  #endregion Graphics routines
 
-    #region Image IO routines
+  #region Image IO routines
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_init_image_addon();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_init_image_addon();
 
-    public static al_init_image_addon AlInitImageAddon =
-        NativeInterop.LoadFunction<al_init_image_addon>(AllegroLibrary, nameof(al_init_image_addon));
+  public static al_init_image_addon AlInitImageAddon = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_is_image_addon_initialized();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_is_image_addon_initialized();
 
-    public static al_is_image_addon_initialized AlIsImageAddonInitialized =
-        NativeInterop.LoadFunction<al_is_image_addon_initialized>(AllegroLibrary, nameof(al_is_image_addon_initialized));
+  public static al_is_image_addon_initialized AlIsImageAddonInitialized = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_shutdown_image_addon();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_shutdown_image_addon();
 
-    public static al_shutdown_image_addon AlShutdownImageAddon =
-        NativeInterop.LoadFunction<al_shutdown_image_addon>(AllegroLibrary, nameof(al_shutdown_image_addon));
+  public static al_shutdown_image_addon AlShutdownImageAddon = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate uint al_get_allegro_image_version();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate uint al_get_allegro_image_version();
 
-    public static al_get_allegro_image_version AlGetAllegroImageVersion =
-        NativeInterop.LoadFunction<al_get_allegro_image_version>(AllegroLibrary, nameof(al_get_allegro_image_version));
+  public static al_get_allegro_image_version AlGetAllegroImageVersion = null!;
 
-    #endregion
+  #endregion
 
-    #region Joystick routines
+  #region Joystick routines
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_install_joystick();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_install_joystick();
 
-    public static al_install_joystick AlInstallJoystick =
-        NativeInterop.LoadFunction<al_install_joystick>(AllegroLibrary, nameof(al_install_joystick));
+  public static al_install_joystick AlInstallJoystick = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_uninstall_joystick();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_uninstall_joystick();
 
-    public static al_uninstall_joystick AlUninstallJoystick =
-        NativeInterop.LoadFunction<al_uninstall_joystick>(AllegroLibrary, nameof(al_uninstall_joystick));
+  public static al_uninstall_joystick AlUninstallJoystick = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_is_joystick_installed();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_is_joystick_installed();
 
-    public static al_is_joystick_installed AlIsJoystickInstalled =
-        NativeInterop.LoadFunction<al_is_joystick_installed>(AllegroLibrary, nameof(al_is_joystick_installed));
+  public static al_is_joystick_installed AlIsJoystickInstalled = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_reconfigure_joysticks();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_reconfigure_joysticks();
 
-    public static al_reconfigure_joysticks AlReconfigureJoysticks =
-        NativeInterop.LoadFunction<al_reconfigure_joysticks>(AllegroLibrary, nameof(al_reconfigure_joysticks));
+  public static al_reconfigure_joysticks AlReconfigureJoysticks = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_get_num_joysticks();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_get_num_joysticks();
 
-    public static al_get_num_joysticks AlGetNumJoysticks =
-        NativeInterop.LoadFunction<al_get_num_joysticks>(AllegroLibrary, nameof(al_get_num_joysticks));
+  public static al_get_num_joysticks AlGetNumJoysticks = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_get_joystick(int num);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_get_joystick(int num);
 
-    public static al_get_joystick AlGetJoystick =
-        NativeInterop.LoadFunction<al_get_joystick>(AllegroLibrary, nameof(al_get_joystick));
+  public static al_get_joystick AlGetJoystick = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_release_joystick(IntPtr joy);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_release_joystick(IntPtr joy);
 
-    public static al_release_joystick AlReleaseJoystick =
-        NativeInterop.LoadFunction<al_release_joystick>(AllegroLibrary, nameof(al_release_joystick));
+  public static al_release_joystick AlReleaseJoystick = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_get_joystick_active(IntPtr joy);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_get_joystick_active(IntPtr joy);
 
-    public static al_get_joystick_active AlGetJoystickActive =
-        NativeInterop.LoadFunction<al_get_joystick_active>(AllegroLibrary, nameof(al_get_joystick_active));
+  public static al_get_joystick_active AlGetJoystickActive = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_get_joystick_name(IntPtr joy);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_get_joystick_name(IntPtr joy);
 
-    public static al_get_joystick_name AlGetJoystickName =
-        NativeInterop.LoadFunction<al_get_joystick_name>(AllegroLibrary, nameof(al_get_joystick_name));
+  public static al_get_joystick_name AlGetJoystickName = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_get_joystick_stick_name(IntPtr joy, int stick);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_get_joystick_stick_name(IntPtr joy, int stick);
 
-    public static al_get_joystick_stick_name AlGetJoystickStickName =
-        NativeInterop.LoadFunction<al_get_joystick_stick_name>(AllegroLibrary, nameof(al_get_joystick_stick_name));
+  public static al_get_joystick_stick_name AlGetJoystickStickName = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_get_joystick_axis_name(IntPtr joy, int stick, int axis);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_get_joystick_axis_name(IntPtr joy, int stick, int axis);
 
-    public static al_get_joystick_axis_name AlGetJoystickAxisName =
-        NativeInterop.LoadFunction<al_get_joystick_axis_name>(AllegroLibrary, nameof(al_get_joystick_axis_name));
+  public static al_get_joystick_axis_name AlGetJoystickAxisName = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_get_joystick_button_name(IntPtr joy, int button);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_get_joystick_button_name(IntPtr joy, int button);
 
-    public static al_get_joystick_button_name AlGetJoystickButtonName =
-        NativeInterop.LoadFunction<al_get_joystick_button_name>(AllegroLibrary, nameof(al_get_joystick_button_name));
+  public static al_get_joystick_button_name AlGetJoystickButtonName = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_get_joystick_stick_flags(IntPtr joy, int stick);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_get_joystick_stick_flags(IntPtr joy, int stick);
 
-    public static al_get_joystick_stick_flags AlGetJoystickStickFlags =
-        NativeInterop.LoadFunction<al_get_joystick_stick_flags>(AllegroLibrary, nameof(al_get_joystick_stick_flags));
+  public static al_get_joystick_stick_flags AlGetJoystickStickFlags = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_get_joystick_num_sticks(IntPtr joy);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_get_joystick_num_sticks(IntPtr joy);
 
-    public static al_get_joystick_num_sticks AlGetJoystickNumSticks =
-        NativeInterop.LoadFunction<al_get_joystick_num_sticks>(AllegroLibrary, nameof(al_get_joystick_num_sticks));
+  public static al_get_joystick_num_sticks AlGetJoystickNumSticks = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_get_joystick_num_axes(IntPtr joy, int stick);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_get_joystick_num_axes(IntPtr joy, int stick);
 
-    public static al_get_joystick_num_axes AlGetJoystickNumAxes =
-        NativeInterop.LoadFunction<al_get_joystick_num_axes>(AllegroLibrary, nameof(al_get_joystick_num_axes));
+  public static al_get_joystick_num_axes AlGetJoystickNumAxes = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_get_joystick_num_buttons(IntPtr joy);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_get_joystick_num_buttons(IntPtr joy);
 
-    public static al_get_joystick_num_buttons AlGetJoystickNumButtons =
-        NativeInterop.LoadFunction<al_get_joystick_num_buttons>(AllegroLibrary, nameof(al_get_joystick_num_buttons));
+  public static al_get_joystick_num_buttons AlGetJoystickNumButtons = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_get_joystick_state(IntPtr joy, ref AllegroJoystickState.NativeJoystickState ret_state);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_get_joystick_state(IntPtr joy, ref AllegroJoystickState.NativeJoystickState ret_state);
 
-    public static al_get_joystick_state AlGetJoystickState =
-        NativeInterop.LoadFunction<al_get_joystick_state>(AllegroLibrary, nameof(al_get_joystick_state));
+  public static al_get_joystick_state AlGetJoystickState = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_get_joystick_event_source();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_get_joystick_event_source();
 
-    public static al_get_joystick_event_source AlGetJoystickEventSource =
-        NativeInterop.LoadFunction<al_get_joystick_event_source>(AllegroLibrary, nameof(al_get_joystick_event_source));
+  public static al_get_joystick_event_source AlGetJoystickEventSource = null!;
 
-    #endregion Joystick routines
+  #endregion Joystick routines
 
-    #region Keyboard routines
+  #region Keyboard routines
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_install_keyboard();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_install_keyboard();
 
-    public static al_install_keyboard AlInstallKeyboard =
-        NativeInterop.LoadFunction<al_install_keyboard>(AllegroLibrary, nameof(al_install_keyboard));
+  public static al_install_keyboard AlInstallKeyboard = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_is_keyboard_installed();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_is_keyboard_installed();
 
-    public static al_is_keyboard_installed AlIsKeyboardInstalled =
-        NativeInterop.LoadFunction<al_is_keyboard_installed>(AllegroLibrary, nameof(al_is_keyboard_installed));
+  public static al_is_keyboard_installed AlIsKeyboardInstalled = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_uninstall_keyboard();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_uninstall_keyboard();
 
-    public static al_uninstall_keyboard AlUninstallKeyboard =
-        NativeInterop.LoadFunction<al_uninstall_keyboard>(AllegroLibrary, nameof(al_uninstall_keyboard));
+  public static al_uninstall_keyboard AlUninstallKeyboard = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_get_keyboard_state(ref AllegroKeyboardState.NativeKeyboardState ret_state);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_get_keyboard_state(ref AllegroKeyboardState.NativeKeyboardState ret_state);
 
-    public static al_get_keyboard_state AlGetKeyboardState =
-        NativeInterop.LoadFunction<al_get_keyboard_state>(AllegroLibrary, nameof(al_get_keyboard_state));
+  public static al_get_keyboard_state AlGetKeyboardState = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_key_down(ref AllegroKeyboardState.NativeKeyboardState state, int keycode);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_key_down(ref AllegroKeyboardState.NativeKeyboardState state, int keycode);
 
-    public static al_key_down AlKeyDown =
-        NativeInterop.LoadFunction<al_key_down>(AllegroLibrary, nameof(al_key_down));
+  public static al_key_down AlKeyDown = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_keycode_to_name(int keycode);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_keycode_to_name(int keycode);
 
-    public static al_keycode_to_name AlKeycodeToName =
-        NativeInterop.LoadFunction<al_keycode_to_name>(AllegroLibrary, nameof(al_keycode_to_name));
+  public static al_keycode_to_name AlKeycodeToName = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_set_keyboard_leds(int leds);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_set_keyboard_leds(int leds);
 
-    public static al_set_keyboard_leds AlSetKeyboardLeds =
-        NativeInterop.LoadFunction<al_set_keyboard_leds>(AllegroLibrary, nameof(al_set_keyboard_leds));
+  public static al_set_keyboard_leds AlSetKeyboardLeds = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_get_keyboard_event_source();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_get_keyboard_event_source();
 
-    public static al_get_keyboard_event_source AlGetKeyboardEventSource =
-        NativeInterop.LoadFunction<al_get_keyboard_event_source>(AllegroLibrary, nameof(al_get_keyboard_event_source));
+  public static al_get_keyboard_event_source AlGetKeyboardEventSource = null!;
 
-    #endregion Keyboard routines
+  #endregion Keyboard routines
 
-    #region Memfile routines
+  #region Memfile routines
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_open_memfile(IntPtr mem, long size, IntPtr mode);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_open_memfile(IntPtr mem, long size, IntPtr mode);
 
-    public static al_open_memfile AlOpenMemfile = NativeInterop.LoadFunction<al_open_memfile>(AllegroLibrary);
+  public static al_open_memfile AlOpenMemfile = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate uint al_get_allegro_memfile_version();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate uint al_get_allegro_memfile_version();
 
-    public static al_get_allegro_memfile_version AlGetAllegroMemfileVersion = NativeInterop.LoadFunction<al_get_allegro_memfile_version>(AllegroLibrary);
+  public static al_get_allegro_memfile_version AlGetAllegroMemfileVersion = null!;
 
-    #endregion
+  #endregion
 
-    #region Memory routines
+  #region Memory routines
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_malloc_with_context(UIntPtr n, int line, IntPtr file, IntPtr func);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_malloc_with_context(UIntPtr n, int line, IntPtr file, IntPtr func);
 
-    public static al_malloc_with_context AlMallocWithContext =
-        NativeInterop.LoadFunction<al_malloc_with_context>(AllegroLibrary, nameof(al_malloc_with_context));
+  public static al_malloc_with_context AlMallocWithContext = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_free_with_context(IntPtr ptr, int line, IntPtr file, IntPtr func);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_free_with_context(IntPtr ptr, int line, IntPtr file, IntPtr func);
 
-    public static al_free_with_context AlFreeWithContext =
-        NativeInterop.LoadFunction<al_free_with_context>(AllegroLibrary, nameof(al_free_with_context));
+  public static al_free_with_context AlFreeWithContext = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_realloc_with_context(IntPtr ptr, UIntPtr n, int line, IntPtr file, IntPtr func);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_realloc_with_context(IntPtr ptr, UIntPtr n, int line, IntPtr file, IntPtr func);
 
-    public static al_realloc_with_context AlReallocWithContext =
-        NativeInterop.LoadFunction<al_realloc_with_context>(AllegroLibrary, nameof(al_realloc_with_context));
+  public static al_realloc_with_context AlReallocWithContext = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_calloc_with_context(UIntPtr count, UIntPtr n, int line, IntPtr file, IntPtr func);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_calloc_with_context(UIntPtr count, UIntPtr n, int line, IntPtr file, IntPtr func);
 
-    public static al_calloc_with_context AlCallocWithContext =
-        NativeInterop.LoadFunction<al_calloc_with_context>(AllegroLibrary, nameof(al_calloc_with_context));
+  public static al_calloc_with_context AlCallocWithContext = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_set_memory_interface(ref AllegroMemoryInterface.NativeMemoryInterface memory_interface);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_set_memory_interface(ref AllegroMemoryInterface.NativeMemoryInterface memory_interface);
 
-    public static al_set_memory_interface AlSetMemoryInterface =
-        NativeInterop.LoadFunction<al_set_memory_interface>(AllegroLibrary, nameof(al_set_memory_interface));
+  public static al_set_memory_interface AlSetMemoryInterface = null!;
 
-    #endregion Memory routines
+  #endregion Memory routines
 
-    #region Monitor routines
+  #region Monitor routines
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_get_new_display_adapter();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_get_new_display_adapter();
 
-    public static al_get_new_display_adapter AlGetNewDisplayAdapter =
-        NativeInterop.LoadFunction<al_get_new_display_adapter>(AllegroLibrary, nameof(al_get_new_display_adapter));
+  public static al_get_new_display_adapter AlGetNewDisplayAdapter = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_set_new_display_adapter(int adapter);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_set_new_display_adapter(int adapter);
 
-    public static al_set_new_display_adapter AlSetNewDisplayAdapter =
-        NativeInterop.LoadFunction<al_set_new_display_adapter>(AllegroLibrary, nameof(al_set_new_display_adapter));
+  public static al_set_new_display_adapter AlSetNewDisplayAdapter = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_get_monitor_info(int adapter, ref AllegroMonitorInfo.NativeMonitorInfo info);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_get_monitor_info(int adapter, ref AllegroMonitorInfo.NativeMonitorInfo info);
 
-    public static al_get_monitor_info AlGetMonitorInfo =
-        NativeInterop.LoadFunction<al_get_monitor_info>(AllegroLibrary, nameof(al_get_monitor_info));
+  public static al_get_monitor_info AlGetMonitorInfo = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_get_monitor_dpi(int adapter);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_get_monitor_dpi(int adapter);
 
-    public static al_get_monitor_dpi AlGetMonitorDpi =
-        NativeInterop.LoadFunction<al_get_monitor_dpi>(AllegroLibrary, nameof(al_get_monitor_dpi));
+  public static al_get_monitor_dpi AlGetMonitorDpi = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_get_num_video_adapters();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_get_num_video_adapters();
 
-    public static al_get_num_video_adapters AlGetNumVideoAdapters =
-        NativeInterop.LoadFunction<al_get_num_video_adapters>(AllegroLibrary, nameof(al_get_num_video_adapters));
+  public static al_get_num_video_adapters AlGetNumVideoAdapters = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_get_monitor_refresh_rate(int adapter);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_get_monitor_refresh_rate(int adapter);
 
-    public static al_get_monitor_refresh_rate AlGetMonitorRefreshRate =
-        NativeInterop.LoadFunction<al_get_monitor_refresh_rate>(AllegroLibrary, nameof(al_get_monitor_refresh_rate));
+  public static al_get_monitor_refresh_rate AlGetMonitorRefreshRate = null!;
 
-    #endregion Monitor routines
+  #endregion Monitor routines
 
-    #region Mouse routines
+  #region Mouse routines
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_install_mouse();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_install_mouse();
 
-    public static al_install_mouse AlInstallMouse =
-        NativeInterop.LoadFunction<al_install_mouse>(AllegroLibrary, nameof(al_install_mouse));
+  public static al_install_mouse AlInstallMouse = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_is_mouse_installed();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_is_mouse_installed();
 
-    public static al_is_mouse_installed AlIsMouseInstalled =
-        NativeInterop.LoadFunction<al_is_mouse_installed>(AllegroLibrary, nameof(al_is_mouse_installed));
+  public static al_is_mouse_installed AlIsMouseInstalled = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_uninstall_mouse();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_uninstall_mouse();
 
-    public static al_uninstall_mouse AlUninstallMouse =
-        NativeInterop.LoadFunction<al_uninstall_mouse>(AllegroLibrary, nameof(al_uninstall_mouse));
+  public static al_uninstall_mouse AlUninstallMouse = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate uint al_get_mouse_num_axes();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate uint al_get_mouse_num_axes();
 
-    public static al_get_mouse_num_axes AlGetMouseNumAxes =
-        NativeInterop.LoadFunction<al_get_mouse_num_axes>(AllegroLibrary, nameof(al_get_mouse_num_axes));
+  public static al_get_mouse_num_axes AlGetMouseNumAxes = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate uint al_get_mouse_num_buttons();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate uint al_get_mouse_num_buttons();
 
-    public static al_get_mouse_num_buttons AlGetMouseNumButtons =
-        NativeInterop.LoadFunction<al_get_mouse_num_buttons>(AllegroLibrary, nameof(al_get_mouse_num_buttons));
+  public static al_get_mouse_num_buttons AlGetMouseNumButtons = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_get_mouse_state(ref AllegroMouseState.NativeMouseState ret_state);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_get_mouse_state(ref AllegroMouseState.NativeMouseState ret_state);
 
-    public static al_get_mouse_state AlGetMouseState =
-        NativeInterop.LoadFunction<al_get_mouse_state>(AllegroLibrary, nameof(al_get_mouse_state));
+  public static al_get_mouse_state AlGetMouseState = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_get_mouse_state_axis(ref AllegroMouseState.NativeMouseState ret_state, int axis);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_get_mouse_state_axis(ref AllegroMouseState.NativeMouseState ret_state, int axis);
 
-    public static al_get_mouse_state_axis AlGetMouseStateAxis =
-        NativeInterop.LoadFunction<al_get_mouse_state_axis>(AllegroLibrary, nameof(al_get_mouse_state_axis));
+  public static al_get_mouse_state_axis AlGetMouseStateAxis = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_mouse_button_down(ref AllegroMouseState.NativeMouseState ret_state, int button);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_mouse_button_down(ref AllegroMouseState.NativeMouseState ret_state, int button);
 
-    public static al_mouse_button_down AlMouseButtonDown =
-        NativeInterop.LoadFunction<al_mouse_button_down>(AllegroLibrary, nameof(al_mouse_button_down));
+  public static al_mouse_button_down AlMouseButtonDown = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_set_mouse_xy(IntPtr display, int x, int y);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_set_mouse_xy(IntPtr display, int x, int y);
 
-    public static al_set_mouse_xy AlSetMouseXY =
-        NativeInterop.LoadFunction<al_set_mouse_xy>(AllegroLibrary, nameof(al_set_mouse_xy));
+  public static al_set_mouse_xy AlSetMouseXY = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_set_mouse_z(int z);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_set_mouse_z(int z);
 
-    public static al_set_mouse_z AlSetMouseZ =
-        NativeInterop.LoadFunction<al_set_mouse_z>(AllegroLibrary, nameof(al_set_mouse_z));
+  public static al_set_mouse_z AlSetMouseZ = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_set_mouse_w(int w);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_set_mouse_w(int w);
 
-    public static al_set_mouse_w AlSetMouseW =
-        NativeInterop.LoadFunction<al_set_mouse_w>(AllegroLibrary, nameof(al_set_mouse_w));
+  public static al_set_mouse_w AlSetMouseW = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_set_mouse_axis(int which, int value);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_set_mouse_axis(int which, int value);
 
-    public static al_set_mouse_axis AlSetMouseAxis =
-        NativeInterop.LoadFunction<al_set_mouse_axis>(AllegroLibrary, nameof(al_set_mouse_axis));
+  public static al_set_mouse_axis AlSetMouseAxis = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_get_mouse_event_source();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_get_mouse_event_source();
 
-    public static al_get_mouse_event_source AlGetMouseEventSource =
-        NativeInterop.LoadFunction<al_get_mouse_event_source>(AllegroLibrary, nameof(al_get_mouse_event_source));
+  public static al_get_mouse_event_source AlGetMouseEventSource = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_set_mouse_wheel_precision(int precision);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_set_mouse_wheel_precision(int precision);
 
-    public static al_set_mouse_wheel_precision AlSetMouseWheelPrecision =
-        NativeInterop.LoadFunction<al_set_mouse_wheel_precision>(AllegroLibrary, nameof(al_set_mouse_wheel_precision));
+  public static al_set_mouse_wheel_precision AlSetMouseWheelPrecision = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_get_mouse_wheel_precision();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_get_mouse_wheel_precision();
 
-    public static al_get_mouse_wheel_precision AlGetMouseWheelPrecision =
-        NativeInterop.LoadFunction<al_get_mouse_wheel_precision>(AllegroLibrary, nameof(al_get_mouse_wheel_precision));
+  public static al_get_mouse_wheel_precision AlGetMouseWheelPrecision = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_create_mouse_cursor(IntPtr bmp, int x_focus, int y_focus);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_create_mouse_cursor(IntPtr bmp, int x_focus, int y_focus);
 
-    public static al_create_mouse_cursor AlCreateMouseCursor =
-        NativeInterop.LoadFunction<al_create_mouse_cursor>(AllegroLibrary, nameof(al_create_mouse_cursor));
+  public static al_create_mouse_cursor AlCreateMouseCursor = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_destroy_mouse_cursor(IntPtr cursor);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_destroy_mouse_cursor(IntPtr cursor);
 
-    public static al_destroy_mouse_cursor AlDestroyMouseCursor =
-        NativeInterop.LoadFunction<al_destroy_mouse_cursor>(AllegroLibrary, nameof(al_destroy_mouse_cursor));
+  public static al_destroy_mouse_cursor AlDestroyMouseCursor = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_set_mouse_cursor(IntPtr display, IntPtr cursor);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_set_mouse_cursor(IntPtr display, IntPtr cursor);
 
-    public static al_set_mouse_cursor AlSetMouseCursor =
-        NativeInterop.LoadFunction<al_set_mouse_cursor>(AllegroLibrary, nameof(al_set_mouse_cursor));
+  public static al_set_mouse_cursor AlSetMouseCursor = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_set_system_mouse_cursor(IntPtr display, int cursor_id);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_set_system_mouse_cursor(IntPtr display, int cursor_id);
 
-    public static al_set_system_mouse_cursor AlSetSystemMouseCursor =
-        NativeInterop.LoadFunction<al_set_system_mouse_cursor>(AllegroLibrary, nameof(al_set_system_mouse_cursor));
+  public static al_set_system_mouse_cursor AlSetSystemMouseCursor = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_get_mouse_cursor_position(ref int ret_x, ref int ret_y);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_get_mouse_cursor_position(ref int ret_x, ref int ret_y);
 
-    public static al_get_mouse_cursor_position AlGetMouseCursorPosition =
-        NativeInterop.LoadFunction<al_get_mouse_cursor_position>(AllegroLibrary, nameof(al_get_mouse_cursor_position));
+  public static al_get_mouse_cursor_position AlGetMouseCursorPosition = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_hide_mouse_cursor(IntPtr display);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_hide_mouse_cursor(IntPtr display);
 
-    public static al_hide_mouse_cursor AlHideMouseCursor =
-        NativeInterop.LoadFunction<al_hide_mouse_cursor>(AllegroLibrary, nameof(al_hide_mouse_cursor));
+  public static al_hide_mouse_cursor AlHideMouseCursor = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_show_mouse_cursor(IntPtr display);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_show_mouse_cursor(IntPtr display);
 
-    public static al_show_mouse_cursor AlShowMouseCursor =
-        NativeInterop.LoadFunction<al_show_mouse_cursor>(AllegroLibrary, nameof(al_show_mouse_cursor));
+  public static al_show_mouse_cursor AlShowMouseCursor = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_grab_mouse(IntPtr display);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_grab_mouse(IntPtr display);
 
-    public static al_grab_mouse AlGrabMouse =
-        NativeInterop.LoadFunction<al_grab_mouse>(AllegroLibrary, nameof(al_grab_mouse));
+  public static al_grab_mouse AlGrabMouse = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_ungrab_mouse();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_ungrab_mouse();
 
-    public static al_ungrab_mouse AlUngrabMouse =
-        NativeInterop.LoadFunction<al_ungrab_mouse>(AllegroLibrary, nameof(al_ungrab_mouse));
+  public static al_ungrab_mouse AlUngrabMouse = null!;
 
-    #endregion Mouse routines
+  #endregion Mouse routines
 
-    #region Native dialog routines
+  #region Native dialog routines
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_init_native_dialog_addon();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_init_native_dialog_addon();
 
-    public static al_init_native_dialog_addon AlInitNativeDialogAddon =
-        NativeInterop.LoadFunction<al_init_native_dialog_addon>(AllegroLibrary, nameof(al_init_native_dialog_addon));
+  public static al_init_native_dialog_addon AlInitNativeDialogAddon = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_is_native_dialog_addon_initialized();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_is_native_dialog_addon_initialized();
 
-    public static al_is_native_dialog_addon_initialized AlIsNativeDialogAddonInitialized =
-        NativeInterop.LoadFunction<al_is_native_dialog_addon_initialized>(AllegroLibrary, nameof(al_is_native_dialog_addon_initialized));
+  public static al_is_native_dialog_addon_initialized AlIsNativeDialogAddonInitialized = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_shutdown_native_dialog_addon();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_shutdown_native_dialog_addon();
 
-    public static al_shutdown_native_dialog_addon AlShutdownNativeDialogAddon =
-        NativeInterop.LoadFunction<al_shutdown_native_dialog_addon>(AllegroLibrary, nameof(al_shutdown_native_dialog_addon));
+  public static al_shutdown_native_dialog_addon AlShutdownNativeDialogAddon = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_create_native_file_dialog(IntPtr initial_path, IntPtr title, IntPtr patterns, int mode);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_create_native_file_dialog(IntPtr initial_path, IntPtr title, IntPtr patterns, int mode);
 
-    public static al_create_native_file_dialog AlCreateNativeFileDialog =
-        NativeInterop.LoadFunction<al_create_native_file_dialog>(AllegroLibrary, nameof(al_create_native_file_dialog));
+  public static al_create_native_file_dialog AlCreateNativeFileDialog = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_show_native_file_dialog(IntPtr display, IntPtr dialog);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_show_native_file_dialog(IntPtr display, IntPtr dialog);
 
-    public static al_show_native_file_dialog AlShowNativeFileDialog =
-        NativeInterop.LoadFunction<al_show_native_file_dialog>(AllegroLibrary, nameof(al_show_native_file_dialog));
+  public static al_show_native_file_dialog AlShowNativeFileDialog = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_get_native_file_dialog_count(IntPtr dialog);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_get_native_file_dialog_count(IntPtr dialog);
 
-    public static al_get_native_file_dialog_count AlGetNativeFileDialogCount =
-        NativeInterop.LoadFunction<al_get_native_file_dialog_count>(AllegroLibrary, nameof(al_get_native_file_dialog_count));
+  public static al_get_native_file_dialog_count AlGetNativeFileDialogCount = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_get_native_file_dialog_path(IntPtr dialog, ulong i);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_get_native_file_dialog_path(IntPtr dialog, ulong i);
 
-    public static al_get_native_file_dialog_path AlGetNativeFileDialogPath =
-        NativeInterop.LoadFunction<al_get_native_file_dialog_path>(AllegroLibrary, nameof(al_get_native_file_dialog_path));
+  public static al_get_native_file_dialog_path AlGetNativeFileDialogPath = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_destroy_native_file_dialog(IntPtr dialog);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_destroy_native_file_dialog(IntPtr dialog);
 
-    public static al_destroy_native_file_dialog AlDestroyNativeFileDialog =
-        NativeInterop.LoadFunction<al_destroy_native_file_dialog>(AllegroLibrary, nameof(al_destroy_native_file_dialog));
+  public static al_destroy_native_file_dialog AlDestroyNativeFileDialog = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_show_native_message_box(IntPtr display, IntPtr title, IntPtr heading, IntPtr text, IntPtr buttons, int flags);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_show_native_message_box(IntPtr display, IntPtr title, IntPtr heading, IntPtr text, IntPtr buttons, int flags);
 
-    public static al_show_native_message_box AlShowNativeMessageBox =
-        NativeInterop.LoadFunction<al_show_native_message_box>(AllegroLibrary, nameof(al_show_native_message_box));
+  public static al_show_native_message_box AlShowNativeMessageBox = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_open_native_text_log(IntPtr title, int flags);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_open_native_text_log(IntPtr title, int flags);
 
-    public static al_open_native_text_log AlOpenNativeTextLog =
-        NativeInterop.LoadFunction<al_open_native_text_log>(AllegroLibrary, nameof(al_open_native_text_log));
+  public static al_open_native_text_log AlOpenNativeTextLog = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_close_native_text_log(IntPtr textlog);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_close_native_text_log(IntPtr textlog);
 
-    public static al_close_native_text_log AlCloseNativeTextLog =
-        NativeInterop.LoadFunction<al_close_native_text_log>(AllegroLibrary, nameof(al_close_native_text_log));
+  public static al_close_native_text_log AlCloseNativeTextLog = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_append_native_text_log(IntPtr textlog, IntPtr format);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_append_native_text_log(IntPtr textlog, IntPtr format);
 
-    public static al_append_native_text_log AlAppendNativeTextLog =
-        NativeInterop.LoadFunction<al_append_native_text_log>(AllegroLibrary, nameof(al_append_native_text_log));
+  public static al_append_native_text_log AlAppendNativeTextLog = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_get_native_text_log_event_source(IntPtr textlog);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_get_native_text_log_event_source(IntPtr textlog);
 
-    public static al_get_native_text_log_event_source AlGetNativeTextLogEventSource =
-        NativeInterop.LoadFunction<al_get_native_text_log_event_source>(AllegroLibrary, nameof(al_get_native_text_log_event_source));
+  public static al_get_native_text_log_event_source AlGetNativeTextLogEventSource = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate uint al_get_allegro_native_dialog_version();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate uint al_get_allegro_native_dialog_version();
 
-    public static al_get_allegro_native_dialog_version AlGetAllegroNativeDialogVersion =
-        NativeInterop.LoadFunction<al_get_allegro_native_dialog_version>(AllegroLibrary, nameof(al_get_allegro_native_dialog_version));
+  public static al_get_allegro_native_dialog_version AlGetAllegroNativeDialogVersion = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_create_menu();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_create_menu();
 
-    public static al_create_menu AlCreateMenu =
-        NativeInterop.LoadFunction<al_create_menu>(AllegroLibrary, nameof(al_create_menu));
+  public static al_create_menu AlCreateMenu = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_create_popup_menu();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_create_popup_menu();
 
-    public static al_create_popup_menu AlCreatePopupMenu =
-        NativeInterop.LoadFunction<al_create_popup_menu>(AllegroLibrary, nameof(al_create_popup_menu));
+  public static al_create_popup_menu AlCreatePopupMenu = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_build_menu(IntPtr info);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_build_menu(IntPtr info);
 
-    public static al_build_menu AlBuildMenu =
-        NativeInterop.LoadFunction<al_build_menu>(AllegroLibrary, nameof(al_build_menu));
+  public static al_build_menu AlBuildMenu = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_append_menu_item(IntPtr parent, IntPtr title, ushort id, int flags, IntPtr icon, IntPtr submenu);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_append_menu_item(IntPtr parent, IntPtr title, ushort id, int flags, IntPtr icon, IntPtr submenu);
 
-    public static al_append_menu_item AlAppendMenuItem =
-        NativeInterop.LoadFunction<al_append_menu_item>(AllegroLibrary, nameof(al_append_menu_item));
+  public static al_append_menu_item AlAppendMenuItem = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_insert_menu_item(IntPtr parent, int pos, IntPtr title, ushort id, int flags, IntPtr icon, IntPtr submenu);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_insert_menu_item(IntPtr parent, int pos, IntPtr title, ushort id, int flags, IntPtr icon, IntPtr submenu);
 
-    public static al_insert_menu_item AlInsertMenuItem =
-        NativeInterop.LoadFunction<al_insert_menu_item>(AllegroLibrary, nameof(al_insert_menu_item));
+  public static al_insert_menu_item AlInsertMenuItem = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_remove_menu_item(IntPtr menu, int pos);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_remove_menu_item(IntPtr menu, int pos);
 
-    public static al_remove_menu_item AlRemoveMenuItem =
-        NativeInterop.LoadFunction<al_remove_menu_item>(AllegroLibrary, nameof(al_remove_menu_item));
+  public static al_remove_menu_item AlRemoveMenuItem = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_clone_menu(IntPtr menu);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_clone_menu(IntPtr menu);
 
-    public static al_clone_menu AlCloneMenu =
-        NativeInterop.LoadFunction<al_clone_menu>(AllegroLibrary, nameof(al_clone_menu));
+  public static al_clone_menu AlCloneMenu = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_clone_menu_for_popup(IntPtr menu);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_clone_menu_for_popup(IntPtr menu);
 
-    public static al_clone_menu_for_popup AlCloneMenuForPopup =
-        NativeInterop.LoadFunction<al_clone_menu_for_popup>(AllegroLibrary, nameof(al_clone_menu_for_popup));
+  public static al_clone_menu_for_popup AlCloneMenuForPopup = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_destroy_menu(IntPtr menu);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_destroy_menu(IntPtr menu);
 
-    public static al_destroy_menu AlDestroyMenu =
-        NativeInterop.LoadFunction<al_destroy_menu>(AllegroLibrary, nameof(al_destroy_menu));
+  public static al_destroy_menu AlDestroyMenu = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_get_menu_item_caption(IntPtr menu, int pos);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_get_menu_item_caption(IntPtr menu, int pos);
 
-    public static al_get_menu_item_caption AlGetMenuItemCaption =
-        NativeInterop.LoadFunction<al_get_menu_item_caption>(AllegroLibrary, nameof(al_get_menu_item_caption));
+  public static al_get_menu_item_caption AlGetMenuItemCaption = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_set_menu_item_caption(IntPtr menu, int pos, IntPtr caption);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_set_menu_item_caption(IntPtr menu, int pos, IntPtr caption);
 
-    public static al_set_menu_item_caption AlSetMenuItemCaption =
-        NativeInterop.LoadFunction<al_set_menu_item_caption>(AllegroLibrary, nameof(al_set_menu_item_caption));
+  public static al_set_menu_item_caption AlSetMenuItemCaption = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_get_menu_item_flags(IntPtr menu, int pos);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_get_menu_item_flags(IntPtr menu, int pos);
 
-    public static al_get_menu_item_flags AlGetMenuItemFlags =
-        NativeInterop.LoadFunction<al_get_menu_item_flags>(AllegroLibrary, nameof(al_get_menu_item_flags));
+  public static al_get_menu_item_flags AlGetMenuItemFlags = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_set_menu_item_flags(IntPtr menu, int pos, int flags);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_set_menu_item_flags(IntPtr menu, int pos, int flags);
 
-    public static al_set_menu_item_flags AlSetMenuItemFlags =
-        NativeInterop.LoadFunction<al_set_menu_item_flags>(AllegroLibrary, nameof(al_set_menu_item_flags));
+  public static al_set_menu_item_flags AlSetMenuItemFlags = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_get_menu_item_icon(IntPtr menu, int pos);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_get_menu_item_icon(IntPtr menu, int pos);
 
-    public static al_get_menu_item_icon AlGetMenuItemIcon =
-        NativeInterop.LoadFunction<al_get_menu_item_icon>(AllegroLibrary, nameof(al_get_menu_item_icon));
+  public static al_get_menu_item_icon AlGetMenuItemIcon = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_set_menu_item_icon(IntPtr menu, int pos, IntPtr icon);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_set_menu_item_icon(IntPtr menu, int pos, IntPtr icon);
 
-    public static al_set_menu_item_icon AlSetMenuItemIcon =
-        NativeInterop.LoadFunction<al_set_menu_item_icon>(AllegroLibrary, nameof(al_set_menu_item_icon));
+  public static al_set_menu_item_icon AlSetMenuItemIcon = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_find_menu(IntPtr haystack, ushort id);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_find_menu(IntPtr haystack, ushort id);
 
-    public static al_find_menu AlFindMenu =
-        NativeInterop.LoadFunction<al_find_menu>(AllegroLibrary, nameof(al_find_menu));
+  public static al_find_menu AlFindMenu = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_find_menu_item(IntPtr haystack, ushort id, ref IntPtr menu, ref int index);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_find_menu_item(IntPtr haystack, ushort id, ref IntPtr menu, ref int index);
 
-    public static al_find_menu_item AlFindMenuItem =
-        NativeInterop.LoadFunction<al_find_menu_item>(AllegroLibrary, nameof(al_find_menu_item));
+  public static al_find_menu_item AlFindMenuItem = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_get_default_menu_event_source();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_get_default_menu_event_source();
 
-    public static al_get_default_menu_event_source AlGetDefaultMenuEventSource =
-        NativeInterop.LoadFunction<al_get_default_menu_event_source>(AllegroLibrary, nameof(al_get_default_menu_event_source));
+  public static al_get_default_menu_event_source AlGetDefaultMenuEventSource = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_enable_menu_event_source(IntPtr menu);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_enable_menu_event_source(IntPtr menu);
 
-    public static al_enable_menu_event_source AlEnableMenuEventSource =
-        NativeInterop.LoadFunction<al_enable_menu_event_source>(AllegroLibrary, nameof(al_enable_menu_event_source));
+  public static al_enable_menu_event_source AlEnableMenuEventSource = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_disable_menu_event_source(IntPtr menu);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_disable_menu_event_source(IntPtr menu);
 
-    public static al_disable_menu_event_source AlDisableMenuEventSource =
-        NativeInterop.LoadFunction<al_disable_menu_event_source>(AllegroLibrary, nameof(al_disable_menu_event_source));
+  public static al_disable_menu_event_source AlDisableMenuEventSource = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_get_display_menu(IntPtr display);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_get_display_menu(IntPtr display);
 
-    public static al_get_display_menu AlGetDisplayMenu =
-        NativeInterop.LoadFunction<al_get_display_menu>(AllegroLibrary, nameof(al_get_display_menu));
+  public static al_get_display_menu AlGetDisplayMenu = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_set_display_menu(IntPtr display, IntPtr menu);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_set_display_menu(IntPtr display, IntPtr menu);
 
-    public static al_set_display_menu AlSetDisplayMenu =
-        NativeInterop.LoadFunction<al_set_display_menu>(AllegroLibrary, nameof(al_set_display_menu));
+  public static al_set_display_menu AlSetDisplayMenu = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_popup_menu(IntPtr popup, IntPtr display);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_popup_menu(IntPtr popup, IntPtr display);
 
-    public static al_popup_menu AlPopupMenu =
-        NativeInterop.LoadFunction<al_popup_menu>(AllegroLibrary, nameof(al_popup_menu));
+  public static al_popup_menu AlPopupMenu = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_remove_display_menu(IntPtr display);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_remove_display_menu(IntPtr display);
 
-    public static al_remove_display_menu AlRemoveDisplayMenu =
-        NativeInterop.LoadFunction<al_remove_display_menu>(AllegroLibrary, nameof(al_remove_display_menu));
+  public static al_remove_display_menu AlRemoveDisplayMenu = null!;
 
-    #endregion Native dialog routines
+  #endregion Native dialog routines
 
-    #region Path routines
+  #region Path routines
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_create_path(IntPtr str);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_create_path(IntPtr str);
 
-    public static al_create_path AlCreatePath =
-        NativeInterop.LoadFunction<al_create_path>(AllegroLibrary, nameof(al_create_path));
+  public static al_create_path AlCreatePath = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_create_path_for_directory(IntPtr str);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_create_path_for_directory(IntPtr str);
 
-    public static al_create_path_for_directory AlCreatePathForDirectory =
-        NativeInterop.LoadFunction<al_create_path_for_directory>(AllegroLibrary, nameof(al_create_path_for_directory));
+  public static al_create_path_for_directory AlCreatePathForDirectory = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_destroy_path(IntPtr path);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_destroy_path(IntPtr path);
 
-    public static al_destroy_path AlDestroyPath =
-        NativeInterop.LoadFunction<al_destroy_path>(AllegroLibrary, nameof(al_destroy_path));
+  public static al_destroy_path AlDestroyPath = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_clone_path(IntPtr path);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_clone_path(IntPtr path);
 
-    public static al_clone_path AlClonePath =
-        NativeInterop.LoadFunction<al_clone_path>(AllegroLibrary, nameof(al_clone_path));
+  public static al_clone_path AlClonePath = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_join_paths(IntPtr path, IntPtr tail);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_join_paths(IntPtr path, IntPtr tail);
 
-    public static al_join_paths AlJoinPaths =
-        NativeInterop.LoadFunction<al_join_paths>(AllegroLibrary, nameof(al_join_paths));
+  public static al_join_paths AlJoinPaths = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_rebase_path(IntPtr head, IntPtr tail);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_rebase_path(IntPtr head, IntPtr tail);
 
-    public static al_rebase_path AlRebasePath =
-        NativeInterop.LoadFunction<al_rebase_path>(AllegroLibrary, nameof(al_rebase_path));
+  public static al_rebase_path AlRebasePath = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_get_path_drive(IntPtr path);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_get_path_drive(IntPtr path);
 
-    public static al_get_path_drive AlGetPathDrive =
-        NativeInterop.LoadFunction<al_get_path_drive>(AllegroLibrary, nameof(al_get_path_drive));
+  public static al_get_path_drive AlGetPathDrive = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_get_path_num_components(IntPtr path);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_get_path_num_components(IntPtr path);
 
-    public static al_get_path_num_components AlGetPathNumComponents =
-        NativeInterop.LoadFunction<al_get_path_num_components>(AllegroLibrary, nameof(al_get_path_num_components));
+  public static al_get_path_num_components AlGetPathNumComponents = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_get_path_component(IntPtr path, int i);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_get_path_component(IntPtr path, int i);
 
-    public static al_get_path_component AlGetPathComponent =
-        NativeInterop.LoadFunction<al_get_path_component>(AllegroLibrary, nameof(al_get_path_component));
+  public static al_get_path_component AlGetPathComponent = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_get_path_tail(IntPtr path);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_get_path_tail(IntPtr path);
 
-    public static al_get_path_tail AlGetPathTail =
-        NativeInterop.LoadFunction<al_get_path_tail>(AllegroLibrary, nameof(al_get_path_tail));
+  public static al_get_path_tail AlGetPathTail = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_get_path_filename(IntPtr path);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_get_path_filename(IntPtr path);
 
-    public static al_get_path_filename AlGetPathFilename =
-        NativeInterop.LoadFunction<al_get_path_filename>(AllegroLibrary, nameof(al_get_path_filename));
+  public static al_get_path_filename AlGetPathFilename = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_get_path_basename(IntPtr path);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_get_path_basename(IntPtr path);
 
-    public static al_get_path_basename AlGetPathBasename =
-        NativeInterop.LoadFunction<al_get_path_basename>(AllegroLibrary, nameof(al_get_path_basename));
+  public static al_get_path_basename AlGetPathBasename = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_get_path_extension(IntPtr path);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_get_path_extension(IntPtr path);
 
-    public static al_get_path_extension AlGetPathExtension =
-        NativeInterop.LoadFunction<al_get_path_extension>(AllegroLibrary, nameof(al_get_path_extension));
+  public static al_get_path_extension AlGetPathExtension = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_set_path_drive(IntPtr path, IntPtr drive);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_set_path_drive(IntPtr path, IntPtr drive);
 
-    public static al_set_path_drive AlSetPathDrive =
-        NativeInterop.LoadFunction<al_set_path_drive>(AllegroLibrary, nameof(al_set_path_drive));
+  public static al_set_path_drive AlSetPathDrive = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_append_path_component(IntPtr path, IntPtr s);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_append_path_component(IntPtr path, IntPtr s);
 
-    public static al_append_path_component AlAppendPathComponent =
-        NativeInterop.LoadFunction<al_append_path_component>(AllegroLibrary, nameof(al_append_path_component));
+  public static al_append_path_component AlAppendPathComponent = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_insert_path_component(IntPtr path, int i, IntPtr s);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_insert_path_component(IntPtr path, int i, IntPtr s);
 
-    public static al_insert_path_component AlInsertPathComponent =
-        NativeInterop.LoadFunction<al_insert_path_component>(AllegroLibrary, nameof(al_insert_path_component));
+  public static al_insert_path_component AlInsertPathComponent = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_replace_path_component(IntPtr path, int i, IntPtr s);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_replace_path_component(IntPtr path, int i, IntPtr s);
 
-    public static al_replace_path_component AlReplacePathComponent =
-        NativeInterop.LoadFunction<al_replace_path_component>(AllegroLibrary, nameof(al_replace_path_component));
+  public static al_replace_path_component AlReplacePathComponent = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_remove_path_component(IntPtr path, int i);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_remove_path_component(IntPtr path, int i);
 
-    public static al_remove_path_component AlRemovePathComponent =
-        NativeInterop.LoadFunction<al_remove_path_component>(AllegroLibrary, nameof(al_remove_path_component));
+  public static al_remove_path_component AlRemovePathComponent = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_drop_path_tail(IntPtr path);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_drop_path_tail(IntPtr path);
 
-    public static al_drop_path_tail AlDropPathTail =
-        NativeInterop.LoadFunction<al_drop_path_tail>(AllegroLibrary, nameof(al_drop_path_tail));
+  public static al_drop_path_tail AlDropPathTail = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_set_path_filename(IntPtr path, IntPtr filename);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_set_path_filename(IntPtr path, IntPtr filename);
 
-    public static al_set_path_filename AlSetPathFilename =
-        NativeInterop.LoadFunction<al_set_path_filename>(AllegroLibrary, nameof(al_set_path_filename));
+  public static al_set_path_filename AlSetPathFilename = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_set_path_extension(IntPtr path, IntPtr extension);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_set_path_extension(IntPtr path, IntPtr extension);
 
-    public static al_set_path_extension AlSetPathExtension =
-        NativeInterop.LoadFunction<al_set_path_extension>(AllegroLibrary, nameof(al_set_path_extension));
+  public static al_set_path_extension AlSetPathExtension = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_path_cstr(IntPtr path, char delim);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_path_cstr(IntPtr path, char delim);
 
-    public static al_path_cstr AlPathCstr =
-        NativeInterop.LoadFunction<al_path_cstr>(AllegroLibrary, nameof(al_path_cstr));
+  public static al_path_cstr AlPathCstr = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_path_ustr(IntPtr path, char delim);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_path_ustr(IntPtr path, char delim);
 
-    public static al_path_ustr AlPathUstr =
-        NativeInterop.LoadFunction<al_path_ustr>(AllegroLibrary, nameof(al_path_ustr));
+  public static al_path_ustr AlPathUstr = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_make_path_canonical(IntPtr path);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_make_path_canonical(IntPtr path);
 
-    public static al_make_path_canonical AlMakePathCanonical =
-        NativeInterop.LoadFunction<al_make_path_canonical>(AllegroLibrary, nameof(al_make_path_canonical));
+  public static al_make_path_canonical AlMakePathCanonical = null!;
 
-    #endregion Path routines
+  #endregion Path routines
 
-    #region Physfs routines
+  #region Physfs routines
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_set_physfs_file_interface();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_set_physfs_file_interface();
 
-    public static al_set_physfs_file_interface AlSetPhysfsFileInterface =
-        NativeInterop.LoadFunction<al_set_physfs_file_interface>(AllegroLibrary, nameof(al_set_physfs_file_interface));
+  public static al_set_physfs_file_interface AlSetPhysfsFileInterface = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate uint al_get_allegro_physfs_version();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate uint al_get_allegro_physfs_version();
 
-    public static al_get_allegro_physfs_version AlGetAllegroPhysfsVersion =
-        NativeInterop.LoadFunction<al_get_allegro_physfs_version>(AllegroLibrary, nameof(al_get_allegro_physfs_version));
+  public static al_get_allegro_physfs_version AlGetAllegroPhysfsVersion = null!;
 
-    #endregion
+  #endregion
 
-    #region Platform-specific routines
+  #region Platform-specific routines
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_get_win_window_handle(IntPtr display);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_get_win_window_handle(IntPtr display);
 
-    public static al_get_win_window_handle? AlGetWinWindowHandle = null;
+  public static al_get_win_window_handle? AlGetWinWindowHandle = null!;
 
-    #endregion
+  #endregion
 
-    #region Primitives routines
+  #region Primitives routines
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate uint al_get_allegro_primitives_version();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate uint al_get_allegro_primitives_version();
 
-    public static al_get_allegro_primitives_version AlGetAllegroPrimitivesVersion =
-        NativeInterop.LoadFunction<al_get_allegro_primitives_version>(AllegroLibrary, nameof(al_get_allegro_primitives_version));
+  public static al_get_allegro_primitives_version AlGetAllegroPrimitivesVersion = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_init_primitives_addon();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_init_primitives_addon();
 
-    public static al_init_primitives_addon AlInitPrimitivesAddon =
-        NativeInterop.LoadFunction<al_init_primitives_addon>(AllegroLibrary, nameof(al_init_primitives_addon));
+  public static al_init_primitives_addon AlInitPrimitivesAddon = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_is_primitives_addon_initialized();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_is_primitives_addon_initialized();
 
-    public static al_is_primitives_addon_initialized AlIsPrimitivesAddonInitialized =
-        NativeInterop.LoadFunction<al_is_primitives_addon_initialized>(AllegroLibrary, nameof(al_is_primitives_addon_initialized));
+  public static al_is_primitives_addon_initialized AlIsPrimitivesAddonInitialized = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_shutdown_primitives_addon();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_shutdown_primitives_addon();
 
-    public static al_shutdown_primitives_addon AlShutdownPrimitivesAddon =
-        NativeInterop.LoadFunction<al_shutdown_primitives_addon>(AllegroLibrary, nameof(al_shutdown_primitives_addon));
+  public static al_shutdown_primitives_addon AlShutdownPrimitivesAddon = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_draw_line(float x1, float y1, float x2, float y2, AllegroColor color, float thickness);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_draw_line(float x1, float y1, float x2, float y2, AllegroColor color, float thickness);
 
-    public static al_draw_line AlDrawLine =
-        NativeInterop.LoadFunction<al_draw_line>(AllegroLibrary, nameof(al_draw_line));
+  public static al_draw_line AlDrawLine = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_draw_triangle(float x1, float y1, float x2, float y2, float x3, float y3, AllegroColor color, float thickness);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_draw_triangle(float x1, float y1, float x2, float y2, float x3, float y3, AllegroColor color, float thickness);
 
-    public static al_draw_triangle AlDrawTriangle =
-        NativeInterop.LoadFunction<al_draw_triangle>(AllegroLibrary, nameof(al_draw_triangle));
+  public static al_draw_triangle AlDrawTriangle = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_draw_filled_triangle(float x1, float y1, float x2, float y2, float x3, float y3, AllegroColor color);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_draw_filled_triangle(float x1, float y1, float x2, float y2, float x3, float y3, AllegroColor color);
 
-    public static al_draw_filled_triangle AlDrawFilledTriangle =
-        NativeInterop.LoadFunction<al_draw_filled_triangle>(AllegroLibrary, nameof(al_draw_filled_triangle));
+  public static al_draw_filled_triangle AlDrawFilledTriangle = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_draw_rectangle(float x1, float y1, float x2, float y2, AllegroColor color, float thickness);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_draw_rectangle(float x1, float y1, float x2, float y2, AllegroColor color, float thickness);
 
-    public static al_draw_rectangle AlDrawRectangle =
-        NativeInterop.LoadFunction<al_draw_rectangle>(AllegroLibrary, nameof(al_draw_rectangle));
+  public static al_draw_rectangle AlDrawRectangle = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_draw_filled_rectangle(float x1, float y1, float x2, float y2, AllegroColor color);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_draw_filled_rectangle(float x1, float y1, float x2, float y2, AllegroColor color);
 
-    public static al_draw_filled_rectangle AlDrawFilledRectangle =
-        NativeInterop.LoadFunction<al_draw_filled_rectangle>(AllegroLibrary, nameof(al_draw_filled_rectangle));
+  public static al_draw_filled_rectangle AlDrawFilledRectangle = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_draw_rounded_rectangle(float x1, float y1, float x2, float y2, float rx, float ry, AllegroColor color, float thickness);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_draw_rounded_rectangle(float x1, float y1, float x2, float y2, float rx, float ry, AllegroColor color, float thickness);
 
-    public static al_draw_rounded_rectangle AlDrawRoundedRectangle =
-        NativeInterop.LoadFunction<al_draw_rounded_rectangle>(AllegroLibrary, nameof(al_draw_rounded_rectangle));
+  public static al_draw_rounded_rectangle AlDrawRoundedRectangle = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_draw_filled_rounded_rectangle(float x1, float y1, float x2, float y2, float rx, float ry, AllegroColor color);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_draw_filled_rounded_rectangle(float x1, float y1, float x2, float y2, float rx, float ry, AllegroColor color);
 
-    public static al_draw_filled_rounded_rectangle AlDrawFilledRoundedRectangle =
-        NativeInterop.LoadFunction<al_draw_filled_rounded_rectangle>(AllegroLibrary, nameof(al_draw_filled_rounded_rectangle));
+  public static al_draw_filled_rounded_rectangle AlDrawFilledRoundedRectangle = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_calculate_arc(ref float[] dest, int stride, float cx, float cy, float rx, float ry, float start_theta, float delta_theta, float thickness, int num_points);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_calculate_arc(ref float[] dest, int stride, float cx, float cy, float rx, float ry, float start_theta, float delta_theta, float thickness, int num_points);
 
-    public static al_calculate_arc AlCalculateArc =
-        NativeInterop.LoadFunction<al_calculate_arc>(AllegroLibrary, nameof(al_calculate_arc));
+  public static al_calculate_arc AlCalculateArc = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_draw_pieslice(float cx, float cy, float r, float start_theta, float delta_theta, AllegroColor color, float thickness);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_draw_pieslice(float cx, float cy, float r, float start_theta, float delta_theta, AllegroColor color, float thickness);
 
-    public static al_draw_pieslice AlDrawPieslice =
-        NativeInterop.LoadFunction<al_draw_pieslice>(AllegroLibrary, nameof(al_draw_pieslice));
+  public static al_draw_pieslice AlDrawPieslice = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_draw_filled_pieslice(float cx, float cy, float r, float start_theta, float delta_theta, AllegroColor color);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_draw_filled_pieslice(float cx, float cy, float r, float start_theta, float delta_theta, AllegroColor color);
 
-    public static al_draw_filled_pieslice AlDrawFilledPieslice =
-        NativeInterop.LoadFunction<al_draw_filled_pieslice>(AllegroLibrary, nameof(al_draw_filled_pieslice));
+  public static al_draw_filled_pieslice AlDrawFilledPieslice = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_draw_ellipse(float cx, float cy, float rx, float ry, AllegroColor color, float thickness);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_draw_ellipse(float cx, float cy, float rx, float ry, AllegroColor color, float thickness);
 
-    public static al_draw_ellipse AlDrawEllipse =
-        NativeInterop.LoadFunction<al_draw_ellipse>(AllegroLibrary, nameof(al_draw_ellipse));
+  public static al_draw_ellipse AlDrawEllipse = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_draw_filled_ellipse(float cx, float cy, float rx, float ry, AllegroColor color);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_draw_filled_ellipse(float cx, float cy, float rx, float ry, AllegroColor color);
 
-    public static al_draw_filled_ellipse AlDrawFilledEllipse =
-        NativeInterop.LoadFunction<al_draw_filled_ellipse>(AllegroLibrary, nameof(al_draw_filled_ellipse));
+  public static al_draw_filled_ellipse AlDrawFilledEllipse = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_draw_circle(float cx, float cy, float r, AllegroColor color, float thickness);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_draw_circle(float cx, float cy, float r, AllegroColor color, float thickness);
 
-    public static al_draw_circle AlDrawCircle =
-        NativeInterop.LoadFunction<al_draw_circle>(AllegroLibrary, nameof(al_draw_circle));
+  public static al_draw_circle AlDrawCircle = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_draw_filled_circle(float cx, float cy, float r, AllegroColor color);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_draw_filled_circle(float cx, float cy, float r, AllegroColor color);
 
-    public static al_draw_filled_circle AlDrawFilledCircle =
-        NativeInterop.LoadFunction<al_draw_filled_circle>(AllegroLibrary, nameof(al_draw_filled_circle));
+  public static al_draw_filled_circle AlDrawFilledCircle = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_draw_arc(float cx, float cy, float r, float start_theta, float delta_theta, AllegroColor color, float thickness);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_draw_arc(float cx, float cy, float r, float start_theta, float delta_theta, AllegroColor color, float thickness);
 
-    public static al_draw_arc AlDrawArc =
-        NativeInterop.LoadFunction<al_draw_arc>(AllegroLibrary, nameof(al_draw_arc));
+  public static al_draw_arc AlDrawArc = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_draw_elliptical_arc(float cx, float cy, float rx, float ry, float start_theta, float delta_theta, AllegroColor color, float thickness);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_draw_elliptical_arc(float cx, float cy, float rx, float ry, float start_theta, float delta_theta, AllegroColor color, float thickness);
 
-    public static al_draw_elliptical_arc AlDrawEllipticalArc =
-        NativeInterop.LoadFunction<al_draw_elliptical_arc>(AllegroLibrary, nameof(al_draw_elliptical_arc));
+  public static al_draw_elliptical_arc AlDrawEllipticalArc = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_calculate_spline(ref float[] dest, int stride, float[] points, float thickness, int num_segments);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_calculate_spline(ref float[] dest, int stride, float[] points, float thickness, int num_segments);
 
-    public static al_calculate_spline AlCalculateSpline =
-        NativeInterop.LoadFunction<al_calculate_spline>(AllegroLibrary, nameof(al_calculate_spline));
+  public static al_calculate_spline AlCalculateSpline = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_draw_spline(float[] points, AllegroColor color, float thickness);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_draw_spline(float[] points, AllegroColor color, float thickness);
 
-    public static al_draw_spline AlDrawSpline =
-        NativeInterop.LoadFunction<al_draw_spline>(AllegroLibrary, nameof(al_draw_spline));
+  public static al_draw_spline AlDrawSpline = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_calculate_ribbon(ref float[] dest, int dest_stride, ref float[] points, int points_stride, float thickness, int num_segments);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_calculate_ribbon(ref float[] dest, int dest_stride, ref float[] points, int points_stride, float thickness, int num_segments);
 
-    public static al_calculate_ribbon AlCalculateRibbon =
-        NativeInterop.LoadFunction<al_calculate_ribbon>(AllegroLibrary, nameof(al_calculate_ribbon));
+  public static al_calculate_ribbon AlCalculateRibbon = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_draw_ribbon(ref float[] points, int points_stride, AllegroColor color, float thickness, int num_segments);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_draw_ribbon(ref float[] points, int points_stride, AllegroColor color, float thickness, int num_segments);
 
-    public static al_draw_ribbon AlDrawRibbon =
-        NativeInterop.LoadFunction<al_draw_ribbon>(AllegroLibrary, nameof(al_draw_ribbon));
+  public static al_draw_ribbon AlDrawRibbon = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_draw_prim(
-      [MarshalAs(UnmanagedType.LPArray)] AllegroVertex[] vtxs,
-      IntPtr decl,
-      IntPtr texture,
-      int start,
-      int end,
-      int type);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_draw_prim(
+    [MarshalAs(UnmanagedType.LPArray)] AllegroVertex[] vtxs,
+    IntPtr decl,
+    IntPtr texture,
+    int start,
+    int end,
+    int type);
 
-    public static al_draw_prim AlDrawPrim =
-        NativeInterop.LoadFunction<al_draw_prim>(AllegroLibrary, nameof(al_draw_prim));
+  public static al_draw_prim AlDrawPrim = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_draw_indexed_prim(
-      [MarshalAs(UnmanagedType.LPArray)] AllegroVertex[] vtxs,
-      IntPtr decl,
-      IntPtr texture,
-      [MarshalAs(UnmanagedType.LPArray)] int[] indices,
-      int num_vtx,
-      int type);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_draw_indexed_prim(
+    [MarshalAs(UnmanagedType.LPArray)] AllegroVertex[] vtxs,
+    IntPtr decl,
+    IntPtr texture,
+    [MarshalAs(UnmanagedType.LPArray)] int[] indices,
+    int num_vtx,
+    int type);
 
-    public static al_draw_indexed_prim AlDrawIndexedPrim =
-        NativeInterop.LoadFunction<al_draw_indexed_prim>(AllegroLibrary, nameof(al_draw_indexed_prim));
+  public static al_draw_indexed_prim AlDrawIndexedPrim = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_draw_vertex_buffer(IntPtr vertex_buffer, IntPtr texture, int start, int end, int type);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_draw_vertex_buffer(IntPtr vertex_buffer, IntPtr texture, int start, int end, int type);
 
-    public static al_draw_vertex_buffer AlDrawVertexBuffer =
-        NativeInterop.LoadFunction<al_draw_vertex_buffer>(AllegroLibrary, nameof(al_draw_vertex_buffer));
+  public static al_draw_vertex_buffer AlDrawVertexBuffer = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_draw_indexed_buffer(IntPtr vertex_buffer, IntPtr texture, IntPtr index_buffer, int start, int end, int type);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_draw_indexed_buffer(IntPtr vertex_buffer, IntPtr texture, IntPtr index_buffer, int start, int end, int type);
 
-    public static al_draw_indexed_buffer AlDrawIndexedBuffer =
-        NativeInterop.LoadFunction<al_draw_indexed_buffer>(AllegroLibrary, nameof(al_draw_indexed_buffer));
+  public static al_draw_indexed_buffer AlDrawIndexedBuffer = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_draw_soft_triangle(IntPtr v1, IntPtr v2, IntPtr v3, UIntPtr state, IntPtr init, IntPtr first, IntPtr step, IntPtr draw);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_draw_soft_triangle(IntPtr v1, IntPtr v2, IntPtr v3, UIntPtr state, IntPtr init, IntPtr first, IntPtr step, IntPtr draw);
 
-    public static al_draw_soft_triangle AlDrawSoftTriangle =
-        NativeInterop.LoadFunction<al_draw_soft_triangle>(AllegroLibrary, nameof(al_draw_soft_triangle));
+  public static al_draw_soft_triangle AlDrawSoftTriangle = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_draw_soft_line(IntPtr v1, IntPtr v2, UIntPtr state, IntPtr first, IntPtr step, IntPtr draw);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_draw_soft_line(IntPtr v1, IntPtr v2, UIntPtr state, IntPtr first, IntPtr step, IntPtr draw);
 
-    public static al_draw_soft_line AlDrawSoftLine =
-        NativeInterop.LoadFunction<al_draw_soft_line>(AllegroLibrary, nameof(al_draw_soft_line));
+  public static al_draw_soft_line AlDrawSoftLine = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_create_vertex_decl(NativeAllegroVertexElement[] elements, int stride);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_create_vertex_decl(NativeAllegroVertexElement[] elements, int stride);
 
-    public static al_create_vertex_decl AlCreateVertexDecl =
-        NativeInterop.LoadFunction<al_create_vertex_decl>(AllegroLibrary, nameof(al_create_vertex_decl));
+  public static al_create_vertex_decl AlCreateVertexDecl = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_destroy_vertex_decl(IntPtr decl);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_destroy_vertex_decl(IntPtr decl);
 
-    public static al_destroy_vertex_decl AlDestroyVertexDecl =
-        NativeInterop.LoadFunction<al_destroy_vertex_decl>(AllegroLibrary, nameof(al_destroy_vertex_decl));
+  public static al_destroy_vertex_decl AlDestroyVertexDecl = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_create_vertex_buffer(IntPtr decl, IntPtr initial_data, int num_vertices, int flags);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_create_vertex_buffer(IntPtr decl, IntPtr initial_data, int num_vertices, int flags);
 
-    public static al_create_vertex_buffer AlCreateVertexBuffer =
-        NativeInterop.LoadFunction<al_create_vertex_buffer>(AllegroLibrary, nameof(al_create_vertex_buffer));
+  public static al_create_vertex_buffer AlCreateVertexBuffer = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_destroy_vertex_buffer(IntPtr buffer);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_destroy_vertex_buffer(IntPtr buffer);
 
-    public static al_destroy_vertex_buffer AlDestroyVertexBuffer =
-        NativeInterop.LoadFunction<al_destroy_vertex_buffer>(AllegroLibrary, nameof(al_destroy_vertex_buffer));
+  public static al_destroy_vertex_buffer AlDestroyVertexBuffer = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_lock_vertex_buffer(IntPtr buffer, int offset, int length, int flags);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_lock_vertex_buffer(IntPtr buffer, int offset, int length, int flags);
 
-    public static al_lock_vertex_buffer AlLockVertexBuffer =
-        NativeInterop.LoadFunction<al_lock_vertex_buffer>(AllegroLibrary, nameof(al_lock_vertex_buffer));
+  public static al_lock_vertex_buffer AlLockVertexBuffer = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_unlock_vertex_buffer(IntPtr buffer);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_unlock_vertex_buffer(IntPtr buffer);
 
-    public static al_unlock_vertex_buffer AlUnlockVertexBuffer =
-        NativeInterop.LoadFunction<al_unlock_vertex_buffer>(AllegroLibrary, nameof(al_unlock_vertex_buffer));
+  public static al_unlock_vertex_buffer AlUnlockVertexBuffer = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_get_vertex_buffer_size(IntPtr buffer);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_get_vertex_buffer_size(IntPtr buffer);
 
-    public static al_get_vertex_buffer_size AlGetVertexBufferSize =
-        NativeInterop.LoadFunction<al_get_vertex_buffer_size>(AllegroLibrary, nameof(al_get_vertex_buffer_size));
+  public static al_get_vertex_buffer_size AlGetVertexBufferSize = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_create_index_buffer(int index_size, IntPtr initial_data, int num_indices, int flags);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_create_index_buffer(int index_size, IntPtr initial_data, int num_indices, int flags);
 
-    public static al_create_index_buffer AlCreateIndexBuffer =
-        NativeInterop.LoadFunction<al_create_index_buffer>(AllegroLibrary, nameof(al_create_index_buffer));
+  public static al_create_index_buffer AlCreateIndexBuffer = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_destroy_index_buffer(IntPtr buffer);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_destroy_index_buffer(IntPtr buffer);
 
-    public static al_destroy_index_buffer AlDestroyIndexBuffer =
-        NativeInterop.LoadFunction<al_destroy_index_buffer>(AllegroLibrary, nameof(al_destroy_index_buffer));
+  public static al_destroy_index_buffer AlDestroyIndexBuffer = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_lock_index_buffer(IntPtr buffer, int offset, int length, int flags);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_lock_index_buffer(IntPtr buffer, int offset, int length, int flags);
 
-    public static al_lock_index_buffer AlLockIndexBuffer =
-        NativeInterop.LoadFunction<al_lock_index_buffer>(AllegroLibrary, nameof(al_lock_index_buffer));
+  public static al_lock_index_buffer AlLockIndexBuffer = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_unlock_index_buffer(IntPtr buffer);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_unlock_index_buffer(IntPtr buffer);
 
-    public static al_unlock_index_buffer AlUnlockIndexBuffer =
-        NativeInterop.LoadFunction<al_unlock_index_buffer>(AllegroLibrary, nameof(al_unlock_index_buffer));
+  public static al_unlock_index_buffer AlUnlockIndexBuffer = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_get_index_buffer_size(IntPtr buffer);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_get_index_buffer_size(IntPtr buffer);
 
-    public static al_get_index_buffer_size AlGetIndexBufferSize =
-        NativeInterop.LoadFunction<al_get_index_buffer_size>(AllegroLibrary, nameof(al_get_index_buffer_size));
+  public static al_get_index_buffer_size AlGetIndexBufferSize = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_draw_polyline(IntPtr vertices, int vertex_stride, int vertex_count, int join_style, int cap_style, AllegroColor color, float thickness, float miter_limit);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_draw_polyline(IntPtr vertices, int vertex_stride, int vertex_count, int join_style, int cap_style, AllegroColor color, float thickness, float miter_limit);
 
-    public static al_draw_polyline AlDrawPolyline =
-        NativeInterop.LoadFunction<al_draw_polyline>(AllegroLibrary, nameof(al_draw_polyline));
+  public static al_draw_polyline AlDrawPolyline = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_draw_polygon(IntPtr vertices, int vertex_count, int join_style, AllegroColor color, float thickness, float miter_limit);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_draw_polygon(IntPtr vertices, int vertex_count, int join_style, AllegroColor color, float thickness, float miter_limit);
 
-    public static al_draw_polygon AlDrawPolygon =
-        NativeInterop.LoadFunction<al_draw_polygon>(AllegroLibrary, nameof(al_draw_polygon));
+  public static al_draw_polygon AlDrawPolygon = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_draw_filled_polygon(IntPtr vertices, int vertex_count, AllegroColor color);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_draw_filled_polygon(IntPtr vertices, int vertex_count, AllegroColor color);
 
-    public static al_draw_filled_polygon AlDrawFilledPolygon =
-        NativeInterop.LoadFunction<al_draw_filled_polygon>(AllegroLibrary, nameof(al_draw_filled_polygon));
+  public static al_draw_filled_polygon AlDrawFilledPolygon = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_draw_filled_polygon_with_holes(IntPtr vertices, IntPtr vertexCounts, AllegroColor color);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_draw_filled_polygon_with_holes(IntPtr vertices, IntPtr vertexCounts, AllegroColor color);
 
-    public static al_draw_filled_polygon_with_holes AlDrawFilledPolygonWithHoles =
-        NativeInterop.LoadFunction<al_draw_filled_polygon_with_holes>(AllegroLibrary, nameof(al_draw_filled_polygon_with_holes));
+  public static al_draw_filled_polygon_with_holes AlDrawFilledPolygonWithHoles = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_triangulate_polygon(IntPtr vertices, long vertex_stride, IntPtr vertex_counts, EmitTriangle emit_triangle, IntPtr userdata);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_triangulate_polygon(IntPtr vertices, long vertex_stride, IntPtr vertex_counts, EmitTriangle emit_triangle, IntPtr userdata);
 
-    public static al_triangulate_polygon AlTriangulatePolygon =
-        NativeInterop.LoadFunction<al_triangulate_polygon>(AllegroLibrary, nameof(al_triangulate_polygon));
+  public static al_triangulate_polygon AlTriangulatePolygon = null!;
 
-    #endregion
+  #endregion
 
-    #region State routines
+  #region State routines
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_restore_state(ref AllegroState.NativeAllegroState state);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_restore_state(ref AllegroState.NativeAllegroState state);
 
-    public static al_restore_state AlRestoreState =
-        NativeInterop.LoadFunction<al_restore_state>(AllegroLibrary, nameof(al_restore_state));
+  public static al_restore_state AlRestoreState = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_store_state(ref AllegroState.NativeAllegroState state, int flags);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_store_state(ref AllegroState.NativeAllegroState state, int flags);
 
-    public static al_store_state AlStoreState =
-        NativeInterop.LoadFunction<al_store_state>(AllegroLibrary, nameof(al_store_state));
+  public static al_store_state AlStoreState = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_get_errno();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_get_errno();
 
-    public static al_get_errno AlGetErrno =
-        NativeInterop.LoadFunction<al_get_errno>(AllegroLibrary, nameof(al_get_errno));
+  public static al_get_errno AlGetErrno = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_set_errno(int errnum);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_set_errno(int errnum);
 
-    public static al_set_errno AlSetErrno =
-        NativeInterop.LoadFunction<al_set_errno>(AllegroLibrary, nameof(al_set_errno));
+  public static al_set_errno AlSetErrno = null!;
 
-    #endregion State routines
+  #endregion State routines
 
-    #region System routines
+  #region System routines
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_install_system(int version, AtExitDelegate? atExit);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_install_system(int version, AtExitDelegate? atExit);
 
-    public static al_install_system AlInstallSystem =
-        NativeInterop.LoadFunction<al_install_system>(AllegroLibrary, nameof(al_install_system));
+  public static al_install_system AlInstallSystem = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_uninstall_system();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_uninstall_system();
 
-    public static al_uninstall_system AlUninstallSystem =
-        NativeInterop.LoadFunction<al_uninstall_system>(AllegroLibrary, nameof(al_uninstall_system));
+  public static al_uninstall_system AlUninstallSystem = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_is_system_installed();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_is_system_installed();
 
-    public static al_is_system_installed AlIsSystemInstalled =
-        NativeInterop.LoadFunction<al_is_system_installed>(AllegroLibrary, nameof(al_is_system_installed));
+  public static al_is_system_installed AlIsSystemInstalled = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate uint al_get_allegro_version();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate uint al_get_allegro_version();
 
-    public static al_get_allegro_version AlGetAllegroVersion =
-        NativeInterop.LoadFunction<al_get_allegro_version>(AllegroLibrary, nameof(al_get_allegro_version));
+  public static al_get_allegro_version AlGetAllegroVersion = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_get_standard_path(int id);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_get_standard_path(int id);
 
-    public static al_get_standard_path AlGetStandardPath =
-        NativeInterop.LoadFunction<al_get_standard_path>(AllegroLibrary, nameof(al_get_standard_path));
+  public static al_get_standard_path AlGetStandardPath = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_set_exe_name(IntPtr path);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_set_exe_name(IntPtr path);
 
-    public static al_set_exe_name AlSetExeName =
-        NativeInterop.LoadFunction<al_set_exe_name>(AllegroLibrary, nameof(al_get_standard_path));
+  public static al_set_exe_name AlSetExeName = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_set_app_name(IntPtr path);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_set_app_name(IntPtr path);
 
-    public static al_set_app_name AlSetAppName =
-        NativeInterop.LoadFunction<al_set_app_name>(AllegroLibrary, nameof(al_set_app_name));
+  public static al_set_app_name AlSetAppName = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_set_org_name(IntPtr path);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_set_org_name(IntPtr path);
 
-    public static al_set_org_name AlSetOrgName =
-        NativeInterop.LoadFunction<al_set_org_name>(AllegroLibrary, nameof(al_set_org_name));
+  public static al_set_org_name AlSetOrgName = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_get_app_name();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_get_app_name();
 
-    public static al_get_app_name AlGetAppName =
-        NativeInterop.LoadFunction<al_get_app_name>(AllegroLibrary, nameof(al_get_app_name));
+  public static al_get_app_name AlGetAppName = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_get_org_name();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_get_org_name();
 
-    public static al_get_org_name AlGetOrgName =
-        NativeInterop.LoadFunction<al_get_org_name>(AllegroLibrary, nameof(al_get_org_name));
+  public static al_get_org_name AlGetOrgName = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_get_system_config();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_get_system_config();
 
-    public static al_get_system_config AlGetSystemConfig =
-        NativeInterop.LoadFunction<al_get_system_config>(AllegroLibrary, nameof(al_get_system_config));
+  public static al_get_system_config AlGetSystemConfig = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_get_system_id();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_get_system_id();
 
-    public static al_get_system_id AlGetSystemID =
-        NativeInterop.LoadFunction<al_get_system_id>(AllegroLibrary, nameof(al_get_system_id));
+  public static al_get_system_id AlGetSystemID = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_register_assert_handler(RegisterAssertHandler handler);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_register_assert_handler(RegisterAssertHandler handler);
 
-    public static al_register_assert_handler AlRegisterAssertHandler =
-        NativeInterop.LoadFunction<al_register_assert_handler>(AllegroLibrary, nameof(al_register_assert_handler));
+  public static al_register_assert_handler AlRegisterAssertHandler = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_register_trace_handler(RegisterTraceHandler handler);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_register_trace_handler(RegisterTraceHandler handler);
 
-    public static al_register_trace_handler AlRegisterTraceHandler =
-        NativeInterop.LoadFunction<al_register_trace_handler>(AllegroLibrary, nameof(al_register_trace_handler));
+  public static al_register_trace_handler AlRegisterTraceHandler = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_get_cpu_count();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_get_cpu_count();
 
-    public static al_get_cpu_count AlGetCpuCount =
-        NativeInterop.LoadFunction<al_get_cpu_count>(AllegroLibrary, nameof(al_get_cpu_count));
+  public static al_get_cpu_count AlGetCpuCount = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_get_ram_size();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_get_ram_size();
 
-    public static al_get_ram_size AlGetRamSize =
-        NativeInterop.LoadFunction<al_get_ram_size>(AllegroLibrary, nameof(al_get_ram_size));
+  public static al_get_ram_size AlGetRamSize = null!;
 
-    #endregion System routines
+  #endregion System routines
 
-    #region Thread routines
+  #region Thread routines
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_create_thread(ThreadProcess proc, IntPtr arg);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_create_thread(ThreadProcess proc, IntPtr arg);
 
-    public static al_create_thread AlCreateThread =
-        NativeInterop.LoadFunction<al_create_thread>(AllegroLibrary, nameof(al_create_thread));
+  public static al_create_thread AlCreateThread = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_start_thread(IntPtr thread);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_start_thread(IntPtr thread);
 
-    public static al_start_thread AlStartThread =
-        NativeInterop.LoadFunction<al_start_thread>(AllegroLibrary, nameof(al_start_thread));
+  public static al_start_thread AlStartThread = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_join_thread(IntPtr thread, ref IntPtr ret_value);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_join_thread(IntPtr thread, ref IntPtr ret_value);
 
-    public static al_join_thread AlJoinThread =
-        NativeInterop.LoadFunction<al_join_thread>(AllegroLibrary, nameof(al_join_thread));
+  public static al_join_thread AlJoinThread = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_set_thread_should_stop(IntPtr thread);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_set_thread_should_stop(IntPtr thread);
 
-    public static al_set_thread_should_stop AlSetThreadShouldStop =
-        NativeInterop.LoadFunction<al_set_thread_should_stop>(AllegroLibrary, nameof(al_set_thread_should_stop));
+  public static al_set_thread_should_stop AlSetThreadShouldStop = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_get_thread_should_stop(IntPtr thread);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_get_thread_should_stop(IntPtr thread);
 
-    public static al_get_thread_should_stop AlGetThreadShouldStop =
-        NativeInterop.LoadFunction<al_get_thread_should_stop>(AllegroLibrary, nameof(al_get_thread_should_stop));
+  public static al_get_thread_should_stop AlGetThreadShouldStop = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_destroy_thread(IntPtr thread);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_destroy_thread(IntPtr thread);
 
-    public static al_destroy_thread AlDestroyThread =
-        NativeInterop.LoadFunction<al_destroy_thread>(AllegroLibrary, nameof(al_destroy_thread));
+  public static al_destroy_thread AlDestroyThread = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_run_detached_thread(DetachedThreadProcess proc, IntPtr arg);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_run_detached_thread(DetachedThreadProcess proc, IntPtr arg);
 
-    public static al_run_detached_thread AlRunDetachedThread =
-        NativeInterop.LoadFunction<al_run_detached_thread>(AllegroLibrary, nameof(al_run_detached_thread));
+  public static al_run_detached_thread AlRunDetachedThread = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_create_mutex();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_create_mutex();
 
-    public static al_create_mutex AlCreateMutex =
-        NativeInterop.LoadFunction<al_create_mutex>(AllegroLibrary, nameof(al_create_mutex));
+  public static al_create_mutex AlCreateMutex = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_create_mutex_recursive();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_create_mutex_recursive();
 
-    public static al_create_mutex_recursive AlCreateMutexRecursive =
-        NativeInterop.LoadFunction<al_create_mutex_recursive>(AllegroLibrary, nameof(al_create_mutex_recursive));
+  public static al_create_mutex_recursive AlCreateMutexRecursive = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_lock_mutex(IntPtr mutex);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_lock_mutex(IntPtr mutex);
 
-    public static al_lock_mutex AlLockMutex =
-        NativeInterop.LoadFunction<al_lock_mutex>(AllegroLibrary, nameof(al_lock_mutex));
+  public static al_lock_mutex AlLockMutex = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_unlock_mutex(IntPtr mutex);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_unlock_mutex(IntPtr mutex);
 
-    public static al_unlock_mutex AlUnlockMutex =
-        NativeInterop.LoadFunction<al_unlock_mutex>(AllegroLibrary, nameof(al_unlock_mutex));
+  public static al_unlock_mutex AlUnlockMutex = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_destroy_mutex(IntPtr mutex);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_destroy_mutex(IntPtr mutex);
 
-    public static al_destroy_mutex AlDestroyMutex =
-        NativeInterop.LoadFunction<al_destroy_mutex>(AllegroLibrary, nameof(al_destroy_mutex));
+  public static al_destroy_mutex AlDestroyMutex = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_create_cond();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_create_cond();
 
-    public static al_create_cond AlCreateCond =
-        NativeInterop.LoadFunction<al_create_cond>(AllegroLibrary, nameof(al_create_cond));
+  public static al_create_cond AlCreateCond = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_destroy_cond(IntPtr cond);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_destroy_cond(IntPtr cond);
 
-    public static al_destroy_cond AlDestroyCond =
-        NativeInterop.LoadFunction<al_destroy_cond>(AllegroLibrary, nameof(al_destroy_cond));
+  public static al_destroy_cond AlDestroyCond = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_wait_cond(IntPtr cond, IntPtr mutex);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_wait_cond(IntPtr cond, IntPtr mutex);
 
-    public static al_wait_cond AlWaitCond =
-        NativeInterop.LoadFunction<al_wait_cond>(AllegroLibrary, nameof(al_wait_cond));
+  public static al_wait_cond AlWaitCond = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_wait_cond_until(IntPtr cond, IntPtr mutex, ref AllegroTimeout.NativeAllegroTimeout timeout);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_wait_cond_until(IntPtr cond, IntPtr mutex, ref AllegroTimeout.NativeAllegroTimeout timeout);
 
-    public static al_wait_cond_until AlWaitCondUntil =
-        NativeInterop.LoadFunction<al_wait_cond_until>(AllegroLibrary, nameof(al_wait_cond_until));
+  public static al_wait_cond_until AlWaitCondUntil = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_broadcast_cond(IntPtr cond);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_broadcast_cond(IntPtr cond);
 
-    public static al_broadcast_cond AlBroadcastCond =
-        NativeInterop.LoadFunction<al_broadcast_cond>(AllegroLibrary, nameof(al_broadcast_cond));
+  public static al_broadcast_cond AlBroadcastCond = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_signal_cond(IntPtr cond);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_signal_cond(IntPtr cond);
 
-    public static al_signal_cond AlSignalCond =
-        NativeInterop.LoadFunction<al_signal_cond>(AllegroLibrary, nameof(al_signal_cond));
+  public static al_signal_cond AlSignalCond = null!;
 
-    #endregion Thread routines
+  #endregion Thread routines
 
-    #region Time routines
+  #region Time routines
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate double al_get_time();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate double al_get_time();
 
-    public static al_get_time AlGetTime =
-        NativeInterop.LoadFunction<al_get_time>(AllegroLibrary, nameof(al_get_time));
+  public static al_get_time AlGetTime = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_init_timeout(ref AllegroTimeout.NativeAllegroTimeout timeout, double seconds);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_init_timeout(ref AllegroTimeout.NativeAllegroTimeout timeout, double seconds);
 
-    public static al_init_timeout AlInitTimeout =
-        NativeInterop.LoadFunction<al_init_timeout>(AllegroLibrary, nameof(al_init_timeout));
+  public static al_init_timeout AlInitTimeout = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_rest(double seconds);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_rest(double seconds);
 
-    public static al_rest AlRest =
-        NativeInterop.LoadFunction<al_rest>(AllegroLibrary, nameof(al_rest));
+  public static al_rest AlRest = null!;
 
-    #endregion Time routines
+  #endregion Time routines
 
-    #region Touch routines
+  #region Touch routines
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_install_touch_input();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_install_touch_input();
 
-    public static al_install_touch_input AlInstallTouchInput =
-        NativeInterop.LoadFunction<al_install_touch_input>(AllegroLibrary, nameof(al_install_touch_input));
+  public static al_install_touch_input AlInstallTouchInput = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_uninstall_touch_input();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_uninstall_touch_input();
 
-    public static al_uninstall_touch_input AlUninstallTouchInput =
-        NativeInterop.LoadFunction<al_uninstall_touch_input>(AllegroLibrary, nameof(al_uninstall_touch_input));
+  public static al_uninstall_touch_input AlUninstallTouchInput = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_is_touch_input_installed();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_is_touch_input_installed();
 
-    public static al_is_touch_input_installed AlIsTouchInputInstalled =
-        NativeInterop.LoadFunction<al_is_touch_input_installed>(AllegroLibrary, nameof(al_is_touch_input_installed));
+  public static al_is_touch_input_installed AlIsTouchInputInstalled = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_get_touch_input_state(ref NativeAllegroTouchInputState ret_state);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_get_touch_input_state(ref NativeAllegroTouchInputState ret_state);
 
-    public static al_get_touch_input_state AlGetTouchInputState =
-        NativeInterop.LoadFunction<al_get_touch_input_state>(AllegroLibrary, nameof(al_get_touch_input_state));
+  public static al_get_touch_input_state AlGetTouchInputState = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_get_touch_input_event_source();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_get_touch_input_event_source();
 
-    public static al_get_touch_input_event_source AlGetTouchInputEventSource =
-        NativeInterop.LoadFunction<al_get_touch_input_event_source>(AllegroLibrary, nameof(al_get_touch_input_event_source));
+  public static al_get_touch_input_event_source AlGetTouchInputEventSource = null!;
 
-    #endregion
+  #endregion
 
-    #region Timer routines
+  #region Timer routines
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_create_timer(double speed_secs);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_create_timer(double speed_secs);
 
-    public static al_create_timer ALCreateTimer =
-        NativeInterop.LoadFunction<al_create_timer>(AllegroLibrary, nameof(al_create_timer));
+  public static al_create_timer ALCreateTimer = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_start_timer(IntPtr timer);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_start_timer(IntPtr timer);
 
-    public static al_start_timer AlStartTimer =
-        NativeInterop.LoadFunction<al_start_timer>(AllegroLibrary, nameof(al_start_timer));
+  public static al_start_timer AlStartTimer = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_resume_timer(IntPtr timer);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_resume_timer(IntPtr timer);
 
-    public static al_resume_timer AlResumeTimer =
-        NativeInterop.LoadFunction<al_resume_timer>(AllegroLibrary, nameof(al_resume_timer));
+  public static al_resume_timer AlResumeTimer = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_stop_timer(IntPtr timer);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_stop_timer(IntPtr timer);
 
-    public static al_stop_timer AlStopTimer =
-        NativeInterop.LoadFunction<al_stop_timer>(AllegroLibrary, nameof(al_stop_timer));
+  public static al_stop_timer AlStopTimer = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_get_timer_started(IntPtr timer);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_get_timer_started(IntPtr timer);
 
-    public static al_get_timer_started AlGetTimerStarted =
-        NativeInterop.LoadFunction<al_get_timer_started>(AllegroLibrary, nameof(al_get_timer_started));
+  public static al_get_timer_started AlGetTimerStarted = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_destroy_timer(IntPtr timer);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_destroy_timer(IntPtr timer);
 
-    public static al_destroy_timer AlDestroyTimer =
-        NativeInterop.LoadFunction<al_destroy_timer>(AllegroLibrary, nameof(al_destroy_timer));
+  public static al_destroy_timer AlDestroyTimer = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate ulong al_get_timer_count(IntPtr timer);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate ulong al_get_timer_count(IntPtr timer);
 
-    public static al_get_timer_count AlGetTimerCount =
-        NativeInterop.LoadFunction<al_get_timer_count>(AllegroLibrary, nameof(al_get_timer_count));
+  public static al_get_timer_count AlGetTimerCount = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_set_timer_count(IntPtr timer, ulong new_count);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_set_timer_count(IntPtr timer, ulong new_count);
 
-    public static al_set_timer_count AlSetTimerCount =
-        NativeInterop.LoadFunction<al_set_timer_count>(AllegroLibrary, nameof(al_set_timer_count));
+  public static al_set_timer_count AlSetTimerCount = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_add_timer_count(IntPtr timer, ulong diff);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_add_timer_count(IntPtr timer, ulong diff);
 
-    public static al_add_timer_count AlAddTimerCount =
-        NativeInterop.LoadFunction<al_add_timer_count>(AllegroLibrary, nameof(al_add_timer_count));
+  public static al_add_timer_count AlAddTimerCount = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate double al_get_timer_speed(IntPtr timer);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate double al_get_timer_speed(IntPtr timer);
 
-    public static al_get_timer_speed AlGetTimerSpeed =
-        NativeInterop.LoadFunction<al_get_timer_speed>(AllegroLibrary, nameof(al_get_timer_speed));
+  public static al_get_timer_speed AlGetTimerSpeed = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_set_timer_speed(IntPtr timer, double new_speed_secs);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_set_timer_speed(IntPtr timer, double new_speed_secs);
 
-    public static al_set_timer_speed AlSetTimerSpeed =
-        NativeInterop.LoadFunction<al_set_timer_speed>(AllegroLibrary, nameof(al_set_timer_speed));
+  public static al_set_timer_speed AlSetTimerSpeed = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_get_timer_event_source(IntPtr timer);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_get_timer_event_source(IntPtr timer);
 
-    public static al_get_timer_event_source AlGetTimerEventSource =
-        NativeInterop.LoadFunction<al_get_timer_event_source>(AllegroLibrary, nameof(al_get_timer_event_source));
+  public static al_get_timer_event_source AlGetTimerEventSource = null!;
 
-    #endregion Timer routines
+  #endregion Timer routines
 
-    #region Transform routines
+  #region Transform routines
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_copy_transform(ref AllegroTransform.NativeAllegroTransform dest, ref AllegroTransform.NativeAllegroTransform src);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_copy_transform(ref AllegroTransform.NativeAllegroTransform dest, ref AllegroTransform.NativeAllegroTransform src);
 
-    public static al_copy_transform AlCopyTransform =
-        NativeInterop.LoadFunction<al_copy_transform>(AllegroLibrary, nameof(al_copy_transform));
+  public static al_copy_transform AlCopyTransform = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_use_transform(ref AllegroTransform.NativeAllegroTransform trans);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_use_transform(ref AllegroTransform.NativeAllegroTransform trans);
 
-    public static al_use_transform AlUseTransform =
-        NativeInterop.LoadFunction<al_use_transform>(AllegroLibrary, nameof(al_use_transform));
+  public static al_use_transform AlUseTransform = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_get_current_transform();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_get_current_transform();
 
-    public static al_get_current_transform AlGetCurrentTransform =
-        NativeInterop.LoadFunction<al_get_current_transform>(AllegroLibrary, nameof(al_get_current_transform));
+  public static al_get_current_transform AlGetCurrentTransform = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_use_projection_transform(ref AllegroTransform.NativeAllegroTransform trans);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_use_projection_transform(ref AllegroTransform.NativeAllegroTransform trans);
 
-    public static al_use_projection_transform AlUseProjectionTransform =
-        NativeInterop.LoadFunction<al_use_projection_transform>(AllegroLibrary, nameof(al_use_projection_transform));
+  public static al_use_projection_transform AlUseProjectionTransform = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_get_current_projection_transform();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_get_current_projection_transform();
 
-    public static al_get_current_projection_transform AlGetCurrentProjectionTransform =
-        NativeInterop.LoadFunction<al_get_current_projection_transform>(AllegroLibrary, nameof(al_get_current_projection_transform));
+  public static al_get_current_projection_transform AlGetCurrentProjectionTransform = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_get_current_inverse_transform();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_get_current_inverse_transform();
 
-    public static al_get_current_inverse_transform AlGetCurrentInverseTransform =
-        NativeInterop.LoadFunction<al_get_current_inverse_transform>(AllegroLibrary, nameof(al_get_current_inverse_transform));
+  public static al_get_current_inverse_transform AlGetCurrentInverseTransform = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_invert_transform(ref AllegroTransform.NativeAllegroTransform trans);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_invert_transform(ref AllegroTransform.NativeAllegroTransform trans);
 
-    public static al_invert_transform AlInvertTransform =
-        NativeInterop.LoadFunction<al_invert_transform>(AllegroLibrary, nameof(al_invert_transform));
+  public static al_invert_transform AlInvertTransform = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_transpose_transform(ref AllegroTransform.NativeAllegroTransform trans);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_transpose_transform(ref AllegroTransform.NativeAllegroTransform trans);
 
-    public static al_transpose_transform AlTransposeTransform =
-        NativeInterop.LoadFunction<al_transpose_transform>(AllegroLibrary, nameof(al_transpose_transform));
+  public static al_transpose_transform AlTransposeTransform = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_check_inverse(ref AllegroTransform.NativeAllegroTransform trans, float tol);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_check_inverse(ref AllegroTransform.NativeAllegroTransform trans, float tol);
 
-    public static al_check_inverse AlCheckInverse =
-        NativeInterop.LoadFunction<al_check_inverse>(AllegroLibrary, nameof(al_check_inverse));
+  public static al_check_inverse AlCheckInverse = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_identity_transform(ref AllegroTransform.NativeAllegroTransform trans);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_identity_transform(ref AllegroTransform.NativeAllegroTransform trans);
 
-    public static al_identity_transform AlIdentityTransform =
-        NativeInterop.LoadFunction<al_identity_transform>(AllegroLibrary, nameof(al_identity_transform));
+  public static al_identity_transform AlIdentityTransform = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_build_transform(ref AllegroTransform.NativeAllegroTransform trans, float x, float y, float sx, float sy, float theta);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_build_transform(ref AllegroTransform.NativeAllegroTransform trans, float x, float y, float sx, float sy, float theta);
 
-    public static al_build_transform AlBuildTransform =
-        NativeInterop.LoadFunction<al_build_transform>(AllegroLibrary, nameof(al_build_transform));
+  public static al_build_transform AlBuildTransform = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_build_camera_transform(
-        ref AllegroTransform.NativeAllegroTransform trans,
-        float position_x,
-        float position_y,
-        float position_z,
-        float look_x,
-        float look_y,
-        float look_z,
-        float up_x,
-        float up_y,
-        float up_z);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_build_camera_transform(
+      ref AllegroTransform.NativeAllegroTransform trans,
+      float position_x,
+      float position_y,
+      float position_z,
+      float look_x,
+      float look_y,
+      float look_z,
+      float up_x,
+      float up_y,
+      float up_z);
 
-    public static al_build_camera_transform AlBuildCameraTransform =
-        NativeInterop.LoadFunction<al_build_camera_transform>(AllegroLibrary, nameof(al_build_camera_transform));
+  public static al_build_camera_transform AlBuildCameraTransform = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_translate_transform(ref AllegroTransform.NativeAllegroTransform trans, float x, float y);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_translate_transform(ref AllegroTransform.NativeAllegroTransform trans, float x, float y);
 
-    public static al_translate_transform AlTranslateTransform =
-        NativeInterop.LoadFunction<al_translate_transform>(AllegroLibrary, nameof(al_translate_transform));
+  public static al_translate_transform AlTranslateTransform = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_rotate_transform(ref AllegroTransform.NativeAllegroTransform trans, float theta);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_rotate_transform(ref AllegroTransform.NativeAllegroTransform trans, float theta);
 
-    public static al_rotate_transform AlRotateTransform =
-        NativeInterop.LoadFunction<al_rotate_transform>(AllegroLibrary, nameof(al_rotate_transform));
+  public static al_rotate_transform AlRotateTransform = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_scale_transform(ref AllegroTransform.NativeAllegroTransform trans, float sx, float sy);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_scale_transform(ref AllegroTransform.NativeAllegroTransform trans, float sx, float sy);
 
-    public static al_scale_transform AlScaleTransform =
-        NativeInterop.LoadFunction<al_scale_transform>(AllegroLibrary, nameof(al_scale_transform));
+  public static al_scale_transform AlScaleTransform = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_transform_coordinates(ref AllegroTransform.NativeAllegroTransform trans, ref float x, ref float y);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_transform_coordinates(ref AllegroTransform.NativeAllegroTransform trans, ref float x, ref float y);
 
-    public static al_transform_coordinates AlTransformCoordinates =
-        NativeInterop.LoadFunction<al_transform_coordinates>(AllegroLibrary, nameof(al_transform_coordinates));
+  public static al_transform_coordinates AlTransformCoordinates = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_transform_coordinates_3d(ref AllegroTransform.NativeAllegroTransform trans, ref float x, ref float y, ref float z);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_transform_coordinates_3d(ref AllegroTransform.NativeAllegroTransform trans, ref float x, ref float y, ref float z);
 
-    public static al_transform_coordinates_3d AlTransformCoordinates3D =
-        NativeInterop.LoadFunction<al_transform_coordinates_3d>(AllegroLibrary, nameof(al_transform_coordinates_3d));
+  public static al_transform_coordinates_3d AlTransformCoordinates3D = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_transform_coordinates_4d(ref AllegroTransform.NativeAllegroTransform trans, ref float x, ref float y, ref float z, ref float w);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_transform_coordinates_4d(ref AllegroTransform.NativeAllegroTransform trans, ref float x, ref float y, ref float z, ref float w);
 
-    public static al_transform_coordinates_4d AlTransformCoordinates4D =
-        NativeInterop.LoadFunction<al_transform_coordinates_4d>(AllegroLibrary, nameof(al_transform_coordinates_4d));
+  public static al_transform_coordinates_4d AlTransformCoordinates4D = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_transform_coordinates_3d_projective(ref AllegroTransform.NativeAllegroTransform trans, ref float x, ref float y, ref float z);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_transform_coordinates_3d_projective(ref AllegroTransform.NativeAllegroTransform trans, ref float x, ref float y, ref float z);
 
-    public static al_transform_coordinates_3d_projective AlTransformCoordinates3DProjective =
-        NativeInterop.LoadFunction<al_transform_coordinates_3d_projective>(AllegroLibrary, nameof(al_transform_coordinates_3d_projective));
+  public static al_transform_coordinates_3d_projective AlTransformCoordinates3DProjective = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_compose_transform(ref AllegroTransform.NativeAllegroTransform trans, ref AllegroTransform.NativeAllegroTransform other);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_compose_transform(ref AllegroTransform.NativeAllegroTransform trans, ref AllegroTransform.NativeAllegroTransform other);
 
-    public static al_compose_transform AlComposeTransform =
-        NativeInterop.LoadFunction<al_compose_transform>(AllegroLibrary, nameof(al_compose_transform));
+  public static al_compose_transform AlComposeTransform = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_orthographic_transform(
-        ref AllegroTransform.NativeAllegroTransform trans,
-        float left,
-        float top,
-        float n,
-        float right,
-        float bottom,
-        float f);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_orthographic_transform(
+      ref AllegroTransform.NativeAllegroTransform trans,
+      float left,
+      float top,
+      float n,
+      float right,
+      float bottom,
+      float f);
 
-    public static al_orthographic_transform AlOrthographicTransform =
-        NativeInterop.LoadFunction<al_orthographic_transform>(AllegroLibrary, nameof(al_orthographic_transform));
+  public static al_orthographic_transform AlOrthographicTransform = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_perspective_transform(
-        ref AllegroTransform.NativeAllegroTransform trans,
-        float left,
-        float top,
-        float n,
-        float right,
-        float bottom,
-        float f);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_perspective_transform(
+      ref AllegroTransform.NativeAllegroTransform trans,
+      float left,
+      float top,
+      float n,
+      float right,
+      float bottom,
+      float f);
 
-    public static al_perspective_transform AlPerspectiveTransform =
-        NativeInterop.LoadFunction<al_perspective_transform>(AllegroLibrary, nameof(al_perspective_transform));
+  public static al_perspective_transform AlPerspectiveTransform = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_translate_transform_3d(ref AllegroTransform.NativeAllegroTransform trans, float x, float y, float z);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_translate_transform_3d(ref AllegroTransform.NativeAllegroTransform trans, float x, float y, float z);
 
-    public static al_translate_transform_3d AlTranslateTransform3D =
-        NativeInterop.LoadFunction<al_translate_transform_3d>(AllegroLibrary, nameof(al_translate_transform_3d));
+  public static al_translate_transform_3d AlTranslateTransform3D = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_scale_transform_3d(ref AllegroTransform.NativeAllegroTransform trans, float sx, float sy, float sz);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_scale_transform_3d(ref AllegroTransform.NativeAllegroTransform trans, float sx, float sy, float sz);
 
-    public static al_scale_transform_3d AlScaleTransform3D =
-        NativeInterop.LoadFunction<al_scale_transform_3d>(AllegroLibrary, nameof(al_scale_transform_3d));
+  public static al_scale_transform_3d AlScaleTransform3D = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_rotate_transform_3d(ref AllegroTransform.NativeAllegroTransform trans, float x, float y, float z, float angle);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_rotate_transform_3d(ref AllegroTransform.NativeAllegroTransform trans, float x, float y, float z, float angle);
 
-    public static al_rotate_transform_3d AlRotateTransform3D =
-        NativeInterop.LoadFunction<al_rotate_transform_3d>(AllegroLibrary, nameof(al_rotate_transform_3d));
+  public static al_rotate_transform_3d AlRotateTransform3D = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_horizontal_shear_transform(ref AllegroTransform.NativeAllegroTransform trans, float theta);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_horizontal_shear_transform(ref AllegroTransform.NativeAllegroTransform trans, float theta);
 
-    public static al_horizontal_shear_transform AlHorizontalShearTransform =
-        NativeInterop.LoadFunction<al_horizontal_shear_transform>(AllegroLibrary, nameof(al_horizontal_shear_transform));
+  public static al_horizontal_shear_transform AlHorizontalShearTransform = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_vertical_shear_transform(ref AllegroTransform.NativeAllegroTransform trans, float theta);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_vertical_shear_transform(ref AllegroTransform.NativeAllegroTransform trans, float theta);
 
-    public static al_vertical_shear_transform AlVerticalShearTransform =
-        NativeInterop.LoadFunction<al_vertical_shear_transform>(AllegroLibrary, nameof(al_vertical_shear_transform));
+  public static al_vertical_shear_transform AlVerticalShearTransform = null!;
 
-    #endregion Transform routines
+  #endregion Transform routines
 
-    #region TTF routines
+  #region TTF routines
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_init_ttf_addon();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_init_ttf_addon();
 
-    public static al_init_ttf_addon AlInitTtfAddon =
-        NativeInterop.LoadFunction<al_init_ttf_addon>(AllegroLibrary, nameof(al_init_ttf_addon));
+  public static al_init_ttf_addon AlInitTtfAddon = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_is_ttf_addon_initialized();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_is_ttf_addon_initialized();
 
-    public static al_is_ttf_addon_initialized AlIsTtfAddonInitialized =
-        NativeInterop.LoadFunction<al_is_ttf_addon_initialized>(AllegroLibrary, nameof(al_is_ttf_addon_initialized));
+  public static al_is_ttf_addon_initialized AlIsTtfAddonInitialized = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_shutdown_ttf_addon();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_shutdown_ttf_addon();
 
-    public static al_shutdown_ttf_addon AlShutdownTtfAddon =
-        NativeInterop.LoadFunction<al_shutdown_ttf_addon>(AllegroLibrary, nameof(al_shutdown_ttf_addon));
+  public static al_shutdown_ttf_addon AlShutdownTtfAddon = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_load_ttf_font(IntPtr filename, int size, int flags);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_load_ttf_font(IntPtr filename, int size, int flags);
 
-    public static al_load_ttf_font AlLoadTtfFont =
-        NativeInterop.LoadFunction<al_load_ttf_font>(AllegroLibrary, nameof(al_load_ttf_font));
+  public static al_load_ttf_font AlLoadTtfFont = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_load_ttf_font_f(IntPtr file, IntPtr filename, int size, int flags);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_load_ttf_font_f(IntPtr file, IntPtr filename, int size, int flags);
 
-    public static al_load_ttf_font_f AlLoadTtfFontF =
-        NativeInterop.LoadFunction<al_load_ttf_font_f>(AllegroLibrary, nameof(al_load_ttf_font_f));
+  public static al_load_ttf_font_f AlLoadTtfFontF = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_load_ttf_font_stretch(IntPtr filename, int w, int h, int flags);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_load_ttf_font_stretch(IntPtr filename, int w, int h, int flags);
 
-    public static al_load_ttf_font_stretch AlLoadTtfFontStretch =
-        NativeInterop.LoadFunction<al_load_ttf_font_stretch>(AllegroLibrary, nameof(al_load_ttf_font_stretch));
+  public static al_load_ttf_font_stretch AlLoadTtfFontStretch = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_load_ttf_font_stretch_f(IntPtr file, IntPtr filename, int w, int h, int flags);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_load_ttf_font_stretch_f(IntPtr file, IntPtr filename, int w, int h, int flags);
 
-    public static al_load_ttf_font_stretch_f AlLoadTtfFontStretchF =
-        NativeInterop.LoadFunction<al_load_ttf_font_stretch_f>(AllegroLibrary, nameof(al_load_ttf_font_stretch_f));
+  public static al_load_ttf_font_stretch_f AlLoadTtfFontStretchF = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate uint al_get_allegro_ttf_version();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate uint al_get_allegro_ttf_version();
 
-    public static al_get_allegro_ttf_version AlGetAllegroTtfVersion =
-        NativeInterop.LoadFunction<al_get_allegro_ttf_version>(AllegroLibrary, nameof(al_get_allegro_ttf_version));
+  public static al_get_allegro_ttf_version AlGetAllegroTtfVersion = null!;
 
-    #endregion
+  #endregion
 
-    #region UTF-8 routines
+  #region UTF-8 routines
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_ustr_new(IntPtr s);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_ustr_new(IntPtr s);
 
-    public static al_ustr_new AlUstrNew =
-        NativeInterop.LoadFunction<al_ustr_new>(AllegroLibrary, nameof(al_ustr_new));
+  public static al_ustr_new AlUstrNew = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_ustr_new_from_buffer(IntPtr s, long size);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_ustr_new_from_buffer(IntPtr s, long size);
 
-    public static al_ustr_new_from_buffer AlUstrNewFromBuffer =
-        NativeInterop.LoadFunction<al_ustr_new_from_buffer>(AllegroLibrary, nameof(al_ustr_new_from_buffer));
+  public static al_ustr_new_from_buffer AlUstrNewFromBuffer = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_ustr_free(IntPtr us);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_ustr_free(IntPtr us);
 
-    public static al_ustr_free AlUstrFree =
-        NativeInterop.LoadFunction<al_ustr_free>(AllegroLibrary, nameof(al_ustr_free));
+  public static al_ustr_free AlUstrFree = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_cstr(IntPtr us);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_cstr(IntPtr us);
 
-    public static al_cstr AlCstr =
-        NativeInterop.LoadFunction<al_cstr>(AllegroLibrary, nameof(al_cstr));
+  public static al_cstr AlCstr = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void al_ustr_to_buffer(IntPtr us, IntPtr buffer, int size);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate void al_ustr_to_buffer(IntPtr us, IntPtr buffer, int size);
 
-    public static al_ustr_to_buffer AlUstrToBuffer =
-        NativeInterop.LoadFunction<al_ustr_to_buffer>(AllegroLibrary, nameof(al_ustr_to_buffer));
+  public static al_ustr_to_buffer AlUstrToBuffer = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_cstr_dup(IntPtr us);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_cstr_dup(IntPtr us);
 
-    public static al_cstr_dup AlCstrDup =
-        NativeInterop.LoadFunction<al_cstr_dup>(AllegroLibrary, nameof(al_cstr_dup));
+  public static al_cstr_dup AlCstrDup = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_ustr_dup(IntPtr us);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_ustr_dup(IntPtr us);
 
-    public static al_ustr_dup AlUstrDup =
-        NativeInterop.LoadFunction<al_ustr_dup>(AllegroLibrary, nameof(al_ustr_dup));
+  public static al_ustr_dup AlUstrDup = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_ustr_dup_substr(IntPtr us, int start_pos, int end_pos);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_ustr_dup_substr(IntPtr us, int start_pos, int end_pos);
 
-    public static al_ustr_dup_substr AlUstrDupSubstr =
-        NativeInterop.LoadFunction<al_ustr_dup_substr>(AllegroLibrary, nameof(al_ustr_dup_substr));
+  public static al_ustr_dup_substr AlUstrDupSubstr = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_ustr_empty_string();
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_ustr_empty_string();
 
-    public static al_ustr_empty_string AlUstrEmptyString =
-        NativeInterop.LoadFunction<al_ustr_empty_string>(AllegroLibrary, nameof(al_ustr_empty_string));
+  public static al_ustr_empty_string AlUstrEmptyString = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_ref_cstr(ref AllegroUstrInfo.NativeAllegroUstrInfo info, IntPtr s);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_ref_cstr(ref AllegroUstrInfo.NativeAllegroUstrInfo info, IntPtr s);
 
-    public static al_ref_cstr AlRefCstr =
-        NativeInterop.LoadFunction<al_ref_cstr>(AllegroLibrary, nameof(al_ref_cstr));
+  public static al_ref_cstr AlRefCstr = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_ref_buffer(ref AllegroUstrInfo.NativeAllegroUstrInfo info, IntPtr s, long size);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_ref_buffer(ref AllegroUstrInfo.NativeAllegroUstrInfo info, IntPtr s, long size);
 
-    public static al_ref_buffer AlRefBuffer =
-        NativeInterop.LoadFunction<al_ref_buffer>(AllegroLibrary, nameof(al_ref_buffer));
+  public static al_ref_buffer AlRefBuffer = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_ref_ustr(ref AllegroUstrInfo.NativeAllegroUstrInfo info, IntPtr us, int start_pos, int end_pos);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_ref_ustr(ref AllegroUstrInfo.NativeAllegroUstrInfo info, IntPtr us, int start_pos, int end_pos);
 
-    public static al_ref_ustr AlRefUstr =
-        NativeInterop.LoadFunction<al_ref_ustr>(AllegroLibrary, nameof(al_ref_ustr));
+  public static al_ref_ustr AlRefUstr = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate long al_ustr_size(IntPtr us);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate long al_ustr_size(IntPtr us);
 
-    public static al_ustr_size AlUstrSize =
-        NativeInterop.LoadFunction<al_ustr_size>(AllegroLibrary, nameof(al_ustr_size));
+  public static al_ustr_size AlUstrSize = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate long al_ustr_length(IntPtr us);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate long al_ustr_length(IntPtr us);
 
-    public static al_ustr_length AlUstrLength =
-        NativeInterop.LoadFunction<al_ustr_length>(AllegroLibrary, nameof(al_ustr_length));
+  public static al_ustr_length AlUstrLength = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_ustr_offset(IntPtr us, int index);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_ustr_offset(IntPtr us, int index);
 
-    public static al_ustr_offset AlUstrOffset =
-        NativeInterop.LoadFunction<al_ustr_offset>(AllegroLibrary, nameof(al_ustr_offset));
+  public static al_ustr_offset AlUstrOffset = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_ustr_next(IntPtr us, ref int pos);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_ustr_next(IntPtr us, ref int pos);
 
-    public static al_ustr_next AlUstrNext =
-        NativeInterop.LoadFunction<al_ustr_next>(AllegroLibrary, nameof(al_ustr_next));
+  public static al_ustr_next AlUstrNext = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_ustr_prev(IntPtr us, ref int pos);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_ustr_prev(IntPtr us, ref int pos);
 
-    public static al_ustr_prev AlUstrPrev =
-        NativeInterop.LoadFunction<al_ustr_prev>(AllegroLibrary, nameof(al_ustr_prev));
+  public static al_ustr_prev AlUstrPrev = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_ustr_get(IntPtr ub, int pos);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_ustr_get(IntPtr ub, int pos);
 
-    public static al_ustr_get AlUstrGet =
-        NativeInterop.LoadFunction<al_ustr_get>(AllegroLibrary, nameof(al_ustr_get));
+  public static al_ustr_get AlUstrGet = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_ustr_get_next(IntPtr ub, ref int pos);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_ustr_get_next(IntPtr ub, ref int pos);
 
-    public static al_ustr_get_next AlUstrGetNext =
-        NativeInterop.LoadFunction<al_ustr_get_next>(AllegroLibrary, nameof(al_ustr_get_next));
+  public static al_ustr_get_next AlUstrGetNext = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_ustr_prev_get(IntPtr ub, ref int pos);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_ustr_prev_get(IntPtr ub, ref int pos);
 
-    public static al_ustr_prev_get AlUstrPrevGet =
-        NativeInterop.LoadFunction<al_ustr_prev_get>(AllegroLibrary, nameof(al_ustr_prev_get));
+  public static al_ustr_prev_get AlUstrPrevGet = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_ustr_insert(IntPtr us1, int pos, IntPtr us2);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_ustr_insert(IntPtr us1, int pos, IntPtr us2);
 
-    public static al_ustr_insert AlUstrInsert =
-        NativeInterop.LoadFunction<al_ustr_insert>(AllegroLibrary, nameof(al_ustr_insert));
+  public static al_ustr_insert AlUstrInsert = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_ustr_insert_cstr(IntPtr us, int pos, IntPtr s);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_ustr_insert_cstr(IntPtr us, int pos, IntPtr s);
 
-    public static al_ustr_insert_cstr AlUstrInsertCstr =
-        NativeInterop.LoadFunction<al_ustr_insert_cstr>(AllegroLibrary, nameof(al_ustr_insert_cstr));
+  public static al_ustr_insert_cstr AlUstrInsertCstr = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate long al_ustr_insert_chr(IntPtr us, int pos, int c);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate long al_ustr_insert_chr(IntPtr us, int pos, int c);
 
-    public static al_ustr_insert_chr AlUstrInsertChr =
-        NativeInterop.LoadFunction<al_ustr_insert_chr>(AllegroLibrary, nameof(al_ustr_insert_chr));
+  public static al_ustr_insert_chr AlUstrInsertChr = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_ustr_append(IntPtr us1, IntPtr us2);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_ustr_append(IntPtr us1, IntPtr us2);
 
-    public static al_ustr_append AlUstrAppend =
-        NativeInterop.LoadFunction<al_ustr_append>(AllegroLibrary, nameof(al_ustr_append));
+  public static al_ustr_append AlUstrAppend = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_ustr_append_cstr(IntPtr us, IntPtr s);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_ustr_append_cstr(IntPtr us, IntPtr s);
 
-    public static al_ustr_append_cstr AlUstrAppendCstr =
-        NativeInterop.LoadFunction<al_ustr_append_cstr>(AllegroLibrary, nameof(al_ustr_append_cstr));
+  public static al_ustr_append_cstr AlUstrAppendCstr = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate long al_ustr_append_chr(IntPtr us, int c);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate long al_ustr_append_chr(IntPtr us, int c);
 
-    public static al_ustr_append_chr AlUstrAppendChr =
-        NativeInterop.LoadFunction<al_ustr_append_chr>(AllegroLibrary, nameof(al_ustr_append_chr));
+  public static al_ustr_append_chr AlUstrAppendChr = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_ustr_remove_chr(IntPtr us, int pos);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_ustr_remove_chr(IntPtr us, int pos);
 
-    public static al_ustr_remove_chr AlUstrRemoveChr =
-        NativeInterop.LoadFunction<al_ustr_remove_chr>(AllegroLibrary, nameof(al_ustr_remove_chr));
+  public static al_ustr_remove_chr AlUstrRemoveChr = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_ustr_remove_range(IntPtr us, int start_pos, int end_pos);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_ustr_remove_range(IntPtr us, int start_pos, int end_pos);
 
-    public static al_ustr_remove_range AlUstrRemoveRange =
-        NativeInterop.LoadFunction<al_ustr_remove_range>(AllegroLibrary, nameof(al_ustr_remove_range));
+  public static al_ustr_remove_range AlUstrRemoveRange = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_ustr_truncate(IntPtr us, int start_pos);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_ustr_truncate(IntPtr us, int start_pos);
 
-    public static al_ustr_truncate AlUstrTruncate =
-        NativeInterop.LoadFunction<al_ustr_truncate>(AllegroLibrary, nameof(al_ustr_truncate));
+  public static al_ustr_truncate AlUstrTruncate = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_ustr_ltrim_ws(IntPtr us);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_ustr_ltrim_ws(IntPtr us);
 
-    public static al_ustr_ltrim_ws AlUstrLtrimWs =
-        NativeInterop.LoadFunction<al_ustr_ltrim_ws>(AllegroLibrary, nameof(al_ustr_ltrim_ws));
+  public static al_ustr_ltrim_ws AlUstrLtrimWs = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_ustr_rtrim_ws(IntPtr us);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_ustr_rtrim_ws(IntPtr us);
 
-    public static al_ustr_rtrim_ws AlUstrRtrimWs =
-        NativeInterop.LoadFunction<al_ustr_rtrim_ws>(AllegroLibrary, nameof(al_ustr_rtrim_ws));
+  public static al_ustr_rtrim_ws AlUstrRtrimWs = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_ustr_trim_ws(IntPtr us);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_ustr_trim_ws(IntPtr us);
 
-    public static al_ustr_trim_ws AlUstrTrimWs =
-        NativeInterop.LoadFunction<al_ustr_trim_ws>(AllegroLibrary, nameof(al_ustr_trim_ws));
+  public static al_ustr_trim_ws AlUstrTrimWs = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_ustr_assign(IntPtr us1, IntPtr us2);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_ustr_assign(IntPtr us1, IntPtr us2);
 
-    public static al_ustr_assign AlUstrAssign =
-        NativeInterop.LoadFunction<al_ustr_assign>(AllegroLibrary, nameof(al_ustr_assign));
+  public static al_ustr_assign AlUstrAssign = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_ustr_assign_substr(IntPtr us1, IntPtr us2, int start_pos, int end_pos);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_ustr_assign_substr(IntPtr us1, IntPtr us2, int start_pos, int end_pos);
 
-    public static al_ustr_assign_substr AlUstrAssignSubstr =
-        NativeInterop.LoadFunction<al_ustr_assign_substr>(AllegroLibrary, nameof(al_ustr_assign_substr));
+  public static al_ustr_assign_substr AlUstrAssignSubstr = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_ustr_assign_cstr(IntPtr us1, IntPtr s);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_ustr_assign_cstr(IntPtr us1, IntPtr s);
 
-    public static al_ustr_assign_cstr AlUstrAssignCstr =
-        NativeInterop.LoadFunction<al_ustr_assign_cstr>(AllegroLibrary, nameof(al_ustr_assign_cstr));
+  public static al_ustr_assign_cstr AlUstrAssignCstr = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate long al_ustr_set_chr(IntPtr us, int start_pos, int c);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate long al_ustr_set_chr(IntPtr us, int start_pos, int c);
 
-    public static al_ustr_set_chr AlUstrSetChr =
-        NativeInterop.LoadFunction<al_ustr_set_chr>(AllegroLibrary, nameof(al_ustr_set_chr));
+  public static al_ustr_set_chr AlUstrSetChr = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_ustr_replace_range(IntPtr us1, int start_pos1, int end_pos1, IntPtr us2);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_ustr_replace_range(IntPtr us1, int start_pos1, int end_pos1, IntPtr us2);
 
-    public static al_ustr_replace_range AlUstrReplaceRange =
-        NativeInterop.LoadFunction<al_ustr_replace_range>(AllegroLibrary, nameof(al_ustr_replace_range));
+  public static al_ustr_replace_range AlUstrReplaceRange = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_ustr_find_chr(IntPtr us, int start_pos1, int c);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_ustr_find_chr(IntPtr us, int start_pos1, int c);
 
-    public static al_ustr_find_chr AlUstrFindChr =
-        NativeInterop.LoadFunction<al_ustr_find_chr>(AllegroLibrary, nameof(al_ustr_find_chr));
+  public static al_ustr_find_chr AlUstrFindChr = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_ustr_rfind_chr(IntPtr us, int end_pos, int c);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_ustr_rfind_chr(IntPtr us, int end_pos, int c);
 
-    public static al_ustr_rfind_chr AlUstrRFindChr =
-        NativeInterop.LoadFunction<al_ustr_rfind_chr>(AllegroLibrary, nameof(al_ustr_rfind_chr));
+  public static al_ustr_rfind_chr AlUstrRFindChr = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_ustr_find_set(IntPtr us, int start_pos, IntPtr accept);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_ustr_find_set(IntPtr us, int start_pos, IntPtr accept);
 
-    public static al_ustr_find_set AlUstrFindSet =
-        NativeInterop.LoadFunction<al_ustr_find_set>(AllegroLibrary, nameof(al_ustr_find_set));
+  public static al_ustr_find_set AlUstrFindSet = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_ustr_find_set_cstr(IntPtr us, int start_pos, IntPtr accept);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_ustr_find_set_cstr(IntPtr us, int start_pos, IntPtr accept);
 
-    public static al_ustr_find_set_cstr AlUstrFindSetCstr =
-        NativeInterop.LoadFunction<al_ustr_find_set_cstr>(AllegroLibrary, nameof(al_ustr_find_set_cstr));
+  public static al_ustr_find_set_cstr AlUstrFindSetCstr = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_ustr_find_cset(IntPtr us, int start_pos, IntPtr reject);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_ustr_find_cset(IntPtr us, int start_pos, IntPtr reject);
 
-    public static al_ustr_find_cset AlUstrFindCset =
-        NativeInterop.LoadFunction<al_ustr_find_cset>(AllegroLibrary, nameof(al_ustr_find_cset));
+  public static al_ustr_find_cset AlUstrFindCset = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_ustr_find_cset_cstr(IntPtr us, int start_pos, IntPtr reject);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_ustr_find_cset_cstr(IntPtr us, int start_pos, IntPtr reject);
 
-    public static al_ustr_find_cset_cstr AlUstrFindCsetCstr =
-        NativeInterop.LoadFunction<al_ustr_find_cset_cstr>(AllegroLibrary, nameof(al_ustr_find_cset_cstr));
+  public static al_ustr_find_cset_cstr AlUstrFindCsetCstr = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_ustr_find_str(IntPtr haystack, int start_pos, IntPtr needle);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_ustr_find_str(IntPtr haystack, int start_pos, IntPtr needle);
 
-    public static al_ustr_find_str AlUstrFindStr =
-        NativeInterop.LoadFunction<al_ustr_find_str>(AllegroLibrary, nameof(al_ustr_find_str));
+  public static al_ustr_find_str AlUstrFindStr = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_ustr_find_cstr(IntPtr haystack, int start_pos, IntPtr needle);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_ustr_find_cstr(IntPtr haystack, int start_pos, IntPtr needle);
 
-    public static al_ustr_find_cstr AlUstrFindCstr =
-        NativeInterop.LoadFunction<al_ustr_find_cstr>(AllegroLibrary, nameof(al_ustr_find_cstr));
+  public static al_ustr_find_cstr AlUstrFindCstr = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_ustr_rfind_str(IntPtr haystack, int end_pos, IntPtr needle);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_ustr_rfind_str(IntPtr haystack, int end_pos, IntPtr needle);
 
-    public static al_ustr_rfind_str AlUstrRfindStr =
-        NativeInterop.LoadFunction<al_ustr_rfind_str>(AllegroLibrary, nameof(al_ustr_rfind_str));
+  public static al_ustr_rfind_str AlUstrRfindStr = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_ustr_rfind_cstr(IntPtr haystack, int end_pos, IntPtr needle);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_ustr_rfind_cstr(IntPtr haystack, int end_pos, IntPtr needle);
 
-    public static al_ustr_rfind_cstr AlUstrRfindCstr =
-        NativeInterop.LoadFunction<al_ustr_rfind_cstr>(AllegroLibrary, nameof(al_ustr_rfind_cstr));
+  public static al_ustr_rfind_cstr AlUstrRfindCstr = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_ustr_find_replace(IntPtr us, int start_pos, IntPtr find, IntPtr replace);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_ustr_find_replace(IntPtr us, int start_pos, IntPtr find, IntPtr replace);
 
-    public static al_ustr_find_replace AlUstrFindReplace =
-        NativeInterop.LoadFunction<al_ustr_find_replace>(AllegroLibrary, nameof(al_ustr_find_replace));
+  public static al_ustr_find_replace AlUstrFindReplace = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_ustr_find_replace_cstr(IntPtr us, int start_pos, IntPtr find, IntPtr replace);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_ustr_find_replace_cstr(IntPtr us, int start_pos, IntPtr find, IntPtr replace);
 
-    public static al_ustr_find_replace_cstr AlUstrFindReplaceCstr =
-        NativeInterop.LoadFunction<al_ustr_find_replace_cstr>(AllegroLibrary, nameof(al_ustr_find_replace_cstr));
+  public static al_ustr_find_replace_cstr AlUstrFindReplaceCstr = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_ustr_equal(IntPtr us1, IntPtr us2);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_ustr_equal(IntPtr us1, IntPtr us2);
 
-    public static al_ustr_equal AlUstrEqual =
-        NativeInterop.LoadFunction<al_ustr_equal>(AllegroLibrary, nameof(al_ustr_equal));
+  public static al_ustr_equal AlUstrEqual = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_ustr_compare(IntPtr us1, IntPtr us2);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_ustr_compare(IntPtr us1, IntPtr us2);
 
-    public static al_ustr_compare AlUstrCompare =
-        NativeInterop.LoadFunction<al_ustr_compare>(AllegroLibrary, nameof(al_ustr_compare));
+  public static al_ustr_compare AlUstrCompare = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int al_ustr_ncompare(IntPtr us1, IntPtr us2, int n);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate int al_ustr_ncompare(IntPtr us1, IntPtr us2, int n);
 
-    public static al_ustr_ncompare AlUstrNcompare =
-        NativeInterop.LoadFunction<al_ustr_ncompare>(AllegroLibrary, nameof(al_ustr_ncompare));
+  public static al_ustr_ncompare AlUstrNcompare = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_ustr_has_prefix(IntPtr us1, IntPtr us2);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_ustr_has_prefix(IntPtr us1, IntPtr us2);
 
-    public static al_ustr_has_prefix AlUstrHasPrefix =
-        NativeInterop.LoadFunction<al_ustr_has_prefix>(AllegroLibrary, nameof(al_ustr_has_prefix));
+  public static al_ustr_has_prefix AlUstrHasPrefix = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_ustr_has_prefix_cstr(IntPtr us1, IntPtr us2);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_ustr_has_prefix_cstr(IntPtr us1, IntPtr us2);
 
-    public static al_ustr_has_prefix_cstr AlUstrHasPrefixCstr =
-        NativeInterop.LoadFunction<al_ustr_has_prefix_cstr>(AllegroLibrary, nameof(al_ustr_has_prefix_cstr));
+  public static al_ustr_has_prefix_cstr AlUstrHasPrefixCstr = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_ustr_has_suffix(IntPtr us1, IntPtr us2);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_ustr_has_suffix(IntPtr us1, IntPtr us2);
 
-    public static al_ustr_has_suffix AlUstrHasSuffix =
-        NativeInterop.LoadFunction<al_ustr_has_suffix>(AllegroLibrary, nameof(al_ustr_has_suffix));
+  public static al_ustr_has_suffix AlUstrHasSuffix = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.U1)]
-    public delegate bool al_ustr_has_suffix_cstr(IntPtr us1, IntPtr s2);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  [return: MarshalAs(UnmanagedType.U1)]
+  public delegate bool al_ustr_has_suffix_cstr(IntPtr us1, IntPtr s2);
 
-    public static al_ustr_has_suffix_cstr AlUstrHasSuffixCstr =
-        NativeInterop.LoadFunction<al_ustr_has_suffix_cstr>(AllegroLibrary, nameof(al_ustr_has_suffix_cstr));
+  public static al_ustr_has_suffix_cstr AlUstrHasSuffixCstr = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr al_ustr_new_from_utf16(IntPtr s);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate IntPtr al_ustr_new_from_utf16(IntPtr s);
 
-    public static al_ustr_new_from_utf16 AlUstrNewFromUtf16 =
-        NativeInterop.LoadFunction<al_ustr_new_from_utf16>(AllegroLibrary, nameof(al_ustr_new_from_utf16));
+  public static al_ustr_new_from_utf16 AlUstrNewFromUtf16 = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate long al_ustr_size_utf16(IntPtr us);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate long al_ustr_size_utf16(IntPtr us);
 
-    public static al_ustr_size_utf16 AlUstrSizeUtf16 =
-        NativeInterop.LoadFunction<al_ustr_size_utf16>(AllegroLibrary, nameof(al_ustr_size_utf16));
+  public static al_ustr_size_utf16 AlUstrSizeUtf16 = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate long al_ustr_encode_utf16(IntPtr us, IntPtr s, long n);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate long al_ustr_encode_utf16(IntPtr us, IntPtr s, long n);
 
-    public static al_ustr_encode_utf16 AlUstrEncodeUtf16 =
-        NativeInterop.LoadFunction<al_ustr_encode_utf16>(AllegroLibrary, nameof(al_ustr_encode_utf16));
+  public static al_ustr_encode_utf16 AlUstrEncodeUtf16 = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate long al_utf8_width(int c);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate long al_utf8_width(int c);
 
-    public static al_utf8_width AlUtf8Width =
-        NativeInterop.LoadFunction<al_utf8_width>(AllegroLibrary, nameof(al_utf8_width));
+  public static al_utf8_width AlUtf8Width = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate long al_utf8_encode(IntPtr s, int c);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate long al_utf8_encode(IntPtr s, int c);
 
-    public static al_utf8_encode AlUtf8Encode =
-        NativeInterop.LoadFunction<al_utf8_encode>(AllegroLibrary, nameof(al_utf8_encode));
+  public static al_utf8_encode AlUtf8Encode = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate long al_utf16_width(int c);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate long al_utf16_width(int c);
 
-    public static al_utf16_width AlUtf16Width =
-        NativeInterop.LoadFunction<al_utf16_width>(AllegroLibrary, nameof(al_utf16_width));
+  public static al_utf16_width AlUtf16Width = null!;
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate long al_utf16_encode(IntPtr s, int c);
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  public delegate long al_utf16_encode(IntPtr s, int c);
 
-    public static al_utf16_encode AlUtf16Encode =
-        NativeInterop.LoadFunction<al_utf16_encode>(AllegroLibrary, nameof(al_utf16_encode));
+  public static al_utf16_encode AlUtf16Encode = null!;
 
-    #endregion
-  }
+  #endregion
 }
