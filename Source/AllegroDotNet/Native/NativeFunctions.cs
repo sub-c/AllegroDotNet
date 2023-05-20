@@ -2885,10 +2885,10 @@ internal static class NativeFunctions
 
   #region Platform-specific routines
 
-  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-  public delegate IntPtr al_get_win_window_handle(IntPtr display);
-
-  public static al_get_win_window_handle? AlGetWinWindowHandle = null!;
+  // [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  // public delegate IntPtr al_get_win_window_handle(IntPtr display);
+  //
+  // public static al_get_win_window_handle? AlGetWinWindowHandle = null!;
 
   #endregion
 

@@ -10,7 +10,7 @@ namespace SubC.AllegroDotNet.Models
     internal struct NativeAllegroState
     {
       [MarshalAs(UnmanagedType.ByValArray, SizeConst = 1024)]
-      private char[] _tls;
+      private byte[] _tls;
     }
   }
 }

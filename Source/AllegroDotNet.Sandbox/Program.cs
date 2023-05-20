@@ -117,18 +117,18 @@ internal static class Program
     var display = Al.CreateDisplay(1280, 720) ?? throw new Exception("disp null");
     var displayEventSource = Al.GetDisplayEventSource(display) ?? throw new Exception("disp source null");
 
-    var windowHandle = Al.GetWinWindowHandle(display);
+    //var windowHandle = Al.GetWinWindowHandle(display);
 
     var builtinFont = Al.CreateBuiltinFont();
 
-    var menu = Al.CreateMenu();
-    var fileMenu = Al.CreateMenu();
-    Al.AppendMenuItem(fileMenu, "New", 2, MenuItem.Enabled, null, null);
-    Al.AppendMenuItem(fileMenu, "Open", 3, MenuItem.Enabled, null, null);
-    Al.AppendMenuItem(fileMenu, "Save", 4, MenuItem.Enabled, null, null);
-    Al.AppendMenuItem(fileMenu, "Exit", FileExitID, MenuItem.Enabled, null, null);
-    Al.AppendMenuItem(menu, "File", 2, MenuItem.Enabled, null, fileMenu);
-    Al.SetDisplayMenu(display, menu);
+    // var menu = Al.CreateMenu();
+    // var fileMenu = Al.CreateMenu();
+    // Al.AppendMenuItem(fileMenu, "New", 2, MenuItem.Enabled, null, null);
+    // Al.AppendMenuItem(fileMenu, "Open", 3, MenuItem.Enabled, null, null);
+    // Al.AppendMenuItem(fileMenu, "Save", 4, MenuItem.Enabled, null, null);
+    // Al.AppendMenuItem(fileMenu, "Exit", FileExitID, MenuItem.Enabled, null, null);
+    // Al.AppendMenuItem(menu, "File", 2, MenuItem.Enabled, null, fileMenu);
+    // Al.SetDisplayMenu(display, menu);
 
     //var fileDialog = Al.CreateNativeFileDialog("D:/", "My title", "*.*", FileChooser.FileMustExist) ?? throw new NullReferenceException(); ;
     //Al.ShowNativeFileDialog(display, fileDialog);
@@ -155,10 +155,10 @@ internal static class Program
     Al.InitUserEventSource(out var userEventSource);
     Al.RegisterEventSource(eventQueue, userEventSource);
 
-    var touchState = new AllegroTouchInputState();
-    Al.GetTouchInputState(touchState);
-    var touchEventSource = Al.GetTouchInputEventSource();
-    eventQueue.RegisterEventSource(touchEventSource);
+    // var touchState = new AllegroTouchInputState();
+    // Al.GetTouchInputState(touchState);
+    // var touchEventSource = Al.GetTouchInputEventSource();
+    // eventQueue.RegisterEventSource(touchEventSource);
 
     Al.SetNewBitmapFlags(BitmapFlags.ConvertBitmap | BitmapFlags.NoPreserveTexture);
     var bitmap = Al.CreateBitmap(320, 240) ?? throw new Exception("!");

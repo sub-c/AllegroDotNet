@@ -7,12 +7,12 @@ namespace SubC.AllegroDotNet;
 
 public static partial class Al
 {
-  public static IntPtr GetWinWindowHandle(AllegroDisplay? display)
-  {
-    if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-      throw new NotSupportedException($"{nameof(GetWinWindowHandle)} is only supported on Windows.");
-
-    NativeFunctions.AlGetWinWindowHandle ??= NativeInterop.LoadFunction<NativeFunctions.al_get_win_window_handle>(NativeFunctions.AllegroLibrary);
-    return NativeFunctions.AlGetWinWindowHandle(NativePointerModel.GetPointer(display));
-  }
+  // public static IntPtr GetWinWindowHandle(AllegroDisplay? display)
+  // {
+  //   if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+  //     throw new NotSupportedException($"{nameof(GetWinWindowHandle)} is only supported on Windows.");
+  //
+  //   NativeFunctions.AlGetWinWindowHandle ??= NativeInterop.LoadFunction<NativeFunctions.al_get_win_window_handle>(NativeFunctions.AllegroLibrary);
+  //   return NativeFunctions.AlGetWinWindowHandle(NativePointerModel.GetPointer(display));
+  // }
 }
