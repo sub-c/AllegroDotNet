@@ -1,0 +1,23 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MajorVersion Condition="'$(MajorVersion)' == ''">0</MajorVersion>
+    <MinorVersion Condition="'$(MinorVersion)' == ''">8</MinorVersion>
+    <BuildVersion Condition="'$(BuildVersion)' == ''">0</BuildVersion>
+    <PostfixVersion Condition="'$(PostfixVersion)' == ''">-pre</PostfixVersion>
+    <Version Condition="'$(Version)' == ''">$(MajorVersion).$(MinorVersion).$(BuildVersion)$(PostfixVersion)</Version>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
+    <OutDir Condition="'$(OutDir)' == ''">$(MSBuildThisFileDirectory)\Artifacts\bin</OutDir>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectsToBuild Include="$(MSBuildThisFileDirectory)\Source\AllegroDotNetV2\AllegroDotNetV2.csproj" />
+  </ItemGroup>
+
+  <Target Name="Build">
+    <MSBuild Projects="%(ProjectsToBuild.FullPath)"
+             Properties="Configuration=$(Configuration);OutDir=$(OutDir);PackageOutputPath=$(OutDir);Version=$(Version)" />
+  </Target>
+</Project>

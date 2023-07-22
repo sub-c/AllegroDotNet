@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFrameworks>netstandard2.0;net6.0</TargetFrameworks>
+        <LangVersion>10.0</LangVersion>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <Configurations>Release;Debug</Configurations>
+        <Platforms>x64</Platforms>
+        <RootNamesapce>SubC.AllegroDotNet</RootNamesapce>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <PackageId>SubC.AllegroDotNet</PackageId>
+        <Title>AllegroDotNet</Title>
+        <Authors>Sub-C</Authors>
+        <Description>Interop framework to consume the Allegro 5 game programming library from C#.</Description>
+        <PackageProjectUrl>https://github.com/sub-c/AllegroDotNet</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/sub-c/AllegroDotNet</RepositoryUrl>
+        <RepositoryType>Git</RepositoryType>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    </PropertyGroup>
+
+</Project>
