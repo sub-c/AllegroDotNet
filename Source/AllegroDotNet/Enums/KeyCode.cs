@@ -158,7 +158,7 @@
     /// <summary>
     /// Down arrow key.
     /// </summary>
-    KeyDown = 84,
+    KeyDown = 85,
 
     /// <summary>
     /// E key.
