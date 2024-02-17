@@ -1,335 +1,240 @@
 ﻿using SubC.AllegroDotNet;
 using SubC.AllegroDotNet.Enums;
-using SubC.AllegroDotNet.Extensions;
 using SubC.AllegroDotNet.Models;
-using System;
 using System.Runtime.InteropServices;
 
-internal static class Program
+Console.WriteLine("Starting...");
+
+Console.WriteLine($"Is system installed? {Al.IsSystemInstalled()}");
+Console.WriteLine($"Install system: {Al.Init()}");
+Console.WriteLine($"Is system installed? {Al.IsSystemInstalled()}");
+Console.WriteLine($"Current Allegro library version: {Al.GetAllegroVersion()}");
+Console.WriteLine($"Install keyboard: {Al.InstallKeyboard()}");
+Console.WriteLine($"Install joystick: {Al.InstallJoystick()}");
+Console.WriteLine($"Number of joysticks: {Al.GetNumJoysticks()}");
+Console.WriteLine($"Install mouse: {Al.InstallMouse()}");
+
+Console.WriteLine($"Install video: {Al.InitVideoAddon()}");
+Console.WriteLine($"Video verison: {Al.GetAllegroVideoVersion()}");
+
+Console.WriteLine($"Install image: {Al.InitImageAddon()}");
+Console.WriteLine($"Is image installed? {Al.IsImageAddonInitialized()}");
+Console.WriteLine($"Image version: {Al.GetAllegroImageVersion()}");
+
+Console.WriteLine($"Install font: {Al.InitFontAddon()}");
+
+Console.WriteLine($"Memfile version: {Al.GetAllegroMemfileVersion()}");
+
+Console.WriteLine($"Install ACodec: {Al.InitACodecAddon()}");
+Console.WriteLine($"ACodec version: {Al.GetAllegroACodecVersion()}");
+
+Console.WriteLine($"Install audio: {Al.InstallAudio()}");
+
+Console.WriteLine($"Install primitives: {Al.InitPrimitivesAddon()}");
+
+Console.WriteLine($"Install touch: {Al.InstallTouchInput()}");
+
+var voice = Al.CreateVoice(44100, AudioDepth.Int16, ChannelConfig.Channels2);
+var mixer = Al.CreateMixer(44100, AudioDepth.Int16, ChannelConfig.Channels2);
+var attachResult = Al.AttachMixerToVoice(mixer, voice);
+Console.WriteLine($"Was mixer/voice attached? {attachResult}");
+
+var sample = Al.LoadSample(@"D:\game_over.ogg");
+Console.WriteLine($"Loaded sample? {sample != null}");
+if (sample is not null)
 {
-  private const ushort FileExitID = 1;
+  var sampleInstance = Al.CreateSampleInstance(sample);
+  var a1 = Al.AttachSampleInstanceToMixer(sampleInstance, mixer);
+  var b1 = Al.SetSampleInstancePlaymode(sampleInstance, PlayMode.Once);
+  var c1 = Al.PlaySampleInstance(sampleInstance);
+}
 
-  public static IntPtr MyBitmapLoader(IntPtr filename, int flags)
+var displayAdapter = 0; // Al.GetNewDisplayAdapter();
+Console.WriteLine($"New display adapter: {displayAdapter}");
+var getAdapterInfo = Al.GetMonitorInfo(displayAdapter, out var displayAdapterInfo);
+Console.WriteLine($"Get adapter info - monitor size: {getAdapterInfo} - {displayAdapterInfo.X1}, {displayAdapterInfo.Y1} x {displayAdapterInfo.X2}, {displayAdapterInfo.Y2}");
+
+Console.WriteLine($"Num of display modes: {Al.GetNumDisplayModes()}");
+var dispMode = new AllegroDisplayMode();
+dispMode = Al.GetDisplayMode(3, ref dispMode) ?? new AllegroDisplayMode();
+Console.WriteLine($"Display mode 3: {dispMode.Width}x{dispMode.Height}x{dispMode.RefreshRate}");
+
+Al.SetNewDisplayFlags(DisplayFlags.ProgrammablePipeline | DisplayFlags.Windowed | DisplayFlags.OpenGL);
+var display = Al.CreateDisplay(1280, 720);
+var shaderSource = Al.GetDefaultShaderSource(ShaderPlatform.Auto, ShaderType.PixelShader);
+var testColor = Al.MapRgb(64, 128, 255);
+
+
+if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+{
+  var winHandle = Al.GetWinWindowHandle(display);
+  Console.WriteLine($"Window handle: {winHandle}");
+
+  try
   {
-    return IntPtr.Zero;
+    _ = Al.GetD3dDevice(display);
   }
-
-  public static IntPtr MyThreadProcess(IntPtr nativeThread, IntPtr arg)
+  catch (Exception exception)
   {
-    return IntPtr.Zero;
-  }
-
-  public static void Main(string[] args)
-  {
-    Console.WriteLine($"InstallSystem: {Al.InstallSystem(Al.ALLEGRO_VERSION_INT, null)}");
-    Console.WriteLine($"InstallKeyboard: {Al.InstallKeyboard()}");
-    Console.WriteLine($"InstallJoystick: {Al.InstallJoystick()}");
-    Console.WriteLine($"InstallMouse: {Al.InstallMouse()}");
-    Console.WriteLine($"InstallTouch: {Al.InstallTouchInput()}");
-
-    Console.WriteLine($"IsSystemInstalled: {Al.IsSystemInstalled()}");
-    Console.WriteLine($"GetAllegroVersion: {Al.GetAllegroVersion()}");
-    Console.WriteLine($"GetTime: {Al.GetTime()}");
-    Console.WriteLine($"CPU Count: {Al.GetCpuCount()}");
-    Console.WriteLine($"RAM Size: {Al.GetRamSize()}");
-
-    Console.WriteLine($"IsNativeDialog: {Al.IsNativeDialogAddonInitialized()}");
-    Console.WriteLine($"InitNativeDialog: {Al.InitNativeDialogAddon()}");
-    Console.WriteLine($"InitImageAddon: {Al.InitImageAddon()}");
-    Console.WriteLine($"InitFont: {Al.InitFontAddon()}");
-    Console.WriteLine($"InitTtf: {Al.InitTtfAddon()}");
-    Console.WriteLine($"InitPrimitives: {Al.InitPrimitivesAddon()}");
-
-    Console.WriteLine($"InstallAudio: {Al.InstallAudio()}");
-    Console.WriteLine($"ReserveSamples: {Al.ReserveSamples(16)}");
-    Console.WriteLine($"InitACodec: {Al.InitAcodecAddon()}");
-
-    var sample = Al.LoadSample("E:/intro_music.ogg");
-    AllegroSampleInstance? sampleInstance = default;
-    AllegroVoice? voice = default;
-    AllegroMixer? mixer = default;
-    if (sample != null)
-    {
-      //Al.PlaySample(sample, 1, 0, 1, Playmode.Once, null);
-      voice = Al.CreateVoice(44100, AudioDepth.Int16, ChannelConfig.Channels2) ?? throw new Exception("no voice");
-      mixer = Al.CreateMixer(44100, AudioDepth.Float32, ChannelConfig.Channels2) ?? throw new Exception("no mixer");
-      Al.AttachMixerToVoice(mixer, voice);
-
-      sampleInstance = Al.CreateSampleInstance(sample);
-      Al.AttachSampleInstanceToMixer(sampleInstance, mixer);
-
-      Al.SetSampleInstancePlaymode(sampleInstance, Playmode.Once);
-      Al.SetSampleInstanceGain(sampleInstance, 0.5f);
-      Al.PlaySampleInstance(sampleInstance);
-    }
-
-    var fileInterface = new AllegroFileInterface();
-    //  public delegate IntPtr FileInterfaceFOpen(IntPtr path, IntPtr mode);
-    fileInterface.FOpen = (x, y) =>
-    {
-      var thePath = Marshal.PtrToStringAnsi(x);
-      var theMode = Marshal.PtrToStringAnsi(y);
-      return IntPtr.Zero;
-    };
-    var fOpenedInterface = Al.FOpenInterface(fileInterface, "E:/intro_music.ogg", FileMode.ReadAccess | FileMode.UsingBinary);
-
-    Console.WriteLine($"Num Video Adapters: {Al.GetNumVideoAdapters()}");
-    for (var index = 0; index < Al.GetNumVideoAdapters(); ++index)
-    {
-      Al.GetMonitorInfo(index, out var info);
-      Console.WriteLine($"Adapter#{index}: {info.X1},{info.Y1} {info.X2},{info.Y2}");
-    }
-    Console.WriteLine($"Display Modes: {Al.GetNumDisplayModes()}");
-    var displayMode = new AllegroDisplayMode();
-    displayMode = Al.GetDisplayMode(0, displayMode);
-
-    var numJoysticks = Al.GetNumJoysticks();
-    Console.WriteLine($"Joysticks detected: {numJoysticks}");
-    if (numJoysticks > 0)
-    {
-      var joystick = Al.GetJoystick(0) ?? throw new Exception("joy null");
-      Console.WriteLine($"Joystick name: {Al.GetJoystickName(joystick)}");
-      AllegroJoystickState joystickState = new();
-      Al.GetJoystickState(joystick, joystickState);
-    }
-
-    var config = Al.CreateConfig() ?? throw new Exception();
-    Al.SetConfigValue(config, "Options", "FullScreen", "false");
-    Al.SaveConfigFile("duck.cfg", config);
-    Al.DestroyConfig(config);
-
-    var exePath = Al.GetStandardPath(StandardPath.ExeNamePath) ?? throw new Exception();
-    var exeFilename = Al.GetPathFilename(exePath);
-    var exeCstr = Al.PathCstr(exePath, Al.ALLEGRO_NATIVE_PATH_SEP);
-    var exeUstr = Al.PathUstr(exePath, Al.ALLEGRO_NATIVE_PATH_SEP);
-
-    var utfIn = Al.UstrNew("hello world");
-    var utfOut = Al.Cstr(utfIn);
-    Console.WriteLine($"UTF output: {utfOut}");
-
-    var state = new AllegroState();
-    Al.StoreState(state, StateFlags.All);
-    Al.RestoreState(state);
-
-    var timeout = new AllegroTimeout();
-    Al.InitTimeout(timeout, 2);
-
-    var display = Al.CreateDisplay(1280, 720) ?? throw new Exception("disp null");
-    var displayEventSource = Al.GetDisplayEventSource(display) ?? throw new Exception("disp source null");
-
-    //var windowHandle = Al.GetWinWindowHandle(display);
-
-    var builtinFont = Al.CreateBuiltinFont();
-
-    // var menu = Al.CreateMenu();
-    // var fileMenu = Al.CreateMenu();
-    // Al.AppendMenuItem(fileMenu, "New", 2, MenuItem.Enabled, null, null);
-    // Al.AppendMenuItem(fileMenu, "Open", 3, MenuItem.Enabled, null, null);
-    // Al.AppendMenuItem(fileMenu, "Save", 4, MenuItem.Enabled, null, null);
-    // Al.AppendMenuItem(fileMenu, "Exit", FileExitID, MenuItem.Enabled, null, null);
-    // Al.AppendMenuItem(menu, "File", 2, MenuItem.Enabled, null, fileMenu);
-    // Al.SetDisplayMenu(display, menu);
-
-    //var fileDialog = Al.CreateNativeFileDialog("D:/", "My title", "*.*", FileChooser.FileMustExist) ?? throw new NullReferenceException(); ;
-    //Al.ShowNativeFileDialog(display, fileDialog);
-
-    var mouseCursorBitmap = Al.CreateBitmap(64, 64) ?? throw new Exception();
-    //Al.SetTargetBitmap(mouseCursorBitmap);
-    mouseCursorBitmap.SetTargetBitmap();
-    Al.ClearToColor(Al.MapRgb(50, 50, 200));
-    var mouseCursor = Al.CreateMouseCursor(mouseCursorBitmap, 0, 0) ?? throw new Exception();
-    Al.SetMouseCursor(display, mouseCursor);
-
-    var timer = Al.CreateTimer(Al.BpsToSecs(60)) ?? throw new Exception("timer null");
-    //var timerEventSource = Al.GetTimerEventSource(timer) ?? throw new Exception("timer source null");
-    var timerEventSource = timer.GetTimerEventSource() ?? throw new Exception("timer source null");
-
-    var eventQueue = Al.CreateEventQueue() ?? throw new Exception("eq null");
-    //Al.RegisterEventSource(eventQueue, displayEventSource);
-    eventQueue.RegisterEventSource(display.GetDisplayEventSource());
-    Al.RegisterEventSource(eventQueue, timerEventSource);
-    Al.RegisterEventSource(eventQueue, Al.GetKeyboardEventSource() ?? throw new Exception("key source null"));
-    Al.RegisterEventSource(eventQueue, Al.GetDefaultMenuEventSource());
-    Al.StartTimer(timer);
-
-    Al.InitUserEventSource(out var userEventSource);
-    Al.RegisterEventSource(eventQueue, userEventSource);
-
-    // var touchState = new AllegroTouchInputState();
-    // Al.GetTouchInputState(touchState);
-    // var touchEventSource = Al.GetTouchInputEventSource();
-    // eventQueue.RegisterEventSource(touchEventSource);
-
-    Al.SetNewBitmapFlags(BitmapFlags.ConvertBitmap | BitmapFlags.NoPreserveTexture);
-    var bitmap = Al.CreateBitmap(320, 240) ?? throw new Exception("!");
-    var redColor = Al.MapRgb(128, 32, 64);
-    var lockedRegion = Al.LockBitmap(bitmap, PixelFormat.AnyNoAlpha, LockFlag.ReadOnly);
-    Al.UnlockBitmap(bitmap);
-
-    Console.WriteLine($"Is display event source registered: {Al.IsEventSourceRegistered(eventQueue, displayEventSource)}");
-    Console.WriteLine($"Clipboard has text: {Al.ClipboardHasText(display)}");
-    Console.WriteLine($"Clipboard text: {Al.GetClipboardText(display)}");
-    Console.WriteLine($"Is drawing held: {Al.IsBitmapDrawingHeld()}");
-    Console.WriteLine($"Register bitmap loader: {Al.RegisterBitmapLoader(".x", MyBitmapLoader)}");
-    Console.WriteLine($"Identify non-existant bitmap: {Al.IdentifyBitmap("xxx.png")}");
-
-    var thread = Al.CreateThread(MyThreadProcess, IntPtr.Zero) ?? throw new Exception("nul thread");
-    var mutex = Al.CreateMutex() ?? throw new Exception("nul mut");
-    var cond = Al.CreateCond() ?? throw new Exception("nul cond");
-    Al.StartThread(thread);
-
-    var transform = Al.GetCurrentTransform();
-
-    // textured primitive setup
-    //var vertexes = new AllegroVertex[5];
-    //vertexes[0].x = 32;
-    //vertexes[0].y = 32;
-    //vertexes[0].z = 32;
-    //vertexes[0].u = 16;
-    //vertexes[0].v = 16;
-    //vertexes[0].color = Al.MapRgb(255, 255, 255);
-    //vertexes[1].x = 128;
-    //vertexes[1].y = 32;
-    //vertexes[1].z = 32;
-    //vertexes[1].u = 16;
-    //vertexes[1].v = 16;
-    //vertexes[1].color = Al.MapRgb(255, 255, 255);
-    //vertexes[2].x = 128;
-    //vertexes[2].y = 128;
-    //vertexes[2].z = 32;
-    //vertexes[2].u = 16;
-    //vertexes[2].v = 16;
-    //vertexes[2].color = Al.MapRgb(255, 255, 255);
-    //vertexes[3].x = 32;
-    //vertexes[3].y = 64;
-    //vertexes[3].z = 32;
-    //vertexes[3].u = 16;
-    //vertexes[3].v = 16;
-    //vertexes[3].color = Al.MapRgb(255, 255, 255);
-
-    //var vertexTexture = Al.CreateBitmap(256, 256);
-    //vertexTexture.SetTargetBitmap();
-    //Al.ClearToColor(Al.MapRgb(64, 128, 255));
-    //Al.DrawLine(32, 32, 224, 244, Al.MapRgb(255, 255, 255), 5);
-    //display.SetTargetBackbuffer();
-
-    //var mainTransform = new AllegroTransform();
-    //Al.BuildTransform(mainTransform, display.GetDisplayWidth() / 2, display.GetDisplayHeight() / 2, 1, 1, 0.001f);
-
-    // event loop
-    var aEvent = new AllegroEvent();
-    var aUserEvent = new AllegroEvent();
-    var myUserEventType = Al.GetEventType('M', 'I', 'N', 'E');
-    var isRunning = true;
-    while (isRunning)
-    {
-      Al.WaitForEvent(eventQueue, aEvent);
-
-      if (aEvent.Type == EventType.DisplayClose)
-      {
-        isRunning = false;
-      }
-
-      if (aEvent.Type == EventType.MenuClick)
-      {
-        var a = new IntPtr(FileExitID);
-        var b = a.ToInt64();
-        if (aEvent.UserData1 == new IntPtr(FileExitID))
-        {
-          isRunning = false;
-        }
-      }
-
-      if (aEvent.Type == EventType.DisplayResize)
-      {
-      }
-
-      if (aEvent.Type == EventType.KeyDown)
-      {
-        if (aEvent.KeyCode == KeyCode.KeyEscape)
-        {
-          isRunning = false;
-        }
-        if (aEvent.KeyCode == KeyCode.KeyQ)
-        {
-          aUserEvent.Type = myUserEventType;
-          Al.EmitUserEvent(userEventSource, aUserEvent, null);
-        }
-        Console.WriteLine($"KeyCode: {aEvent.KeyCode}");
-      }
-
-      if (aEvent.Type == myUserEventType)
-      {
-        var a = 5;
-      }
-
-      if (aEvent.Type == EventType.Timer && Al.IsEventQueueEmpty(eventQueue))
-      {
-        Al.SetTargetBitmap(bitmap);
-        Al.ClearToColor(redColor);
-
-        Al.DrawRoundedRectangle(50, 50, 150, 150, 10, 10, Al.MapRgb(128, 128, 128), 3);
-        Al.DrawLine(50, 50, 150, 150, Al.MapRgb(255, 255, 255), 5);
-        Al.DrawText(builtinFont, Al.MapRgb(255, 255, 255), 32, 32, FontAlignFlags.Left, "THE builtin FONT!");
-        Al.SetTargetBackbuffer(display);
-        Al.DrawBitmap(bitmap, 8, 8, FlipFlags.None);
-
-        //Al.UseTransform(mainTransform); 
-        //Al.DrawPrim(ref vertexes, null, vertexTexture, 0, 3, PrimitiveType.PointList);
-
-        Al.FlipDisplay();
-      }
-    }
-
-    Al.SetThreadShouldStop(thread);
-    Al.JoinThread(thread, out var returnIntPtr);
-    Al.DestroyCond(cond);
-    Al.DestroyMutex(mutex);
-    Al.DestroyThread(thread);
-
-    Al.UnregisterEventSource(eventQueue, userEventSource);
-    Al.UnregisterEventSource(eventQueue, Al.GetKeyboardEventSource() ?? throw new Exception("wha?"));
-    Al.UnregisterEventSource(eventQueue, timerEventSource);
-    Al.UnregisterEventSource(eventQueue, displayEventSource);
-    Al.DestroyEventQueue(eventQueue);
-
-    Al.DestroyUserEventSource(userEventSource);
-    Al.StopTimer(timer);
-    Al.DestroyTimer(timer);
-    Al.DestroyMouseCursor(mouseCursor);
-    Al.DestroyBitmap(mouseCursorBitmap);
-    Al.DestroyDisplay(display);
-
-    if (sample != null && sampleInstance != null)
-    {
-      Al.SetSample(sampleInstance, null);
-      Al.DestroySampleInstance(sampleInstance);
-      sampleInstance = null;
-
-      Al.DestroySample(sample);
-      sample = null;
-    }
-    if (voice is not null)
-      Al.DestroyVoice(voice);
-    if (mixer is not null)
-      Al.DestroyMixer(mixer);
-
-    Al.ShutdownPrimitivesAddon();
-    Al.ShutdownTtfAddon();
-    Al.ShutdownFontAddon();
-    Al.UninstallAudio();
-    Al.ShutdownImageAddon();
-    Al.ShutdownNativeDialogAddon();
-    Al.UninstallMouse();
-    Al.UninstallJoystick();
-    Al.UninstallKeyboard();
-    Al.UninstallSystem();
-
-    Console.WriteLine($"Size of int: {Marshal.SizeOf<int>()}");
-    Console.WriteLine($"Size IntPtr: {Marshal.SizeOf<IntPtr>()}");
-    Console.WriteLine($"Size of locked region: {Marshal.SizeOf<AllegroLockedRegion>()}");
-    Console.WriteLine($"Size of color: {Marshal.SizeOf<AllegroColor>()}");
-
-    Console.WriteLine("Done.");
+    Console.WriteLine($"Could not get D3D device, no Direct3D support? {exception.Message}");
   }
 }
+
+
+var myFix = Al.IToFix(512);
+var myInt = Al.FixToI(myFix);
+Console.WriteLine($"Fixed is: {myFix.Fixed}, integer is {myInt}");
+
+
+Console.WriteLine($"OpenGL version: {Al.GetOpenGLVersion()}");
+Console.WriteLine($"OpenGL varient: {Al.GetOpenGLVariant()}");
+
+
+Console.WriteLine($"Init native dialog: {Al.InitNativeDialogAddon()}");
+var textLog = Al.OpenNativeTextLog("test title", TextLogFlags.Monospace | TextLogFlags.NoClose);
+Al.AppendNativeTextLog(textLog, "A test message appended to the text log.");
+
+
+var transform1 = new AllegroTransform();
+transform1.M[0,1] = 5;
+var transform2 = new AllegroTransform();
+transform2.M[0,2] = 10;
+Al.CopyTransform(ref transform1, in transform2);
+//Al.UseTransform(in transform1);
+var usedTransform = Al.GetCurrentTransform();
+
+
+var myUtf = Al.UstrNew("hello");
+var myUtfCopy = Al.CstrDup(myUtf);
+Console.WriteLine($"Utf copy: {myUtfCopy}");
+Al.UstrFree(myUtf);
+
+Al.SetMemoryInterface(null);
+
+
+var myState = new AllegroState();
+Al.StoreState(myState, StateFlags.Bitmap);
+Al.RestoreState(myState);
+
+
+var myPath = Al.CreatePath(@"C:\MyFolder\MySubFolder\MyFile.txt");
+var myCstrPath = Al.PathCstr(myPath, '|');
+Console.WriteLine($"Path using | as delim: {myCstrPath}");
+
+myCstrPath = Al.PathCstr(myPath, Path.DirectorySeparatorChar);
+Console.WriteLine($"Path using DirSepChar: {myCstrPath}");
+Al.DestroyPath(myPath);
+
+
+Console.WriteLine($"CPUs: {Al.GetCpuCount()}");
+Console.WriteLine($"RAM: {Al.GetRamSize()}");
+
+
+Console.WriteLine($"Color version: {Al.GetAllegroColorVersion()}");
+
+
+var config = Al.CreateConfig();
+Al.SetConfigValue(config, "Cow", "Horns", "2");
+Al.AddConfigComment(config, "Dog", "Never add a dog.");
+var isConfigSaved = Al.SaveConfigFile(@"C:\Users\Public\Documents\allegro-test.cfg", config);
+Al.DestroyConfig(config);
+Console.WriteLine($"Was config saved: {isConfigSaved}");
+
+config = Al.LoadConfig(@"C:\Users\Public\Documents\allegro-test.cfg");
+if (config is not null)
+{
+  var configSection = Al.GetFirstConfigSection(config, out var section);
+  var configEntry = Al.GetFirstConfigEntry(config, configSection, out var entry);
+  var configValue = Al.GetConfigValue(config, configSection, configEntry);
+  Console.WriteLine($"First config section, entry, value: {configSection}, {configEntry}, {configValue}");
+}
+
+
+var defaultFont = Al.CreateBuiltinFont() ?? throw new NullReferenceException("Could not create built-in font.");
+
+var displayEventSource = Al.GetDisplayEventSource(display);
+var eventQueue = Al.CreateEventQueue();
+Al.RegisterEventSource(eventQueue, displayEventSource);
+
+var timer = Al.CreateTimer(Al.BpsToSecs(60));
+var timerEventSource = Al.GetTimerEventSource(timer);
+Al.RegisterEventSource(eventQueue, timerEventSource);
+Al.StartTimer(timer);
+
+var color = Al.MapRgb(64, 128, 255);
+Console.WriteLine($"RGB color components: {color.R}, {color.G}, {color.B}");
+byte r = 0, g = 0, b = 0, a = 0;
+Al.UnmapRgba(color, ref r, ref g, ref b, ref a);
+Console.WriteLine($"Unmapped RGBA: {r}, {g}, {b}, {a}");
+
+var newBitmapFlags = Al.GetNewBitmapFlags();
+Console.WriteLine($"New bitmap flags: {newBitmapFlags}");
+var newBitmapFormat = Al.GetNewBitmapFormat();
+Console.WriteLine($"New bitmap format: {newBitmapFormat}");
+Al.SetNewBitmapFlags(BitmapFlags.ConvertBitmap);
+var bitmap = Al.CreateBitmap(256, 128);
+Console.WriteLine($"Can create bitmap? {bitmap is not null}");
+Console.WriteLine($"Bitmap widthXheight: {Al.GetBitmapWidth(bitmap)}x{Al.GetBitmapHeight(bitmap)}");
+Al.DestroyBitmap(bitmap);
+
+
+Al.InitUserEventSource(out var myUserEventSource);
+Al.RegisterEventSource(eventQueue, myUserEventSource);
+var myUserEvent = new AllegroEvent();
+Al.EmitUserEvent(myUserEventSource, myUserEvent, null);
+Al.UnregisterEventSource(eventQueue, myUserEventSource);
+Al.DestroyUserEventSource(myUserEventSource);
+
+
+Al.GetBlender(out var myOp, out var mySrc, out var myDest);
+Console.WriteLine($"Blender op: {myOp}, src {mySrc}, dest: {myDest}");
+var blendColor = Al.GetBlendColor();
+Console.WriteLine($"Blender color: {blendColor.R},{blendColor.G},{blendColor.B}:{blendColor.A}");
+
+
+var myEvent = new AllegroEvent();
+var keyState = new AllegroKeyboardState();
+var mouseState = new AllegroMouseState();
+var touchState = new AllegroTouchInputState();
+while (true)
+{
+  Al.WaitForEvent(eventQueue, ref myEvent);
+  Al.GetKeyboardState(ref keyState);
+  Al.GetMouseState(ref mouseState);
+  Al.GetTouchInputState(ref touchState);
+
+  if (myEvent.Type == EventType.DisplayClose || Al.KeyDown(ref keyState, KeyCode.KeyEscape))
+    break;
+  
+  if (myEvent.Type == EventType.Timer)
+  {
+    Al.ClearToColor(color);
+    Al.DrawRoundedRectangle(32, 32, 512, 128, 10, 10, Al.MapRgb(255, 255, 255), 5);
+    Al.DrawText(defaultFont, Al.MapRgb(255, 255, 255), 8, 8, FontAlignFlags.Left, $"the default font! - MouseXY: {mouseState.X},{mouseState.Y}");
+    Al.FlipDisplay();
+  }
+}
+
+Al.CloseNativeTextLog(textLog);
+Al.DestroyDisplay(display);
+
+Al.DestroyTimer(timer);
+
+Al.UnregisterEventSource(eventQueue, displayEventSource);
+Al.DestroyEventQueue(eventQueue);
+
+Al.DestroyFont(defaultFont);
+
+Al.ShutdownVideoAddon();
+Al.UninstallTouchInput();
+Al.ShutdownNativeDialogAddon();
+Al.ShutdownPrimitivesAddon();
+Al.UninstallAudio();
+Al.ShutdownFontAddon();
+Al.ShutdownImageAddon();
+Al.UninstallMouse();
+Al.UninstallJoystick();
+Al.UninstallKeyboard();
+Al.UninstallSystem();
+
+Console.WriteLine("Done.");

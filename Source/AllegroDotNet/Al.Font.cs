@@ -1,225 +1,338 @@
 ﻿using SubC.AllegroDotNet.Enums;
 using SubC.AllegroDotNet.Models;
 using SubC.AllegroDotNet.Native;
-using System;
-using System.Runtime.InteropServices;
-using static SubC.AllegroDotNet.Native.NativeDelegates;
 
 namespace SubC.AllegroDotNet;
 
+/// <summary>
+/// This static class contains the Allegro 5 library methods.
+/// </summary>
 public static partial class Al
 {
   public static bool InitFontAddon()
   {
-    return NativeFunctions.AlInitFontAddon();
+    return Interop.Font.AlInitFontAddon() != 0;
   }
 
   public static bool IsFontAddonInitialized()
   {
-    return NativeFunctions.AlIsFontAddonInitialized();
+    return Interop.Font.AlIsFontAddonInitialized() != 0;
   }
 
   public static void ShutdownFontAddon()
   {
-    NativeFunctions.AlShutdownFontAddon();
+    Interop.Font.AlShutdownFontAddon();
   }
 
   public static AllegroFont? LoadFont(string filename, int size, LoadFontFlags flags)
   {
-    var nativeFilename = Marshal.StringToHGlobalAnsi(filename);
-    var result = NativeFunctions.AlLoadFont(nativeFilename, size, (int)flags);
-    Marshal.FreeHGlobal(nativeFilename);
-    return NativePointerModel.Create<AllegroFont>(result);
+    using var nativeFilename = new CStringAnsi(filename);
+    var pointer = Interop.Font.AlLoadFont(nativeFilename.Pointer, size, (int)flags);
+    return NativePointer.Create<AllegroFont>(pointer);
   }
 
   public static void DestroyFont(AllegroFont? font)
   {
-    NativeFunctions.AlDestroyFont(NativePointerModel.GetPointer(font));
+    Interop.Font.AlDestroyFont(NativePointer.Get(font));
   }
 
-  public static bool RegisterFontLoader(string extension, RegisterFontLoader loader)
+  public static bool RegisterFontLoader(string extension, Delegates.RegisterFontLoaderDelegate? loadFont)
   {
-    var nativeExtension = Marshal.StringToHGlobalAnsi(extension);
-    var result = NativeFunctions.AlRegisterFontLoader(nativeExtension, loader);
-    Marshal.FreeHGlobal(nativeExtension);
-    return result;
+    using var nativeExtension = new CStringAnsi(extension);
+    return Interop.Font.AlRegisterFontLoader(nativeExtension.Pointer, loadFont) != 0;
   }
 
   public static int GetFontLineHeight(AllegroFont? font)
   {
-    return NativeFunctions.AlGetFontLineHeight(NativePointerModel.GetPointer(font));
+    return Interop.Font.AlGetFontLineHeight(NativePointer.Get(font));
   }
 
   public static int GetFontAscent(AllegroFont? font)
   {
-    return NativeFunctions.AlGetFontAscent(NativePointerModel.GetPointer(font));
+    return Interop.Font.AlGetFontAscent(NativePointer.Get(font));
   }
 
   public static int GetFontDescent(AllegroFont? font)
   {
-    return NativeFunctions.AlGetFontDescent(NativePointerModel.GetPointer(font));
+    return Interop.Font.AlGetFontDescent(NativePointer.Get(font));
   }
 
   public static int GetTextWidth(AllegroFont? font, string text)
   {
-    var nativeText = Marshal.StringToHGlobalAnsi(text);
-    var result = NativeFunctions.AlGetTextWidth(NativePointerModel.GetPointer(font), nativeText);
-    Marshal.FreeHGlobal(nativeText);
-    return result;
+    using var nativeText = new CStringAnsi(text);
+    return Interop.Font.AlGetTextWidth(NativePointer.Get(font), nativeText.Pointer);
   }
 
   public static int GetUstrWidth(AllegroFont? font, AllegroUstr? ustr)
   {
-    return NativeFunctions.AlGetUstrWidth(NativePointerModel.GetPointer(font), NativePointerModel.GetPointer(ustr));
+    return Interop.Font.AlGetUstrWidth(NativePointer.Get(font), NativePointer.Get(ustr));
   }
 
-  public static void DrawText(AllegroFont? font, AllegroColor color, float x, float y, FontAlignFlags flags, string text)
+  public static void DrawText(
+    AllegroFont? font, 
+    AllegroColor color, 
+    float x, 
+    float y, 
+    FontAlignFlags flags, 
+    string text)
   {
-    var nativeText = Marshal.StringToHGlobalAnsi(text);
-    NativeFunctions.AlDrawText(NativePointerModel.GetPointer(font), color, x, y, (int)flags, nativeText);
-    Marshal.FreeHGlobal(nativeText);
+    using var nativeText = new CStringAnsi(text);
+    Interop.Font.AlDrawText(NativePointer.Get(font), color, x, y, (int)flags, nativeText.Pointer);
   }
 
-  public static void DrawUstr(AllegroFont? font, AllegroColor color, float x, float y, FontAlignFlags flags, AllegroUstr? ustr)
+  public static void DrawUstr(
+    AllegroFont? font,
+    AllegroColor color,
+    float x,
+    float y,
+    FontAlignFlags flags,
+    AllegroUstr? ustr)
   {
-    NativeFunctions.AlDrawUstr(NativePointerModel.GetPointer(font), color, x, y, (int)flags, NativePointerModel.GetPointer(ustr));
+    Interop.Font.AlDrawUstr(NativePointer.Get(font), color, x, y, (int)flags, NativePointer.Get(ustr));
   }
 
-  public static void DrawJustifiedText(AllegroFont? font, AllegroColor color, float x1, float x2, float y, float diff, FontAlignFlags flags, string text)
+  public static void DrawJustifiedText(
+    AllegroFont? font,
+    AllegroColor color,
+    float x1,
+    float x2,
+    float y,
+    float diff,
+    FontAlignFlags flags,
+    string text)
   {
-    var nativeText = Marshal.StringToHGlobalAnsi(text);
-    NativeFunctions.AlDrawJustifiedText(NativePointerModel.GetPointer(font), color, x1, x2, y, diff, (int)flags, nativeText);
-    Marshal.FreeHGlobal(nativeText);
+    using var nativeText = new CStringAnsi(text);
+    Interop.Font.AlDrawJustifiedText(
+      NativePointer.Get(font), 
+      color, 
+      x1, 
+      x2, 
+      y, 
+      diff, 
+      (int)flags, 
+      nativeText.Pointer);
   }
 
-  public static void DrawJustifiedUstr(AllegroFont? font, AllegroColor color, float x1, float x2, float y, float diff, FontAlignFlags flags, AllegroUstr? ustr)
+  public static void DrawJustifiedUstr(
+    AllegroFont? font,
+    AllegroColor color,
+    float x1,
+    float x2,
+    float y,
+    float diff,
+    FontAlignFlags flags,
+    AllegroUstr? ustr)
   {
-    NativeFunctions.AlDrawJustifiedUstr(NativePointerModel.GetPointer(font), color, x1, x2, y, diff, (int)flags, NativePointerModel.GetPointer(ustr));
+    Interop.Font.AlDrawJustifiedUstr(
+      NativePointer.Get(font),
+      color,
+      x1,
+      x2,
+      y,
+      diff, 
+      (int)flags,
+      NativePointer.Get(ustr));
   }
 
-  public static void DrawTextF(AllegroFont? font, AllegroColor color, float x, float y, FontAlignFlags flags, string format, params object[] args)
+  public static void GetTextDimensions(
+    AllegroFont? font,
+    string text,
+    ref int bbx,
+    ref int bby,
+    ref int bbw,
+    ref int bbh)
   {
-    format = string.Format(format, args);
-    DrawText(font, color, x, y, flags, format);
+    using var nativeText = new CStringAnsi(text);
+    Interop.Font.AlGetTextDimensions(
+      NativePointer.Get(font),
+      nativeText.Pointer,
+      ref bbx,
+      ref bby,
+      ref bbw,
+      ref bbh);
   }
 
-  public static void DrawJustifiedTextF(AllegroFont? font, AllegroColor color, float x1, float x2, float y, float diff, FontAlignFlags flags, string format, params object[] args)
+  public static void GetUstrDimensions(
+    AllegroFont? font,
+    AllegroUstr? ustr,
+    ref int bbx,
+    ref int bby,
+    ref int bbw,
+    ref int bbh)
   {
-    format = string.Format(format, args);
-    DrawJustifiedText(font, color, x1, x2, y, diff, flags, format);
-  }
-
-  public static void GetTextDimensions(AllegroFont? font, string text, out int x, out int y, out int width, out int height)
-  {
-    x = y = width = height = 0;
-    var nativeText = Marshal.StringToHGlobalAnsi(text);
-    NativeFunctions.AlGetTextDimensions(NativePointerModel.GetPointer(font), nativeText, ref x, ref y, ref width, ref height);
-    Marshal.FreeHGlobal(nativeText);
-  }
-
-  public static void GetUstrDimensions(AllegroFont? font, AllegroUstr? ustr, out int x, out int y, out int width, out int height)
-  {
-    x = y = width = height = 0;
-    NativeFunctions.AlGetUstrDimensions(NativePointerModel.GetPointer(font), NativePointerModel.GetPointer(ustr), ref x, ref y, ref width, ref height);
+    Interop.Font.AlGetUstrDimensions(
+      NativePointer.Get(font),
+      NativePointer.Get(ustr),
+      ref bbx,
+      ref bby,
+      ref bbw,
+      ref bbh);
   }
 
   public static uint GetAllegroFontVersion()
   {
-    return NativeFunctions.AlGetAllegroFontVersion();
+    return Interop.Font.AlGetAllegroFontVersion();
   }
 
-  public static int GetFontRanges(AllegroFont? font, int rangeCount, ref int[] ranges)
+  public static int GetFontRanges(AllegroFont? font, int rangesCount, out int[] ranges)
   {
-    return NativeFunctions.AlGetFontRanges(NativePointerModel.GetPointer(font), rangeCount, ref ranges);
+    ranges = new int[rangesCount * 2];
+    return Interop.Font.AlGetFontRanges(NativePointer.Get(font), rangesCount, ranges);
   }
 
   public static void SetFallbackFont(AllegroFont? font, AllegroFont? fallback)
   {
-    NativeFunctions.AlSetFallbackFont(NativePointerModel.GetPointer(font), NativePointerModel.GetPointer(fallback));
+    Interop.Font.AlSetFallbackFont(NativePointer.Get(font), NativePointer.Get(fallback));
   }
 
   public static AllegroFont? GetFallbackFont(AllegroFont? font)
   {
-    var result = NativeFunctions.AlGetFallbackFont(NativePointerModel.GetPointer(font));
-    return NativePointerModel.Create<AllegroFont>(result);
+    var pointer = Interop.Font.AlGetFallbackFont(NativePointer.Get(font));
+    return NativePointer.Create<AllegroFont>(pointer);
   }
 
   public static void DrawGlyph(AllegroFont? font, AllegroColor color, float x, float y, int codePoint)
   {
-    NativeFunctions.AlDrawGlyph(NativePointerModel.GetPointer(font), color, x, y, codePoint);
+    Interop.Font.AlDrawGlyph(NativePointer.Get(font), color, x, y, codePoint);
   }
 
-  public static int GetGlyphWidth(AllegroFont? font, int codePoint)
+  public static bool GetGlyphDimensions(AllegroFont? font, int codePoint, ref int bbx, ref int bby, ref int bbw, ref int bbh)
   {
-    return NativeFunctions.AlGetGlyphWidth(NativePointerModel.GetPointer(font), codePoint);
-  }
-
-  public static bool GetGlyphDimensions(AllegroFont? font, int codePoint, out int x, out int y, out int width, out int height)
-  {
-    x = y = width = height = 0;
-    return NativeFunctions.AlGetGlyphDimensions(NativePointerModel.GetPointer(font), codePoint, ref x, ref y, ref width, ref height);
+    return Interop.Font.AlGetGlyphDimensions(NativePointer.Get(font), codePoint, ref bbx, ref bby, ref bbw, ref bbh) != 0;
   }
 
   public static int GetGlyphAdvance(AllegroFont? font, int codePoint1, int codePoint2)
   {
-    return NativeFunctions.AlGetGlyphAdvance(NativePointerModel.GetPointer(font), codePoint1, codePoint2);
+    return Interop.Font.AlGetGlyphAdvance(NativePointer.Get(font), codePoint1, codePoint2);
   }
 
-  public static void DrawMultilineText(AllegroFont? font, AllegroColor color, float x, float y, float maxWidth, float lineHeight, FontAlignFlags flags, string text)
+  public static void DrawMultilineText(
+    AllegroFont? font,
+    AllegroColor color,
+    float x,
+    float y,
+    float maxWidth,
+    float lineHeight,
+    FontAlignFlags flags,
+    string text)
   {
-    var nativeText = Marshal.StringToHGlobalAnsi(text);
-    NativeFunctions.AlDrawMultilineText(NativePointerModel.GetPointer(font), color, x, y, maxWidth, lineHeight, (int)flags, nativeText);
-    Marshal.FreeHGlobal(nativeText);
+    using var nativeText = new CStringAnsi(text);
+    Interop.Font.AlDrawMultilineText(
+      NativePointer.Get(font),
+      color,
+      x,
+      y,
+      maxWidth,
+      lineHeight,
+      (int)flags,
+      nativeText.Pointer);
   }
 
-  public static void DrawMultilineUstr(AllegroFont? font, AllegroColor color, float x, float y, float maxWidth, float lineHeight, FontAlignFlags flags, AllegroUstr? ustr)
+  public static void DrawMultilineUstr(
+    AllegroFont? font,
+    AllegroColor color,
+    float x,
+    float y,
+    float maxWidth,
+    float lineHeight,
+    FontAlignFlags flags,
+    AllegroUstr? ustr)
   {
-    NativeFunctions.AlDrawMultilineUstr(NativePointerModel.GetPointer(font), color, x, y, maxWidth, lineHeight, (int)flags, NativePointerModel.GetPointer(ustr));
+    Interop.Font.AlDrawMultilineUstr(NativePointer.Get(font), color, x, y, maxWidth, lineHeight, (int)flags, NativePointer.Get(ustr));
   }
 
-  public static void DrawMultilineTextF(AllegroFont? font, AllegroColor color, float x, float y, float maxWidth, float lineHeight, FontAlignFlags flags, string format, params object[] args)
+  public static void DoMultilineText(
+    AllegroFont? font,
+    float maxWidth,
+    string text,
+    Delegates.DoMultilineTextCallbackDelegate? callback,
+    IntPtr extra)
   {
-    format = string.Format(format, args);
-    DrawMultilineText(font, color, x, y, maxWidth, lineHeight, flags, format);
+    using var nativeText = new CStringAnsi(text);
+    Interop.Font.AlDoMultilineText(NativePointer.Get(font), maxWidth, nativeText.Pointer, callback, extra);
   }
 
-  public static void DoMultilineText(AllegroFont? font, float maxWidth, string text, DoMultilineText callback, IntPtr extra)
+  public static void DoMultilineUstr(
+    AllegroFont? font,
+    float maxWidth,
+    AllegroUstr? ustr,
+    Delegates.DoMultilineUstrCallbackDelegate? callback,
+    IntPtr extra)
   {
-    var nativeText = Marshal.StringToHGlobalAnsi(text);
-    NativeFunctions.AlDoMultilineText(NativePointerModel.GetPointer(font), maxWidth, nativeText, callback, extra);
-    Marshal.FreeHGlobal(nativeText);
+    Interop.Font.AlDoMultilineUstr(NativePointer.Get(font), maxWidth, NativePointer.Get(ustr), callback, extra);
   }
 
-  public static void DoMultilineUstr(AllegroFont? font, float maxWidth, AllegroUstr? ustr, DoMultilineUstr callback, IntPtr extra)
+  public static AllegroFont? GrabFontFromBitmap(AllegroBitmap? bitmap, int rangesN, int[] ranges)
   {
-    NativeFunctions.AlDoMultilineUstr(NativePointerModel.GetPointer(font), maxWidth, NativePointerModel.GetPointer(ustr), callback, extra);
-  }
-
-  public static AllegroFont? GrabFontFromBitmap(AllegroBitmap? bitmap, int rangeCount, int[] ranges)
-  {
-    var result = NativeFunctions.AlGrabFontFromBitmap(NativePointerModel.GetPointer(bitmap), rangeCount, ranges);
-    return NativePointerModel.Create<AllegroFont>(result);
+    var pointer = Interop.Font.AlGrabFontFromBitmap(NativePointer.Get(bitmap), rangesN, ranges);
+    return NativePointer.Create<AllegroFont>(pointer);
   }
 
   public static AllegroFont? LoadBitmapFont(string filename)
   {
-    var nativeFilename = Marshal.StringToHGlobalAnsi(filename);
-    var result = NativeFunctions.AlLoadBitmapFont(nativeFilename);
-    Marshal.FreeHGlobal(nativeFilename);
-    return NativePointerModel.Create<AllegroFont>(result);
+    using var nativeFilename = new CStringAnsi(filename);
+    var pointer = Interop.Font.AlLoadBitmapFont(nativeFilename.Pointer);
+    return NativePointer.Create<AllegroFont>(pointer);
   }
 
-  public static AllegroFont? LoadBitmapFontFlags(string filename, LoadFontFlags flags)
+  public static AllegroFont? LoadBitmapFontFlags(string filename, BitmapFlags flags)
   {
-    var nativeFilename = Marshal.StringToHGlobalAnsi(filename);
-    var result = NativeFunctions.AlLoadBitmapFontFlags(nativeFilename, (int)flags);
-    Marshal.FreeHGlobal(nativeFilename);
-    return NativePointerModel.Create<AllegroFont>(result);
+    using var nativeFilename = new CStringAnsi(filename);
+    var pointer = Interop.Font.AlLoadBitmapFontFlags(nativeFilename.Pointer, (int)flags);
+    return NativePointer.Create<AllegroFont>(pointer);
   }
 
   public static AllegroFont? CreateBuiltinFont()
   {
-    var result = NativeFunctions.AlCreateBuiltinFont();
-    return NativePointerModel.Create<AllegroFont>(result);
+    var pointer = Interop.Font.AlCreateBuiltinFont();
+    return NativePointer.Create<AllegroFont>(pointer);
+  }
+
+  public static bool InitTtfAddon()
+  {
+    return Interop.Font.AlInitTtfAddon() != 0;
+  }
+
+  public static bool IsTtfAddonInitialized()
+  {
+    return Interop.Font.AlIsTtfAddonInitialized() != 0;
+  }
+
+  public static void ShutdownTtfAddon()
+  {
+    Interop.Font.AlShutdownTtfAddon();
+  }
+
+  public static AllegroFont? LoadTtfFont(string filename, int size, LoadFontFlags flags)
+  {
+    using var nativeFilename = new CStringAnsi(filename);
+    var pointer = Interop.Font.AlLoadTtfFont(nativeFilename.Pointer, size, (int)flags);
+    return NativePointer.Create<AllegroFont>(pointer);
+  }
+
+  public static AllegroFont? LoadTtfFontF(AllegroFile? file, string filename, int size, LoadFontFlags flags)
+  {
+    using var nativeFilename = new CStringAnsi(filename);
+    var pointer = Interop.Font.AlLoadTtfFontF(NativePointer.Get(file), nativeFilename.Pointer, size, (int)flags);
+    return NativePointer.Create<AllegroFont>(pointer);
+  }
+
+  public static AllegroFont? LoadTtfFontStretch(string filename, int width, int height, LoadFontFlags flags)
+  {
+    using var nativeFilename = new CStringAnsi(filename);
+    var pointer = Interop.Font.AlLoadTtfFontStretch(nativeFilename.Pointer, width, height, (int)flags);
+    return NativePointer.Create<AllegroFont>(pointer);
+  }
+
+  public static AllegroFont? LoadTtfFontStretchF(AllegroFile? file, string filename, int width, int height, LoadFontFlags flags)
+  {
+    using var nativeFilename = new CStringAnsi(filename);
+    var pointer = Interop.Font.AlLoadTtfFontStretchF(NativePointer.Get(file), nativeFilename.Pointer, width, height, (int)flags);
+    return NativePointer.Create<AllegroFont>(pointer);
+  }
+
+  public static uint GetAllegroTtfVersion()
+  {
+    return Interop.Font.AlGetAllegroTtfVersion();
   }
 }

@@ -1,16 +1,19 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace SubC.AllegroDotNet.Models
-{
-  public sealed class AllegroState
-  {
-    internal NativeAllegroState State = new();
+namespace SubC.AllegroDotNet.Models;
 
-    [StructLayout(LayoutKind.Sequential)]
-    internal struct NativeAllegroState
-    {
-      [MarshalAs(UnmanagedType.ByValArray, SizeConst = 1024)]
-      private byte[] _tls;
-    }
+/// <summary>
+/// An opaque structure representing the state of Allegro.
+/// </summary>
+[StructLayout(LayoutKind.Sequential)]
+public struct AllegroState
+{
+  private const int InternalTlsArraySize = 1024;
+
+  [MarshalAs(UnmanagedType.ByValArray, SizeConst = InternalTlsArraySize)]
+  private byte[] _tls = new byte[InternalTlsArraySize];
+
+  public AllegroState()
+  {
   }
 }

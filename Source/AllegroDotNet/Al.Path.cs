@@ -1,156 +1,149 @@
 ﻿using SubC.AllegroDotNet.Models;
 using SubC.AllegroDotNet.Native;
-using System.Runtime.InteropServices;
 
 namespace SubC.AllegroDotNet;
 
+/// <summary>
+/// This static class contains the Allegro 5 library methods.
+/// </summary>
 public static partial class Al
 {
-  public static AllegroPath? CreatePath(string pathString)
+  public static AllegroPath? CreatePath(string path)
   {
-    var nativeString = Marshal.StringToHGlobalAnsi(pathString);
-    var nativePath = NativeFunctions.AlCreatePath(nativeString);
-    Marshal.FreeHGlobal(nativeString);
-    return NativePointerModel.Create<AllegroPath>(nativePath);
+    using var nativePath = new CStringAnsi(path);
+    var pointer = Interop.Core.AlCreatePath(nativePath.Pointer);
+    return NativePointer.Create<AllegroPath>(pointer);
   }
 
-  public static AllegroPath? CreatePathForDirectory(string directoryString)
+  public static AllegroPath? CreatePathForDirectory(string path)
   {
-    var nativeString = Marshal.StringToHGlobalAnsi(directoryString);
-    var nativePath = NativeFunctions.AlCreatePath(nativeString);
-    Marshal.FreeHGlobal(nativeString);
-    return NativePointerModel.Create<AllegroPath>(nativePath);
+    using var nativePath = new CStringAnsi(path);
+    var pointer = Interop.Core.AlCreatePathForDirectory(nativePath.Pointer);
+    return NativePointer.Create<AllegroPath>(pointer);
   }
 
   public static void DestroyPath(AllegroPath? path)
   {
-    NativeFunctions.AlDestroyPath(NativePointerModel.GetPointer(path));
+    Interop.Core.AlDestroyPath(NativePointer.Get(path));
   }
 
   public static AllegroPath? ClonePath(AllegroPath? path)
   {
-    var nativePath = NativeFunctions.AlClonePath(NativePointerModel.GetPointer(path));
-    return NativePointerModel.Create<AllegroPath>(nativePath);
+    var pointer = Interop.Core.AlClonePath(NativePointer.Get(path));
+    return NativePointer.Create<AllegroPath>(pointer);
   }
 
-  public static bool JoinPaths(AllegroPath? path, AllegroPath? tailPath)
+  public static bool JoinPaths(AllegroPath? path, AllegroPath? tail)
   {
-    return NativeFunctions.AlJoinPaths(NativePointerModel.GetPointer(path), NativePointerModel.GetPointer(tailPath));
+    return Interop.Core.AlJoinPaths(NativePointer.Get(path), NativePointer.Get(tail)) != 0;
   }
 
-  public static bool RebasePath(AllegroPath? headPath, AllegroPath? tailPath)
+  public static bool RebasePath(AllegroPath? head, AllegroPath? tail)
   {
-    return NativeFunctions.AlJoinPaths(NativePointerModel.GetPointer(headPath), NativePointerModel.GetPointer(tailPath));
+    return Interop.Core.AlRebasePath(NativePointer.Get(head), NativePointer.Get(tail)) != 0;
   }
 
   public static string? GetPathDrive(AllegroPath? path)
   {
-    var nativeValue = NativeFunctions.AlGetPathDrive(NativePointerModel.GetPointer(path));
-    return Marshal.PtrToStringAnsi(nativeValue);
+    var pointer = Interop.Core.AlGetPathDrive(NativePointer.Get(path));
+    return CStringAnsi.ToCSharpString(pointer);
   }
 
   public static int GetPathNumComponents(AllegroPath? path)
   {
-    return NativeFunctions.AlGetPathNumComponents(NativePointerModel.GetPointer(path));
+    return Interop.Core.AlGetPathNumComponents(NativePointer.Get(path));
   }
 
   public static string? GetPathComponent(AllegroPath? path, int i)
   {
-    var nativeValue = NativeFunctions.AlGetPathComponent(NativePointerModel.GetPointer(path), i);
-    return Marshal.PtrToStringAnsi(nativeValue);
+    var pointer = Interop.Core.AlGetPathComponent(NativePointer.Get(path), i);
+    return CStringAnsi.ToCSharpString(pointer);
   }
 
   public static string? GetPathTail(AllegroPath? path)
   {
-    var nativeValue = NativeFunctions.AlGetPathTail(NativePointerModel.GetPointer(path));
-    return Marshal.PtrToStringAnsi(nativeValue);
+    var pointer = Interop.Core.AlGetPathTail(NativePointer.Get(path));
+    return CStringAnsi.ToCSharpString(pointer);
   }
 
   public static string? GetPathFilename(AllegroPath? path)
   {
-    var nativeValue = NativeFunctions.AlGetPathFilename(NativePointerModel.GetPointer(path));
-    return Marshal.PtrToStringAnsi(nativeValue);
+    var pointer = Interop.Core.AlGetPathFilename(NativePointer.Get(path));
+    return CStringAnsi.ToCSharpString(pointer);
   }
 
   public static string? GetPathBasename(AllegroPath? path)
   {
-    var nativeValue = NativeFunctions.AlGetPathBasename(NativePointerModel.GetPointer(path));
-    return Marshal.PtrToStringAnsi(nativeValue);
+    var pointer = Interop.Core.AlGetPathBasename(NativePointer.Get(path));
+    return CStringAnsi.ToCSharpString(pointer);
   }
 
   public static string? GetPathExtension(AllegroPath? path)
   {
-    var nativeValue = NativeFunctions.AlGetPathExtension(NativePointerModel.GetPointer(path));
-    return Marshal.PtrToStringAnsi(nativeValue);
+    var pointer = Interop.Core.AlGetPathExtension(NativePointer.Get(path));
+    return CStringAnsi.ToCSharpString(pointer);
   }
 
-  public static void SetPathDrive(AllegroPath? path, string drive)
+  public static void SetPathDrive(AllegroPath? path, string? drive)
   {
-    var nativeDrive = Marshal.StringToHGlobalAnsi(drive);
-    NativeFunctions.AlSetPathDrive(NativePointerModel.GetPointer(path), nativeDrive);
-    Marshal.FreeHGlobal(nativeDrive);
+    using var nativeDrive = new CStringAnsi(drive);
+    Interop.Core.AlSetPathDrive(NativePointer.Get(path), nativeDrive.Pointer);
   }
 
-  public static void AppendPathComponent(AllegroPath? path, string directory)
+  public static void AppendPathComponent(AllegroPath? path, string? component)
   {
-    var nativeDirectory = Marshal.StringToHGlobalAnsi(directory);
-    NativeFunctions.AlAppendPathComponent(NativePointerModel.GetPointer(path), nativeDirectory);
-    Marshal.FreeHGlobal(nativeDirectory);
+    using var nativeComponent = new CStringAnsi(component);
+    Interop.Core.AlAppendPathComponent(NativePointer.Get(path), nativeComponent.Pointer);
   }
 
-  public static void InsertPathComponent(AllegroPath? path, int index, string component)
+  public static void InsertPathComponent(AllegroPath? path, int i, string? component)
   {
-    var nativeDirectory = Marshal.StringToHGlobalAnsi(component);
-    NativeFunctions.AlInsertPathComponent(NativePointerModel.GetPointer(path), index, nativeDirectory);
-    Marshal.FreeHGlobal(nativeDirectory);
+    using var nativeComponent = new CStringAnsi(component);
+    Interop.Core.AlInsertPathComponent(NativePointer.Get(path), i, nativeComponent.Pointer);
   }
 
-  public static void ReplacePathComponent(AllegroPath? path, int index, string component)
+  public static void ReplacePathComponent(AllegroPath? path, int i, string? component)
   {
-    var nativeComponent = Marshal.StringToHGlobalAnsi(component);
-    NativeFunctions.AlReplacePathComponent(NativePointerModel.GetPointer(path), index, nativeComponent);
-    Marshal.FreeHGlobal(nativeComponent);
+    using var nativeComponent = new CStringAnsi(component);
+    Interop.Core.AlReplacePathComponent(NativePointer.Get(path), i, nativeComponent.Pointer);
   }
 
-  public static void RemovePathComponent(AllegroPath? path, int index)
+  public static void RemovePathComponent(AllegroPath? path, int i)
   {
-    NativeFunctions.AlRemovePathComponent(NativePointerModel.GetPointer(path), index);
+    Interop.Core.AlRemovePathComponent(NativePointer.Get(path), i);
   }
 
   public static void DropPathTail(AllegroPath? path)
   {
-    NativeFunctions.AlDropPathTail(NativePointerModel.GetPointer(path));
+    Interop.Core.AlDropPathTail(NativePointer.Get(path));
   }
 
-  public static void SetPathFilename(AllegroPath? path, string filename)
+  public static void SetPathFilename(AllegroPath? path, string? filename)
   {
-    var nativeFilename = Marshal.StringToHGlobalAnsi(filename);
-    NativeFunctions.AlSetPathFilename(NativePointerModel.GetPointer(path), nativeFilename);
-    Marshal.FreeHGlobal(nativeFilename);
+    using var nativeFilename = new CStringAnsi(filename);
+    Interop.Core.AlSetPathFilename(NativePointer.Get(path), nativeFilename.Pointer);
   }
 
-  public static bool SetPathExtension(AllegroPath? path, string extension)
+  public static bool SetPathExtension(AllegroPath? path, string? extension)
   {
-    var nativeExtension = Marshal.StringToHGlobalAnsi(extension);
-    var result = NativeFunctions.AlSetPathExtension(NativePointerModel.GetPointer(path), nativeExtension);
-    Marshal.FreeHGlobal(nativeExtension);
-    return result;
+    using var nativeExtension = new CStringAnsi(extension);
+    return Interop.Core.AlSetPathExtension(NativePointer.Get(path), nativeExtension.Pointer) != 0;
   }
 
-  public static string? PathCstr(AllegroPath? path, char deliminator)
+  public static string? PathCstr(AllegroPath? path, char delim)
   {
-    var nativeValue = NativeFunctions.AlPathCstr(NativePointerModel.GetPointer(path), deliminator);
-    return Marshal.PtrToStringAnsi(nativeValue);
+    var pointer = Interop.Core.AlPathCstr(NativePointer.Get(path), (byte)delim);
+    return CStringAnsi.ToCSharpString(pointer);
   }
 
-  public static AllegroUstr? PathUstr(AllegroPath? path, char deliminator)
+  public static AllegroUstr? PathUstr(AllegroPath? path, char delim)
   {
-    var nativeUstr = NativeFunctions.AlPathUstr(NativePointerModel.GetPointer(path), deliminator);
-    return NativePointerModel.Create<AllegroUstr>(nativeUstr);
+    var pointer = Interop.Core.AlPathUstr(NativePointer.Get(path), (byte)delim);
+    return NativePointer.Create<AllegroUstr>(pointer);
   }
 
   public static bool MakePathCanonical(AllegroPath? path)
   {
-    return NativeFunctions.AlMakePathCanonical(NativePointerModel.GetPointer(path));
+    return Interop.Core.AlMakePathCanonical(NativePointer.Get(path)) != 0;
   }
 }

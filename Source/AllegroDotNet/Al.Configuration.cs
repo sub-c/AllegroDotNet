@@ -1,139 +1,137 @@
 ﻿using SubC.AllegroDotNet.Models;
 using SubC.AllegroDotNet.Native;
-using System.Runtime.InteropServices;
 
 namespace SubC.AllegroDotNet;
 
+/// <summary>
+/// This static class contains the Allegro 5 library methods.
+/// </summary>
 public static partial class Al
 {
   public static AllegroConfig? CreateConfig()
   {
-    var nativeConfig = NativeFunctions.AlCreateConfig();
-    return NativePointerModel.Create<AllegroConfig>(nativeConfig);
+    var pointer = Interop.Core.AlCreateConfig();
+    return NativePointer.Create<AllegroConfig>(pointer);
   }
 
   public static void DestroyConfig(AllegroConfig? config)
   {
-    NativeFunctions.AlDestroyConfig(NativePointerModel.GetPointer(config));
+    Interop.Core.AlDestroyConfig(NativePointer.Get(config));
   }
 
-  public static AllegroConfig? LoadConfigFile(string filename)
+  public static AllegroConfig? LoadConfig(string? filename)
   {
-    var nativeFilename = Marshal.StringToHGlobalAnsi(filename);
-    var nativeConfig = NativeFunctions.AlLoadConfigFile(nativeFilename);
-    Marshal.FreeHGlobal(nativeFilename);
-    return NativePointerModel.Create<AllegroConfig>(nativeConfig);
+    using var nativeFilename = new CStringAnsi(filename);
+    var pointer = Interop.Core.AlLoadConfigFile(nativeFilename.Pointer);
+    return NativePointer.Create<AllegroConfig>(pointer);
   }
 
-  public static AllegroConfig? LoadConfigFileF(AllegroFile? file)
+  public static AllegroConfig? LoadConfigF(AllegroFile? file)
   {
-    var nativeConfig = NativeFunctions.AlLoadConfigFileF(NativePointerModel.GetPointer(file));
-    return NativePointerModel.Create<AllegroConfig>(nativeConfig);
+    var pointer = Interop.Core.AlLoadConfigFile(NativePointer.Get(file));
+    return NativePointer.Create<AllegroConfig>(pointer);
   }
 
   public static bool SaveConfigFile(string filename, AllegroConfig? config)
   {
-    var nativeFilename = Marshal.StringToHGlobalAnsi(filename);
-    var result = NativeFunctions.AlSaveConfigFile(nativeFilename, NativePointerModel.GetPointer(config));
-    Marshal.FreeHGlobal(nativeFilename);
-    return result;
+    using var nativeFilename = new CStringAnsi(filename);
+    return Interop.Core.AlSaveConfigFile(nativeFilename.Pointer, NativePointer.Get(config)) != 0;
   }
 
   public static bool SaveConfigFileF(AllegroFile? file, AllegroConfig? config)
   {
-    return NativeFunctions.AlSaveConfigFileF(NativePointerModel.GetPointer(file), NativePointerModel.GetPointer(config));
+    return Interop.Core.AlSaveConfigFileF(NativePointer.Get(file), NativePointer.Get(config)) != 0;
   }
 
-  public static void AddConfigSection(AllegroConfig? config, string section)
+  public static void AddConfigSection(AllegroConfig? config, string? section)
   {
-    var nativeSection = Marshal.StringToHGlobalAnsi(section);
-    NativeFunctions.AlAddConfigSection(NativePointerModel.GetPointer(config), nativeSection);
-    Marshal.FreeHGlobal(nativeSection);
+    using var nativeSection = new CStringAnsi(section);
+    Interop.Core.AlAddConfigSection(NativePointer.Get(config), nativeSection.Pointer);
   }
 
-  public static void RemoveConfigSection(AllegroConfig? config, string section)
+  public static bool RemoveConfigSection(AllegroConfig? config, string? section)
   {
-    var nativeSection = Marshal.StringToHGlobalAnsi(section);
-    NativeFunctions.AlRemoveConfigSection(NativePointerModel.GetPointer(config), nativeSection);
-    Marshal.FreeHGlobal(nativeSection);
+    using var nativeSection = new CStringAnsi(section);
+    return Interop.Core.AlRemoveConfigSection(NativePointer.Get(config), nativeSection.Pointer) != 0;
   }
 
-  public static void AddConfigComment(AllegroConfig? config, string section, string comment)
+  public static void AddConfigComment(AllegroConfig? config, string? section, string? comment)
   {
-    var nativeSection = Marshal.StringToHGlobalAnsi(section);
-    var nativeComment = Marshal.StringToHGlobalAnsi(comment);
-    NativeFunctions.AlAddConfigComment(NativePointerModel.GetPointer(config), nativeSection, nativeComment);
-    Marshal.FreeHGlobal(nativeComment);
-    Marshal.FreeHGlobal(nativeSection);
+    using var nativeSection = new CStringAnsi(section);
+    using var nativeComment = new CStringAnsi(comment);
+    Interop.Core.AlAddConfigComment(NativePointer.Get(config), nativeSection.Pointer, nativeComment.Pointer);
   }
 
-  public static string? GetConfigValue(AllegroConfig? config, string section, string key)
+  public static string? GetConfigValue(AllegroConfig? config, string? section, string? key)
   {
-    var nativeSection = Marshal.StringToHGlobalAnsi(section);
-    var nativeKey = Marshal.StringToHGlobalAnsi(key);
-    var nativeValue = NativeFunctions.AlGetConfigValue(NativePointerModel.GetPointer(config), nativeSection, nativeKey);
-    Marshal.FreeHGlobal(nativeKey);
-    Marshal.FreeHGlobal(nativeSection);
-    return Marshal.PtrToStringAnsi(nativeValue);
+    using var nativeSection = new CStringAnsi(section);
+    using var nativeKey = new CStringAnsi(key);
+    var pointer = Interop.Core.AlGetConfigValue(NativePointer.Get(config), nativeSection.Pointer, nativeKey.Pointer);
+    return CStringAnsi.ToCSharpString(pointer);
   }
 
-  public static void SetConfigValue(AllegroConfig? config, string section, string key, string value)
+  public static void SetConfigValue(AllegroConfig? config, string? section, string? key, string? value)
   {
-    var nativeSection = Marshal.StringToHGlobalAnsi(section);
-    var nativeKey = Marshal.StringToHGlobalAnsi(key);
-    var nativeValue = Marshal.StringToHGlobalAnsi(value);
-    NativeFunctions.AlSetConfigValue(NativePointerModel.GetPointer(config), nativeSection, nativeKey, nativeValue);
-    Marshal.FreeHGlobal(nativeValue);
-    Marshal.FreeHGlobal(nativeKey);
-    Marshal.FreeHGlobal(nativeSection);
+    using var nativeSection = new CStringAnsi(section);
+    using var nativeKey = new CStringAnsi(key);
+    using var nativeValue = new CStringAnsi(value);
+    Interop.Core.AlSetConfigValue(NativePointer.Get(config), nativeSection.Pointer, nativeKey.Pointer, nativeValue.Pointer);
   }
 
-  public static bool RemoveConfigKey(AllegroConfig? config, string section, string key)
+  public static bool RemoveConfigKey(AllegroConfig? config, string? section, string? key)
   {
-    var nativeSection = Marshal.StringToHGlobalAnsi(section);
-    var nativeKey = Marshal.StringToHGlobalAnsi(key);
-    var value = NativeFunctions.AlRemoveConfigKey(NativePointerModel.GetPointer(config), nativeSection, nativeKey);
-    Marshal.FreeHGlobal(nativeKey);
-    Marshal.FreeHGlobal(nativeSection);
-    return value;
+    using var nativeSection = new CStringAnsi(section);
+    using var nativeKey = new CStringAnsi(key);
+    return Interop.Core.AlRemoveConfigKey(NativePointer.Get(config), nativeSection.Pointer, nativeKey.Pointer) != 0;
   }
 
-  public static string? GetFirstConfigSection(AllegroConfig? config, out AllegroConfigSection configSection)
+  public static string? GetFirstConfigSection(AllegroConfig? config, out AllegroConfigSection? section)
   {
-    configSection = new();
-    var nativeValue = NativeFunctions.AlGetFirstConfigSection(NativePointerModel.GetPointer(config), ref configSection.NativePointer);
-    return Marshal.PtrToStringAnsi(nativeValue);
+    var nativeSection = IntPtr.Zero;
+    var pointer = Interop.Core.AlGetFirstConfigSection(NativePointer.Get(config), ref nativeSection);
+    section = NativePointer.Create<AllegroConfigSection>(nativeSection);
+    return CStringAnsi.ToCSharpString(pointer);
   }
 
-  public static string? GetNextConfigSection(AllegroConfigSection configSection)
+  public static string? GetNextConfigSection(AllegroConfigSection? section)
   {
-    var nativeValue = NativeFunctions.AlGetNextConfigSection(ref configSection.NativePointer);
-    return Marshal.PtrToStringAnsi(nativeValue);
+    var nativeSection = NativePointer.Get(section);
+    var pointer = Interop.Core.AlGetNextConfigSection(ref nativeSection);
+
+    if (section is not null)
+      section.Pointer = nativeSection;
+
+    return CStringAnsi.ToCSharpString(pointer);
   }
 
-  public static string? GetFirstConfigEntry(AllegroConfig? config, string section, out AllegroConfigEntry configEntry)
+  public static string? GetFirstConfigEntry(AllegroConfig? config, string? section, out AllegroConfigEntry? entry)
   {
-    configEntry = new();
-    var nativeSection = Marshal.StringToHGlobalAnsi(section);
-    var nativeValue = NativeFunctions.AlGetFirstConfigEntry(NativePointerModel.GetPointer(config), nativeSection, ref configEntry.NativePointer);
-    Marshal.FreeHGlobal(nativeSection);
-    return Marshal.PtrToStringAnsi(nativeValue);
+    var nativeEntry = IntPtr.Zero;
+    using var nativeSection = new CStringAnsi(section);
+    var pointer = Interop.Core.AlGetFirstConfigEntry(NativePointer.Get(config), nativeSection.Pointer, ref nativeEntry);
+    entry = NativePointer.Create<AllegroConfigEntry>(nativeEntry);
+    return CStringAnsi.ToCSharpString(pointer);
   }
 
-  public static string? GetNextConfigEntry(AllegroConfigEntry configEntry)
+  public static string? GetNextConfigEntry(AllegroConfigEntry? entry)
   {
-    var nativeValue = NativeFunctions.AlGetNextConfigEntry(ref configEntry.NativePointer);
-    return Marshal.PtrToStringAnsi(nativeValue);
+    var nativeEntry = NativePointer.Get(entry);
+    var pointer = Interop.Core.AlGetNextConfigEntry(ref nativeEntry);
+
+    if (entry is not null)
+      entry.Pointer = nativeEntry;
+
+    return CStringAnsi.ToCSharpString(pointer);
   }
 
   public static AllegroConfig? MergeConfig(AllegroConfig? config1, AllegroConfig? config2)
   {
-    var nativeConfig = NativeFunctions.AlMergeConfig(NativePointerModel.GetPointer(config1), NativePointerModel.GetPointer(config2));
-    return NativePointerModel.Create<AllegroConfig>(nativeConfig);
+    var pointer = Interop.Core.AlMergeConfig(NativePointer.Get(config1), NativePointer.Get(config2));
+    return NativePointer.Create<AllegroConfig>(pointer);
   }
 
-  public static void MergeConfigInto(AllegroConfig? masterConfig, AllegroConfig? addConfig)
+  public static void MergeConfigInto(AllegroConfig? master, AllegroConfig? add)
   {
-    NativeFunctions.AlMergeConfigInto(NativePointerModel.GetPointer(masterConfig), NativePointerModel.GetPointer(addConfig));
+    Interop.Core.AlMergeConfigInto(NativePointer.Get(master), NativePointer.Get(add));
   }
 }

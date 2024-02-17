@@ -1,106 +1,100 @@
 ﻿using SubC.AllegroDotNet.Native;
 using System.Runtime.InteropServices;
 
-namespace SubC.AllegroDotNet.Models
+namespace SubC.AllegroDotNet.Models;
+
+[StructLayout(LayoutKind.Sequential)]
+public struct AllegroFileInterface
 {
-  public sealed class AllegroFileInterface
+  public Delegates.FileInterfaceFOpen FOpen
   {
-    public NativeDelegates.FileInterfaceFOpen FOpen
-    {
-      get => FileInterface.FOpen;
-      set => FileInterface.FOpen = value;
-    }
-
-    public NativeDelegates.FileInterfaceFClose FClose
-    {
-      get => FileInterface.FClose;
-      set => FileInterface.FClose = value;
-    }
-
-    public NativeDelegates.FileInterfaceFRead FRead
-    {
-      get => FileInterface.FRead;
-      set => FileInterface.FRead = value;
-    }
-
-    public NativeDelegates.FileInterfaceFWrite FWrite
-    {
-      get => FileInterface.FWrite;
-      set => FileInterface.FWrite = value;
-    }
-
-    public NativeDelegates.FileInterfaceFFlush FFlush
-    {
-      get => FileInterface.FFlush;
-      set => FileInterface.FFlush = value;
-    }
-
-    public NativeDelegates.FileInterfaceFTell FTell
-    {
-      get => FileInterface.FTell;
-      set => FileInterface.FTell = value;
-    }
-
-    public NativeDelegates.FileInterfaceFSeek FSeek
-    {
-      get => FileInterface.FSeek;
-      set => FileInterface.FSeek = value;
-    }
-
-    public NativeDelegates.FileInterfaceFEof FEof
-    {
-      get => FileInterface.FEof;
-      set => FileInterface.FEof = value;
-    }
-
-    public NativeDelegates.FileInterfaceFError FError
-    {
-      get => FileInterface.FError;
-      set => FileInterface.FError = value;
-    }
-
-    public NativeDelegates.FileInterfaceFErrMsg FErrMsg
-    {
-      get => FileInterface.FErrMsg;
-      set => FileInterface.FErrMsg = value;
-    }
-
-    public NativeDelegates.FileInterfaceFClearErr FClearErr
-    {
-      get => FileInterface.FClearErr;
-      set => FileInterface.FClearErr = value;
-    }
-
-    public NativeDelegates.FileInterfaceFunGetC FunGetC
-    {
-      get => FileInterface.FunGetC;
-      set => FileInterface.FunGetC = value;
-    }
-
-    public NativeDelegates.FileInterfaceFSize FSize
-    {
-      get => FileInterface.FSize;
-      set => FileInterface.FSize = value;
-    }
-
-    internal NativeAllegroFileInterface FileInterface;
-
-    [StructLayout(LayoutKind.Sequential)]
-    internal struct NativeAllegroFileInterface
-    {
-      public NativeDelegates.FileInterfaceFOpen FOpen;
-      public NativeDelegates.FileInterfaceFClose FClose;
-      public NativeDelegates.FileInterfaceFRead FRead;
-      public NativeDelegates.FileInterfaceFWrite FWrite;
-      public NativeDelegates.FileInterfaceFFlush FFlush;
-      public NativeDelegates.FileInterfaceFTell FTell;
-      public NativeDelegates.FileInterfaceFSeek FSeek;
-      public NativeDelegates.FileInterfaceFEof FEof;
-      public NativeDelegates.FileInterfaceFError FError;
-      public NativeDelegates.FileInterfaceFErrMsg FErrMsg;
-      public NativeDelegates.FileInterfaceFClearErr FClearErr;
-      public NativeDelegates.FileInterfaceFunGetC FunGetC;
-      public NativeDelegates.FileInterfaceFSize FSize;
-    }
+    readonly get => fopen;
+    set => fopen = value;
   }
+
+  public Delegates.FileInterfaceFClose FClose
+  {
+    readonly get => fclose;
+    set => fclose = value;
+  }
+
+  public Delegates.FileInterfaceFRead FRead
+  {
+    readonly get => fread;
+    set => fread = value;
+  }
+
+  public Delegates.FileInterfaceFWrite FWrite
+  {
+    readonly get => fwrite;
+    set => fwrite = value;
+  }
+
+  public Delegates.FileInterfaceFFlush FFlush
+  {
+    readonly get => fflush;
+    set => fflush = value;
+  }
+
+  public Delegates.FileInterfaceFTell FTell
+  {
+    readonly get => ftell;
+    set => ftell = value;
+  }
+
+  public Delegates.FileInterfaceFSeek FSeek
+  {
+    readonly get => fseek;
+    set => fseek = value;
+  }
+
+  public Delegates.FileInterfaceFEof FEof
+  {
+    readonly get => feof;
+    set => feof = value;
+  }
+
+  public Delegates.FileInterfaceFError FError
+  {
+    readonly get => ferror;
+    set => ferror = value;
+  }
+
+  public Delegates.FileInterfaceFErrMsg FErrMsg
+  {
+    readonly get => ferrMsg;
+    set => ferrMsg = value;
+  }
+
+  public Delegates.FileInterfaceFClearErr FClearErr
+  {
+    readonly get => fclearerr;
+    set => fclearerr = value;
+  }
+
+  public Delegates.FileInterfaceFunGetC FunGetC
+  {
+    readonly get => fungetc;
+    set => fungetc = value;
+  }
+
+  public Delegates.FileInterfaceFSize FSize
+  {
+    readonly get => fsize;
+    set => fsize = value;
+  }
+
+  private Delegates.FileInterfaceFOpen fopen;
+  private Delegates.FileInterfaceFClose fclose;
+  private Delegates.FileInterfaceFRead fread;
+  private Delegates.FileInterfaceFWrite fwrite;
+  private Delegates.FileInterfaceFFlush fflush;
+  private Delegates.FileInterfaceFTell ftell;
+  private Delegates.FileInterfaceFSeek fseek;
+  private Delegates.FileInterfaceFEof feof;
+  private Delegates.FileInterfaceFError ferror;
+  private Delegates.FileInterfaceFErrMsg ferrMsg;
+  private Delegates.FileInterfaceFClearErr fclearerr;
+  private Delegates.FileInterfaceFunGetC fungetc;
+  private Delegates.FileInterfaceFSize fsize;
 }

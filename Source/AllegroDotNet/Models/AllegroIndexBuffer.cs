@@ -1,5 +1,5 @@
 ﻿namespace SubC.AllegroDotNet.Models;
 
-public sealed class AllegroIndexBuffer : NativePointerModel
+public sealed class AllegroIndexBuffer : NativePointer
 {
 }

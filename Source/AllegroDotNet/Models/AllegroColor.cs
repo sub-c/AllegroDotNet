@@ -1,61 +1,53 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Diagnostics;
+using System.Runtime.InteropServices;
 
-namespace SubC.AllegroDotNet.Models
+namespace SubC.AllegroDotNet.Models;
+
+/// <summary>
+/// This structure represents a color in Allegro.
+/// </summary>
+[DebuggerDisplay("R = {R}, G = {G}, B = {B}, A = {A}")]
+[StructLayout(LayoutKind.Sequential)]
+public struct AllegroColor
 {
-  [StructLayout(LayoutKind.Sequential, Pack = 1)]
-  public struct AllegroColor
+  /// <summary>
+  /// Gets or sets the alpha component.
+  /// </summary>
+  public float A
   {
-    public float R
-    {
-      get => r;
-      set => r = value;
-    }
-
-    public byte RByte
-    {
-      get => (byte)(r * 255f);
-      set => r = (value / 255f);
-    }
-
-    public float G
-    {
-      get => g;
-      set => g = value;
-    }
-
-    public byte GByte
-    {
-      get => (byte)(g * 255f);
-      set => g = (value / 255f);
-    }
-
-    public float B
-    {
-      get => b;
-      set => b = value;
-    }
-
-    public byte BByte
-    {
-      get => (byte)(b * 255f);
-      set => b = (value / 255f);
-    }
-
-    public float A
-    {
-      get => a;
-      set => a = value;
-    }
-
-    public byte AByte
-    {
-      get => (byte)(a * 255f);
-      set => a = (value / 255f);
-    }
-
-    internal float r;
-    internal float g;
-    internal float b;
-    internal float a;
+    readonly get => a;
+    set => a = value;
   }
+
+  /// <summary>
+  /// Gets or sets the blue component.
+  /// </summary>
+  public float B
+  {
+    readonly get => b;
+    set => b = value;
+  }
+
+  /// <summary>
+  /// Gets or sets the green component.
+  /// </summary>
+  public float G
+  {
+    readonly get => g;
+    set => g = value;
+  }
+
+  /// <summary>
+  /// Gets or sets the red component.
+  /// </summary>
+  public float R
+  {
+    readonly get => r;
+    set => r = value;
+  }
+
+  internal float r;
+  internal float g;
+  internal float b;
+  internal float a;
 }

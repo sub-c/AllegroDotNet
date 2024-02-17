@@ -1,13 +1,29 @@
-﻿namespace SubC.AllegroDotNet.Models;
+﻿using System.Runtime.InteropServices;
 
-public sealed class AllegroVertexElement
+namespace SubC.AllegroDotNet.Models;
+
+[StructLayout(LayoutKind.Sequential)]
+public struct AllegroVertexElement
 {
-  internal NativeAllegroVertexElement NativeVertexElement = new();
-
-  internal struct NativeAllegroVertexElement
+  public int Attribute
   {
-    //public int attribute;
-    //public int storage;
-    //public int offset;
+    readonly get => attribute;
+    set => attribute = value;
   }
+
+  public int Offset
+  {
+    readonly get => offset;
+    set => offset = value;
+  }
+
+  public int Storage
+  {
+    readonly get => storage;
+    set => storage = value;
+  }
+
+  private int attribute;
+  private int storage;
+  private int offset;
 }

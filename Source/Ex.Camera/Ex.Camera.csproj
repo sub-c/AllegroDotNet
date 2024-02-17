@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <BaseOutputPath>..\..\Artifacts\bin\</BaseOutputPath>
+    <Platforms>x64</Platforms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="SubC.AllegroDotNet.Win64" Version="5.2.8.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AllegroDotNet\AllegroDotNet.csproj" />
+    <ProjectReference Include="..\Ex.Data\Ex.Data.csproj" />
+  </ItemGroup>
+
+</Project>

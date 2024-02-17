@@ -5,47 +5,50 @@ using System.Runtime.InteropServices;
 
 namespace SubC.AllegroDotNet;
 
+/// <summary>
+/// This static class contains the Allegro 5 library methods.
+/// </summary>
 public static partial class Al
 {
   public static bool InstallKeyboard()
   {
-    return NativeFunctions.AlInstallKeyboard();
+    return Interop.Core.AlInstallKeyboard() != 0;
   }
 
   public static bool IsKeyboardInstalled()
   {
-    return NativeFunctions.AlIsKeyboardInstalled();
+    return Interop.Core.AlIsKeyboardInstalled() != 0;
   }
 
   public static void UninstallKeyboard()
   {
-    NativeFunctions.AlUninstallKeyboard();
+    Interop.Core.AlUninstallKeyboard();
   }
 
-  public static void GetKeyboardState(AllegroKeyboardState keyboardState)
+  public static void GetKeyboardState(ref AllegroKeyboardState retState)
   {
-    NativeFunctions.AlGetKeyboardState(ref keyboardState.KeyboardState);
+    Interop.Core.AlGetKeyboardState(ref retState);
   }
 
-  public static bool KeyDown(AllegroKeyboardState keyboardState, KeyCode keyCode)
+  public static bool KeyDown(ref AllegroKeyboardState state, KeyCode keyCode)
   {
-    return NativeFunctions.AlKeyDown(ref keyboardState.KeyboardState, (int)keyCode);
+    return Interop.Core.AlKeyDown(ref state, (int)keyCode) != 0;
   }
 
   public static string? KeycodeToName(KeyCode keyCode)
   {
-    var nativeName = NativeFunctions.AlKeycodeToName((int)keyCode);
-    return Marshal.PtrToStringAnsi(nativeName);
+    var pointer = Interop.Core.AlKeycodeToName((int)keyCode);
+    return Marshal.PtrToStringAnsi(pointer);
   }
 
   public static bool SetKeyboardLeds(KeyCode keyCode)
   {
-    return NativeFunctions.AlSetKeyboardLeds((int)keyCode);
+    return Interop.Core.AlSetKeyboardLeds((int)keyCode) != 0;
   }
 
   public static AllegroEventSource? GetKeyboardEventSource()
   {
-    var nativeSource = NativeFunctions.AlGetKeyboardEventSource();
-    return NativePointerModel.Create<AllegroEventSource>(nativeSource);
+    var pointer = Interop.Core.AlGetKeyboardEventSource();
+    return NativePointer.Create<AllegroEventSource>(pointer);
   }
 }

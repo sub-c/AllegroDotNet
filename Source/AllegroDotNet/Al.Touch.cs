@@ -3,31 +3,34 @@ using SubC.AllegroDotNet.Native;
 
 namespace SubC.AllegroDotNet;
 
+/// <summary>
+/// This static class contains the Allegro 5 library methods.
+/// </summary>
 public static partial class Al
 {
   public static bool InstallTouchInput()
   {
-    return NativeFunctions.AlInstallTouchInput();
+    return Interop.Core.AlInstallTouchInput() != 0;
   }
 
   public static void UninstallTouchInput()
   {
-    NativeFunctions.AlUninstallTouchInput();
+    Interop.Core.AlUninstallTouchInput();
   }
 
   public static bool IsTouchInputInstalled()
   {
-    return NativeFunctions.AlIsTouchInputInstalled();
+    return Interop.Core.AlIsTouchInputInstalled() != 0;
   }
 
-  public static void GetTouchInputState(AllegroTouchInputState touchState)
+  public static void GetTouchInputState(ref AllegroTouchInputState touchState)
   {
-    NativeFunctions.AlGetTouchInputState(ref touchState.TouchInputState);
+    Interop.Core.AlGetTouchInputState(ref touchState);
   }
 
   public static AllegroEventSource? GetTouchInputEventSource()
   {
-    var nativeSource = NativeFunctions.AlGetTouchInputEventSource();
-    return NativePointerModel.Create<AllegroEventSource>(nativeSource);
+    var pointer = Interop.Core.AlGetTouchInputEventSource();
+    return NativePointer.Create<AllegroEventSource>(pointer);
   }
 }

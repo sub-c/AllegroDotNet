@@ -1,162 +1,127 @@
 ﻿using SubC.AllegroDotNet.Models;
 using SubC.AllegroDotNet.Native;
-using System;
 using System.Runtime.InteropServices;
 
 namespace SubC.AllegroDotNet;
 
+/// <summary>
+/// This static class contains the Allegro 5 library methods.
+/// </summary>
 public static partial class Al
 {
-  /// <summary>
-  /// Create a new and empty event queue.
-  /// </summary>
-  /// <returns>A new and empty event queue instance, or null on error.</returns>
   public static AllegroEventQueue? CreateEventQueue()
   {
-    var nativePointer = NativeFunctions.AlCreateEventQueue();
-    return NativePointerModel.Create<AllegroEventQueue>(nativePointer);
+    var pointer = Interop.Core.AlCreateEventQueue();
+    return NativePointer.Create<AllegroEventQueue>(pointer);
   }
 
-  /// <summary>
-  /// Destroy the event queue specified. All event sources currently registered with the queue will be
-  /// automatically unregistered before the queue is destroyed.
-  /// </summary>
-  /// <param name="queue">The event queue instance to destroy.</param>
   public static void DestroyEventQueue(AllegroEventQueue? queue)
   {
-    NativeFunctions.AlDestroyEventQueue(NativePointerModel.GetPointer(queue));
+    Interop.Core.AlDestroyEventQueue(NativePointer.Get(queue));
   }
 
-  /// <summary>
-  /// Register the event source with the event queue specified. An event source may be registered with any
-  /// number of event queues simultaneously, or none. Trying to register an event source with the same event
-  /// queue more than once does nothing.
-  /// </summary>
-  /// <param name="queue">The event queue to register the source with.</param>
-  /// <param name="source">The event source to register.</param>
   public static void RegisterEventSource(AllegroEventQueue? queue, AllegroEventSource? source)
   {
-    NativeFunctions.AlRegisterEventSource(NativePointerModel.GetPointer(queue), NativePointerModel.GetPointer(source));
+    Interop.Core.AlRegisterEventSource(NativePointer.Get(queue), NativePointer.Get(source));
   }
 
-  /// <summary>
-  /// Unregister an event source with an event queue. If the event source is not actually registered with the
-  /// event queue, nothing happens. If the queue had any events in it which originated from the event source,
-  /// they will no longer be in the queue after this call.
-  /// </summary>
-  /// <param name="queue">The event queue to unregister the source from.</param>
-  /// <param name="source">The event source to unregister.</param>
   public static void UnregisterEventSource(AllegroEventQueue? queue, AllegroEventSource? source)
   {
-    NativeFunctions.AlUnregisterEventSource(NativePointerModel.GetPointer(queue), NativePointerModel.GetPointer(source));
+    Interop.Core.AlUnregisterEventSource(NativePointer.Get(queue), NativePointer.Get(source));
   }
 
-  /// <summary>
-  /// Determines if a given event source is registered to a given event queue.
-  /// </summary>
-  /// <param name="queue">The event queue to see if a source is registered with.</param>
-  /// <param name="source">The event source to check if registered with a queue.</param>
-  /// <returns>True if the event source is registered, otherwise false.</returns>
   public static bool IsEventSourceRegistered(AllegroEventQueue? queue, AllegroEventSource? source)
   {
-    return NativeFunctions.AlIsEventSourceRegistered(NativePointerModel.GetPointer(queue), NativePointerModel.GetPointer(source));
+    return Interop.Core.AlIsEventSourceRegistered(NativePointer.Get(queue), NativePointer.Get(source)) != 0;
   }
 
   public static void PauseEventQueue(AllegroEventQueue? queue, bool pause)
   {
-    NativeFunctions.AlPauseEventQueue(NativePointerModel.GetPointer(queue), pause);
+    Interop.Core.AlPauseEventQueue(NativePointer.Get(queue), (byte)(pause ? 1 : 0));
   }
 
   public static bool IsEventQueuePaused(AllegroEventQueue? queue)
   {
-    return NativeFunctions.AlIsEventQueuePaused(NativePointerModel.GetPointer(queue));
+    return Interop.Core.AlIsEventQueuePaused(NativePointer.Get(queue)) != 0;
   }
 
   public static bool IsEventQueueEmpty(AllegroEventQueue? queue)
   {
-    return NativeFunctions.AlIsEventQueueEmpty(NativePointerModel.GetPointer(queue));
+    return Interop.Core.AlIsEventQueueEmpty(NativePointer.Get(queue)) != 0;
   }
 
-  public static bool GetNextEvent(AllegroEventQueue? queue, AllegroEvent allegroEvent)
+  public static bool GetNextEvent(AllegroEventQueue? queue, ref AllegroEvent retEvent)
   {
-    return NativeFunctions.AlGetNextEvent(NativePointerModel.GetPointer(queue), ref allegroEvent.NativeEvent);
+    return Interop.Core.AlGetNextEvent(NativePointer.Get(queue), ref retEvent) != 0;
   }
 
-  public static bool PeekNextEvent(AllegroEventQueue? queue, AllegroEvent allegroEvent)
+  public static bool PeekNextEvent(AllegroEventQueue? queue, ref AllegroEvent retEvent)
   {
-    return NativeFunctions.AlPeekNextEvent(NativePointerModel.GetPointer(queue), ref allegroEvent.NativeEvent);
+    return Interop.Core.AlPeekNextEvent(NativePointer.Get(queue), ref retEvent) != 0;
   }
 
   public static bool DropNextEvent(AllegroEventQueue? queue)
   {
-    return NativeFunctions.AlDropNextEvent(NativePointerModel.GetPointer(queue));
+    return Interop.Core.AlDropNextEvent(NativePointer.Get(queue)) != 0;
   }
 
   public static void FlushEventQueue(AllegroEventQueue? queue)
   {
-    NativeFunctions.AlFlushEventQueue(NativePointerModel.GetPointer(queue));
+    Interop.Core.AlFlushEventQueue(NativePointer.Get(queue));
   }
 
-  public static void WaitForEvent(AllegroEventQueue? queue, AllegroEvent allegroEvent)
+  public static void WaitForEvent(AllegroEventQueue? queue, ref AllegroEvent retEvent)
   {
-    NativeFunctions.AlWaitForEvent(NativePointerModel.GetPointer(queue), ref allegroEvent.NativeEvent);
+    Interop.Core.AlWaitForEvent(NativePointer.Get(queue), ref retEvent);
   }
 
-  public static void WaitForEventTimed(AllegroEventQueue? queue, AllegroEvent allegroEvent, float secs)
+  public static bool WaitForEventTimed(AllegroEventQueue? queue, ref AllegroEvent retEvent, float seconds)
   {
-    NativeFunctions.AlWaitForEventTimed(NativePointerModel.GetPointer(queue), ref allegroEvent.NativeEvent, secs);
+    return Interop.Core.AlWaitForEventTimed(NativePointer.Get(queue), ref retEvent, seconds) != 0;
   }
 
-  public static bool WaitForEventUntil(AllegroEventQueue? queue, AllegroEvent allegroEvent, AllegroTimeout timeout)
+  public static bool WaitForEventUntil(AllegroEventQueue? queue, ref AllegroEvent retEvent, AllegroTimeout? timeout)
   {
-    return NativeFunctions.AlWaitForEventUntil(NativePointerModel.GetPointer(queue), ref allegroEvent.NativeEvent, ref timeout.NativeTimeout);
+    return Interop.Core.AlWaitForEventUntil(NativePointer.Get(queue), ref retEvent, NativePointer.Get(timeout)) != 0;
   }
 
   public static void InitUserEventSource(out AllegroEventSource? source)
   {
-    var nativeEventSouce = Marshal.AllocHGlobal(Marshal.SizeOf<AllegroEventSource.NativeAllegroEventSource>());
-    NativeFunctions.AlInitUserEventSource(nativeEventSouce);
-    source = NativePointerModel.Create<AllegroEventSource>(nativeEventSouce);
+    var nativeEventSourceSize = Marshal.SizeOf<int>() * 32;
+    var pointer = Marshal.AllocHGlobal(nativeEventSourceSize);
+    source = pointer == IntPtr.Zero
+      ? null
+      : NativePointer.Create<AllegroEventSource>(pointer);
+
+    if (source is not null)
+      Interop.Core.AlInitUserEventSource(NativePointer.Get(source));
   }
 
   public static void DestroyUserEventSource(AllegroEventSource? source)
   {
-    NativeFunctions.AlDestroyUserEventSource(NativePointerModel.GetPointer(source));
-    Marshal.FreeHGlobal(NativePointerModel.GetPointer(source));
+    Interop.Core.AlDestroyUserEventSource(NativePointer.Get(source));
+
+    if (source is not null)
+      Marshal.FreeHGlobal(source.Pointer);
   }
 
-  public static bool EmitUserEvent(
-      AllegroEventSource? source,
-      AllegroEvent allegroEvent,
-      NativeDelegates.UserEventDelegate? userEventDelegate)
+  public static bool EmitUserEvent(AllegroEventSource? source, AllegroEvent @event, Delegates.UserEventDeconstructor? dtor)
   {
-    return NativeFunctions.AlEmitUserEvent(NativePointerModel.GetPointer(source), ref allegroEvent.NativeEvent, userEventDelegate);
+    return Interop.Core.AlEmitUserEvent(NativePointer.Get(source), ref @event, dtor) != 0;
   }
 
-  public static void UnrefUserEvent(AllegroUserEvent userEvent)
+  public static void UnrefUserEvent(ref AllegroUserEvent @event)
   {
-    NativeFunctions.AlUnrefUserEvent(ref userEvent.NativeUserEvent);
+    Interop.Core.AlUnrefUserEvent(ref @event);
   }
 
-  /// <summary>
-  /// Returns the abstract user data associated with the event source. If no data was previously set,
-  /// returns null.
-  /// </summary>
-  /// <param name="source">The event source to get user data from.</param>
-  /// <returns>The abstract user data associated with the event source, otherwise null.</returns>
   public static IntPtr GetEventSourceData(AllegroEventSource? source)
   {
-    return NativeFunctions.AlGetEventSourceData(NativePointerModel.GetPointer(source));
+    return Interop.Core.AlGetEventSourceData(NativePointer.Get(source));
   }
 
-  /// <summary>
-  /// Assign the abstract user data to the event source. Allegro does not use the data internally for
-  /// anything; it is simply meant as a convenient way to associate your own data or objects with events.
-  /// </summary>
-  /// <param name="source">The event source to assign user data to.</param>
-  /// <param name="data">The user data to assign to the event source.</param>
   public static void SetEventSourceData(AllegroEventSource? source, IntPtr data)
   {
-    NativeFunctions.AlSetEventSourceData(NativePointerModel.GetPointer(source), data);
+    Interop.Core.AlSetEventSourceData(NativePointer.Get(source), data);
   }
 }

@@ -1,517 +1,606 @@
 ﻿using SubC.AllegroDotNet.Enums;
 using SubC.AllegroDotNet.Models;
 using SubC.AllegroDotNet.Native;
-using System;
 using System.Runtime.InteropServices;
 
 namespace SubC.AllegroDotNet;
 
+/// <summary>
+/// This static class contains the Allegro 5 library methods.
+/// </summary>
 public static partial class Al
 {
   public static AllegroColor MapRgb(byte r, byte g, byte b)
   {
-    return NativeFunctions.AlMapRgb(r, g, b);
+    return Interop.Core.AlMapRgb(r, g, b);
   }
 
   public static AllegroColor MapRgbF(float r, float g, float b)
   {
-    return NativeFunctions.AlMapRgbF(r, g, b);
+    return Interop.Core.AlMapRgbF(r, g, b);
   }
 
   public static AllegroColor MapRgba(byte r, byte g, byte b, byte a)
   {
-    return NativeFunctions.AlMapRgba(r, g, b, a);
+    return Interop.Core.AlMapRgba(r, g, b, a);
   }
-
   public static AllegroColor PremulRgba(byte r, byte g, byte b, byte a)
   {
-    return NativeFunctions.AlPremulRgba(r, g, b, a);
+    return Interop.Core.AlPremulRgba(r, g, b, a);
   }
 
   public static AllegroColor MapRgbaF(float r, float g, float b, float a)
   {
-    return NativeFunctions.AlMapRgbaF(r, g, b, a);
+    return Interop.Core.AlMapRgbaF(r, g, b, a);
   }
 
   public static AllegroColor PremulRgbaF(float r, float g, float b, float a)
   {
-    return NativeFunctions.AlPremulRgbaF(r, g, b, a);
+    return Interop.Core.AlPremulRgbaF(r, g, b, a);
   }
 
-  public static void UnmapRgb(ref byte r, ref byte g, ref byte b)
+  public static void UnmapRgb(AllegroColor color, ref byte r, ref byte g, ref byte b)
   {
-    NativeFunctions.AlUnmapRgb(ref r, ref g, ref b);
+    Interop.Core.AlUnmapRgb(color, ref r, ref g, ref b);
   }
 
-  public static void UnmapRgbF(ref float r, ref float g, ref float b)
+  public static void UnmapRgbF(AllegroColor color, ref float r, ref float g, ref float b, ref float a)
   {
-    NativeFunctions.AlUnmapRgbF(ref r, ref g, ref b);
+    Interop.Core.AlUnmapRgbF(color, ref r, ref g, ref b);
   }
 
-  public static void UnmapRgba(ref byte r, ref byte g, ref byte b, ref byte a)
+  public static void UnmapRgba(AllegroColor color, ref byte r, ref byte g, ref byte b, ref byte a)
   {
-    NativeFunctions.AlUnmapRgba(ref r, ref g, ref b, ref a);
+    Interop.Core.AlUnmapRgba(color, ref r, ref g, ref b, ref a);
   }
 
-  public static void UnmapRgbaF(ref float r, ref float g, ref float b, ref float a)
+  public static void UnmapRgbaF(AllegroColor color, ref float r, ref float g, ref float b, ref float a)
   {
-    NativeFunctions.AlUnmapRgbaF(ref r, ref g, ref b, ref a);
+    Interop.Core.AlUnmapRgbaF(color, ref r, ref g, ref b, ref a);
   }
 
   public static int GetPixelSize(PixelFormat format)
   {
-    return NativeFunctions.AlGetPixelSize((int)format);
+    return Interop.Core.AlGetPixelSize((int)format);
   }
 
   public static int GetPixelFormatBits(PixelFormat format)
   {
-    return NativeFunctions.AlGetPixelFormatBits((int)format);
+    return Interop.Core.AlGetPixelFormatBits((int)format);
   }
 
   public static int GetPixelBlockSize(PixelFormat format)
   {
-    return NativeFunctions.AlGetPixelBlockSize((int)format);
+    return Interop.Core.AlGetPixelBlockSize((int)format);
   }
 
   public static int GetPixelBlockWidth(PixelFormat format)
   {
-    return NativeFunctions.AlGetPixelBlockWidth((int)format);
+    return Interop.Core.AlGetPixelBlockWidth((int)format);
   }
 
   public static int GetPixelBlockHeight(PixelFormat format)
   {
-    return NativeFunctions.AlGetPixelBlockHeight((int)format);
+    return Interop.Core.AlGetPixelBlockHeight((int)format);
   }
 
-  public static AllegroLockedRegion? LockBitmap(AllegroBitmap? bitmap, PixelFormat format, LockFlag flag)
+  public static AllegroLockedRegion? LockBitmap(AllegroBitmap? bitmap, PixelFormat format, LockFlag lockFlag)
   {
-    var nativeStructPtr = NativeFunctions.AlLockBitmap(NativePointerModel.GetPointer(bitmap), (int)format, (int)flag);
-    return nativeStructPtr == IntPtr.Zero
-        ? null
-        : Marshal.PtrToStructure<AllegroLockedRegion>(nativeStructPtr);
+    var pointer = Interop.Core.AlLockBitmap(NativePointer.Get(bitmap), (int)format, (int)lockFlag);
+    return pointer == IntPtr.Zero
+      ? null
+      : Marshal.PtrToStructure<AllegroLockedRegion>(pointer);
   }
 
-  public static AllegroLockedRegion? LockBitmapRegion(
-      AllegroBitmap? bitmap,
-      int x,
-      int y,
-      int width,
-      int height,
-      PixelFormat format,
-      LockFlag flag)
+  public static AllegroLockedRegion? LockBitmapRegion(AllegroBitmap? bitmap, int x, int y, int width, int height, PixelFormat format, LockFlag lockFlag)
   {
-    var nativeStructPtr = NativeFunctions.AlLockBitmapRegion(NativePointerModel.GetPointer(bitmap), x, y, width, height, (int)format, (int)flag);
-    return nativeStructPtr == IntPtr.Zero
-        ? null
-        : Marshal.PtrToStructure<AllegroLockedRegion>(nativeStructPtr);
+    var pointer = Interop.Core.AlLockBitmapRegion(NativePointer.Get(bitmap), x, y, width, height, (int)format, (int)lockFlag);
+    return pointer == IntPtr.Zero
+      ? null
+      : Marshal.PtrToStructure<AllegroLockedRegion>(pointer);
   }
 
   public static void UnlockBitmap(AllegroBitmap? bitmap)
   {
-    NativeFunctions.AlUnlockBitmap(NativePointerModel.GetPointer(bitmap));
+    Interop.Core.AlUnlockBitmap(NativePointer.Get(bitmap));
   }
 
-  public static AllegroLockedRegion? LockBitmapBlocked(AllegroBitmap? bitmap, LockFlag flag)
+  public static AllegroLockedRegion? LockBitmapBlocked(AllegroBitmap? bitmap, LockFlag lockFlag)
   {
-    var nativeStructPtr = NativeFunctions.AlLockBitmapBlocked(NativePointerModel.GetPointer(bitmap), (int)flag);
-    return nativeStructPtr == IntPtr.Zero
-        ? null
-        : Marshal.PtrToStructure<AllegroLockedRegion>(nativeStructPtr);
+    var pointer = Interop.Core.AlLockBitmapBlocked(NativePointer.Get(bitmap), (int)lockFlag);
+    return pointer == IntPtr.Zero
+      ? null
+      : Marshal.PtrToStructure<AllegroLockedRegion>(pointer);
   }
 
-  public static AllegroLockedRegion? LockBitmapRegionBlocked(AllegroBitmap? bitmap, int xBlock, int yBlock, int widthBlock, int heightBlock, LockFlag flag)
+  public static AllegroLockedRegion? LockBitmapRegionBlocked(
+    AllegroBitmap? bitmap,
+    int xBlock,
+    int yBlock,
+    int widthBlock,
+    int heightBlock,
+    LockFlag lockFlag)
   {
-    var nativeStructPtr = NativeFunctions.AlLockBitmapRegionBlocked(NativePointerModel.GetPointer(bitmap), xBlock, yBlock, widthBlock, heightBlock, (int)flag);
-    return nativeStructPtr == IntPtr.Zero
-        ? null
-        : Marshal.PtrToStructure<AllegroLockedRegion>(nativeStructPtr);
+    var pointer = Interop.Core.AlLockBitmapRegionBlocked(
+      NativePointer.Get(bitmap),
+      xBlock,
+      yBlock,
+      widthBlock,
+      heightBlock,
+      (int)lockFlag);
+
+    return pointer == IntPtr.Zero
+      ? null
+      : Marshal.PtrToStructure<AllegroLockedRegion>(pointer);
   }
 
-  public static AllegroBitmap? CreateBitmap(int width, int height)
+  public static AllegroBitmap? CreateBitmap(int w, int h)
   {
-    var nativeBitmap = NativeFunctions.AlCreateBitmap(width, height);
-    return NativePointerModel.Create<AllegroBitmap>(nativeBitmap);
+    var pointer = Interop.Core.AlCreateBitmap(w, h);
+    return NativePointer.Create<AllegroBitmap>(pointer);
   }
 
-  public static AllegroBitmap? CreateSubBitmap(AllegroBitmap? parent, int x, int y, int width, int height)
+  public static AllegroBitmap? CreateSubBitmap(AllegroBitmap? bitmap, int x, int y, int w, int h)
   {
-    var nativeSubBitmap = NativeFunctions.AlCreateSubBitmap(NativePointerModel.GetPointer(parent), x, y, width, height);
-    return NativePointerModel.Create<AllegroBitmap>(nativeSubBitmap);
+    var pointer = Interop.Core.AlCreateSubBitmap(NativePointer.Get(bitmap), x, y, w, h);
+    return NativePointer.Create<AllegroBitmap>(pointer);
   }
 
   public static AllegroBitmap? CloneBitmap(AllegroBitmap? bitmap)
   {
-    var nativeCloneBitmap = NativeFunctions.AlCloneBitmap(NativePointerModel.GetPointer(bitmap));
-    return NativePointerModel.Create<AllegroBitmap>(nativeCloneBitmap);
+    var pointer = Interop.Core.AlCloneBitmap(NativePointer.Get(bitmap));
+    return NativePointer.Create<AllegroBitmap>(pointer);
   }
 
   public static void ConvertBitmap(AllegroBitmap? bitmap)
   {
-    NativeFunctions.AlConvertBitmap(NativePointerModel.GetPointer(bitmap));
+    Interop.Core.AlConvertBitmap(NativePointer.Get(bitmap));
   }
 
-  public static void ConvertMemoryBitmap()
+  public static void ConvertMemoryBitmaps()
   {
-    NativeFunctions.AlConvertMemoryBitmaps();
+    Interop.Core.AlConvertMemoryBitmaps();
   }
 
   public static void DestroyBitmap(AllegroBitmap? bitmap)
   {
-    NativeFunctions.AlDestroyBitmap(NativePointerModel.GetPointer(bitmap));
+    Interop.Core.AlDestroyBitmap(NativePointer.Get(bitmap));
   }
 
   public static BitmapFlags GetNewBitmapFlags()
   {
-    return (BitmapFlags)NativeFunctions.AlGetNewBitmapFlags();
+    return (BitmapFlags)Interop.Core.AlGetNewBitmapFlags();
   }
 
   public static PixelFormat GetNewBitmapFormat()
   {
-    return (PixelFormat)NativeFunctions.AlGetNewBitmapFormat();
+    return (PixelFormat)Interop.Core.AlGetNewBitmapFormat();
   }
 
   public static void SetNewBitmapFlags(BitmapFlags flags)
   {
-    NativeFunctions.AlSetNewBitmapFlags((int)flags);
+    Interop.Core.AlSetNewBitmapFlags((int)flags);
   }
 
   public static void AddNewBitmapFlag(BitmapFlags flag)
   {
-    NativeFunctions.AlAddNewBitmapFlag((int)flag);
+    Interop.Core.AlAddNewBitmapFlag((int)flag);
   }
 
   public static void SetNewBitmapFormat(PixelFormat format)
   {
-    NativeFunctions.AlSetNewBitmapFormat((int)format);
+    Interop.Core.AlSetNewBitmapFormat((int)format);
   }
 
   public static BitmapFlags GetBitmapFlags(AllegroBitmap? bitmap)
   {
-    return (BitmapFlags)NativeFunctions.AlGetBitmapFlags(NativePointerModel.GetPointer(bitmap));
+    return (BitmapFlags)Interop.Core.AlGetBitmapFlags(NativePointer.Get(bitmap));
   }
 
   public static PixelFormat GetBitmapFormat(AllegroBitmap? bitmap)
   {
-    return (PixelFormat)NativeFunctions.AlGetBitmapFormat(NativePointerModel.GetPointer(bitmap));
+    return (PixelFormat)Interop.Core.AlGetBitmapFormat(NativePointer.Get(bitmap));
   }
 
   public static int GetBitmapHeight(AllegroBitmap? bitmap)
   {
-    return NativeFunctions.AlGetBitmapHeight(NativePointerModel.GetPointer(bitmap));
+    return Interop.Core.AlGetBitmapHeight(NativePointer.Get(bitmap));
   }
 
   public static int GetBitmapWidth(AllegroBitmap? bitmap)
   {
-    return NativeFunctions.AlGetBitmapWidth(NativePointerModel.GetPointer(bitmap));
+    return Interop.Core.AlGetBitmapWidth(NativePointer.Get(bitmap));
   }
 
   public static AllegroColor GetPixel(AllegroBitmap? bitmap, int x, int y)
   {
-    return NativeFunctions.AlGetPixel(NativePointerModel.GetPointer(bitmap), x, y);
+    return Interop.Core.AlGetPixel(NativePointer.Get(bitmap), x, y);
   }
 
   public static bool IsBitmapLocked(AllegroBitmap? bitmap)
   {
-    return NativeFunctions.AlIsBitmapLocked(NativePointerModel.GetPointer(bitmap));
+    return Interop.Core.AlIsBitmapLocked(NativePointer.Get(bitmap)) != 0;
   }
 
   public static bool IsCompatibleBitmap(AllegroBitmap? bitmap)
   {
-    return NativeFunctions.AlIsCompatibleBitmap(NativePointerModel.GetPointer(bitmap));
+    return Interop.Core.AlIsCompatibleBitmap(NativePointer.Get(bitmap)) != 0;
   }
 
   public static bool IsSubBitmap(AllegroBitmap? bitmap)
   {
-    return NativeFunctions.AlIsSubBitmap(NativePointerModel.GetPointer(bitmap));
+    return Interop.Core.AlIsSubBitmap(NativePointer.Get(bitmap)) != 0;
   }
 
   public static AllegroBitmap? GetParentBitmap(AllegroBitmap? bitmap)
   {
-    var nativeBitmap = NativeFunctions.AlGetParentBitmap(NativePointerModel.GetPointer(bitmap));
-    return NativePointerModel.Create<AllegroBitmap>(nativeBitmap);
+    var pointer = Interop.Core.AlGetParentBitmap(NativePointer.Get(bitmap));
+    return NativePointer.Create<AllegroBitmap>(pointer);
   }
 
   public static int GetBitmapX(AllegroBitmap? bitmap)
   {
-    return NativeFunctions.AlGetBitmapX(NativePointerModel.GetPointer(bitmap));
+    return Interop.Core.AlGetBitmapX(NativePointer.Get(bitmap));
   }
 
   public static int GetBitmapY(AllegroBitmap? bitmap)
   {
-    return NativeFunctions.AlGetBitmapY(NativePointerModel.GetPointer(bitmap));
+    return Interop.Core.AlGetBitmapY(NativePointer.Get(bitmap));
   }
 
-  public static void ReparentBitmap(AllegroBitmap? bitmap, AllegroBitmap? parent, int x, int y, int width, int height)
+  public static void ReparentBitmap(AllegroBitmap? bitmap, AllegroBitmap? parent, int x, int y, int w, int h)
   {
-    NativeFunctions.AlReparentBitmap(NativePointerModel.GetPointer(bitmap), NativePointerModel.GetPointer(parent), x, y, width, height);
+    Interop.Core.AlReparentBitmap(NativePointer.Get(bitmap), NativePointer.Get(parent), x, y, w, h);
   }
 
   public static void ClearToColor(AllegroColor color)
   {
-    NativeFunctions.AlClearToColor(color);
+    Interop.Core.AlClearToColor(color);
   }
 
   public static void ClearDepthBuffer(float z)
   {
-    NativeFunctions.AlClearDepthBuffer(z);
+    Interop.Core.AlClearDepthBuffer(z);
   }
 
   public static void DrawBitmap(AllegroBitmap? bitmap, float dx, float dy, FlipFlags flags)
   {
-    NativeFunctions.AlDrawBitmap(NativePointerModel.GetPointer(bitmap), dx, dy, (int)flags);
+    Interop.Core.AlDrawBitmap(NativePointer.Get(bitmap), dx, dy, (int)flags);
   }
 
   public static void DrawTintedBitmap(AllegroBitmap? bitmap, AllegroColor tint, float dx, float dy, FlipFlags flags)
   {
-    NativeFunctions.AlDrawTintedBitmap(NativePointerModel.GetPointer(bitmap), tint, dx, dy, (int)flags);
+    Interop.Core.AlDrawTintedBitmap(NativePointer.Get(bitmap), tint, dx, dy, (int)flags);
   }
 
   public static void DrawBitmapRegion(AllegroBitmap? bitmap, float sx, float sy, float sw, float sh, float dx, float dy, FlipFlags flags)
   {
-    NativeFunctions.AlDrawBitmapRegion(NativePointerModel.GetPointer(bitmap), sx, sy, sw, sh, dx, dy, (int)flags);
+    Interop.Core.AlDrawBitmapRegion(NativePointer.Get(bitmap), sx, sy, sw, sh, dx, dy, (int)flags);
   }
 
-  public static void DrawTintedBitmapRegion(AllegroBitmap? bitmap, AllegroColor tint, float sx, float sy, float sw, float sh, float dx, float dy, FlipFlags flags)
+  public static void DrawTintedBitmapRegion(
+    AllegroBitmap? bitmap,
+    AllegroColor tint,
+    float sx,
+    float sy,
+    float sw,
+    float sh,
+    float dx,
+    float dy,
+    FlipFlags flags)
   {
-    NativeFunctions.AlDrawTintedBitmapRegion(NativePointerModel.GetPointer(bitmap), tint, sx, sy, sw, sh, dx, dy, (int)flags);
+    Interop.Core.AlDrawTintedBitmapRegion(NativePointer.Get(bitmap), tint, sx, sy, sw, sh, dx, dy, (int)flags);
   }
 
   public static void DrawPixel(float x, float y, AllegroColor color)
   {
-    NativeFunctions.AlDrawPixel(x, y, color);
+    Interop.Core.AlDrawPixel(x, y, color);
   }
 
   public static void DrawRotatedBitmap(AllegroBitmap? bitmap, float cx, float cy, float dx, float dy, float angle, FlipFlags flags)
   {
-    NativeFunctions.AlDrawRotatedBitmap(NativePointerModel.GetPointer(bitmap), cx, cy, dx, dy, angle, (int)flags);
+    Interop.Core.AlDrawRotatedBitmap(NativePointer.Get(bitmap), cx, cy, dx, dy, angle, (int)flags);
   }
 
-  public static void DrawTintedRotatedBitmap(AllegroBitmap? bitmap, AllegroColor tint, float cx, float cy, float dx, float dy, float angle, FlipFlags flags)
+  public static void DrawTintedRotatedBitmap(
+    AllegroBitmap? bitmap,
+    AllegroColor tint,
+    float cx,
+    float cy,
+    float dx,
+    float dy,
+    float angle,
+    FlipFlags flags)
   {
-    NativeFunctions.AlDrawTintedRotatedBitmap(NativePointerModel.GetPointer(bitmap), tint, cx, cy, dx, dy, angle, (int)flags);
+    Interop.Core.AlDrawTintedRotatedBitmap(NativePointer.Get(bitmap), tint, cx, cy, dx, dy, angle, (int)flags);
   }
 
-  public static void DrawScaledRotatedBitmap(AllegroBitmap? bitmap, float cx, float cy, float dx, float dy, float xScale, float yScale, float angle, FlipFlags flags)
+  public static void DrawScaledRotatedBitmap(
+    AllegroBitmap? bitmap,
+    float cx,
+    float cy,
+    float dx,
+    float dy,
+    float xScale,
+    float yScale,
+    float angle,
+    FlipFlags flags)
   {
-    NativeFunctions.AlDrawScaledRotatedBitmap(NativePointerModel.GetPointer(bitmap), cx, cy, dx, dy, xScale, yScale, angle, (int)flags);
+    Interop.Core.AlDrawScaledRotatedBitmap(NativePointer.Get(bitmap), cx, cy, dx, dy, xScale, yScale, angle, (int)flags);
   }
 
-  public static void DrawTintedScaledRotatedBitmap(AllegroBitmap? bitmap, AllegroColor tint, float cx, float cy, float dx, float dy, float xScale, float yScale, float angle, FlipFlags flags)
+  public static void DrawTintedScaledRotatedBitmap(
+    AllegroBitmap? bitmap,
+    AllegroColor tint,
+    float cx,
+    float cy,
+    float dx,
+    float dy,
+    float xScale,
+    float yScale,
+    float angle,
+    FlipFlags flags)
   {
-    NativeFunctions.AlDrawTintedScaledRotatedBitmap(NativePointerModel.GetPointer(bitmap), tint, cx, cy, dx, dy, xScale, yScale, angle, (int)flags);
+    Interop.Core.AlDrawTintedScaledRotatedBitmap(NativePointer.Get(bitmap), tint, cx, cy, dx, dy, xScale, yScale, angle, (int)flags);
   }
 
-  public static void DrawTintedScaledRotatedBitmapRegion(AllegroBitmap? bitmap, float sx, float sy, float sw, float sh, AllegroColor tint, float cx, float cy, float dx, float dy, float xScale, float yScale, float angle, FlipFlags flags)
+  public static void DrawTintedScaledRotatedBitmapRegion(
+    AllegroBitmap? bitmap,
+    float sx,
+    float sy,
+    float sw,
+    float sh,
+    AllegroColor tint,
+    float cx,
+    float cy,
+    float dx,
+    float dy,
+    float xScale,
+    float yScale,
+    float angle,
+    FlipFlags flags)
   {
-    NativeFunctions.AlDrawTintedScaledRotatedBitmapRegion(NativePointerModel.GetPointer(bitmap), sx, sy, sw, sh, tint, cx, cy, dx, dy, xScale, yScale, angle, (int)flags);
+    Interop.Core.AlDrawTintedScaledRotatedBitmapRegion(
+      NativePointer.Get(bitmap),
+      sx,
+      sy,
+      sw,
+      sh,
+      tint,
+      cx,
+      cy,
+      dx,
+      dy,
+      xScale,
+      yScale,
+      angle,
+      (int)flags);
   }
 
   public static void DrawScaledBitmap(AllegroBitmap? bitmap, float sx, float sy, float sw, float sh, float dx, float dy, float dw, float dh, FlipFlags flags)
   {
-    NativeFunctions.AlDrawScaledBitmap(NativePointerModel.GetPointer(bitmap), sx, sy, sw, sh, dx, dy, dw, dh, (int)flags);
+    Interop.Core.AlDrawScaledBitmap(NativePointer.Get(bitmap), sx, sy, sw, sh, dx, dy, dw, dh, (int)flags);
   }
 
-  public static void DrawTintedScaledBitmap(AllegroBitmap? bitmap, AllegroColor tint, float sx, float sy, float sw, float sh, float dx, float dy, float dw, float dh, FlipFlags flags)
+  public static void DrawTintedScaledBitmap(
+    AllegroBitmap? bitmap,
+    AllegroColor tint,
+    float sx,
+    float sy,
+    float sw,
+    float sh,
+    float dx,
+    float dy,
+    float dw,
+    float dh,
+    FlipFlags flags)
   {
-    NativeFunctions.AlDrawTintedScaledBitmap(NativePointerModel.GetPointer(bitmap), tint, sx, sy, sw, sh, dx, dy, dw, dh, (int)flags);
+    Interop.Core.AlDrawTintedScaledBitmap(NativePointer.Get(bitmap), tint, sx, sy, sw, sh, dx, dy, sw, dh, (int)flags);
   }
 
   public static AllegroBitmap? GetTargetBitmap()
   {
-    var nativeBitmap = NativeFunctions.AlGetTargetBitmap();
-    return NativePointerModel.Create<AllegroBitmap>(nativeBitmap);
+    var pointer = Interop.Core.AlGetTargetBitmap();
+    return NativePointer.Create<AllegroBitmap>(pointer);
   }
 
   public static void PutPixel(int x, int y, AllegroColor color)
   {
-    NativeFunctions.AlPutPixel(x, y, color);
+    Interop.Core.AlPutPixel(x, y, color);
   }
 
   public static void PutBlendedPixel(int x, int y, AllegroColor color)
   {
-    NativeFunctions.AlPutBlendedPixel(x, y, color);
+    Interop.Core.AlPutBlendedPixel(x, y, color);
   }
 
   public static void SetTargetBitmap(AllegroBitmap? bitmap)
   {
-    NativeFunctions.AlSetTargetBitmap(NativePointerModel.GetPointer(bitmap));
+    Interop.Core.AlSetTargetBitmap(NativePointer.Get(bitmap));
   }
 
   public static void SetTargetBackbuffer(AllegroDisplay? display)
   {
-    NativeFunctions.AlSetTargetBackbuffer(NativePointerModel.GetPointer(display));
+    Interop.Core.AlSetTargetBackbuffer(NativePointer.Get(display));
   }
 
   public static AllegroDisplay? GetCurrentDisplay()
   {
-    var nativeDisplay = NativeFunctions.AlGetCurrentDisplay();
-    return NativePointerModel.Create<AllegroDisplay>(nativeDisplay);
+    var pointer = Interop.Core.AlGetCurrentDisplay();
+    return NativePointer.Create<AllegroDisplay>(pointer);
   }
 
-  public static void GetBlender(ref int op, ref int src, ref int dst)
+  public static void GetBlender(out BlendOperation operation, out BlendMode source, out BlendMode destination)
   {
-    NativeFunctions.AlGetBlender(ref op, ref src, ref dst);
+    int sourceInt = default;
+    int destinationInt = default;
+    int operationInt = default;
+
+    Interop.Core.AlGetBlender(ref operationInt, ref sourceInt, ref destinationInt);
+
+    operation = (BlendOperation)operationInt;
+    source = (BlendMode)sourceInt;
+    destination = (BlendMode)destinationInt;
   }
 
-  public static void GetSeparateBlender(ref int op, ref int src, ref int dst, ref int alphaOp, ref int alphaSrc, ref int alphaDst)
+  public static void GetSeparateBlender(
+    out BlendOperation operation,
+    out BlendMode source,
+    out BlendMode destination,
+    out BlendOperation alphaOperation,
+    out BlendMode alphaSource,
+    out BlendMode alphaDestination)
   {
-    NativeFunctions.AlGetSeparateBlender(ref op, ref src, ref dst, ref alphaOp, ref alphaSrc, ref alphaDst);
+    int sourceInt = default;
+    int destinationInt = default;
+    int alphaSourceInt = default;
+    int alphaDestinationInt = default;
+    int operationInt = default;
+    int alphaOperationInt = default;
+
+    Interop.Core.AlGetSeparateBlender(
+      ref operationInt,
+      ref sourceInt,
+      ref destinationInt,
+      ref alphaOperationInt,
+      ref alphaSourceInt,
+      ref alphaDestinationInt);
+
+    operation = (BlendOperation)operationInt;
+    source = (BlendMode)sourceInt;
+    destination = (BlendMode)destinationInt;
+    alphaOperation = (BlendOperation)alphaOperationInt;
+    alphaSource = (BlendMode)alphaSourceInt;
+    alphaDestination = (BlendMode)alphaDestinationInt;
   }
 
   public static AllegroColor GetBlendColor()
   {
-    return NativeFunctions.AlGetBlendColor();
+    return Interop.Core.AlGetBlendColor();
   }
 
-  public static void SetBlender(int op, int src, int dst)
+  public static void SetBlender(BlendOperation operation, BlendMode source, BlendMode destination)
   {
-    NativeFunctions.AlSetBlender(op, src, dst);
+    Interop.Core.AlSetBlender((int)operation, (int)source, (int)destination);
   }
 
-  public static void SetSeparateBlender(int op, int src, int dst, int alphaOp, int alphaSrc, int alphaDst)
+  public static void SetSeparateBLender(
+    BlendOperation operation,
+    BlendMode source,
+    BlendMode destination,
+    BlendOperation alphaOperation,
+    BlendMode alphaSource,
+    BlendMode alphaDestination)
   {
-    NativeFunctions.AlSetSeparateBlender(op, src, dst, alphaOp, alphaSrc, alphaDst);
+    Interop.Core.AlSetSeparateBlender(
+      (int)operation,
+      (int)source,
+      (int)destination,
+      (int)alphaOperation,
+      (int)alphaSource,
+      (int)alphaDestination);
   }
 
   public static void SetBlendColor(AllegroColor color)
   {
-    NativeFunctions.AlSetBlendColor(color);
+    Interop.Core.AlSetBlendColor(color);
   }
 
-  public static void GetClippingRectangle(ref int x, ref int y, ref int width, ref int height)
+  public static void GetClippingRectangle(out int x, out int y, out int width, out int height)
   {
-    NativeFunctions.AlGetClippingRectangle(ref x, ref y, ref width, ref height);
+    int xInt = default, yInt = default, widthInt = default, heightInt = default;
+
+    Interop.Core.AlGetClippingRectangle(ref xInt, ref yInt, ref widthInt, ref heightInt);
+
+    x = xInt;
+    y = yInt;
+    width = widthInt;
+    height = heightInt;
   }
 
   public static void SetClippingRectangle(int x, int y, int width, int height)
   {
-    NativeFunctions.AlSetClippingRectangle(x, y, width, height);
+    Interop.Core.AlSetClippingRectangle(x, y, width, height);
   }
 
   public static void ResetClippingRectangle()
   {
-    NativeFunctions.AlResetClippingRectangle();
+    Interop.Core.AlResetClippingRectangle();
   }
 
   public static void ConvertMaskToAlpha(AllegroBitmap? bitmap, AllegroColor maskColor)
   {
-    NativeFunctions.AlConvertMaskToAlpha(NativePointerModel.GetPointer(bitmap), maskColor);
+    Interop.Core.AlConvertMaskToAlpha(NativePointer.Get(bitmap), maskColor);
   }
 
-  public static void HoldBitmapDrawing(bool hold)
+  public static void HoldBitmapDrawing(bool isHeld)
   {
-    NativeFunctions.AlHoldBitmapDrawing(hold);
+    Interop.Core.AlHoldBitmapDrawing((byte)(isHeld ? 1 : 0));
   }
 
   public static bool IsBitmapDrawingHeld()
   {
-    return NativeFunctions.AlIsBitmapDrawingHeld();
-  }
-
-  public static bool RegisterBitmapLoader(string extension, NativeDelegates.RegisterBitmapLoader loader)
-  {
-    var nativeExtension = Marshal.StringToHGlobalAnsi(extension);
-    var result = NativeFunctions.AlRegisterBitmapLoader(nativeExtension, loader);
-    Marshal.FreeHGlobal(nativeExtension);
-    return result;
-  }
-
-  public static bool RegisterBitmapSaver(string extension, NativeDelegates.RegisterBitmapSaver saver)
-  {
-    var nativeExtension = Marshal.StringToHGlobalAnsi(extension);
-    var result = NativeFunctions.AlRegisterBitmapSaver(nativeExtension, saver);
-    Marshal.FreeHGlobal(nativeExtension);
-    return result;
-  }
-
-  public static bool RegisterBitmapLoaderF(string extension, NativeDelegates.RegisterBitmapLoaderF fsLoader)
-  {
-    var nativeExtension = Marshal.StringToHGlobalAnsi(extension);
-    var result = NativeFunctions.AlRegisterBitmapLoaderF(nativeExtension, fsLoader);
-    Marshal.FreeHGlobal(nativeExtension);
-    return result;
-  }
-
-  public static bool RegisterBitmapSaverF(string extension, NativeDelegates.RegisterBitmapSaverF fsSaver)
-  {
-    var nativeExtension = Marshal.StringToHGlobalAnsi(extension);
-    var result = NativeFunctions.AlRegisterBitmapSaverF(nativeExtension, fsSaver);
-    Marshal.FreeHGlobal(nativeExtension);
-    return result;
+    return Interop.Core.AlIsBitmapDrawingHeld() != 0;
   }
 
   public static AllegroBitmap? LoadBitmap(string filename)
   {
-    var nativeFilename = Marshal.StringToHGlobalAnsi(filename);
-    var nativeBitmap = NativeFunctions.AlLoadBitmap(nativeFilename);
-    Marshal.FreeHGlobal(nativeFilename);
-    return NativePointerModel.Create<AllegroBitmap>(nativeBitmap);
+    using var nativeFilename = new CStringAnsi(filename);
+    var pointer = Interop.Core.AlLoadBitmap(nativeFilename.Pointer);
+    return NativePointer.Create<AllegroBitmap>(pointer);
   }
 
   public static AllegroBitmap? LoadBitmapFlags(string filename, LoadBitmapFlags flags)
   {
-    var nativeFilename = Marshal.StringToHGlobalAnsi(filename);
-    var nativeBitmap = NativeFunctions.AlLoadBitmapFlags(nativeFilename, (int)flags);
-    Marshal.FreeHGlobal(nativeFilename);
-    return NativePointerModel.Create<AllegroBitmap>(nativeBitmap);
+    using var nativeFilename = new CStringAnsi(filename);
+    var pointer = Interop.Core.AlLoadBitmapFlags(nativeFilename.Pointer, (int)flags);
+    return NativePointer.Create<AllegroBitmap>(pointer);
   }
 
-  public static AllegroBitmap? LoadBitmapF(AllegroFile? file, string ident)
+  public static AllegroBitmap? LoadBitmapF(AllegroFile? file, string identifier)
   {
-    var nativeIdent = Marshal.StringToHGlobalAnsi(ident);
-    var nativeBitmap = NativeFunctions.AlLoadBitmapF(NativePointerModel.GetPointer(file), nativeIdent);
-    Marshal.FreeHGlobal(nativeIdent);
-    return NativePointerModel.Create<AllegroBitmap>(nativeBitmap);
+    using var nativeIdentifier = new CStringAnsi(identifier);
+    var pointer = Interop.Core.AlLoadBitmapF(NativePointer.Get(file), nativeIdentifier.Pointer);
+    return NativePointer.Create<AllegroBitmap>(pointer);
   }
 
-  public static AllegroBitmap? LoadBitmapFlagsF(AllegroFile? file, string ident, LoadBitmapFlags flags)
+  public static AllegroBitmap? LoadBitmapFlagsF(AllegroFile? file, string identifier, LoadBitmapFlags flags)
   {
-    var nativeIdent = Marshal.StringToHGlobalAnsi(ident);
-    var nativeBitmap = NativeFunctions.AlLoadBitmapFlagsF(NativePointerModel.GetPointer(file), nativeIdent, (int)flags);
-    Marshal.FreeHGlobal(nativeIdent);
-    return NativePointerModel.Create<AllegroBitmap>(nativeBitmap);
+    using var nativeIdentifier = new CStringAnsi(identifier);
+    var pointer = Interop.Core.AlLoadBitmapFlagsF(NativePointer.Get(file), nativeIdentifier.Pointer, (int)flags);
+    return NativePointer.Create<AllegroBitmap>(pointer);
   }
 
   public static bool SaveBitmap(string filename, AllegroBitmap? bitmap)
   {
-    var nativeFilename = Marshal.StringToHGlobalAnsi(filename);
-    var result = NativeFunctions.AlSaveBitmap(nativeFilename, NativePointerModel.GetPointer(bitmap));
-    Marshal.FreeHGlobal(nativeFilename);
-    return result;
+    using var nativeFilename = new CStringAnsi(filename);
+    return Interop.Core.AlSaveBitmap(nativeFilename.Pointer, NativePointer.Get(bitmap)) != 0;
   }
 
-  public static bool SaveBitmapF(AllegroFile file, string ident, AllegroBitmap? bitmap)
+  public static bool SaveBitmapF(AllegroFile? file, string identifier, AllegroBitmap? bitmap)
   {
-    var nativeIdent = Marshal.StringToHGlobalAnsi(ident);
-    var result = NativeFunctions.AlSaveBitmapF(file.NativePointer, nativeIdent, NativePointerModel.GetPointer(bitmap));
-    Marshal.FreeHGlobal(nativeIdent);
-    return result;
+    using var nativeIdentifier = new CStringAnsi(identifier);
+    return Interop.Core.AlSaveBitmapF(NativePointer.Get(file), nativeIdentifier.Pointer, NativePointer.Get(bitmap)) != 0;
   }
 
-  public static bool RegisterBitmapIdentifier(string extension, NativeDelegates.RegisterBitmapIdentifier identifier)
+  public static void SetRenderState(AllegroRenderState state, bool value)
   {
-    var nativeExtension = Marshal.StringToHGlobalAnsi(extension);
-    var result = NativeFunctions.AlRegisterBitmapIdentifier(nativeExtension, identifier);
-    Marshal.FreeHGlobal(nativeExtension);
-    return result;
+    var nativeValue = value ? 1 : 0;
+    Interop.Core.AlSetRenderState((int)state, nativeValue);
   }
 
-  public static string? IdentifyBitmap(string filename)
+  public static void SetRenderState(AllegroRenderState state, AllegroRenderFunction function)
   {
-    var nativeFilename = Marshal.StringToHGlobalAnsi(filename);
-    var nativeResult = NativeFunctions.AlIdentifyBitmap(nativeFilename);
-    Marshal.FreeHGlobal(nativeFilename);
-    return Marshal.PtrToStringAnsi(nativeResult);
+    Interop.Core.AlSetRenderState((int)state, (int)function);
   }
 
-  public static string? IdentifyBitmapF(AllegroFile? file)
+  public static void SetRenderState(AllegroRenderState state, AllegroWriteMaskFlags maskFlags)
   {
-    var nativeResult = NativeFunctions.AlIdentifyBitmapF(NativePointerModel.GetPointer(file));
-    return Marshal.PtrToStringAnsi(nativeResult);
+    Interop.Core.AlSetRenderState((int)state, (int)maskFlags);
   }
 
-  public static void SetRenderState(RenderState state, int value)
+  public static void SetRenderState(AllegroRenderState state, int value)
   {
-    NativeFunctions.AlSetRenderState((int)state, value);
+    Interop.Core.AlSetRenderState((int)state, value);
   }
 }

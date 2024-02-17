@@ -1,42 +1,36 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace SubC.AllegroDotNet.Models
+namespace SubC.AllegroDotNet.Models;
+
+[StructLayout(LayoutKind.Sequential)]
+public struct AllegroMonitorInfo
 {
-  public sealed class AllegroMonitorInfo
+  public int X1
   {
-    public int X1
-    {
-      get => MonitorInfo.x1;
-      set => MonitorInfo.x1 = value;
-    }
-
-    public int Y1
-    {
-      get => MonitorInfo.y1;
-      set => MonitorInfo.y1 = value;
-    }
-
-    public int X2
-    {
-      get => MonitorInfo.x2;
-      set => MonitorInfo.x2 = value;
-    }
-
-    public int Y2
-    {
-      get => MonitorInfo.y2;
-      set => MonitorInfo.y2 = value;
-    }
-
-    internal NativeMonitorInfo MonitorInfo;
-
-    [StructLayout(LayoutKind.Sequential, Pack = 1)]
-    internal struct NativeMonitorInfo
-    {
-      public int x1;
-      public int y1;
-      public int x2;
-      public int y2;
-    }
+    readonly get => x1;
+    set => x1 = value;
   }
+
+  public int Y1
+  {
+    readonly get => y1;
+    set => y1 = value;
+  }
+
+  public int X2
+  {
+    readonly get => x2;
+    set => x2 = value;
+  }
+
+  public int Y2
+  {
+    readonly get => y2;
+    set => y2 = value;
+  }
+
+  private int x1;
+  private int y1;
+  private int x2;
+  private int y2;
 }

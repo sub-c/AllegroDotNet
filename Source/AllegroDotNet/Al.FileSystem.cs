@@ -1,155 +1,145 @@
-﻿using SubC.AllegroDotNet.Enums;
-using SubC.AllegroDotNet.Models;
+﻿using SubC.AllegroDotNet.Models;
 using SubC.AllegroDotNet.Native;
-using System;
 using System.Runtime.InteropServices;
 
 namespace SubC.AllegroDotNet;
 
+/// <summary>
+/// This static class contains the Allegro 5 library methods.
+/// </summary>
 public static partial class Al
 {
-  public static AllegroFsEntry? CreateFsEntry(string path)
+  public static AllegroFSEntry? CreateFSEntry(string? path)
   {
-    var nativePath = Marshal.StringToHGlobalAnsi(path);
-    var nativeEntry = NativeFunctions.AlCreateFsEntry(nativePath);
-    Marshal.FreeHGlobal(nativePath);
-    return NativePointerModel.Create<AllegroFsEntry>(nativeEntry);
+    using var nativePath = new CStringAnsi(path);
+    var pointer = Interop.Core.AlCreateFsEntry(nativePath.Pointer);
+    return NativePointer.Create<AllegroFSEntry>(pointer);
   }
 
-  public static void DestroyFsEntry(AllegroFsEntry? fsEntry)
+  public static void DestroyFSEntry(AllegroFSEntry? entry)
   {
-    NativeFunctions.AlDestroyFsEntry(NativePointerModel.GetPointer(fsEntry));
+    Interop.Core.AlDestroyFsEntry(NativePointer.Get(entry));
   }
 
-  public static string? GetFsEntryName(AllegroFsEntry? fsEntry)
+  public static string? GetFSEntryName(AllegroFSEntry? entry)
   {
-    var nativeValue = NativeFunctions.AlGetFsEntryName(NativePointerModel.GetPointer(fsEntry));
-    return nativeValue == IntPtr.Zero
-        ? null
-        : Marshal.PtrToStringAnsi(nativeValue);
+    var pointer = Interop.Core.AlGetFsEntryName(NativePointer.Get(entry));
+    return CStringAnsi.ToCSharpString(pointer);
   }
 
-  public static bool UpdateFsEntry(AllegroFsEntry? fsEntry)
+  public static bool UpdateFSEntry(AllegroFSEntry? entry)
   {
-    return NativeFunctions.AlUpdateFsEntry(NativePointerModel.GetPointer(fsEntry));
+    return Interop.Core.AlUpdateFsEntry(NativePointer.Get(entry)) != 0;
   }
 
-  public static FSMode GetFsEntryMode(AllegroFsEntry? fsEntry)
+  public static FileMode GetFSEntryMode(AllegroFSEntry? entry)
   {
-    return (FSMode)NativeFunctions.AlGetFsEntryMode(NativePointerModel.GetPointer(fsEntry));
+    return (FileMode)Interop.Core.AlGetFsEntryMode(NativePointer.Get(entry));
   }
 
-  public static ulong GetFsEntryATime(AllegroFsEntry? fsEntry)
+  public static ulong GetFSEntryATime(AllegroFSEntry? entry)
   {
-    return NativeFunctions.AlGetFsEntryATime(NativePointerModel.GetPointer(fsEntry));
+    return Interop.Core.AlGetFsEntryAtime(NativePointer.Get(entry));
   }
 
-  public static ulong GetFsEntryCTime(AllegroFsEntry? fsEntry)
+  public static ulong GetFSEntryCTime(AllegroFSEntry? entry)
   {
-    return NativeFunctions.AlGetFsEntryCTime(NativePointerModel.GetPointer(fsEntry));
+    return Interop.Core.AlGetFsEntryCtime(NativePointer.Get(entry));
   }
 
-  public static ulong GetFsEntryMTime(AllegroFsEntry? fsEntry)
+  public static ulong GetFSEntryMTime(AllegroFSEntry? entry)
   {
-    return NativeFunctions.AlGetFsEntryMTime(NativePointerModel.GetPointer(fsEntry));
+    return Interop.Core.AlGetFsEntryMtime(NativePointer.Get(entry));
   }
 
-  public static long GetFsEntrySize(AllegroFsEntry? fsEntry)
+  public static ulong GetFSEntrySize(AllegroFSEntry? entry)
   {
-    return NativeFunctions.AlGetFsEntrySize(NativePointerModel.GetPointer(fsEntry));
+    return Interop.Core.AlGetFsEntrySize(NativePointer.Get(entry));
   }
 
-  public static bool FsEntryExists(AllegroFsEntry? fsEntry)
+  public static bool FSEntryExists(AllegroFSEntry? entry)
   {
-    return NativeFunctions.AlFsEntryExists(NativePointerModel.GetPointer(fsEntry));
+    return Interop.Core.AlFsEntryExists(NativePointer.Get(entry)) != 0;
   }
 
-  public static bool RemoveFsEntry(AllegroFsEntry? fsEntry)
+  public static bool RemoveFSEntry(AllegroFSEntry? entry)
   {
-    return NativeFunctions.AlRemoveFsEntry(NativePointerModel.GetPointer(fsEntry));
+    return Interop.Core.AlRemoveFsEntry(NativePointer.Get(entry)) != 0;
   }
 
-  public static bool FilenameExists(string path)
+  public static bool FilenameExists(string? path)
   {
-    var nativePath = Marshal.StringToHGlobalAnsi(path);
-    var nativeValue = NativeFunctions.AlFilenameExists(nativePath);
-    Marshal.FreeHGlobal(nativePath);
-    return nativeValue;
+    using var nativePath = new CStringAnsi(path);
+    return Interop.Core.AlFilenameExists(nativePath.Pointer) != 0;
   }
 
-  public static bool RemoveFilename(string path)
+  public static bool RemoveFilename(string? path)
   {
-    var nativePath = Marshal.StringToHGlobalAnsi(path);
-    var nativeValue = NativeFunctions.AlRemoveFilename(nativePath);
-    Marshal.FreeHGlobal(nativePath);
-    return nativeValue;
+    using var nativePath = new CStringAnsi(path);
+    return Interop.Core.AlRemoveFilename(nativePath.Pointer) != 0;
   }
 
-  public static bool OpenDirectory(AllegroFsEntry? fsEntry)
+  public static bool OpenDirectory(AllegroFSEntry? entry)
   {
-    return NativeFunctions.AlOpenDirectory(NativePointerModel.GetPointer(fsEntry));
+    return Interop.Core.AlOpenDirectory(NativePointer.Get(entry)) != 0;
   }
 
-  public static AllegroFsEntry? ReadDirectory(AllegroFsEntry? fsEntry)
+  public static AllegroFSEntry? ReadDirectory(AllegroFSEntry? entry)
   {
-    var nativeEntry = NativeFunctions.AlReadDirectory(NativePointerModel.GetPointer(fsEntry));
-    return NativePointerModel.Create<AllegroFsEntry>(nativeEntry);
+    var pointer = Interop.Core.AlReadDirectory(NativePointer.Get(entry));
+    return NativePointer.Create<AllegroFSEntry>(pointer);
   }
 
-  public static bool CloseDirectory(AllegroFsEntry? fsEntry)
+  public static bool CloseDirectory(AllegroFSEntry? entry)
   {
-    return NativeFunctions.AlCloseDirectory(NativePointerModel.GetPointer(fsEntry));
+    return Interop.Core.AlCloseDirectory(NativePointer.Get(entry)) != 0;
   }
 
   public static string? GetCurrentDirectory()
   {
-    var nativeDirectory = NativeFunctions.AlGetCurrentDirectory();
-    var managedValue = nativeDirectory == IntPtr.Zero ? null : Marshal.PtrToStringAnsi(nativeDirectory);
-    Free(nativeDirectory);
-    return managedValue;
+    var pointer = Interop.Core.AlGetCurrentDirectory();
+    return CStringAnsi.ToCSharpString(pointer);
   }
 
-  public static bool ChangeDirectory(string path)
+  public static bool ChangeDirectory(string? path)
   {
-    var nativePath = Marshal.StringToHGlobalAnsi(path);
-    var value = NativeFunctions.AlChangeDirectory(nativePath);
-    Marshal.FreeHGlobal(nativePath);
-    return value;
+    using var nativePath = new CStringAnsi(path);
+    return Interop.Core.AlChangeDirectory(nativePath.Pointer) != 0;
   }
 
-  public static bool MakeDirectory(string path)
+  public static bool MakeDirectory(string? path)
   {
-    var nativePath = Marshal.StringToHGlobalAnsi(path);
-    var value = NativeFunctions.AlMakeDirectory(nativePath);
-    Marshal.FreeHGlobal(nativePath);
-    return value;
+    using var nativePath = new CStringAnsi(path);
+    return Interop.Core.AlMakeDirectory(nativePath.Pointer) != 0;
   }
 
-  public static AllegroFile? OpenFsEntry(AllegroFsEntry? fsEntry, string mode)
+  public static AllegroFile? OpenFSEntry(AllegroFSEntry? entry, string? mode)
   {
-    var nativeMode = Marshal.StringToHGlobalAnsi(mode);
-    var nativeFile = NativeFunctions.AlOpenFsEntry(NativePointerModel.GetPointer(fsEntry), nativeMode);
-    Marshal.FreeHGlobal(nativeMode);
-    return NativePointerModel.Create<AllegroFile>(nativeFile);
+    using var nativeMode = new CStringAnsi(mode);
+    var pointer = Interop.Core.ALOpenFsEntry(NativePointer.Get(entry), nativeMode.Pointer);
+    return NativePointer.Create<AllegroFile>(pointer);
   }
 
-  public static FsEntryResult ForEachFsEntry(AllegroFsEntry? directory, NativeDelegates.ForEachFsEntry callback, IntPtr extra)
+  public static int ForEachFSEntry(AllegroFSEntry? entry, Delegates.ForEachFsCallback callback, IntPtr extra)
   {
-    return (FsEntryResult)NativeFunctions.AlForEachFsEntry(NativePointerModel.GetPointer(directory), callback, extra);
+    return Interop.Core.AlForEachFsEntry(NativePointer.Get(entry), callback, extra);
   }
 
-  public static void SetFsInterface(AllegroFsInterface? fsInterface)
+  public static void SetFSInterface(AllegroFileInterface fsInterface)
   {
-    throw new NotImplementedException();
+    Interop.Core.AlSetFsInterface(ref fsInterface);
   }
 
   public static void SetStandardFsInterface()
   {
-    NativeFunctions.AlSetStandardFsInterface();
+    Interop.Core.AlSetStandardFileInterface();
   }
 
-  public static AllegroFsInterface? GetFsInterface()
+  public static AllegroFileInterface? GetFsInterface()
   {
-    throw new NotImplementedException();
+    var pointer = Interop.Core.AlGetFsInterface();
+    return pointer == IntPtr.Zero
+      ? null
+      : Marshal.PtrToStructure<AllegroFileInterface>(pointer);
   }
 }

@@ -1,9 +1,8 @@
-﻿namespace SubC.AllegroDotNet.Enums
+﻿namespace SubC.AllegroDotNet.Enums;
+
+public enum LockFlag
 {
-  public enum LockFlag : int
-  {
-    ReadWrite = 0,
-    ReadOnly = 1,
-    WriteOnly = 2
-  }
+  ReadWrite = 0,
+  ReadOnly = 1,
+  WriteOnly = 2
 }

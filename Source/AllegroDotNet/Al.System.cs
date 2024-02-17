@@ -1,110 +1,142 @@
 ﻿using SubC.AllegroDotNet.Enums;
 using SubC.AllegroDotNet.Models;
 using SubC.AllegroDotNet.Native;
-using System.Runtime.InteropServices;
 
 namespace SubC.AllegroDotNet;
 
+/// <summary>
+/// This static class contains the Allegro 5 library methods.
+/// </summary>
 public static partial class Al
 {
-  public static void SetupAllegroInterop()
-  {
-    NativeInterop.SetupAllegroInterop();
-  }
-
-  public static bool InstallSystem(int version, NativeDelegates.AtExitDelegate? atExit)
-  {
-    NativeInterop.SetupAllegroInterop();
-    return NativeFunctions.AlInstallSystem(version, atExit);
-  }
-
+  /// <summary>
+  /// Attempts to initialize the Allegro system. The versions tried are limited to versions in the
+  /// <see cref="LibraryVersion"/> enumeration.
+  /// </summary>
+  /// <returns>True if Allegro was initialized, otherwise false.</returns>
   public static bool Init()
   {
-    return InstallSystem(ALLEGRO_VERSION_INT, null);
+    foreach (LibraryVersion libraryVersion in Enum.GetValues(typeof(LibraryVersion)))
+    {
+      if (InstallSystem(libraryVersion))
+        return true;
+    }
+
+    return false;
   }
 
+  /// <summary>
+  /// Initialize the Allegro system. No other Allegro functions can be called before this (with one or two exceptions).
+  /// </summary>
+  /// <param name="version">The library version of Allegro to initialize.</param>
+  /// <returns>True on success, otherwise false.</returns>
+  public static bool InstallSystem(LibraryVersion version)
+  {
+    return InstallSystem((int)version);
+  }
+
+  /// <summary>
+  /// Initialize the Allegro system. No other Allegro functions can be called before this (with one or two exceptions).
+  /// </summary>
+  /// <param name="version">The library version of Allegro to initialize, packed into a integer.</param>
+  /// <returns>True on success, otherwise false.</returns>
+  public static bool InstallSystem(int version)
+  {
+    return Interop.Core.AlInstallSystem(version, null) != 0;
+  }
+
+  /// <summary>
+  /// Closes down the Allegro system.
+  /// </summary>
   public static void UninstallSystem()
   {
-    NativeFunctions.AlUninstallSystem();
+    Interop.Core.AlUninstallSystem();
   }
 
+  /// <summary>
+  /// Returns true if Allegro is initialized, otherwise returns false.
+  /// </summary>
+  /// <returns>True if Allegro is initialized, otherwise false.</returns>
   public static bool IsSystemInstalled()
   {
-    return NativeFunctions.AlIsSystemInstalled();
+    return Interop.Core.AlIsSystemInstalled() != 0;
   }
 
+  /// <summary>
+  /// Returns the (compiled) version of the Allegro library, packed into a single integer.
+  /// This value can be cast to (or from) a value of <see cref="LibraryVersion"/>, if it defined
+  /// in that enumeration; they use the same integer values.
+  /// </summary>
+  /// <returns>The compiled version of the Allegro library, packed into a single integer.</returns>
   public static uint GetAllegroVersion()
   {
-    return NativeFunctions.AlGetAllegroVersion();
+    return Interop.Core.AlGetAllegroVersion();
   }
 
-  public static AllegroPath? GetStandardPath(StandardPath id)
+  public static AllegroPath? GetStandardPath(StandardPath path)
   {
-    var nativePath = NativeFunctions.AlGetStandardPath((int)id);
-    return NativePointerModel.Create<AllegroPath>(nativePath);
+    var pointer = Interop.Core.AlGetStandardPath((int)path);
+    return NativePointer.Create<AllegroPath>(pointer);
   }
 
   public static void SetExeName(string name)
   {
-    var nativeName = Marshal.StringToHGlobalAnsi(name);
-    NativeFunctions.AlSetExeName(nativeName);
-    Marshal.FreeHGlobal(nativeName);
+    using var nativeName = new CStringAnsi(name);
+    Interop.Core.AlSetExeName(nativeName.Pointer);
   }
 
   public static void SetAppName(string name)
   {
-    var nativeName = Marshal.StringToHGlobalAnsi(name);
-    NativeFunctions.AlSetAppName(nativeName);
-    Marshal.FreeHGlobal(nativeName);
+    using var nativeName = new CStringAnsi(name);
+    Interop.Core.AlSetAppName(nativeName.Pointer);
   }
 
   public static void SetOrgName(string name)
   {
-    var nativeName = Marshal.StringToHGlobalAnsi(name);
-    NativeFunctions.AlSetOrgName(nativeName);
-    Marshal.FreeHGlobal(nativeName);
+    using var nativeName = new CStringAnsi(name);
+    Interop.Core.AlSetOrgName(nativeName.Pointer);
   }
 
   public static string? GetAppName()
   {
-    var nativeName = NativeFunctions.AlGetAppName();
-    return Marshal.PtrToStringAnsi(nativeName);
+    var pointer = Interop.Core.AlGetAppName();
+    return CStringAnsi.ToCSharpString(pointer);
   }
 
   public static string? GetOrgName()
   {
-    var nativeName = NativeFunctions.AlGetOrgName();
-    return Marshal.PtrToStringAnsi(nativeName);
+    var pointer = Interop.Core.AlGetOrgName();
+    return CStringAnsi.ToCSharpString(pointer);
   }
 
   public static AllegroConfig? GetSystemConfig()
   {
-    var nativeConfig = NativeFunctions.AlGetSystemConfig();
-    return NativePointerModel.Create<AllegroConfig>(nativeConfig);
+    var pointer = Interop.Core.AlGetSystemConfig();
+    return NativePointer.Create<AllegroConfig>(pointer);
   }
 
   public static SystemID GetSystemID()
   {
-    return (SystemID)NativeFunctions.AlGetSystemID();
+    return (SystemID)Interop.Core.AlGetSystemId();
   }
 
-  public static void RegisterAssertHandler(NativeDelegates.RegisterAssertHandler handler)
+  public static void RegisterAssertHandler(Delegates.RegisterAssertHandlerDelegate? handler)
   {
-    NativeFunctions.AlRegisterAssertHandler(handler);
+    Interop.Core.AlRegisterAssertHandler(handler);
   }
 
-  public static void RegisterTraceHandler(NativeDelegates.RegisterTraceHandler handler)
+  public static void RegisterTraceHandler(Delegates.RegisterTraceHandlerDelegate? handler)
   {
-    NativeFunctions.AlRegisterTraceHandler(handler);
+    Interop.Core.AlRegisterTraceHandler(handler);
   }
 
   public static int GetCpuCount()
   {
-    return NativeFunctions.AlGetCpuCount();
+    return Interop.Core.AlGetCpuCount();
   }
 
   public static int GetRamSize()
   {
-    return NativeFunctions.AlGetRamSize();
+    return Interop.Core.AlGetRamSize();
   }
 }

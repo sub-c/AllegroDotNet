@@ -1,6 +1,8 @@
-﻿namespace SubC.AllegroDotNet.Models
+﻿namespace SubC.AllegroDotNet.Models;
+
+/// <summary>
+/// An opaque class representing a font.
+/// </summary>
+public sealed class AllegroFont : NativePointer
 {
-  public sealed class AllegroFont : NativePointerModel
-  {
-  }
 }
