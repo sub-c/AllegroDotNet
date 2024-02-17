@@ -1,69 +1,92 @@
-using SubC.AllegroDotNet.Models;
+﻿using SubC.AllegroDotNet.Models;
 using SubC.AllegroDotNet.Native;
 
 namespace SubC.AllegroDotNet;
 
+/// <summary>
+/// This static class contains the Allegro 5 library methods.
+/// </summary>
 public static partial class Al
 {
-  public static AllegroTimer? CreateTimer(double speedSecs)
+  public static double USecsToSecs(double x)
   {
-    var nativeTimer = NativeFunctions.ALCreateTimer(speedSecs);
-    return NativePointerModel.Create<AllegroTimer>(nativeTimer);
+    return (x / 1000000.0);
+  }
+
+  public static double MSecsToSecs(double x)
+  {
+    return (x / 1000.0);
+  }
+
+  public static double BpsToSecs(double x)
+  {
+    return (1.0 / x);
+  }
+
+  public static double BpmToSecs(double x)
+  {
+    return (60.0 / x);
+  }
+
+  public static AllegroTimer? CreateTimer(double speedSeconds)
+  {
+    var pointer = Interop.Core.AlCreateTimer(speedSeconds);
+    return NativePointer.Create<AllegroTimer>(pointer);
   }
 
   public static void StartTimer(AllegroTimer? timer)
   {
-    NativeFunctions.AlStartTimer(NativePointerModel.GetPointer(timer));
+    Interop.Core.AlStartTimer(NativePointer.Get(timer));
   }
 
   public static void ResumeTimer(AllegroTimer? timer)
   {
-    NativeFunctions.AlResumeTimer(NativePointerModel.GetPointer(timer));
+    Interop.Core.AlResumeTimer(NativePointer.Get(timer));
   }
 
   public static void StopTimer(AllegroTimer? timer)
   {
-    NativeFunctions.AlStopTimer(NativePointerModel.GetPointer(timer));
+    Interop.Core.AlStopTimer(NativePointer.Get(timer));
   }
 
   public static bool GetTimerStarted(AllegroTimer? timer)
   {
-    return NativeFunctions.AlGetTimerStarted(NativePointerModel.GetPointer(timer));
+    return Interop.Core.AlGetTimerStarted(NativePointer.Get(timer)) != 0;
   }
 
   public static void DestroyTimer(AllegroTimer? timer)
   {
-    NativeFunctions.AlDestroyTimer(NativePointerModel.GetPointer(timer));
+    Interop.Core.AlDestroyTimer(NativePointer.Get(timer));
   }
 
-  public static ulong GetTimerCount(AllegroTimer? timer)
+  public static long GetTimerCount(AllegroTimer? timer)
   {
-    return NativeFunctions.AlGetTimerCount(NativePointerModel.GetPointer(timer));
+    return Interop.Core.AlGetTimerCount(NativePointer.Get(timer));
   }
 
-  public static void SetTimerCount(AllegroTimer? timer, ulong newCount)
+  public static void SetTimerCount(AllegroTimer? timer, long newCount)
   {
-    NativeFunctions.AlSetTimerCount(NativePointerModel.GetPointer(timer), newCount);
+    Interop.Core.AlSetTimerCount(NativePointer.Get(timer), newCount);
   }
 
-  public static void AddTimerCount(AllegroTimer? timer, ulong diff)
+  public static void AddTimerCount(AllegroTimer? timer, long diffCount)
   {
-    NativeFunctions.AlAddTimerCount(NativePointerModel.GetPointer(timer), diff);
+    Interop.Core.AlAddTimerCount(NativePointer.Get(timer), diffCount);
   }
 
   public static double GetTimerSpeed(AllegroTimer? timer)
   {
-    return NativeFunctions.AlGetTimerSpeed(NativePointerModel.GetPointer(timer));
+    return Interop.Core.AlGetTimerSpeed(NativePointer.Get(timer));
   }
 
-  public static void SetTimerSpeed(AllegroTimer? timer, double newSpeedSecs)
+  public static void SetTimerSpeed(AllegroTimer? timer, double newSpeedSeconds)
   {
-    NativeFunctions.AlSetTimerSpeed(NativePointerModel.GetPointer(timer), newSpeedSecs);
+    Interop.Core.AlSetTimerSpeed(NativePointer.Get(timer), newSpeedSeconds);
   }
 
   public static AllegroEventSource? GetTimerEventSource(AllegroTimer? timer)
   {
-    var sourcePtr = NativeFunctions.AlGetTimerEventSource(NativePointerModel.GetPointer(timer));
-    return NativePointerModel.Create<AllegroEventSource>(sourcePtr);
+    var pointer = Interop.Core.AlGetTimerEventSource(NativePointer.Get(timer));
+    return NativePointer.Create<AllegroEventSource>(pointer);
   }
 }

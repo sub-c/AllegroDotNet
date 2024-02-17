@@ -1,104 +1,107 @@
-﻿using SubC.AllegroDotNet.Models;
+﻿using SubC.AllegroDotNet.Enums;
+using SubC.AllegroDotNet.Models;
 using SubC.AllegroDotNet.Native;
-using System.Runtime.InteropServices;
 
 namespace SubC.AllegroDotNet;
 
+/// <summary>
+/// This static class contains the Allegro 5 library methods.
+/// </summary>
 public static partial class Al
 {
   public static bool InstallJoystick()
   {
-    return NativeFunctions.AlInstallJoystick();
+    return Interop.Core.AlInstallJoystick() != 0;
   }
 
   public static void UninstallJoystick()
   {
-    NativeFunctions.AlUninstallJoystick();
+    Interop.Core.AlUninstallJoystick();
   }
 
   public static bool IsJoystickInstalled()
   {
-    return NativeFunctions.AlIsJoystickInstalled();
+    return Interop.Core.AlIsJoystickInstalled() != 0;
   }
 
   public static bool ReconfigureJoysticks()
   {
-    return NativeFunctions.AlReconfigureJoysticks();
+    return Interop.Core.AlReconfigureJoysticks() != 0;
   }
 
   public static int GetNumJoysticks()
   {
-    return NativeFunctions.AlGetNumJoysticks();
+    return Interop.Core.AlGetNumJoysticks();
   }
 
-  public static AllegroJoystick? GetJoystick(int joystickIndex)
+  public static AllegroJoystick? GetJoystick(int num)
   {
-    var nativeJoy = NativeFunctions.AlGetJoystick(joystickIndex);
-    return NativePointerModel.Create<AllegroJoystick>(nativeJoy);
+    var pointer = Interop.Core.AlGetJoystick(num);
+    return NativePointer.Create<AllegroJoystick>(pointer);
   }
 
   public static void ReleaseJoystick(AllegroJoystick? joystick)
   {
-    NativeFunctions.AlReleaseJoystick(NativePointerModel.GetPointer(joystick));
+    Interop.Core.AlReleaseJoystick(NativePointer.Get(joystick));
   }
 
   public static bool GetJoystickActive(AllegroJoystick? joystick)
   {
-    return NativeFunctions.AlGetJoystickActive(NativePointerModel.GetPointer(joystick));
+    return Interop.Core.AlGetJoystickActive(NativePointer.Get(joystick)) != 0;
   }
 
   public static string? GetJoystickName(AllegroJoystick? joystick)
   {
-    var nativeName = NativeFunctions.AlGetJoystickName(NativePointerModel.GetPointer(joystick));
-    return Marshal.PtrToStringAnsi(nativeName);
+    var pointer = Interop.Core.AlGetJoystickName(NativePointer.Get(joystick));
+    return CStringAnsi.ToCSharpString(pointer);
   }
 
   public static string? GetJoystickStickName(AllegroJoystick? joystick, int stick)
   {
-    var nativeName = NativeFunctions.AlGetJoystickStickName(NativePointerModel.GetPointer(joystick), stick);
-    return Marshal.PtrToStringAnsi(nativeName);
+    var pointer = Interop.Core.AlGetJoystickStickName(NativePointer.Get(joystick), stick);
+    return CStringAnsi.ToCSharpString(pointer);
   }
 
   public static string? GetJoystickAxisName(AllegroJoystick? joystick, int stick, int axis)
   {
-    var nativeName = NativeFunctions.AlGetJoystickAxisName(NativePointerModel.GetPointer(joystick), stick, axis);
-    return Marshal.PtrToStringAnsi(nativeName);
+    var pointer = Interop.Core.AlGetJoystickAxisName(NativePointer.Get(joystick), stick, axis);
+    return CStringAnsi.ToCSharpString(pointer);
   }
 
   public static string? GetJoystickButtonName(AllegroJoystick? joystick, int button)
   {
-    var nativeName = NativeFunctions.AlGetJoystickButtonName(NativePointerModel.GetPointer(joystick), button);
-    return Marshal.PtrToStringAnsi(nativeName);
+    var pointer = Interop.Core.AlGetJoystickButtonName(NativePointer.Get(joystick), button);
+    return CStringAnsi.ToCSharpString(pointer);
   }
 
-  public static int GetJoystickStickFlags(AllegroJoystick? joystick, int stick)
+  public static JoyFlags GetJoystickStickFlags(AllegroJoystick? joystick, int stick)
   {
-    return NativeFunctions.AlGetJoystickStickFlags(NativePointerModel.GetPointer(joystick), stick);
+    return (JoyFlags)Interop.Core.AlGetJoystickStickFlags(NativePointer.Get(joystick), stick);
   }
 
   public static int GetJoystickNumSticks(AllegroJoystick? joystick)
   {
-    return NativeFunctions.AlGetJoystickNumSticks(NativePointerModel.GetPointer(joystick));
+    return Interop.Core.AlGetJoystickNumSticks(NativePointer.Get(joystick));
   }
 
   public static int GetJoystickNumAxes(AllegroJoystick? joystick, int stick)
   {
-    return NativeFunctions.AlGetJoystickNumAxes(NativePointerModel.GetPointer(joystick), stick);
+    return Interop.Core.AlGetJoystickNumAxes(NativePointer.Get(joystick), stick);
   }
 
   public static int GetJoystickNumButtons(AllegroJoystick? joystick)
   {
-    return NativeFunctions.AlGetJoystickNumButtons(NativePointerModel.GetPointer(joystick));
+    return Interop.Core.AlGetJoystickNumButtons(NativePointer.Get(joystick));
   }
 
-  public static void GetJoystickState(AllegroJoystick? joystick, AllegroJoystickState joystickState)
+  public static void GetJoystickState(AllegroJoystick? joystick, AllegroJoystickState state)
   {
-    NativeFunctions.AlGetJoystickState(NativePointerModel.GetPointer(joystick), ref joystickState.JoystickState);
+    Interop.Core.AlGetJoystickState(NativePointer.Get(joystick), ref state);
   }
 
   public static AllegroEventSource? GetJoystickEventSource()
   {
-    var nativeSource = NativeFunctions.AlGetJoystickEventSource();
-    return NativePointerModel.Create<AllegroEventSource>(nativeSource);
+    var pointer = Interop.Core.AlGetJoystickEventSource();
+    return NativePointer.Create<AllegroEventSource>(pointer);
   }
 }

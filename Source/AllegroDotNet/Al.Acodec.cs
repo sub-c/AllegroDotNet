@@ -2,20 +2,23 @@
 
 namespace SubC.AllegroDotNet;
 
+/// <summary>
+/// This static class contains the Allegro 5 library methods.
+/// </summary>
 public static partial class Al
 {
-  public static bool InitAcodecAddon()
+  public static bool InitACodecAddon()
   {
-    return NativeFunctions.AlInitAcodecAddon();
+    return Interop.ACodec.AlInitACodecAddon() != 0;
   }
 
-  public static bool IsAcodecAddonInitialized()
+  public static bool IsACodecAddonInitialized()
   {
-    return NativeFunctions.AlIsAcodecAddonInitialized();
+    return Interop.ACodec.AlIsACodecAddonInitialized() != 0;
   }
 
-  public static uint GetAllegroAcodecVersion()
+  public static uint GetAllegroACodecVersion()
   {
-    return NativeFunctions.AlGetAllegroAcodecVersion();
+    return Interop.ACodec.AlGetAllegroACodecVersion();
   }
 }

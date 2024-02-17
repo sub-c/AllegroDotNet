@@ -1,110 +1,63 @@
 ﻿using SubC.AllegroDotNet.Models;
 using SubC.AllegroDotNet.Native;
-using System;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace SubC.AllegroDotNet;
 
+/// <summary>
+/// This static class contains the Allegro 5 library methods.
+/// </summary>
 public static partial class Al
 {
-  public static IntPtr Malloc(
-      ulong size,
-      [CallerLineNumber] int line = 0,
-      [CallerFilePath] string file = "",
-      [CallerMemberName] string function = "")
+  public static IntPtr MallocWithContext(ulong n, int line, string file, string func)
   {
-    return MallocWithContext(size, line, file, function);
+    var nativeN = new UIntPtr(n);
+    using var nativeFile = new CStringAnsi(file);
+    using var nativeFunc = new CStringAnsi(func);
+    return Interop.Core.AlMallocWithContext(nativeN, line, nativeFile.Pointer, nativeFunc.Pointer);
   }
 
-  public static void Free(
-      IntPtr pointer,
-      [CallerLineNumber] int line = 0,
-      [CallerFilePath] string file = "",
-      [CallerMemberName] string function = "")
+  public static void FreeWithContext(IntPtr pointer, int line, string file, string func)
   {
-    FreeWithContext(pointer, line, file, function);
+    using var nativeFile = new CStringAnsi(file);
+    using var nativeFunc = new CStringAnsi(func);
+    Interop.Core.AlFreeWithContext(pointer, line, nativeFile.Pointer, nativeFunc.Pointer);
   }
 
-  public static IntPtr Realloc(
-      IntPtr pointer,
-      ulong size,
-      [CallerLineNumber] int line = 0,
-      [CallerFilePath] string file = "",
-      [CallerMemberName] string function = "")
+  public static IntPtr ReallocWithContext(IntPtr pointer, ulong n, int line, string file, string func)
   {
-    return ReallocWithContext(pointer, size, line, file, function);
+    var nativeN = new UIntPtr(n);
+    using var nativeFile = new CStringAnsi(file);
+    using var nativeFunc = new CStringAnsi(func);
+    return Interop.Core.AlReallocWithContext(pointer, nativeN, line, nativeFile.Pointer, nativeFunc.Pointer);
   }
 
-  public static IntPtr Calloc(
-      ulong count,
-      ulong size,
-      [CallerLineNumber] int line = 0,
-      [CallerFilePath] string file = "",
-      [CallerMemberName] string function = "")
+  public static IntPtr CallocWithContext(ulong count, ulong n, int line, string file, string func)
   {
-    return CallocWithContext(count, size, line, file, function);
+    var nativeCount = new UIntPtr(count);
+    var nativeN = new UIntPtr(n);
+    using var nativeFile = new CStringAnsi(file);
+    using var nativeFunc = new CStringAnsi(func);
+    return Interop.Core.AlCallocWithContext(nativeCount, nativeN, line, nativeFile.Pointer, nativeFunc.Pointer);
   }
 
-  public static IntPtr MallocWithContext(
-      ulong size,
-      [CallerLineNumber] int line = 0,
-      [CallerFilePath] string file = "",
-      [CallerMemberName] string function = "")
+  public static void SetMemoryInterface(AllegroMemoryInterface? memoryInterface)
   {
-    var nativeFile = Marshal.StringToHGlobalAnsi(file);
-    var nativeFunction = Marshal.StringToHGlobalAnsi(function);
-    var nativeValue = NativeFunctions.AlMallocWithContext(new UIntPtr(size), line, nativeFile, nativeFunction);
-    Marshal.FreeHGlobal(nativeFile);
-    Marshal.FreeHGlobal(nativeFunction);
-    return nativeValue;
-  }
-
-  public static void FreeWithContext(
-      IntPtr pointer,
-      [CallerLineNumber] int line = 0,
-      [CallerFilePath] string file = "",
-      [CallerMemberName] string function = "")
-  {
-    var nativeStringFile = Marshal.StringToHGlobalAnsi(file);
-    var nativeStringFunction = Marshal.StringToHGlobalAnsi(function);
-    NativeFunctions.AlFreeWithContext(pointer, line, nativeStringFile, nativeStringFunction);
-    Marshal.FreeHGlobal(nativeStringFile);
-    Marshal.FreeHGlobal(nativeStringFunction);
-  }
-
-  public static IntPtr ReallocWithContext(
-      IntPtr pointer,
-      ulong size,
-      [CallerLineNumber] int line = 0,
-      [CallerFilePath] string file = "",
-      [CallerMemberName] string function = "")
-  {
-    var nativeFile = Marshal.StringToHGlobalAnsi(file);
-    var nativeFunction = Marshal.StringToHGlobalAnsi(function);
-    var nativeValue = NativeFunctions.AlReallocWithContext(pointer, new UIntPtr(size), line, nativeFile, nativeFunction);
-    Marshal.FreeHGlobal(nativeFile);
-    Marshal.FreeHGlobal(nativeFunction);
-    return nativeValue;
-  }
-
-  public static IntPtr CallocWithContext(
-      ulong count,
-      ulong size,
-      [CallerLineNumber] int line = 0,
-      [CallerFilePath] string file = "",
-      [CallerMemberName] string function = "")
-  {
-    var nativeFile = Marshal.StringToHGlobalAnsi(file);
-    var nativeFunction = Marshal.StringToHGlobalAnsi(function);
-    var nativeValue = NativeFunctions.AlCallocWithContext(new UIntPtr(count), new UIntPtr(size), line, nativeFile, nativeFunction);
-    Marshal.FreeHGlobal(nativeFile);
-    Marshal.FreeHGlobal(nativeFunction);
-    return nativeValue;
-  }
-
-  public static void SetMemoryInterface(AllegroMemoryInterface memoryInterface)
-  {
-    NativeFunctions.AlSetMemoryInterface(ref memoryInterface.MemoryInterface);
+    if (memoryInterface is null)
+      Interop.Core.AlSetMemoryInterface(IntPtr.Zero);
+    else
+    {
+      var nativeSize = Marshal.SizeOf<AllegroMemoryInterface>();
+      var nativeMemoryInterface = Marshal.AllocHGlobal(nativeSize);
+      try
+      {
+        Marshal.StructureToPtr(memoryInterface, nativeMemoryInterface, false);
+        Interop.Core.AlSetMemoryInterface(nativeMemoryInterface);
+      }
+      finally
+      {
+        Marshal.FreeHGlobal(nativeMemoryInterface);
+      }
+    }
   }
 }

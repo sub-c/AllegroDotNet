@@ -1,732 +1,733 @@
 ﻿using SubC.AllegroDotNet.Enums;
 using SubC.AllegroDotNet.Models;
 using SubC.AllegroDotNet.Native;
-using System;
 using System.Runtime.InteropServices;
-using static SubC.AllegroDotNet.Native.NativeDelegates;
 
 namespace SubC.AllegroDotNet;
 
+/// <summary>
+/// This static class contains the Allegro 5 library methods.
+/// </summary>
 public static partial class Al
 {
   public static bool InstallAudio()
   {
-    return NativeFunctions.AlInstallAudio();
+    return Interop.Audio.AlInstallAudio() != 0;
   }
 
   public static void UninstallAudio()
   {
-    NativeFunctions.AlUninstallAudio();
+    Interop.Audio.AlUninstallAudio();
   }
 
   public static bool IsAudioInstalled()
   {
-    return NativeFunctions.AlIsAudioInstalled();
+    return Interop.Audio.AlIsAudioInstalled() != 0;
   }
 
   public static bool ReserveSamples(int samples)
   {
-    return NativeFunctions.AlReserveSamples(samples);
+    return Interop.Audio.AlReserveSamples(samples) != 0;
   }
 
-  public static uint GetAllegroAudioVersion()
+  public static bool PlaySample(
+    AllegroSample? sample,
+    float gain,
+    float pan,
+    float speed,
+    PlayMode loop,
+    ref AllegroSampleID? retID)
   {
-    return NativeFunctions.AlGetAllegroAudioVersion();
-  }
+    if (retID is null)
+      return Interop.Audio.AlPlaySample(NativePointer.Get(sample), gain, pan, speed, (int)loop, IntPtr.Zero) != 0;
 
-  public static long GetAudioDepthSize(AudioDepth depth)
-  {
-    return NativeFunctions.AlGetAudioDepthSize((int)depth);
-  }
+    var nativeSampleIDSize = Marshal.SizeOf<AllegroSampleID>();
+    var nativeRetID = Marshal.AllocHGlobal(nativeSampleIDSize);
 
-  public static long GetChannelCount(ChannelConfig config)
-  {
-    return NativeFunctions.AlGetChannelCount((int)config);
-  }
-
-  public static void FillSilence(IntPtr buf, uint samples, AudioDepth depth, ChannelConfig config)
-  {
-    NativeFunctions.AlFillSilence(buf, samples, (int)depth, (int)config);
-  }
-
-  public static AllegroVoice? CreateVoice(uint freq, AudioDepth depth, ChannelConfig config)
-  {
-    var nativeVoice = NativeFunctions.AlCreateVoice(freq, (int)depth, (int)config);
-    return NativePointerModel.Create<AllegroVoice>(nativeVoice);
-  }
-
-  public static void DestroyVoice(AllegroVoice? voice)
-  {
-    NativeFunctions.AlDestroyVoice(NativePointerModel.GetPointer(voice));
-  }
-
-  public static void DetachVoice(AllegroVoice? voice)
-  {
-    NativeFunctions.AlDetachVoice(NativePointerModel.GetPointer(voice));
-  }
-
-  public static bool AttachAudioStreamToVoice(AllegroAudioStream? stream, AllegroVoice? voice)
-  {
-    return NativeFunctions.AlAttachAudioStreamToVoice(
-      NativePointerModel.GetPointer(stream),
-      NativePointerModel.GetPointer(voice));
-  }
-
-  public static bool AttachMixerToVoice(AllegroMixer? mixer, AllegroVoice? voice)
-  {
-    return NativeFunctions.AlAttachMixerToVoice(
-      NativePointerModel.GetPointer(mixer),
-      NativePointerModel.GetPointer(voice));
-  }
-
-  public static bool AttachSampleInstanceToVoice(AllegroSampleInstance? instance, AllegroVoice? voice)
-  {
-    return NativeFunctions.AlAttachSampleInstanceToVoice(
-      NativePointerModel.GetPointer(instance),
-      NativePointerModel.GetPointer(voice));
-  }
-
-  public static uint GetVoiceFrequency(AllegroVoice? voice)
-  {
-    return NativeFunctions.AlGetVoiceFrequency(NativePointerModel.GetPointer(voice));
-  }
-
-  public static ChannelConfig GetVoiceChannels(AllegroVoice? voice)
-  {
-    return (ChannelConfig)NativeFunctions.AlGetVoiceChannels(NativePointerModel.GetPointer(voice));
-  }
-
-  public static AudioDepth GetVoiceDepth(AllegroVoice? voice)
-  {
-    return (AudioDepth)NativeFunctions.AlGetVoiceDepth(NativePointerModel.GetPointer(voice));
-  }
-
-  public static bool GetVoicePlaying(AllegroVoice? voice)
-  {
-    return NativeFunctions.AlGetVoicePlaying(NativePointerModel.GetPointer(voice));
-  }
-
-  public static bool SetVoicePlaying(AllegroVoice? voice, bool playing)
-  {
-    return NativeFunctions.AlSetVoicePlaying(NativePointerModel.GetPointer(voice), playing);
-  }
-
-  public static uint GetVoicePosition(AllegroVoice? voice)
-  {
-    return NativeFunctions.AlGetVoicePosition(NativePointerModel.GetPointer(voice));
-  }
-
-  public static bool SetVoicePosition(AllegroVoice? voice, uint position)
-  {
-    return NativeFunctions.AlSetVoicePosition(NativePointerModel.GetPointer(voice), position);
-  }
-
-  public static AllegroSample? CreateSample(IntPtr buffer, uint samples, uint frequency, AudioDepth depth, ChannelConfig config, bool freeBuffer)
-  {
-    var nativeSample = NativeFunctions.AlCreateSample(buffer, samples, frequency, (int)depth, (int)config, freeBuffer);
-    return NativePointerModel.Create<AllegroSample>(nativeSample);
-  }
-
-  public static void DestroySample(AllegroSample? sample)
-  {
-    NativeFunctions.AlDestroySample(NativePointerModel.GetPointer(sample));
-  }
-
-  public static bool PlaySample(AllegroSample? sample, float gain, float pan, float speed, Playmode playmode, AllegroSampleID? retID)
-  {
-    var nativeRetID = NativePointerModel.GetPointer(retID);
-    var result = NativeFunctions.AlPlaySample(NativePointerModel.GetPointer(sample), gain, pan, speed, (int)playmode, nativeRetID);
-    if (retID != null)
+    try
     {
-      retID.NativePointer = nativeRetID;
+      Marshal.StructureToPtr(retID, nativeRetID, false);
+      var result = Interop.Audio.AlPlaySample(NativePointer.Get(sample), gain, pan, speed, (int)loop, nativeRetID) != 0;
+      retID = Marshal.PtrToStructure<AllegroSampleID>(nativeRetID);
+      return result;
     }
-    return result;
+    finally
+    {
+      Marshal.FreeHGlobal(nativeRetID);
+    }
   }
 
-  public static void StopSample(AllegroSampleID? sampleID)
+  public static void StopSample(ref AllegroSampleID? sampleID)
   {
-    NativeFunctions.AlStopSample(NativePointerModel.GetPointer(sampleID));
+    if (sampleID is null)
+    {
+      Interop.Audio.AlStopSample(IntPtr.Zero);
+      return;
+    }
+
+    var nativeSampleIDSize = Marshal.SizeOf<AllegroSampleID>();
+    var nativeSampleID = Marshal.AllocHGlobal(nativeSampleIDSize);
+
+    try
+    {
+      Marshal.StructureToPtr(sampleID, nativeSampleID, false);
+      Interop.Audio.AlStopSample(nativeSampleID);
+      sampleID = Marshal.PtrToStructure<AllegroSampleID>(nativeSampleID);
+    }
+    finally
+    {
+      Marshal.FreeHGlobal(nativeSampleID);
+    }
   }
 
   public static void StopSamples()
   {
-    NativeFunctions.AlStopSamples();
+    Interop.Audio.AlStopSamples();
   }
 
-  public static ChannelConfig GetSampleChannels(AllegroSample? sample)
+  public static AllegroSample? CreateSample(byte[] buffer, uint samples, uint frequency, AudioDepth depth, ChannelConfig channelConfig, bool freeBuffer)
   {
-    return (ChannelConfig)NativeFunctions.AlGetSampleChannels(NativePointerModel.GetPointer(sample));
-  }
-
-  public static AudioDepth GetSampleDepth(AllegroSample? sample)
-  {
-    return (AudioDepth)NativeFunctions.AlGetSampleDepth(NativePointerModel.GetPointer(sample));
-  }
-
-  public static uint GetSampleFrequency(AllegroSample? sample)
-  {
-    return NativeFunctions.AlGetSampleFrequency(NativePointerModel.GetPointer(sample));
-  }
-
-  public static uint GetSampleLength(AllegroSample? sample)
-  {
-    return NativeFunctions.AlGetSampleLength(NativePointerModel.GetPointer(sample));
-  }
-
-  public static IntPtr GetSampleData(AllegroSample? sample)
-  {
-    return NativeFunctions.AlGetSampleData(NativePointerModel.GetPointer(sample));
-  }
-
-  public static AllegroSampleInstance? CreateSampleInstance(AllegroSample? sample)
-  {
-    var nativeInstance = NativeFunctions.AlCreateSampleInstance(NativePointerModel.GetPointer(sample));
-    return NativePointerModel.Create<AllegroSampleInstance>(nativeInstance);
-  }
-
-  public static void DestroySampleInstance(AllegroSampleInstance? instance)
-  {
-    NativeFunctions.AlDestroySampleInstance(NativePointerModel.GetPointer(instance));
-  }
-
-  public static bool PlaySampleInstance(AllegroSampleInstance? instance)
-  {
-    return NativeFunctions.AlPlaySampleInstance(NativePointerModel.GetPointer(instance));
-  }
-
-  public static bool StopSampleInstance(AllegroSampleInstance? instance)
-  {
-    return NativeFunctions.AlStopSampleInstance(NativePointerModel.GetPointer(instance));
-  }
-
-  public static ChannelConfig GetSampleInstanceChannels(AllegroSampleInstance? instance)
-  {
-    return (ChannelConfig)NativeFunctions.AlGetSampleInstanceChannels(NativePointerModel.GetPointer(instance));
-  }
-
-  public static AudioDepth GetSampleInstanceDepth(AllegroSampleInstance? instance)
-  {
-    return (AudioDepth)NativeFunctions.AlGetSampleInstanceDepth(NativePointerModel.GetPointer(instance));
-  }
-
-  public static uint GetSampleInstanceFrequency(AllegroSampleInstance? instance)
-  {
-    return NativeFunctions.AlGetSampleInstanceFrequency(NativePointerModel.GetPointer(instance));
-  }
-
-  public static uint GetSampleInstanceLength(AllegroSampleInstance? instance)
-  {
-    return NativeFunctions.AlGetSampleInstanceLength(NativePointerModel.GetPointer(instance));
-  }
-
-  public static bool SetSampleInstanceLength(AllegroSampleInstance? instance, uint length)
-  {
-    return NativeFunctions.AlSetSampleInstanceLength(NativePointerModel.GetPointer(instance), length);
-  }
-
-  public static uint GetSampleInstancePosition(AllegroSampleInstance? instance)
-  {
-    return NativeFunctions.AlGetSampleInstancePosition(NativePointerModel.GetPointer(instance));
-  }
-
-  public static bool SetSampleInstancePosition(AllegroSampleInstance? instance, uint position)
-  {
-    return NativeFunctions.AlSetSampleInstancePosition(NativePointerModel.GetPointer(instance), position);
-  }
-
-  public static float GetSampleInstanceSpeed(AllegroSampleInstance? instance)
-  {
-    return NativeFunctions.AlGetSampleInstanceSpeed(NativePointerModel.GetPointer(instance));
-  }
-
-  public static bool SetSampleInstanceSpeed(AllegroSampleInstance? instance, float speed)
-  {
-    return NativeFunctions.AlSetSampleInstanceSpeed(NativePointerModel.GetPointer(instance), speed);
-  }
-
-  public static float GetSampleInstanceGain(AllegroSampleInstance? instance)
-  {
-    return NativeFunctions.AlGetSampleInstanceGain(NativePointerModel.GetPointer(instance));
-  }
-
-  public static bool SetSampleInstanceGain(AllegroSampleInstance? instance, float gain)
-  {
-    return NativeFunctions.AlSetSampleInstanceGain(NativePointerModel.GetPointer(instance), gain);
-  }
-
-  public static float GetSampleInstancePan(AllegroSampleInstance? instance)
-  {
-    return NativeFunctions.AlGetSampleInstanceGain(NativePointerModel.GetPointer(instance));
-  }
-
-  public static bool SetSampleInstancePan(AllegroSampleInstance? instance, float pan)
-  {
-    return NativeFunctions.AlSetSampleInstancePan(NativePointerModel.GetPointer(instance), pan);
-  }
-
-  public static float GetSampleInstanceTime(AllegroSampleInstance? instance)
-  {
-    return NativeFunctions.AlGetSampleInstanceTime(NativePointerModel.GetPointer(instance));
-  }
-
-  public static Playmode GetSampleInstancePlaymode(AllegroSampleInstance? instance)
-  {
-    return (Playmode)NativeFunctions.AlGetSampleInstancePlaymode(NativePointerModel.GetPointer(instance));
-  }
-
-  public static bool SetSampleInstancePlaymode(AllegroSampleInstance? instance, Playmode playmode)
-  {
-    return NativeFunctions.AlSetSampleInstancePlaymode(NativePointerModel.GetPointer(instance), (int)playmode);
-  }
-
-  public static bool GetSampleInstancePlaying(AllegroSampleInstance? instance)
-  {
-    return NativeFunctions.AlGetSampleInstancePlaying(NativePointerModel.GetPointer(instance));
-  }
-
-  public static bool SetSampleInstancePlaying(AllegroSampleInstance? instance, bool playing)
-  {
-    return NativeFunctions.AlSetSampleInstancePlaying(NativePointerModel.GetPointer(instance), playing);
-  }
-
-  public static bool GetSampleInstanceAttached(AllegroSampleInstance? instance)
-  {
-    return NativeFunctions.AlGetSampleInstanceAttached(NativePointerModel.GetPointer(instance));
-  }
-
-  public static bool DetachSampleInstance(AllegroSampleInstance? instance)
-  {
-    return NativeFunctions.AlDetachSampleInstance(NativePointerModel.GetPointer(instance));
-  }
-
-  public static AllegroSample? GetSample(AllegroSampleInstance? instance)
-  {
-    var nativeSample = NativeFunctions.AlGetSample(NativePointerModel.GetPointer(instance));
-    return NativePointerModel.Create<AllegroSample>(nativeSample);
-  }
-
-  public static bool SetSample(AllegroSampleInstance? instance, AllegroSample? sample)
-  {
-    return NativeFunctions.AlSetSample(NativePointerModel.GetPointer(instance), NativePointerModel.GetPointer(sample));
-  }
-
-  public static AllegroMixer? CreateMixer(uint frequency, AudioDepth depth, ChannelConfig config)
-  {
-    var nativeMixer = NativeFunctions.AlCreateMixer(frequency, (int)depth, (int)config);
-    return NativePointerModel.Create<AllegroMixer>(nativeMixer);
-  }
-
-  public static void DestroyMixer(AllegroMixer? mixer)
-  {
-    NativeFunctions.AlDestroyMixer(NativePointerModel.GetPointer(mixer));
-  }
-
-  public static AllegroMixer? GetDefaultMixer()
-  {
-    var nativeMixer = NativeFunctions.AlGetDefaultMixer();
-    return NativePointerModel.Create<AllegroMixer>(nativeMixer);
-  }
-
-  public static bool SetDefaultMixer(AllegroMixer? mixer)
-  {
-    return NativeFunctions.AlSetDefaultMixer(NativePointerModel.GetPointer(mixer));
-  }
-
-  public static bool RestoreDefaultMixer()
-  {
-    return NativeFunctions.AlRestoreDefaultMixer();
-  }
-
-  public static AllegroVoice? GetDefaultVoice()
-  {
-    var nativeVoice = NativeFunctions.AlGetDefaultVoice();
-    return NativePointerModel.Create<AllegroVoice>(nativeVoice);
-  }
-
-  public static void SetDefaultVoice(AllegroVoice? voice)
-  {
-    NativeFunctions.AlSetDefaultVoice(NativePointerModel.GetPointer(voice));
-  }
-
-  public static bool AttachMixerToMixer(AllegroMixer? slaveMixer, AllegroMixer? masterMixer)
-  {
-    return NativeFunctions.AlAttachMixerToMixer(
-      NativePointerModel.GetPointer(slaveMixer),
-      NativePointerModel.GetPointer(masterMixer));
-  }
-
-  public static bool AttachSampleInstanceToMixer(AllegroSampleInstance? instance, AllegroMixer? mixer)
-  {
-    return NativeFunctions.AlAttachSampleInstanceToMixer(
-      NativePointerModel.GetPointer(instance),
-      NativePointerModel.GetPointer(mixer));
-  }
-
-  public static bool AttachAudioStreamToMixer(AllegroAudioStream? stream, AllegroMixer? mixer)
-  {
-    return NativeFunctions.AlAttachAudioStreamToMixer(
-      NativePointerModel.GetPointer(stream),
-      NativePointerModel.GetPointer(mixer));
-  }
-
-  public static uint GetMixerFrequency(AllegroMixer? mixer)
-  {
-    return NativeFunctions.AlGetMixerFrequency(NativePointerModel.GetPointer(mixer));
-  }
-
-  public static bool SetMixerFrequency(AllegroMixer? mixer, uint frequency)
-  {
-    return NativeFunctions.AlSetMixerFrequency(NativePointerModel.GetPointer(mixer), frequency);
-  }
-
-  public static ChannelConfig GetMixerChannels(AllegroMixer? mixer)
-  {
-    return (ChannelConfig)NativeFunctions.AlGetMixerChannels(NativePointerModel.GetPointer(mixer));
-  }
-
-  public static AudioDepth GetMixerDepth(AllegroMixer? mixer)
-  {
-    return (AudioDepth)NativeFunctions.AlGetMixerDepth(NativePointerModel.GetPointer(mixer));
-  }
-
-  public static float GetMixerGain(AllegroMixer? mixer)
-  {
-    return NativeFunctions.AlGetMixerGain(NativePointerModel.GetPointer(mixer));
-  }
-
-  public static bool SetMixerGain(AllegroMixer? mixer, float gain)
-  {
-    return NativeFunctions.AlSetMixerGain(NativePointerModel.GetPointer(mixer), gain);
-  }
-
-  public static MixerQuality GetMixerQuality(AllegroMixer? mixer)
-  {
-    return (MixerQuality)NativeFunctions.AlGetMixerQuality(NativePointerModel.GetPointer(mixer));
-  }
-
-  public static bool SetMixerQuality(AllegroMixer? mixer, MixerQuality quality)
-  {
-    return NativeFunctions.AlSetMixerQuality(NativePointerModel.GetPointer(mixer), (int)quality);
-  }
-
-  public static bool GetMixerPlaying(AllegroMixer? mixer)
-  {
-    return NativeFunctions.AlGetMixerPlaying(NativePointerModel.GetPointer(mixer));
-  }
-
-  public static bool SetMixerPlaying(AllegroMixer? mixer, bool playing)
-  {
-    return NativeFunctions.AlSetMixerPlaying(NativePointerModel.GetPointer(mixer), playing);
-  }
-
-  public static bool GetMixerAttached(AllegroMixer? mixer)
-  {
-    return NativeFunctions.AlGetMixerAttached(NativePointerModel.GetPointer(mixer));
-  }
-
-  public static bool DetachMixer(AllegroMixer? mixer)
-  {
-    return NativeFunctions.AlDetachMixer(NativePointerModel.GetPointer(mixer));
-  }
-
-  public static bool SetMixerPostprocessCallback(AllegroMixer? mixer, MixerPostprocessCallback callback, IntPtr callbackUserData)
-  {
-    return NativeFunctions.AlSetMixerPostprocessCallback(NativePointerModel.GetPointer(mixer), callback, callbackUserData);
-  }
-
-  public static AllegroAudioStream? CreateAudioStream(
-    long fragments,
-    uint samples,
-    uint frequency,
-    AudioDepth depth,
-    ChannelConfig config)
-  {
-    var nativeStream = NativeFunctions.AlCreateAudioStream(fragments, samples, frequency, (int)depth, (int)config);
-    return NativePointerModel.Create<AllegroAudioStream>(nativeStream);
-  }
-
-  public static void DestroyAudioStream(AllegroAudioStream? stream)
-  {
-    NativeFunctions.AlDestroyAudioStream(NativePointerModel.GetPointer(stream));
-  }
-
-  public static AllegroEventSource? GetAudioStreamEventSource(AllegroAudioStream? stream)
-  {
-    var nativeSource = NativeFunctions.AlGetAudioStreamEventSource(NativePointerModel.GetPointer(stream));
-    return NativePointerModel.Create<AllegroEventSource>(nativeSource);
-  }
-
-  public static void DrainAudioStream(AllegroAudioStream? stream)
-  {
-    NativeFunctions.AlDrainAudioStream(NativePointerModel.GetPointer(stream));
-  }
-
-  public static bool RewindAudioStream(AllegroAudioStream? stream)
-  {
-    return NativeFunctions.AlRewindAudioStream(NativePointerModel.GetPointer(stream));
-  }
-
-  public static uint GetAudioStreamFrequency(AllegroAudioStream? stream)
-  {
-    return NativeFunctions.AlGetAudioStreamFrequency(NativePointerModel.GetPointer(stream));
-  }
-
-  public static ChannelConfig GetAudioStreamChannels(AllegroAudioStream? stream)
-  {
-    return (ChannelConfig)NativeFunctions.AlGetAudioStreamChannels(NativePointerModel.GetPointer(stream));
-  }
-
-  public static AudioDepth GetAudioStreamDepth(AllegroAudioStream? stream)
-  {
-    return (AudioDepth)NativeFunctions.AlGetAudioStreamDepth(NativePointerModel.GetPointer(stream));
-  }
-
-  public static uint GetAudioStreamLength(AllegroAudioStream? stream)
-  {
-    return NativeFunctions.AlGetAudioStreamLength(NativePointerModel.GetPointer(stream));
-  }
-
-  public static float GetAudioStreamSpeed(AllegroAudioStream? stream)
-  {
-    return NativeFunctions.AlGetAudioStreamSpeed(NativePointerModel.GetPointer(stream));
-  }
-
-  public static bool SetAudioStreamSpeed(AllegroAudioStream? stream, float speed)
-  {
-    return NativeFunctions.AlSetAudioStreamSpeed(NativePointerModel.GetPointer(stream), speed);
-  }
-
-  public static float GetAudioStreamGain(AllegroAudioStream? stream)
-  {
-    return NativeFunctions.AlGetAudioStreamGain(NativePointerModel.GetPointer(stream));
-  }
-
-  public static bool SetAudioStreamGain(AllegroAudioStream? stream, float gain)
-  {
-    return NativeFunctions.AlSetAudioStreamGain(NativePointerModel.GetPointer(stream), gain);
-  }
-
-  public static float GetAudioStreamPan(AllegroAudioStream? stream)
-  {
-    return NativeFunctions.AlGetAudioStreamPan(NativePointerModel.GetPointer(stream));
-  }
-
-  public static bool SetAudioStreamPan(AllegroAudioStream? stream, float pan)
-  {
-    return NativeFunctions.AlSetAudioStreamPan(NativePointerModel.GetPointer(stream), pan);
-  }
-
-  public static bool GetAudioStreamPlaying(AllegroAudioStream? stream)
-  {
-    return NativeFunctions.AlGetAudioStreamPlaying(NativePointerModel.GetPointer(stream));
-  }
-
-  public static bool SetAudioStreamPlaying(AllegroAudioStream? stream, bool playing)
-  {
-    return NativeFunctions.AlSetAudioStreamPlaying(NativePointerModel.GetPointer(stream), playing);
-  }
-
-  public static Playmode GetAudioStreamPlaymode(AllegroAudioStream? stream)
-  {
-    return (Playmode)NativeFunctions.AlGetAudioStreamPlaymode(NativePointerModel.GetPointer(stream));
-  }
-
-  public static bool SetAudioStreamPlaymode(AllegroAudioStream? stream, Playmode mode)
-  {
-    return NativeFunctions.AlSetAudioStreamPlaymode(NativePointerModel.GetPointer(stream), (int)mode);
-  }
-
-  public static bool GetAudioStreamAttached(AllegroAudioStream? stream)
-  {
-    return NativeFunctions.AlGetAudioStreamAttached(NativePointerModel.GetPointer(stream));
-  }
-
-  public static bool DetachAudioStream(AllegroAudioStream? stream)
-  {
-    return NativeFunctions.AlDetachAudioStream(NativePointerModel.GetPointer(stream));
-  }
-
-  public static ulong GetAudioStreamPlayedSamples(AllegroAudioStream? stream)
-  {
-    return NativeFunctions.AlGetAudioStreamPlayedSamples(NativePointerModel.GetPointer(stream));
-  }
-
-  public static IntPtr GetAudioStreamFragment(AllegroAudioStream? stream)
-  {
-    return NativeFunctions.AlGetAudioStreamFragment(NativePointerModel.GetPointer(stream));
-  }
-
-  public static bool SetAudioStreamFragment(AllegroAudioStream? stream, IntPtr fragment)
-  {
-    return NativeFunctions.AlSetAudioStreamFragment(NativePointerModel.GetPointer(stream), fragment);
-  }
-
-  public static uint GetAudioStreamFragments(AllegroAudioStream? stream)
-  {
-    return NativeFunctions.AlGetAudioStreamFragments(NativePointerModel.GetPointer(stream));
-  }
-
-  public static uint GetAvailableAudioStreamFragments(AllegroAudioStream? stream)
-  {
-    return NativeFunctions.AlGetAvailableAudioStreamFragments(NativePointerModel.GetPointer(stream));
-  }
-
-  public static bool SeekAudioStreamSecs(AllegroAudioStream? stream, double time)
-  {
-    return NativeFunctions.AlSeekAudioStreamSecs(NativePointerModel.GetPointer(stream), time);
-  }
-
-  public static double GetAudioStreamPositionSecs(AllegroAudioStream? stream)
-  {
-    return NativeFunctions.AlGetAudioStreamPositionSecs(NativePointerModel.GetPointer(stream));
-  }
-
-  public static double GetAudioStreamLengthSecs(AllegroAudioStream? stream)
-  {
-    return NativeFunctions.AlGetAudioStreamLengthSecs(NativePointerModel.GetPointer(stream));
-  }
-
-  public static bool SetAudioStreamLoopSecs(AllegroAudioStream? stream, double start, double end)
-  {
-    return NativeFunctions.AlSetAudioStreamLoopSecs(NativePointerModel.GetPointer(stream), start, end);
-  }
-
-  public static bool RegisterSampleLoader(string extension, RegisterSampleLoader loader)
-  {
-    var nativeExtension = Marshal.StringToHGlobalAnsi(extension);
-    var result = NativeFunctions.AlRegisterSampleLoader(nativeExtension, loader);
-    Marshal.FreeHGlobal(nativeExtension);
-    return result;
-  }
-
-  public static bool RegisterSampleLoaderF(string extension, RegisterSampleLoaderF loader)
-  {
-    var nativeExtension = Marshal.StringToHGlobalAnsi(extension);
-    var result = NativeFunctions.AlRegisterSampleLoaderF(nativeExtension, loader);
-    Marshal.FreeHGlobal(nativeExtension);
-    return result;
-  }
-
-  public static bool RegisterSampleSaver(string extension, RegisterSampleSaver saver)
-  {
-    var nativeExtension = Marshal.StringToHGlobalAnsi(extension);
-    var result = NativeFunctions.AlRegisterSampleSaver(nativeExtension, saver);
-    Marshal.FreeHGlobal(nativeExtension);
-    return result;
-  }
-
-  public static bool RegisterSampleSaverF(string extension, RegisterSampleSaverF saver)
-  {
-    var nativeExtension = Marshal.StringToHGlobalAnsi(extension);
-    var result = NativeFunctions.AlRegisterSampleSaverF(nativeExtension, saver);
-    Marshal.FreeHGlobal(nativeExtension);
-    return result;
-  }
-
-  public static bool RegisterAudioStreamLoader(string extension, RegisterAudioStreamLoader loader)
-  {
-    var nativeExtension = Marshal.StringToHGlobalAnsi(extension);
-    var result = NativeFunctions.AlRegisterAudioStreamLoader(nativeExtension, loader);
-    Marshal.FreeHGlobal(nativeExtension);
-    return result;
-  }
-
-  public static bool RegisterAudioStreamLoaderF(string extension, RegisterAudioStreamLoaderF loader)
-  {
-    var nativeExtension = Marshal.StringToHGlobalAnsi(extension);
-    var result = NativeFunctions.AlRegisterAudioStreamLoaderF(nativeExtension, loader);
-    Marshal.FreeHGlobal(nativeExtension);
-    return result;
+    var pointer = Interop.Audio.AlCreateSample(buffer, samples, frequency, (int)depth, (int)channelConfig, (byte)(freeBuffer ? 1 : 0));
+    return NativePointer.Create<AllegroSample>(pointer);
   }
 
   public static AllegroSample? LoadSample(string filename)
   {
-    var nativeFilename = Marshal.StringToHGlobalAnsi(filename);
-    var result = NativeFunctions.AlLoadSample(nativeFilename);
-    Marshal.FreeHGlobal(nativeFilename);
-    return NativePointerModel.Create<AllegroSample>(result);
+    using var nativeFilename = new CStringAnsi(filename);
+    var pointer = Interop.Audio.AlLoadSample(nativeFilename.Pointer);
+    return NativePointer.Create<AllegroSample>(pointer);
   }
 
   public static AllegroSample? LoadSampleF(AllegroFile? file, string identifier)
   {
-    var nativeIdentifier = Marshal.StringToHGlobalAnsi(identifier);
-    var result = NativeFunctions.AlLoadSampleF(NativePointerModel.GetPointer(file), nativeIdentifier);
-    Marshal.FreeHGlobal(nativeIdentifier);
-    return NativePointerModel.Create<AllegroSample>(result);
-  }
-
-  public static AllegroAudioStream? LoadAudioStream(string filename, long buffers, uint samples)
-  {
-    var nativeFilename = Marshal.StringToHGlobalAnsi(filename);
-    var result = NativeFunctions.AlLoadAudioStream(nativeFilename, buffers, samples);
-    Marshal.FreeHGlobal(nativeFilename);
-    return NativePointerModel.Create<AllegroAudioStream>(result);
-  }
-
-  public static AllegroAudioStream? LoadAudioStreamF(AllegroFile? file, string identifier, long buffers, uint samples)
-  {
-    var nativeIdentifier = Marshal.StringToHGlobalAnsi(identifier);
-    var result = NativeFunctions.AlLoadAudioStreamF(NativePointerModel.GetPointer(file), nativeIdentifier, buffers, samples);
-    Marshal.FreeHGlobal(nativeIdentifier);
-    return NativePointerModel.Create<AllegroAudioStream>(result);
+    using var nativeIdentifier = new CStringAnsi(identifier);
+    var pointer = Interop.Audio.AlLoadSampleF(NativePointer.Get(file), nativeIdentifier.Pointer);
+    return NativePointer.Create<AllegroSample>(pointer);
   }
 
   public static bool SaveSample(string filename, AllegroSample? sample)
   {
-    var nativeFilename = Marshal.StringToHGlobalAnsi(filename);
-    var result = NativeFunctions.AlSaveSample(nativeFilename, NativePointerModel.GetPointer(sample));
-    Marshal.FreeHGlobal(nativeFilename);
-    return result;
+    using var nativeFilename = new CStringAnsi(filename);
+    return Interop.Audio.AlSaveSample(nativeFilename.Pointer, NativePointer.Get(sample)) != 0;
   }
 
   public static bool SaveSampleF(AllegroFile? file, string identifier, AllegroSample? sample)
   {
-    var nativeIdentifier = Marshal.StringToHGlobalAnsi(identifier);
-    var result = NativeFunctions.AlSaveSampleF(
-      NativePointerModel.GetPointer(file),
-      nativeIdentifier,
-      NativePointerModel.GetPointer(sample));
-    Marshal.FreeHGlobal(nativeIdentifier);
-    return result;
+    using var nativeFilename = new CStringAnsi(identifier);
+    return Interop.Audio.AlSaveSampleF(NativePointer.Get(file), nativeFilename.Pointer, NativePointer.Get(sample)) != 0;
   }
 
-  public static bool RegisterSampleIdentifier(string extension, RegisterSampleIdentifier identifier)
+  public static void DestroySample(AllegroSample? sample)
   {
-    var nativeExtension = Marshal.StringToHGlobalAnsi(extension);
-    var result = NativeFunctions.AlRegisterSampleIdentifier(nativeExtension, identifier);
-    Marshal.FreeHGlobal(nativeExtension);
-    return result;
+    Interop.Audio.AlDestroySample(NativePointer.Get(sample));
+  }
+
+  public static ChannelConfig GetSampleChannels(AllegroSample? sample)
+  {
+    return (ChannelConfig)Interop.Audio.AlGetSampleChannels(NativePointer.Get(sample));
+  }
+
+  public static AudioDepth GetSampleDepth(AllegroSample? sample)
+  {
+    return (AudioDepth)Interop.Audio.AlGetSampleDepth(NativePointer.Get(sample));
+  }
+
+  public static uint GetSampleFrequency(AllegroSample? sample)
+  {
+    return Interop.Audio.AlGetSampleFrequency(NativePointer.Get(sample));
+  }
+
+  public static uint GetSampleLength(AllegroSample? sample)
+  {
+    return Interop.Audio.AlGetSampleLength(NativePointer.Get(sample));
+  }
+
+  public static IntPtr GetSampleData(AllegroSample? sample)
+  {
+    return Interop.Audio.AlGetSampleData(NativePointer.Get(sample));
+  }
+
+  public static AllegroSampleInstance? CreateSampleInstance(AllegroSample? sample)
+  {
+    var pointer = Interop.Audio.AlCreateSampleInstance(NativePointer.Get(sample));
+    return NativePointer.Create<AllegroSampleInstance>(pointer);
+  }
+
+  public static void DestroySampleInstance(AllegroSampleInstance? instance)
+  {
+    Interop.Audio.AlDestroySampleInstance(NativePointer.Get(instance));
+  }
+
+  public static bool PlaySampleInstance(AllegroSampleInstance? instance)
+  {
+    return Interop.Audio.AlPlaySampleInstance(NativePointer.Get(instance)) != 0;
+  }
+
+  public static bool StopSampleInstance(AllegroSampleInstance? instance)
+  {
+    return Interop.Audio.AlStopSampleInstance(NativePointer.Get(instance)) != 0;
+  }
+
+  public static ChannelConfig GetSampleInstanceChannels(AllegroSampleInstance? instance)
+  {
+    return (ChannelConfig)Interop.Audio.AlGetSampleInstanceChannels(NativePointer.Get(instance));
+  }
+
+  public static AudioDepth GetSampleInstanceDepth(AllegroSampleInstance? instance)
+  {
+    return (AudioDepth)Interop.Audio.AlGetSampleInstanceDepth(NativePointer.Get(instance));
+  }
+
+  public static uint GetSampleInstanceFrequency(AllegroSampleInstance? instance)
+  {
+    return Interop.Audio.AlGetSampleInstanceFrequency(NativePointer.Get(instance));
+  }
+
+  public static uint GetSampleInstanceLength(AllegroSampleInstance? instance)
+  {
+    return Interop.Audio.AlGetSampleInstanceLength(NativePointer.Get(instance));
+  }
+
+  public static bool SetSampleInstanceLength(AllegroSampleInstance? instance, uint length)
+  {
+    return Interop.Audio.AlSetSampleInstanceLength(NativePointer.Get(instance), length) != 0;
+  }
+
+  public static uint GetSampleInstancePosition(AllegroSampleInstance? instance)
+  {
+    return Interop.Audio.AlGetSampleInstancePosition(NativePointer.Get(instance));
+  }
+
+  public static bool SetSampleInstancePosition(AllegroSampleInstance? instance, uint position)
+  {
+    return Interop.Audio.AlSetSampleInstancePosition(NativePointer.Get(instance), position) != 0;
+  }
+
+  public static float GetSampleInstanceSpeed(AllegroSampleInstance? instance)
+  {
+    return Interop.Audio.AlGetSampleInstanceSpeed(NativePointer.Get(instance));
+  }
+
+  public static bool SetSampleInstanceSpeed(AllegroSampleInstance? instance, float speed)
+  {
+    return Interop.Audio.AlSetSampleInstanceSpeed(NativePointer.Get(instance), speed) != 0;
+  }
+
+  public static float GetSampleInstanceGain(AllegroSampleInstance? instance)
+  {
+    return Interop.Audio.AlGetSampleInstanceGain(NativePointer.Get(instance));
+  }
+
+  public static bool SetSampleInstanceGain(AllegroSampleInstance? instance, float gain)
+  {
+    return Interop.Audio.AlSetSampleInstanceGain(NativePointer.Get(instance), gain) != 0;
+  }
+
+  public static float GetSampleInstancePan(AllegroSampleInstance? instance)
+  {
+    return Interop.Audio.AlGetSampleInstancePan(NativePointer.Get(instance));
+  }
+
+  public static bool SetSampleInstancePan(AllegroSampleInstance? instance, float pan)
+  {
+    return Interop.Audio.AlSetSampleInstancePan(NativePointer.Get(instance), pan) != 0;
+  }
+
+  public static float GetSampleInstanceTime(AllegroSampleInstance? instance)
+  {
+    return Interop.Audio.AlGetSampleInstanceTime(NativePointer.Get(instance));
+  }
+
+  public static PlayMode GetSampleInstancePlaymode(AllegroSampleInstance? instance)
+  {
+    return (PlayMode)Interop.Audio.AlGetSampleInstancePlaymode(NativePointer.Get(instance));
+  }
+
+  public static bool SetSampleInstancePlaymode(AllegroSampleInstance? instance, PlayMode playmode)
+  {
+    return Interop.Audio.AlSetSampleInstancePlaymode(NativePointer.Get(instance), (int)playmode) != 0;
+  }
+
+  public static bool GetSampleInstancePlaying(AllegroSampleInstance? instance)
+  {
+    return Interop.Audio.AlGetSampleInstancePlaying(NativePointer.Get(instance)) != 0;
+  }
+
+  public static bool SetSampleInstancePlaying(AllegroSampleInstance? instance, bool isPlaying)
+  {
+    return Interop.Audio.AlSetSampleInstancePlaying(NativePointer.Get(instance), (byte)(isPlaying ? 1 : 0)) != 0;
+  }
+
+  public static bool GetSampleInstanceAttached(AllegroSampleInstance? instance)
+  {
+    return Interop.Audio.AlGetSampleInstanceAttached(NativePointer.Get(instance)) != 0;
+  }
+
+  public static bool DetachSampleInstance(AllegroSampleInstance? instance)
+  {
+    return Interop.Audio.AlDetachSampleInstance(NativePointer.Get(instance)) != 0;
+  }
+
+  public static AllegroSample? GetSample(AllegroSampleInstance? instance)
+  {
+    var pointer = Interop.Audio.AlGetSample(NativePointer.Get(instance));
+    return NativePointer.Create<AllegroSample>(pointer);
+  }
+
+  public static bool SetSample(AllegroSampleInstance? instance, AllegroSample? sample)
+  {
+    return Interop.Audio.AlSetSample(NativePointer.Get(instance), NativePointer.Get(sample)) != 0;
+  }
+
+  public static AllegroAudioStream? CreateAudioStream(
+    long count,
+    uint samples,
+    uint freqency,
+    AudioDepth depth,
+    ChannelConfig channelConfig)
+  {
+    var pointer = Interop.Audio.AlCreateAudioStream(count, samples, freqency, (int)depth, (int)channelConfig);
+    return NativePointer.Create<AllegroAudioStream>(pointer);
+  }
+
+  public static AllegroAudioStream? LoadAudioStream(string filename, long count, uint samples)
+  {
+    using var nativeFilename = new CStringAnsi(filename);
+    var pointer = Interop.Audio.AlLoadAudioStream(nativeFilename.Pointer, count, samples);
+    return NativePointer.Create<AllegroAudioStream>(pointer);
+  }
+
+  public static AllegroAudioStream? LoadAudioStreamF(AllegroFile? file, string identifier, long bufferCount, uint samples)
+  {
+    using var nativeIdentifier = new CStringAnsi(identifier);
+    var pointer = Interop.Audio.AlLoadAudioStreamF(NativePointer.Get(file), nativeIdentifier.Pointer, bufferCount, samples);
+    return NativePointer.Create<AllegroAudioStream>(pointer);
+  }
+
+  public static void DestroyAudioStream(AllegroAudioStream? stream)
+  {
+    Interop.Audio.AlDestroyAudioStream(NativePointer.Get(stream));
+  }
+
+  public static AllegroEventSource? GetAudioStreamEventSource(AllegroAudioStream? stream)
+  {
+    var pointer = Interop.Audio.AlGetAudioStreamEventSource(NativePointer.Get(stream));
+    return NativePointer.Create<AllegroEventSource>(pointer);
+  }
+
+  public static void DrainAudioSTream(AllegroAudioStream? stream)
+  {
+    Interop.Audio.AlDrainAudioStream(NativePointer.Get(stream));
+  }
+
+  public static bool RewindAudioStream(AllegroAudioStream? stream)
+  {
+    return Interop.Audio.AlRewindAudioStream(NativePointer.Get(stream)) != 0;
+  }
+
+  public static uint GetAudioStreamFrequency(AllegroAudioStream? stream)
+  {
+    return Interop.Audio.AlGetAudioStreamFrequency(NativePointer.Get(stream));
+  }
+
+  public static ChannelConfig GetAudioStreamChannels(AllegroAudioStream? stream)
+  {
+    return (ChannelConfig)Interop.Audio.AlGetAudioStreamChannels(NativePointer.Get(stream));
+  }
+
+  public static AudioDepth GetAudioStreamDepth(AllegroAudioStream? stream)
+  {
+    return (AudioDepth)Interop.Audio.AlGetAudioStreamDepth(NativePointer.Get(stream));
+  }
+
+  public static uint GetAudioStreamLength(AllegroAudioStream? stream)
+  {
+    return Interop.Audio.AlGetAudioStreamLength(NativePointer.Get(stream));
+  }
+
+  public static float GetAudioStreamSpeed(AllegroAudioStream? stream)
+  {
+    return Interop.Audio.AlGetAudioStreamSpeed(NativePointer.Get(stream));
+  }
+
+  public static bool SetAudioStreamSpeed(AllegroAudioStream? stream, float speed)
+  {
+    return Interop.Audio.AlSetAudioStreamSpeed(NativePointer.Get(stream), speed) != 0;
+  }
+
+  public static float GetAudioStreamGain(AllegroAudioStream? stream)
+  {
+    return Interop.Audio.AlGetAudioStreamGain(NativePointer.Get(stream));
+  }
+
+  public static bool SetAudioStreamGain(AllegroAudioStream? stream, float gain)
+  {
+    return Interop.Audio.AlSetAudioStreamGain(NativePointer.Get(stream), gain) != 0;
+  }
+
+  public static float GetAudioStreamPan(AllegroAudioStream? stream)
+  {
+    return Interop.Audio.AlGetAudioStreamPan(NativePointer.Get(stream));
+  }
+
+  public static bool SetAudioStreamPan(AllegroAudioStream? stream, float pan)
+  {
+    return Interop.Audio.AlSetAudioStreamPan(NativePointer.Get(stream), pan) != 0;
+  }
+
+  public static bool GetAudioStreamPlaying(AllegroAudioStream? stream)
+  {
+    return Interop.Audio.AlGetAudioStreamPlaying(NativePointer.Get(stream)) != 0;
+  }
+
+  public static bool SetAudioStreamPlaying(AllegroAudioStream? stream, bool isPlaying)
+  {
+    return Interop.Audio.AlSetAudioStreamPlaying(NativePointer.Get(stream), (byte)(isPlaying ? 1 : 0)) != 0;
+  }
+
+  public static PlayMode GetAudioStreamPlaymode(AllegroAudioStream? stream)
+  {
+    return (PlayMode)Interop.Audio.AlGetAudioStreamPlaymode(NativePointer.Get(stream));
+  }
+
+  public static bool SetAudioStreamPlaymode(AllegroAudioStream? stream, PlayMode mode)
+  {
+    return Interop.Audio.AlSetAudioStreamPlaymode(NativePointer.Get(stream), (int)mode) != 0;
+  }
+
+  public static bool GetAudioStreamAttached(AllegroAudioStream? stream)
+  {
+    return Interop.Audio.AlGetAudioStreamAttached(NativePointer.Get(stream)) != 0;
+  }
+
+  public static bool DetachAudioStream(AllegroAudioStream? stream)
+  {
+    return Interop.Audio.AlDetachAudioStream(NativePointer.Get(stream)) != 0;
+  }
+
+  public static ulong GetAudioStreamPlayedSamples(AllegroAudioStream? stream)
+  {
+    return Interop.Audio.AlGetAudioStreamPlayedSamples(NativePointer.Get(stream));
+  }
+
+  public static IntPtr GetAudioStreamFragment(AllegroAudioStream? stream)
+  {
+    return Interop.Audio.AlGetAudioStreamFragment(NativePointer.Get(stream));
+  }
+
+  public static bool SetAudioStreamFragment(AllegroAudioStream? stream, IntPtr fragment)
+  {
+    return Interop.Audio.AlSetAudioStreamFragment(NativePointer.Get(stream), fragment) != 0;
+  }
+
+  public static uint GetAudioStreamFragments(AllegroAudioStream? stream)
+  {
+    return Interop.Audio.AlGetAudioStreamFragments(NativePointer.Get(stream));
+  }
+
+  public static uint GetAvailableAudioStreamFragments(AllegroAudioStream? stream)
+  {
+    return Interop.Audio.AlGetAvailableAudioStreamFragments(NativePointer.Get(stream));
+  }
+
+  public static bool SeekAudioStreamSecs(AllegroAudioStream? stream, double seconds)
+  {
+    return Interop.Audio.AlSeekAudioStreamSecs(NativePointer.Get(stream), seconds) != 0;
+  }
+
+  public static double GetAudioStreamPositionSecs(AllegroAudioStream? stream)
+  {
+    return Interop.Audio.AlGetAudioStreamPositionSecs(NativePointer.Get(stream));
+  }
+
+  public static double GetAudioStreamLengthSecs(AllegroAudioStream? stream)
+  {
+    return Interop.Audio.AlGetAudioStreamLengthSecs(NativePointer.Get(stream));
+  }
+
+  public static bool SetAudioStreamLoopSecs(AllegroAudioStream? stream, double start, double end)
+  {
+    return Interop.Audio.AlSetAudioStreamLoopSecs(NativePointer.Get(stream), start, end) != 0;
+  }
+
+  public static bool RegisterSampleLoader(string extension, Delegates.RegisterSampleLoaderDelegate loader)
+  {
+    using var nativeExtension = new CStringAnsi(extension);
+    return Interop.Audio.AlRegisterSampleLoader(nativeExtension.Pointer, loader) != 0;
+  }
+
+  public static bool RegisterSampleLoaderF(string extension, Delegates.RegisterSampleLoaderFDelegate loader)
+  {
+    using var nativeExtension = new CStringAnsi(extension);
+    return Interop.Audio.AlRegisterSampleLoaderF(nativeExtension.Pointer, loader) != 0;
+  }
+
+  public static bool RegisterSampleSaver(string extension, Delegates.RegisterSampleSaverDelegate saver)
+  {
+    using var nativeExtension = new CStringAnsi(extension);
+    return Interop.Audio.AlRegisterSampleSaver(nativeExtension.Pointer, saver) != 0;
+  }
+
+  public static bool RegisterSampleSaverF(string extension, Delegates.RegisterSampleSaverFDelegate saver)
+  {
+    using var nativeExtension = new CStringAnsi(extension);
+    return Interop.Audio.AlRegisterSampleSaverF(nativeExtension.Pointer, saver) != 0;
+  }
+
+  public static bool RegisterAudioStreamLoader(string extension, Delegates.RegisterAudioStreamLoader loader)
+  {
+    using var nativeExtension = new CStringAnsi(extension);
+    return Interop.Audio.AlRegisterAudioStreamLoader(nativeExtension.Pointer, loader) != 0;
+  }
+
+  public static bool RegisterAudioStreamLoaderF(string extension, Delegates.RegisterAudioStreamFLoader loader)
+  {
+    using var nativeExtension = new CStringAnsi(extension);
+    return Interop.Audio.AlRegisterAudioStreamLoaderF(nativeExtension.Pointer, loader) != 0;
+  }
+
+  public static bool RegisterSampleIdentifier(string extension, Delegates.RegisterSampleIdentifierDelegate identifier)
+  {
+    using var nativeExtension = new CStringAnsi(extension);
+    return Interop.Audio.AlRegisterSampleIdentifier(nativeExtension.Pointer, identifier) != 0;
   }
 
   public static string? IdentifySample(string filename)
   {
-    var nativeFilename = Marshal.StringToHGlobalAnsi(filename);
-    var nativeResult = NativeFunctions.AlIdentifySample(nativeFilename);
-    var result = Marshal.PtrToStringAnsi(nativeResult);
-    Marshal.FreeHGlobal(nativeFilename);
-    return result;
+    using var nativeFilename = new CStringAnsi(filename);
+    var pointer = Interop.Audio.AlIdentifySample(nativeFilename.Pointer);
+    return Marshal.PtrToStringAnsi(pointer);
   }
 
   public static string? IdentifySampleF(AllegroFile? file)
   {
-    var nativeResult = NativeFunctions.AlIdentifySampleF(NativePointerModel.GetPointer(file));
-    return Marshal.PtrToStringAnsi(nativeResult);
+    var pointer = Interop.Audio.AlIdentifySampleF(NativePointer.Get(file));
+    return Marshal.PtrToStringAnsi(pointer);
   }
 
   public static int GetNumAudioOutputDevices()
   {
-    return NativeFunctions.AlGetNumAudioOutputDevices();
+    return Interop.Audio.AlGetNumAudioOutputDevices();
   }
 
   public static AllegroAudioDevice? GetAudioOutputDevice(int index)
   {
-    var result = NativeFunctions.AlGetAudioOutputDevice(index);
-    return NativePointerModel.Create<AllegroAudioDevice>(result);
+    var pointer = Interop.Audio.AlGetAudioOutputDevice(index);
+    return NativePointer.Create<AllegroAudioDevice>(pointer);
   }
 
   public static string? GetAudioDeviceName(AllegroAudioDevice? device)
   {
-    var result = NativeFunctions.AlGetAudioDeviceName(NativePointerModel.GetPointer(device));
-    return result == IntPtr.Zero ? null : Marshal.PtrToStringAnsi(result);
+    var pointer = Interop.Audio.AlGetAudioDeviceName(NativePointer.Get(device));
+    return Marshal.PtrToStringAnsi(pointer);
+  }
+
+  public static AllegroVoice? CreateVoice(uint frequency, AudioDepth depth, ChannelConfig channelConfig)
+  {
+    var pointer = Interop.Audio.AlCreateVoice(frequency, (int)depth, (int)channelConfig);
+    return NativePointer.Create<AllegroVoice>(pointer);
+  }
+
+  public static void DestroyVoice(AllegroVoice? voice)
+  {
+    Interop.Audio.AlDestroyVoice(NativePointer.Get(voice));
+  }
+
+  public static void DetachVoice(AllegroVoice? voice)
+  {
+    Interop.Audio.AlDetachVoice(NativePointer.Get(voice));
+  }
+
+  public static bool AttachAudioStreamToVoice(AllegroAudioStream? stream, AllegroVoice? voice)
+  {
+    return Interop.Audio.AlAttachAudioStreamToVoice(NativePointer.Get(stream), NativePointer.Get(voice)) != 0;
+  }
+
+  public static bool AttachMixerToVoice(AllegroMixer? mixer, AllegroVoice? voice)
+  {
+    return Interop.Audio.AlAttachMixerToVoice(NativePointer.Get(mixer), NativePointer.Get(voice)) != 0;
+  }
+
+  public static bool AttachSampleInstanceToVoice(AllegroSampleInstance? instance, AllegroVoice? voice)
+  {
+    return Interop.Audio.AlAttachSampleInstanceToVoice(NativePointer.Get(instance), NativePointer.Get(voice)) != 0;
+  }
+
+  public static uint GetVoiceFrequency(AllegroVoice? voice)
+  {
+    return Interop.Audio.AlGetVoiceFrequency(NativePointer.Get(voice));
+  }
+
+  public static ChannelConfig GetVoiceChannels(AllegroVoice? voice)
+  {
+    return (ChannelConfig)Interop.Audio.AlGetVoiceChannels(NativePointer.Get(voice));
+  }
+
+  public static AudioDepth GetVoiceDepth(AllegroVoice? voice)
+  {
+    return (AudioDepth)Interop.Audio.AlGetVoiceDepth(NativePointer.Get(voice));
+  }
+
+  public static bool GetVoicePlaying(AllegroVoice? voice)
+  {
+    return Interop.Audio.AlGetVoicePlaying(NativePointer.Get(voice)) != 0;
+  }
+
+  public static bool SetVoicePlaying(AllegroVoice? voice, bool isPlaying)
+  {
+    return Interop.Audio.AlSetVoicePlaying(NativePointer.Get(voice), (byte)(isPlaying ? 1 : 0)) != 0;
+  }
+
+  public static uint GetVoicePosition(AllegroVoice? voice)
+  {
+    return Interop.Audio.AlGetVoicePosition(NativePointer.Get(voice));
+  }
+
+  public static bool SetVoicePosition(AllegroVoice? voice, uint position)
+  {
+    return Interop.Audio.AlSetVoicePosition(NativePointer.Get(voice), position) != 0;
+  }
+
+  public static AllegroMixer? CreateMixer(uint frequency, AudioDepth depth, ChannelConfig channelConfig)
+  {
+    var pointer = Interop.Audio.AlCreateMixer(frequency, (int)depth, (int)channelConfig);
+    return NativePointer.Create<AllegroMixer>(pointer);
+  }
+
+  public static void DestroyMixer(AllegroMixer? mixer)
+  {
+    Interop.Audio.AlDestroyMixer(NativePointer.Get(mixer));
+  }
+
+  public static AllegroMixer? GetDefaultMixer()
+  {
+    var pointer = Interop.Audio.AlGetDefaultMixer();
+    return NativePointer.Create<AllegroMixer>(pointer);
+  }
+
+  public static bool SetDefaultMixer(AllegroMixer? mixer)
+  {
+    return Interop.Audio.AlSetDefaultMixer(NativePointer.Get(mixer)) != 0;
+  }
+
+  public static bool RestoreDefaultMixer()
+  {
+    return Interop.Audio.AlRestoreDefaultMixer() != 0;
+  }
+
+  public static AllegroVoice? GetDefaultVoice()
+  {
+    var pointer = Interop.Audio.AlGetDefaultVoice();
+    return NativePointer.Create<AllegroVoice>(pointer);
+  }
+
+  public static void SetDefaultVoice(AllegroVoice? voice)
+  {
+    Interop.Audio.AlSetDefaultVoice(NativePointer.Get(voice));
+  }
+
+  public static bool AttachMixerToMixer(AllegroMixer? mixerToAttach, AllegroMixer? mixerToAttachTo)
+  {
+    return Interop.Audio.AlAttachMixerToMixer(NativePointer.Get(mixerToAttach), NativePointer.Get(mixerToAttachTo)) != 0;
+  }
+
+  public static bool AttachSampleInstanceToMixer(AllegroSampleInstance? instance, AllegroMixer? mixer)
+  {
+    return Interop.Audio.AlAttachSampleInstanceToMixer(NativePointer.Get(instance), NativePointer.Get(mixer)) != 0;
+  }
+
+  public static bool AttachAudioStreamToMixer(AllegroAudioStream? stream, AllegroMixer? mixer)
+  {
+    return Interop.Audio.AlAttachAudioStreamToMixer(NativePointer.Get(stream), NativePointer.Get(mixer)) != 0;
+  }
+
+  public static uint GetMixerFrequency(AllegroMixer? mixer)
+  {
+    return Interop.Audio.AlGetMixerFrequency(NativePointer.Get(mixer));
+  }
+
+  public static bool SetMixerFrequency(AllegroMixer? mixer, uint frequency)
+  {
+    return Interop.Audio.AlSetMixerFrequency(NativePointer.Get(mixer), frequency) != 0;
+  }
+
+  public static ChannelConfig GetMixerChannels(AllegroMixer? mixer)
+  {
+    return (ChannelConfig)Interop.Audio.AlGetMixerChannels(NativePointer.Get(mixer));
+  }
+
+  public static AudioDepth GetMixerDepth(AllegroMixer? mixer)
+  {
+    return (AudioDepth)Interop.Audio.AlGetMixerDepth(NativePointer.Get(mixer));
+  }
+
+  public static float GetMixerGain(AllegroMixer? mixer)
+  {
+    return Interop.Audio.AlGetMixerGain(NativePointer.Get(mixer));
+  }
+
+  public static bool SetMixerGain(AllegroMixer? mixer, float gain)
+  {
+    return Interop.Audio.AlSetMixerGain(NativePointer.Get(mixer), gain) != 0;
+  }
+
+  public static MixerQuality GetMixerQuality(AllegroMixer? mixer)
+  {
+    return (MixerQuality)Interop.Audio.AlGetMixerQuality(NativePointer.Get(mixer));
+  }
+
+  public static bool SetMixerQuality(AllegroMixer? mixer, MixerQuality quality)
+  {
+    return Interop.Audio.AlSetMixerQuality(NativePointer.Get(mixer), (int)quality) != 0;
+  }
+
+  public static bool GetMixerPlaying(AllegroMixer? mixer)
+  {
+    return Interop.Audio.AlGetMixerPlaying(NativePointer.Get(mixer)) != 0;
+  }
+
+  public static bool SetMixerPlaying(AllegroMixer? mixer, bool isPlaying)
+  {
+    return Interop.Audio.AlSetMixerPlaying(NativePointer.Get(mixer), (byte)(isPlaying ? 1 : 0)) != 0;
+  }
+
+  public static bool GetMixerAttached(AllegroMixer? mixer)
+  {
+    return Interop.Audio.AlGetMixerAttached(NativePointer.Get(mixer)) != 0;
+  }
+
+  public static bool DetachMixer(AllegroMixer? mixer)
+  {
+    return Interop.Audio.AlDetachMixer(NativePointer.Get(mixer)) != 0;
+  }
+
+  public static bool SetMixerPostprocessCallback(
+    AllegroMixer? mixer,
+    Delegates.SetMixerPostProcessCallbackDelegate callback,
+    IntPtr callbackData)
+  {
+    return Interop.Audio.AlSetMixerPostprocessCallback(NativePointer.Get(mixer), callback, callbackData) != 0;
+  }
+
+  public static uint GetAllegroAudioVersion()
+  {
+    return Interop.Audio.AlGetAllegroAudioVersion();
+  }
+
+  public static ulong GetAudioDepthSize(AudioDepth depth)
+  {
+    var cSizeT = Interop.Audio.AlGetAudioDepthSize((int)depth);
+    return cSizeT.ToUInt64();
+  }
+
+  public static ulong GetChannelCount(ChannelConfig channels)
+  {
+    var cSizeT = Interop.Audio.AlGetChannelCount((int)channels);
+    return cSizeT.ToUInt64();
+  }
+
+  public static void FillSilence(IntPtr buffer, uint samples, AudioDepth depth, ChannelConfig channels)
+  {
+    Interop.Audio.AlFillSilence(buffer, samples, (int)depth, (int)channels);
   }
 }

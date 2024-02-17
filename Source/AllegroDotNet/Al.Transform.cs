@@ -1,186 +1,200 @@
 ﻿using SubC.AllegroDotNet.Models;
 using SubC.AllegroDotNet.Native;
-using System;
 using System.Runtime.InteropServices;
 
 namespace SubC.AllegroDotNet;
 
+/// <summary>
+/// This static class contains the Allegro 5 library methods.
+/// </summary>
 public static partial class Al
 {
-  public static void CopyTransform(AllegroTransform destination, AllegroTransform source)
+  public static void CopyTransform(ref AllegroTransform destination, in AllegroTransform source)
   {
-    NativeFunctions.AlCopyTransform(ref destination.Transform, ref source.Transform);
+    Interop.Core.AlCopyTransform(ref destination, in source);
   }
 
-  public static void UseTransform(AllegroTransform transform)
+  public static void UseTransform(ref AllegroTransform transform)
   {
-    NativeFunctions.AlUseTransform(ref transform.Transform);
+    Interop.Core.AlUseTransform(ref transform);
   }
 
   public static AllegroTransform? GetCurrentTransform()
   {
-    var nativeTransform = NativeFunctions.AlGetCurrentTransform();
-    return nativeTransform == IntPtr.Zero
-        ? null
-        : new AllegroTransform
-        {
-          Transform = Marshal.PtrToStructure<AllegroTransform.NativeAllegroTransform>(nativeTransform)
-        };
+    var pointer = Interop.Core.AlGetCurrentTransform();
+    return pointer == IntPtr.Zero
+      ? null
+      : Marshal.PtrToStructure<AllegroTransform>(pointer);
   }
 
-  public static void UseProjectionTransform(AllegroTransform transform)
+  public static void UseProjectionTransform(ref AllegroTransform transform)
   {
-    NativeFunctions.AlUseProjectionTransform(ref transform.Transform);
+    Interop.Core.AlUseProjectionTransform(ref transform);
   }
 
-  public static AllegroTransform? GetCurrentProjectionTransform()
+  public static AllegroTransform GetCurrentProjectionTransform()
   {
-    var nativeTransform = NativeFunctions.AlGetCurrentProjectionTransform();
-    return nativeTransform == IntPtr.Zero
-        ? null
-        : new AllegroTransform
-        {
-          Transform = Marshal.PtrToStructure<AllegroTransform.NativeAllegroTransform>(nativeTransform)
-        };
+    var pointer = Interop.Core.AlGetCurrentProjectionTransform();
+    return Marshal.PtrToStructure<AllegroTransform>(pointer);
   }
 
-  public static AllegroTransform? GetCurrentInverseTransform()
+  public static AllegroTransform GetCurrentInverseTransform()
   {
-    var nativeTransform = NativeFunctions.AlGetCurrentInverseTransform();
-    return nativeTransform == IntPtr.Zero
-        ? null
-        : new AllegroTransform
-        {
-          Transform = Marshal.PtrToStructure<AllegroTransform.NativeAllegroTransform>(nativeTransform)
-        };
+    var pointer = Interop.Core.AlGetCurrentInverseTransform();
+    return Marshal.PtrToStructure<AllegroTransform>(pointer);
   }
 
-  public static void InvertTransform(AllegroTransform transform)
+  public static void InvertTransform(ref AllegroTransform transform)
   {
-    NativeFunctions.AlInvertTransform(ref transform.Transform);
+    Interop.Core.AlInvertTransform(ref transform);
   }
 
-  public static void TransposeTransform(AllegroTransform transform)
+  public static void TransposeTransform(ref AllegroTransform transform)
   {
-    NativeFunctions.AlTransposeTransform(ref transform.Transform);
+    Interop.Core.AlTransposeTransform(ref transform);
   }
 
-  public static int CheckInverse(AllegroTransform transform, float tolerance)
+  public static int CheckInverse(ref AllegroTransform transform, float tolerance)
   {
-    return NativeFunctions.AlCheckInverse(ref transform.Transform, tolerance);
+    return Interop.Core.AlCheckInverse(ref transform, tolerance);
   }
 
-  public static void IdentityTransform(AllegroTransform transform)
+  public static void IdentityTransform(ref AllegroTransform transform)
   {
-    NativeFunctions.AlIdentityTransform(ref transform.Transform);
+    Interop.Core.AlIdentityTransform(ref transform);
   }
 
-  public static void BuildTransform(AllegroTransform transform, float x, float y, float sx, float sy, float theta)
+  public static void BuildTransform(
+    ref AllegroTransform transform,
+    float x,
+    float y,
+    float sx,
+    float sy,
+    float theta)
   {
-    NativeFunctions.AlBuildTransform(ref transform.Transform, x, y, sx, sy, theta);
+    Interop.Core.AlBuildTransform(ref transform, x, y, sx, sy, theta);
   }
 
   public static void BuildCameraTransform(
-      AllegroTransform transform,
-      float posX,
-      float posY,
-      float posZ,
-      float lookX,
-      float lookY,
-      float lookZ,
-      float upX,
-      float upY,
-      float upZ)
+    ref AllegroTransform transform,
+    float positionX,
+    float positionY,
+    float positionZ,
+    float lookX,
+    float lookY,
+    float lookZ,
+    float upX,
+    float upY,
+    float upZ)
   {
-    NativeFunctions.AlBuildCameraTransform(ref transform.Transform, posX, posY, posZ, lookX, lookY, lookZ, upX, upY, upZ);
+    Interop.Core.AlBuildCameraTransform(
+      ref transform,
+      positionX,
+      positionY,
+      positionZ,
+      lookX,
+      lookY,
+      lookZ,
+      upX,
+      upY,
+      upZ);
   }
 
-  public static void TranslateTransform(AllegroTransform transform, float x, float y)
+  public static void TranslateTransform(ref AllegroTransform transform, float x, float y)
   {
-    NativeFunctions.AlTranslateTransform(ref transform.Transform, x, y);
+    Interop.Core.AlTranslateTransform(ref transform, x, y);
   }
 
-  public static void RotateTransform(AllegroTransform transform, float theta)
+  public static void RotateTransform(ref AllegroTransform transform, float theta)
   {
-    NativeFunctions.AlRotateTransform(ref transform.Transform, theta);
+    Interop.Core.AlRotateTransform(ref transform, theta);
   }
 
-  public static void ScaleTransform(AllegroTransform transform, float sx, float sy)
+  public static void ScaleTransform(ref AllegroTransform transform, float sX, float sY)
   {
-    NativeFunctions.AlScaleTransform(ref transform.Transform, sx, sy);
+    Interop.Core.AlScaleTransform(ref transform, sX, sY);
   }
 
-  public static void TransformCoordinates(AllegroTransform transform, ref float x, ref float y)
+  public static void TransformCoordinates(ref AllegroTransform transform, ref float x, ref float y)
   {
-    NativeFunctions.AlTransformCoordinates(ref transform.Transform, ref x, ref y);
+    Interop.Core.AlTransformCoordinates(ref transform, ref x, ref y);
   }
 
-  public static void TransformCoordinates3D(AllegroTransform transform, ref float x, ref float y, ref float z)
+  public static void TransformCoordinates3D(ref AllegroTransform transform, ref float x, ref float y, ref float z)
   {
-    NativeFunctions.AlTransformCoordinates3D(ref transform.Transform, ref x, ref y, ref z);
+    Interop.Core.AlTransformCoordinates3D(ref transform, ref x, ref y, ref z);
   }
 
-  public static void TransformCoordinates4D(AllegroTransform transform, ref float x, ref float y, ref float z, ref float w)
+  public static void TransformCoordinates4D(
+    ref AllegroTransform transform,
+    ref float x,
+    ref float y,
+    ref float z,
+    ref float w)
   {
-    NativeFunctions.AlTransformCoordinates4D(ref transform.Transform, ref x, ref y, ref z, ref w);
+    Interop.Core.AlTransformCoordinates4D(ref transform, ref x, ref y, ref z, ref w);
   }
 
-  public static void TransformCoordinates3DProjective(AllegroTransform transform, ref float x, ref float y, ref float z)
+  public static void TransformCoordinates3DProjective(
+    ref AllegroTransform transform,
+    ref float x,
+    ref float y,
+    ref float z)
   {
-    NativeFunctions.AlTransformCoordinates3DProjective(ref transform.Transform, ref x, ref y, ref z);
+    Interop.Core.AlTransformCoordinates3DProjective(ref transform, ref x, ref y, ref z);
   }
 
-  public static void ComposeTransform(AllegroTransform transform, AllegroTransform otherTransform)
+  public static void ComposeTransform(ref AllegroTransform transform, in AllegroTransform otherTransform)
   {
-    NativeFunctions.AlComposeTransform(ref transform.Transform, ref otherTransform.Transform);
+    Interop.Core.AlComposeTransform(ref transform, in otherTransform);
   }
 
   public static void OrthographicTransform(
-      AllegroTransform transform,
-      float left,
-      float top,
-      float n,
-      float right,
-      float bottom,
-      float f)
+    ref AllegroTransform transform,
+    float left,
+    float top,
+    float n,
+    float right,
+    float bottom,
+    float f)
   {
-    NativeFunctions.AlOrthographicTransform(ref transform.Transform, left, top, n, right, bottom, f);
+    Interop.Core.AlOrthographicTransform(ref transform, left, top, n, right, bottom, f);
   }
 
   public static void PerspectiveTransform(
-      AllegroTransform transform,
-      float left,
-      float top,
-      float n,
-      float right,
-      float bottom,
-      float f)
+    ref AllegroTransform transform,
+    float left,
+    float top,
+    float n,
+    float right,
+    float bottom,
+    float f)
   {
-    NativeFunctions.AlPerspectiveTransform(ref transform.Transform, left, top, n, right, bottom, f);
+    Interop.Core.AlPerspectiveTransform(ref transform, left, top, n, right, bottom, f);
   }
 
-  public static void TranslateTransform3D(AllegroTransform transform, float x, float y, float z)
+  public static void TranslateTransform3D(ref AllegroTransform transform, float x, float y, float z)
   {
-    NativeFunctions.AlTranslateTransform3D(ref transform.Transform, x, y, z);
+    Interop.Core.AlTranslateTransform3D(ref transform, x, y, z);
   }
 
-  public static void ScaleTransform3D(AllegroTransform transform, float sx, float sy, float sz)
+  public static void ScaleTransform3D(ref AllegroTransform transform, float sX, float sY, float sZ)
   {
-    NativeFunctions.AlScaleTransform3D(ref transform.Transform, sx, sy, sz);
+    Interop.Core.AlScaleTransform3D(ref transform, sX, sY, sZ);
   }
 
-  public static void RotateTransform3D(AllegroTransform transform, float x, float y, float z, float angle)
+  public static void RotateTransform3D(ref AllegroTransform transform, float x, float y, float z, float angle)
   {
-    NativeFunctions.AlRotateTransform3D(ref transform.Transform, x, y, z, angle);
+    Interop.Core.AlRotateTransform3D(ref transform, x, y, z, angle);
   }
 
-  public static void HorizontalShearTransform(AllegroTransform transform, float theta)
+  public static void HorizontalShearTransform(ref AllegroTransform transform, float theta)
   {
-    NativeFunctions.AlHorizontalShearTransform(ref transform.Transform, theta);
+    Interop.Core.AlHorizontalShearTransform(ref transform, theta);
   }
 
-  public static void VerticalShearTransform(AllegroTransform transform, float theta)
+  public static void VerticalShearTransform(ref AllegroTransform transform, float theta)
   {
-    NativeFunctions.AlVerticalShearTransform(ref transform.Transform, theta);
+    Interop.Core.AlVerticalShearTransform(ref transform, theta);
   }
 }

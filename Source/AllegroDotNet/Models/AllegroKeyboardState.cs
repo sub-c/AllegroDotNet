@@ -1,34 +1,25 @@
-﻿using System;
+﻿using SubC.AllegroDotNet.Enums;
 using System.Runtime.InteropServices;
 
-namespace SubC.AllegroDotNet.Models
+namespace SubC.AllegroDotNet.Models;
+
+[StructLayout(LayoutKind.Sequential)]
+public struct AllegroKeyboardState
 {
-  public sealed class AllegroKeyboardState
+  public AllegroDisplay? Display
   {
-    public AllegroDisplay Display
-    {
-      get
-      {
-        DisplayProxy.NativePointer = KeyboardState.display;
-        return DisplayProxy;
-      }
-    }
+    readonly get => NativePointer.Create<AllegroDisplay>(display);
+    set => display = value?.Pointer ?? IntPtr.Zero;
+  }
 
-    internal AllegroDisplay DisplayProxy = new();
-    internal NativeKeyboardState KeyboardState;
+  private const int InternalKeyDownArraySize = ((int)KeyCode.KeyMax + 31) / 32;
 
-    [StructLayout(LayoutKind.Sequential, Pack = 1)]
-    internal struct NativeKeyboardState
-    {
-      public IntPtr display;
-      public uint __key_down__internal__1;
-      public uint __key_down__internal__2;
-      public uint __key_down__internal__3;
-      public uint __key_down__internal__4;
-      public uint __key_down__internal__5;
-      public uint __key_down__internal__6;
-      public uint __key_down__internal__7;
-      public uint __key_down__internal__8;
-    }
+  private IntPtr display = IntPtr.Zero;
+
+  [MarshalAs(UnmanagedType.ByValArray, SizeConst = InternalKeyDownArraySize)]
+  private uint[] __key_down__internal__ = new uint[InternalKeyDownArraySize];
+
+  public AllegroKeyboardState()
+  {
   }
 }

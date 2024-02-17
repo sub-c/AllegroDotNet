@@ -2,22 +2,42 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
   <metadata>
     <id>SubC.AllegroDotNet.Win64</id>
-    <version>5.2.8.1</version>
+    <version>5.2.9.0</version>
     <title>Allegro 5 binaries for x64 Windows.</title>
     <authors>SubC</authors>
     <owners>SubC</owners>
     <projectUrl>https://github.com/sub-c/AllegroDotNet</projectUrl>
     <license type="expression">MIT</license>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>The native x64 Windows binary of the Allegro 5 library v5.2.8 for projects using SubC.AllegroDotNet in Windows (MSVC v143).</description>
+    <description>The native x64 Windows binary of the Allegro 5 library v5.2.9 for projects using SubC.AllegroDotNet in Windows (MSVC v143).</description>
     <language>en-US</language>
     <tags>interop game library</tags>
     <dependencies />
     <contentFiles>
-      <files include="/any/any/allegro_monolith-5.2.dll" buildAction="none" copyToOutput="true" />
+      <files include="/any/any/allegro_acodec-5.2.dll" buildAction="none" copyToOutput="true" />
+      <files include="/any/any/allegro_audio-5.2.dll" buildAction="none" copyToOutput="true" />
+      <files include="/any/any/allegro_color-5.2.dll" buildAction="none" copyToOutput="true" />
+      <files include="/any/any/allegro_dialog-5.2.dll" buildAction="none" copyToOutput="true" />
+      <files include="/any/any/allegro_font-5.2.dll" buildAction="none" copyToOutput="true" />
+      <files include="/any/any/allegro_image-5.2.dll" buildAction="none" copyToOutput="true" />
+      <files include="/any/any/allegro_memfile-5.2.dll" buildAction="none" copyToOutput="true" />
+      <files include="/any/any/allegro_primitives-5.2.dll" buildAction="none" copyToOutput="true" />
+      <files include="/any/any/allegro_ttf-5.2.dll" buildAction="none" copyToOutput="true" />
+      <files include="/any/any/allegro_video-5.2.dll" buildAction="none" copyToOutput="true" />
+      <files include="/any/any/allegro-5.2.dll" buildAction="none" copyToOutput="true" />
     </contentFiles>
   </metadata>
   <files>
-    <file src="..\..\Dependencies\allegro_monolith-5.2.dll" target="/contentFiles/any/any" />
+    <file src="Allegro5.2.9\allegro_acodec-5.2.dll" target="/contentFiles/any/any" />
+    <file src="Allegro5.2.9\allegro_audio-5.2.dll" target="/contentFiles/any/any" />
+    <file src="Allegro5.2.9\allegro_color-5.2.dll" target="/contentFiles/any/any" />
+    <file src="Allegro5.2.9\allegro_dialog-5.2.dll" target="/contentFiles/any/any" />
+    <file src="Allegro5.2.9\allegro_font-5.2.dll" target="/contentFiles/any/any" />
+    <file src="Allegro5.2.9\allegro_image-5.2.dll" target="/contentFiles/any/any" />
+    <file src="Allegro5.2.9\allegro_memfile-5.2.dll" target="/contentFiles/any/any" />
+    <file src="Allegro5.2.9\allegro_primitives-5.2.dll" target="/contentFiles/any/any" />
+    <file src="Allegro5.2.9\allegro_ttf-5.2.dll" target="/contentFiles/any/any" />
+    <file src="Allegro5.2.9\allegro_video-5.2.dll" target="/contentFiles/any/any" />
+    <file src="Allegro5.2.9\allegro-5.2.dll" target="/contentFiles/any/any" />
   </files>
 </package>

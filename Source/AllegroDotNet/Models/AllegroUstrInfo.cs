@@ -1,18 +1,15 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 
-namespace SubC.AllegroDotNet.Models
+namespace SubC.AllegroDotNet.Models;
+
+/// <summary>
+/// This struct is an opaque type that holds additional information about a <see cref="AllegroUstr"/> that
+/// references an external memory buffer.
+/// </summary>
+[StructLayout(LayoutKind.Sequential)]
+public struct AllegroUstrInfo
 {
-  public sealed class AllegroUstrInfo
-  {
-    internal NativeAllegroUstrInfo NativeUstrInfo;
-
-    [StructLayout(LayoutKind.Sequential, Pack = 1)]
-    internal struct NativeAllegroUstrInfo
-    {
-      public int mlen;
-      public int slen;
-      public UIntPtr data;
-    }
-  }
+  private int mlen;
+  private int slen;
+  private IntPtr data;
 }

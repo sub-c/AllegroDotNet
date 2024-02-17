@@ -1,62 +1,57 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 
-namespace SubC.AllegroDotNet.Models
+namespace SubC.AllegroDotNet.Models;
+
+[StructLayout(LayoutKind.Sequential)]
+public struct AllegroTouchState
 {
-  public sealed class AllegroTouchState
+  public int ID
   {
-    public int ID
-    {
-      get => NativeTouchState.id;
-      set => NativeTouchState.id = value;
-    }
-
-    public float X
-    {
-      get => NativeTouchState.x;
-      set => NativeTouchState.x = value;
-    }
-
-    public float Y
-    {
-      get => NativeTouchState.y;
-      set => NativeTouchState.y = value;
-    }
-
-    public float DX
-    {
-      get => NativeTouchState.dx;
-      set => NativeTouchState.dx = value;
-    }
-
-    public float DY
-    {
-      get => NativeTouchState.dy;
-      set => NativeTouchState.dy = value;
-    }
-
-    public bool Primary
-    {
-      get => NativeTouchState.primary;
-      set => NativeTouchState.primary = value;
-    }
-
-    public AllegroDisplay? Display
-    {
-      get => new() { NativePointer = NativeTouchState.display };
-      set => NativeTouchState.display = value?.NativePointer ?? IntPtr.Zero;
-    }
-
-    internal NativeAllegroTouchState NativeTouchState = new();
-
-    [StructLayout(LayoutKind.Sequential)]
-    internal struct NativeAllegroTouchState
-    {
-      public int id;
-      public float x, y;
-      public float dx, dy;
-      public bool primary;
-      public IntPtr display;
-    }
+    readonly get => id;
+    set => id = value;
   }
+
+  public float X
+  {
+    readonly get => x;
+    set => x = value;
+  }
+
+  public float Y
+  {
+    readonly get => y;
+    set => y = value;
+  }
+
+  public float DX
+  {
+    readonly get => dx;
+    set => dx = value;
+  }
+
+  public float DY
+  {
+    readonly get => dy;
+    set => dy = value;
+  }
+
+  public bool Primary
+  {
+    readonly get => primary != 0;
+    set => primary = (byte)(value ? 1 : 0);
+  }
+
+  public AllegroDisplay? Display
+  {
+    readonly get => NativePointer.Create<AllegroDisplay>(display);
+    set => display = NativePointer.Get(value);
+  }
+
+  private int id;
+  private float x;
+  private float y;
+  private float dx;
+  private float dy;
+  private byte primary;
+  private IntPtr display;
 }

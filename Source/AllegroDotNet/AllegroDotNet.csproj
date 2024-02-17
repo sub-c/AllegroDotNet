@@ -1,54 +1,31 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net6.0</TargetFrameworks>
-    <LangVersion>10.0</LangVersion>
-    <ImplicitUsings>disable</ImplicitUsings>
+    <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <Platforms>x64;x86</Platforms>
     <AssemblyName>SubC.AllegroDotNet</AssemblyName>
     <RootNamespace>SubC.AllegroDotNet</RootNamespace>
-    <DebugType>portable</DebugType>
-    <BaseOutputPath>..\..\Artifacts\</BaseOutputPath>
-    <ProduceReferenceAssembly>False</ProduceReferenceAssembly>
-    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <PlatformTarget>x64</PlatformTarget>
+    <Platforms>x64</Platforms>
+		<LangVersion>10.0</LangVersion>
+    <OutputPath>..\..\Artifacts\</OutputPath>
+    <GeneragePackageOnBuild>false</GeneragePackageOnBuild>
     <PackageId>SubC.AllegroDotNet</PackageId>
     <Authors>Sub-C</Authors>
-    <Version>0.4.0</Version>
     <Company>Sub-C</Company>
-    <Product>AllegroDotNet</Product>
-    <Description>Interop framework to consume the Allegro 5 (v5.2.8) game programming library from C#.</Description>
+    <Description>Interop framework to consume the Allegro 5 (v5.2.x) game programming library from C#.</Description>
     <PackageProjectUrl>https://github.com/sub-c/AllegroDotNet</PackageProjectUrl>
     <RepositoryUrl>https://github.com/sub-c/AllegroDotNet</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>game 2d allegro allegro5 interop directx opengl multimedia sound input graphics</PackageTags>
-    <RepositoryType>git</RepositoryType>
-    <PackageReleaseNotes>This release adds the Allegro File I/O routines.</PackageReleaseNotes>
-    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <WarningLevel>5</WarningLevel>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
-    <WarningLevel>5</WarningLevel>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <WarningLevel>5</WarningLevel>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
-    <WarningLevel>5</WarningLevel>
-  </PropertyGroup>
-
-  <PropertyGroup>
+    <PackageReleaseNotes>Refactor to some AllegroDotNet API and major refactor to backend interop code.</PackageReleaseNotes>
     <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="..\..\README.md" Pack="true" PackagePath="\"/>
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 
 </Project>

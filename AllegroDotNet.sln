@@ -1,0 +1,65 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34031.279
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AllegroDotNet", "Source\AllegroDotNet\AllegroDotNet.csproj", "{4F7ED790-E30C-4ACB-8B2F-EBCB5EBC56E7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AllegroDotNet.Sandbox", "Source\AllegroDotNet.Sandbox\AllegroDotNet.Sandbox.csproj", "{51E98104-94BE-4AFE-B2FF-18277BC671F5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{39CB0BCB-3372-4847-854D-6870B2367535}"
+	ProjectSection(SolutionItems) = preProject
+		MSBuild.xml = MSBuild.xml
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{FAD2B291-DCCA-4D4C-BFB0-2AB23E40E702}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ex.Blend", "Source\Ex.Blend\Ex.Blend.csproj", "{785D2618-BAF5-4311-B4CF-EB733D92050E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ex.Data", "Source\Ex.Data\Ex.Data.csproj", "{6CD48935-C2B5-493F-9894-782BC32A2096}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ex.Camera", "Source\Ex.Camera\Ex.Camera.csproj", "{74A2428D-60D8-426F-B735-CE45B5084B7E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ex.Projection2", "Source\Ex.Projection2\Ex.Projection2.csproj", "{D137C865-FDF8-43FC-82DF-806E0F220D79}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4F7ED790-E30C-4ACB-8B2F-EBCB5EBC56E7}.Debug|x64.ActiveCfg = Debug|x64
+		{4F7ED790-E30C-4ACB-8B2F-EBCB5EBC56E7}.Debug|x64.Build.0 = Debug|x64
+		{4F7ED790-E30C-4ACB-8B2F-EBCB5EBC56E7}.Release|x64.ActiveCfg = Release|x64
+		{4F7ED790-E30C-4ACB-8B2F-EBCB5EBC56E7}.Release|x64.Build.0 = Release|x64
+		{51E98104-94BE-4AFE-B2FF-18277BC671F5}.Debug|x64.ActiveCfg = Debug|x64
+		{51E98104-94BE-4AFE-B2FF-18277BC671F5}.Debug|x64.Build.0 = Debug|x64
+		{51E98104-94BE-4AFE-B2FF-18277BC671F5}.Release|x64.ActiveCfg = Release|x64
+		{785D2618-BAF5-4311-B4CF-EB733D92050E}.Debug|x64.ActiveCfg = Debug|x64
+		{785D2618-BAF5-4311-B4CF-EB733D92050E}.Debug|x64.Build.0 = Debug|x64
+		{785D2618-BAF5-4311-B4CF-EB733D92050E}.Release|x64.ActiveCfg = Release|x64
+		{785D2618-BAF5-4311-B4CF-EB733D92050E}.Release|x64.Build.0 = Release|x64
+		{6CD48935-C2B5-493F-9894-782BC32A2096}.Debug|x64.ActiveCfg = Debug|x64
+		{6CD48935-C2B5-493F-9894-782BC32A2096}.Debug|x64.Build.0 = Debug|x64
+		{6CD48935-C2B5-493F-9894-782BC32A2096}.Release|x64.ActiveCfg = Release|x64
+		{74A2428D-60D8-426F-B735-CE45B5084B7E}.Debug|x64.ActiveCfg = Debug|x64
+		{74A2428D-60D8-426F-B735-CE45B5084B7E}.Debug|x64.Build.0 = Debug|x64
+		{74A2428D-60D8-426F-B735-CE45B5084B7E}.Release|x64.ActiveCfg = Release|x64
+		{D137C865-FDF8-43FC-82DF-806E0F220D79}.Debug|x64.ActiveCfg = Debug|x64
+		{D137C865-FDF8-43FC-82DF-806E0F220D79}.Debug|x64.Build.0 = Debug|x64
+		{D137C865-FDF8-43FC-82DF-806E0F220D79}.Release|x64.ActiveCfg = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{785D2618-BAF5-4311-B4CF-EB733D92050E} = {FAD2B291-DCCA-4D4C-BFB0-2AB23E40E702}
+		{6CD48935-C2B5-493F-9894-782BC32A2096} = {FAD2B291-DCCA-4D4C-BFB0-2AB23E40E702}
+		{74A2428D-60D8-426F-B735-CE45B5084B7E} = {FAD2B291-DCCA-4D4C-BFB0-2AB23E40E702}
+		{D137C865-FDF8-43FC-82DF-806E0F220D79} = {FAD2B291-DCCA-4D4C-BFB0-2AB23E40E702}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5BAD7366-ED1B-4C00-9291-51C9C4889E39}
+	EndGlobalSection
+EndGlobal

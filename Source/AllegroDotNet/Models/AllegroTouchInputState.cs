@@ -1,27 +1,23 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace SubC.AllegroDotNet.Models
+namespace SubC.AllegroDotNet.Models;
+
+[StructLayout(LayoutKind.Sequential)]
+public struct AllegroTouchInputState
 {
-  public sealed class AllegroTouchInputState
+  public AllegroTouchState[] Touches
   {
-    public AllegroTouchState this[int index]
-    {
-      get
-      {
-        _allegroTouchStates[index].NativeTouchState = TouchInputState.touches[index];
-        return _allegroTouchStates[index];
-      }
-    }
+    readonly get => touches;
+    set => touches = value;
+  }
 
-    internal NativeAllegroTouchInputState TouchInputState = new();
+  private const int MaxTouchStates = 16;
 
-    private readonly AllegroTouchState[] _allegroTouchStates = new AllegroTouchState[16];
+  [MarshalAs(UnmanagedType.ByValArray, SizeConst = MaxTouchStates)]
+  private AllegroTouchState[] touches;
 
-    [StructLayout(LayoutKind.Sequential)]
-    internal struct NativeAllegroTouchInputState
-    {
-      [MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)]
-      public AllegroTouchState.NativeAllegroTouchState[] touches;
-    }
+  public AllegroTouchInputState()
+  {
+    touches = new AllegroTouchState[MaxTouchStates];
   }
 }

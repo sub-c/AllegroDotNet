@@ -1,260 +1,200 @@
-﻿using SubC.AllegroDotNet.Enums;
-using SubC.AllegroDotNet.Models;
+﻿using SubC.AllegroDotNet.Models;
 using SubC.AllegroDotNet.Native;
-using System;
 using System.Runtime.InteropServices;
 
 namespace SubC.AllegroDotNet;
 
+/// <summary>
+/// This static class contains the Allegro 5 library methods.
+/// </summary>
 public static partial class Al
 {
-  public static AllegroFile? FOpen(string path, FileMode mode)
+  public static AllegroFile? FOpen(string path, string mode)
   {
-    var modeString = FileModeToString(mode);
-    var nativeMode = Marshal.StringToHGlobalAnsi(modeString);
-    var nativePath = Marshal.StringToHGlobalAnsi(path);
-    var nativeResult = NativeFunctions.AlFOpen(nativePath, nativeMode);
-    Marshal.FreeHGlobal(nativeMode);
-    Marshal.FreeHGlobal(nativePath);
-    return NativePointerModel.Create<AllegroFile>(nativeResult);
+    using var nativePath = new CStringAnsi(path);
+    using var nativeMode = new CStringAnsi(mode);
+    var pointer = Interop.Core.AlFOpen(nativePath.Pointer, nativeMode.Pointer);
+    return NativePointer.Create<AllegroFile>(pointer);
   }
 
-  public static AllegroFile? FOpenInterface(AllegroFileInterface fileInterface, string path, FileMode mode)
+  public static void FOpenInterface()
   {
-    var modeString = FileModeToString(mode);
-    var nativePath = Marshal.StringToHGlobalAnsi(path);
-    var nativeMode = Marshal.StringToHGlobalAnsi(modeString);
-    var nativeResult = NativeFunctions.AlFOpenInterface(ref fileInterface.FileInterface, nativePath, nativeMode);
-    Marshal.FreeHGlobal(nativePath);
-    Marshal.FreeHGlobal(nativeMode);
-    return NativePointerModel.Create<AllegroFile>(nativeResult);
+    throw new NotImplementedException();
   }
 
-  public static AllegroFile? FOpenSlice(AllegroFile? file, long initialSize, FileMode mode)
+  public static AllegroFile? FOpenSlice(AllegroFile? file, long initialSize, string mode)
   {
-    var modeString = FileModeToString(mode);
-    var nativeMode = Marshal.StringToHGlobalAnsi(modeString);
-    var nativeReturn = NativeFunctions.AlFOpenSlice(NativePointerModel.GetPointer(file), initialSize, nativeMode);
-    Marshal.FreeHGlobal(nativeMode);
-    return NativePointerModel.Create<AllegroFile>(nativeReturn);
+    using var nativeMode = new CStringAnsi(mode);
+    var pointer = Interop.Core.AlFOpenSlice(NativePointer.Get(file), initialSize, nativeMode.Pointer);
+    return NativePointer.Create<AllegroFile>(pointer);
   }
 
-  /// <summary>
-  /// Close the given file, writing any buffered output data (if any).
-  /// </summary>
-  /// <param name="file">The file to close.</param>
-  /// <returns>True on success, false on failure. errno is set to indicate the error.</returns>
   public static bool FClose(AllegroFile? file)
   {
-    return NativeFunctions.AlFClose(NativePointerModel.GetPointer(file));
+    return Interop.Core.AlFClose(NativePointer.Get(file)) != 0;
   }
 
-  private static string FileModeToString(FileMode mode)
+  public static long FRead(AllegroFile? file, byte[] pointer, long size)
   {
-    var modeString = string.Empty;
-    if (mode.HasFlag(FileMode.ReadAccess)) modeString += "r";
-    if (mode.HasFlag(FileMode.WriteAccess)) modeString += "w";
-    if (mode.HasFlag(FileMode.UsingBinary)) modeString += "b";
-    if (mode.HasFlag(FileMode.Expandable)) modeString += "e";
-    if (mode.HasFlag(FileMode.EnableSeekToEndOfSlice)) modeString += "s";
-    if (mode.HasFlag(FileMode.DisableSeekToEndOfSlice)) modeString += "n";
-    return modeString;
+    return Interop.Core.AlFRead(NativePointer.Get(file), pointer, size);
   }
 
-  public static long FRead(AllegroFile? file, ref byte[] buffer, long size)
+  public static long FWrite(AllegroFile? file, byte[] pointer, long size)
   {
-    var nativeBuffer = Marshal.AllocHGlobal((int)size);
-    var nativeReturn = NativeFunctions.AlFRead(NativePointerModel.GetPointer(file), nativeBuffer, size);
-    Marshal.Copy(nativeBuffer, buffer, 0, buffer.Length);
-    Marshal.FreeHGlobal(nativeBuffer);
-    return nativeReturn;
-  }
-
-  public static long FWrite(AllegroFile? file, ref byte[] buffer, long size)
-  {
-    var nativeBuffer = Marshal.AllocHGlobal((int)size);
-    Marshal.Copy(buffer, 0, nativeBuffer, (int)size);
-    var nativeReturn = NativeFunctions.AlFWrite(NativePointerModel.GetPointer(file), nativeBuffer, size);
-    Marshal.FreeHGlobal(nativeBuffer);
-    return nativeReturn;
+    return Interop.Core.AlFWrite(NativePointer.Get(file), pointer, size);
   }
 
   public static bool FFlush(AllegroFile? file)
   {
-    return NativeFunctions.AlFFlush(NativePointerModel.GetPointer(file));
+    return Interop.Core.AlFFlush(NativePointer.Get(file)) != 0;
   }
 
   public static long FTell(AllegroFile? file)
   {
-    return NativeFunctions.AlFTell(NativePointerModel.GetPointer(file));
+    return Interop.Core.AlFTell(NativePointer.Get(file));
   }
 
-  public static bool FSeek(AllegroFile? file, long offset, Seek whence)
+  public static bool FSeek(AllegroFile? file, long offset, int whence)
   {
-    return NativeFunctions.AlFSeek(NativePointerModel.GetPointer(file), offset, (int)whence);
+    return Interop.Core.AlFSeek(NativePointer.Get(file), offset, whence) != 0;
   }
 
   public static bool FEof(AllegroFile? file)
   {
-    return NativeFunctions.AlFEof(NativePointerModel.GetPointer(file));
+    return Interop.Core.AlFEof(NativePointer.Get(file)) != 0;
   }
 
   public static int FError(AllegroFile? file)
   {
-    return NativeFunctions.AlFError(NativePointerModel.GetPointer(file));
+    return Interop.Core.AlFError(NativePointer.Get(file));
   }
 
   public static string? FErrMsg(AllegroFile? file)
   {
-    var nativeReturn = NativeFunctions.AlFErrMsg(NativePointerModel.GetPointer(file));
-    return nativeReturn == IntPtr.Zero ? string.Empty : Marshal.PtrToStringAnsi(nativeReturn);
+    var pointer = Interop.Core.AlFErrMsg(NativePointer.Get(file));
+    return CStringAnsi.ToCSharpString(pointer);
   }
 
   public static void FClearErr(AllegroFile? file)
   {
-    NativeFunctions.AlFClearErr(NativePointerModel.GetPointer(file));
+    Interop.Core.AlFClearErr(NativePointer.Get(file));
   }
 
   public static int FUngetC(AllegroFile? file, int c)
   {
-    return NativeFunctions.AlFUngetC(NativePointerModel.GetPointer(file), c);
+    return Interop.Core.AlFUngetC(NativePointer.Get(file), c);
   }
 
   public static long FSize(AllegroFile? file)
   {
-    return NativeFunctions.AlFSize(NativePointerModel.GetPointer(file));
+    return Interop.Core.AlFSize(NativePointer.Get(file));
   }
 
   public static int FGetC(AllegroFile? file)
   {
-    return NativeFunctions.AlFGetC(NativePointerModel.GetPointer(file));
+    return Interop.Core.AlFGetC(NativePointer.Get(file));
   }
 
   public static int FPutC(AllegroFile? file, int c)
   {
-    return NativeFunctions.AlFPutC(NativePointerModel.GetPointer(file), c);
+    return Interop.Core.AlFPutC(NativePointer.Get(file), c);
   }
 
-  public static int FPrintF(AllegroFile? file, string format, params object[] args)
+  public static short FRead16LE(AllegroFile? file)
   {
-    format = string.Format(format, args);
-    var nativeFormat = Marshal.StringToHGlobalAnsi(format);
-    var nativeReturn = NativeFunctions.AlFPrintF(NativePointerModel.GetPointer(file), nativeFormat);
-    Marshal.FreeHGlobal(nativeFormat);
-    return nativeReturn;
+    return Interop.Core.AlFRead16LE(NativePointer.Get(file));
   }
 
-  public static short FRead16le(AllegroFile? file)
+  public static short FRead16BE(AllegroFile? file)
   {
-    return NativeFunctions.AlFRead16le(NativePointerModel.GetPointer(file));
+    return Interop.Core.AlFRead16BE(NativePointer.Get(file));
   }
 
-  public static short FRead16be(AllegroFile? file)
+  public static long FWrite16LE(AllegroFile? file, short w)
   {
-    return NativeFunctions.AlFRead16be(NativePointerModel.GetPointer(file));
+    return Interop.Core.AlFWrite16LE(NativePointer.Get(file), w);
   }
 
-  public static long FWrite16le(AllegroFile? file, short w)
+  public static long FWrite16BE(AllegroFile? file, short w)
   {
-    return NativeFunctions.AlFWrite16le(NativePointerModel.GetPointer(file), w);
+    return Interop.Core.AlFWrite16BE(NativePointer.Get(file), w);
   }
 
-  public static long FWrite16be(AllegroFile? file, short w)
+  public static int FRead32LE(AllegroFile? file)
   {
-    return NativeFunctions.AlFWrite16be(NativePointerModel.GetPointer(file), w);
+    return Interop.Core.AlFRead32LE(NativePointer.Get(file));
   }
 
-  public static int FRead32le(AllegroFile? file)
+  public static int FRead32BE(AllegroFile? file)
   {
-    return NativeFunctions.AlFRead32le(NativePointerModel.GetPointer(file));
+    return Interop.Core.AlFRead32BE(NativePointer.Get(file));
   }
 
-  public static int FRead32be(AllegroFile? file)
+  public static long FWrite32LE(AllegroFile? file, int l)
   {
-    return NativeFunctions.AlFRead32be(NativePointerModel.GetPointer(file));
+    return Interop.Core.AlFWrite32LE(NativePointer.Get(file), l);
   }
 
-  public static long FWrite32le(AllegroFile? file, int l)
+  public static long FWrite32BE(AllegroFile? file, int l)
   {
-    return NativeFunctions.AlFWrite32le(NativePointerModel.GetPointer(file), l);
+    return Interop.Core.AlFWrite32BE(NativePointer.Get(file), l);
   }
 
-  public static long FWrite32be(AllegroFile? file, int l)
+  public static IntPtr FGetS(AllegroFile? file, IntPtr buffer, long max)
   {
-    return NativeFunctions.AlFWrite32be(NativePointerModel.GetPointer(file), l);
-  }
-
-  public static string? FGetS(AllegroFile? file, out string? buffer, long max)
-  {
-    var nativeBuffer = Marshal.AllocHGlobal((int)max);
-    var nativeReturn = NativeFunctions.AlFGetS(NativePointerModel.GetPointer(file), nativeBuffer, max);
-    buffer = nativeReturn == IntPtr.Zero ? string.Empty : Marshal.PtrToStringAnsi(nativeReturn);
-    Marshal.FreeHGlobal(nativeBuffer);
-    return nativeReturn == IntPtr.Zero ? null : buffer;
+    return Interop.Core.AlFGetS(NativePointer.Get(file), buffer, max);
   }
 
   public static AllegroUstr? FGetUstr(AllegroFile? file)
   {
-    var nativeReturn = NativeFunctions.AlFGetUstr(NativePointerModel.GetPointer(file));
-    return NativePointerModel.Create<AllegroUstr>(nativeReturn);
+    var pointer = Interop.Core.AlFGetUstr(NativePointer.Get(file));
+    return NativePointer.Create<AllegroUstr>(pointer);
   }
 
-  public static int FPutS(AllegroFile? file, string text)
+  public static int FPutS(AllegroFile? file, string p)
   {
-    var nativeText = Marshal.StringToHGlobalAnsi(text);
-    var nativeReturn = NativeFunctions.AlFPutS(NativePointerModel.GetPointer(file), nativeText);
-    Marshal.FreeHGlobal(nativeText);
-    return nativeReturn;
+    using var nativeP = new CStringAnsi(p);
+    return Interop.Core.AlFPutS(NativePointer.Get(file), nativeP.Pointer);
   }
 
-  public static AllegroFile? FOpenFd(int fd, FileMode mode)
+  public static AllegroFile? FOpenFd(int fd, string mode)
   {
-    var modeText = FileModeToString(mode);
-    var nativeMode = Marshal.StringToHGlobalAnsi(modeText);
-    var nativeReturn = NativeFunctions.AlFOpenFd(fd, nativeMode);
-    Marshal.FreeHGlobal(nativeMode);
-    return NativePointerModel.Create<AllegroFile>(nativeReturn);
+    using var nativeMode = new CStringAnsi(mode);
+    var pointer = Interop.Core.AlFOpenFd(fd, nativeMode.Pointer);
+    return NativePointer.Create<AllegroFile>(pointer);
   }
 
-  public static AllegroFile? MakeTempFile(string template, AllegroPath? path)
+  public static AllegroFile? MakeTempFile(string template, out string retPath)
   {
-    var nativeTemplate = Marshal.StringToHGlobalAnsi(template);
-    var nativeReturn = IntPtr.Zero;
-    if (path is null)
-    {
-      var dummyPath = IntPtr.Zero;
-      nativeReturn = NativeFunctions.AlMakeTempFile(nativeTemplate, ref dummyPath);
-    }
-    else
-      nativeReturn = NativeFunctions.AlMakeTempFile(nativeTemplate, ref path.NativePointer);
-    Marshal.FreeHGlobal(nativeTemplate);
-    return NativePointerModel.Create<AllegroFile>(nativeReturn);
+    throw new NotImplementedException();
   }
 
   public static void SetNewFileInterface(AllegroFileInterface fileInterface)
   {
-    NativeFunctions.AlSetNewFileInterface(ref fileInterface.FileInterface);
+    Interop.Core.AlSetNewFileInterface(ref fileInterface);
   }
 
   public static void SetStandardFileInterface()
   {
-    NativeFunctions.AlSetStandardFileInterface();
+    Interop.Core.AlSetStandardFileInterface();
   }
 
   public static AllegroFileInterface? GetNewFileInterface()
   {
-    var nativeReturn = NativeFunctions.AlGetNewFileInterface();
-    return Marshal.PtrToStructure<AllegroFileInterface>(nativeReturn);
+    var pointer = Interop.Core.AlGetNewFileInterface();
+    return pointer == IntPtr.Zero
+      ? null
+      : Marshal.PtrToStructure<AllegroFileInterface>(pointer);
   }
 
-  public static AllegroFile? CreateFileHandle(AllegroFileInterface fileInterface, IntPtr userdata)
+  public static AllegroFile? CreateFileHandle(AllegroFileInterface driver, IntPtr userData)
   {
-    var nativeReturn = NativeFunctions.AlCreateFileHandle(ref fileInterface.FileInterface, userdata);
-    return NativePointerModel.Create<AllegroFile>(nativeReturn);
+    var pointer = Interop.Core.AlCreateFileHandle(ref driver, userData);
+    return NativePointer.Create<AllegroFile>(pointer);
   }
 
   public static IntPtr GetFileUserdata(AllegroFile? file)
   {
-    return NativeFunctions.AlGetFileUserdata(NativePointerModel.GetPointer(file));
+    return Interop.Core.AlGetFileUserdata(NativePointer.Get(file));
   }
 }

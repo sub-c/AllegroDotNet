@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <PropertyGroup>
+    <BuildConfiguration>Release</BuildConfiguration>
+    <BuildTargets>Clean;Restore;Rebuild</BuildTargets>
+    <MajorVersion>0</MajorVersion>
+    <MinorVersion>9</MinorVersion>
+    <BuildVersion>0</BuildVersion>
+    <Version>$(MajorVersion).$(MinorVersion).$(BuildVersion)</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <CsProjects>$(MSBuildThisFileDirectory)Source\AllegroDotNet\AllegroDotNet.csproj</CsProjects>
+  </ItemGroup>
+
+  <Target Name="Build">
+    <MsBuild Projects="%(CsProjects)"
+             Properties="Configuration=$(BuildConfiguration);Version=$(Version)"
+             Targets="$(BuildTargets)"/>
+  </Target>
+</Project>

@@ -1,338 +1,437 @@
 ﻿using SubC.AllegroDotNet.Enums;
-using System;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 
-namespace SubC.AllegroDotNet.Models
+namespace SubC.AllegroDotNet.Models;
+
+/// <summary>
+/// This structure holds the state of an event in Allegro.
+/// </summary>
+[DebuggerDisplay("Type = {Type}")]
+[StructLayout(LayoutKind.Explicit)]
+public struct AllegroEvent
 {
-  public sealed class AllegroEvent
+  public EventType Type
   {
-    #region Any
-    public AllegroDisplay? Source
-    {
-      get => NativePointerModel.Create<AllegroDisplay>(NativeEvent.any.source);
-      set => NativeEvent.any.source = NativePointerModel.GetPointer(value);
-    }
-
-    public double Timestamp
-    {
-      get => NativeEvent.any.timestamp;
-      set => NativeEvent.any.timestamp = value;
-    }
-    #endregion
-
-    #region Display
-    public AllegroDisplay? DisplaySource
-    {
-      get => NativePointerModel.Create<AllegroDisplay>(NativeEvent.any.source);
-      set => NativeEvent.any.source = NativePointerModel.GetPointer(value);
-    }
-
-    public int DisplayX
-    {
-      get => NativeEvent.display.x;
-      set => NativeEvent.display.x = value;
-    }
-
-    public int DisplayY
-    {
-      get => NativeEvent.display.y;
-      set => NativeEvent.display.y = value;
-    }
-
-    public int DisplayWidth
-    {
-      get => NativeEvent.display.width;
-      set => NativeEvent.display.width = value;
-    }
-
-    public int DisplayHeight
-    {
-      get => NativeEvent.display.height;
-      set => NativeEvent.display.height = value;
-    }
-    #endregion
-
-    #region Joystick
-    public AllegroJoystick? JoystickID
-    {
-      get => NativePointerModel.Create<AllegroJoystick>(NativeEvent.joystick.id);
-      set => NativeEvent.joystick.id = NativePointerModel.GetPointer(value);
-    }
-
-    public int JoystickStick
-    {
-      get => NativeEvent.joystick.stick;
-      set => NativeEvent.joystick.stick = value;
-    }
-
-    public int JoystickAxis
-    {
-      get => NativeEvent.joystick.axis;
-      set => NativeEvent.joystick.axis = value;
-    }
-
-    public float JoystickPos
-    {
-      get => NativeEvent.joystick.pos;
-      set => NativeEvent.joystick.pos = value;
-    }
-
-    public int JoystickButton
-    {
-      get => NativeEvent.joystick.button;
-      set => NativeEvent.joystick.button = value;
-    }
-    #endregion
-
-    #region Keyboard
-    public KeyCode KeyCode
-    {
-      get => (KeyCode)NativeEvent.keyboard.keycode;
-      set => NativeEvent.keyboard.keycode = (int)value;
-    }
-
-    public int UniChar
-    {
-      get => NativeEvent.keyboard.unichar;
-      set => NativeEvent.keyboard.keycode = value;
-    }
-
-    public uint Modifiers
-    {
-      get => NativeEvent.keyboard.modifiers;
-      set => NativeEvent.keyboard.modifiers = value;
-    }
-
-    public bool Repeat
-    {
-      get => NativeEvent.keyboard.repeat;
-      set => NativeEvent.keyboard.repeat = value;
-    }
-    #endregion Keyboard
-
-    #region Mouse
-    public int MouseX
-    {
-      get => NativeEvent.mouse.x;
-      set => NativeEvent.mouse.x = value;
-    }
-
-    public int MouseY
-    {
-      get => NativeEvent.mouse.y;
-      set => NativeEvent.mouse.y = value;
-    }
-
-    public int MouseZ
-    {
-      get => NativeEvent.mouse.z;
-      set => NativeEvent.mouse.z = value;
-    }
-
-    public int MouseW
-    {
-      get => NativeEvent.mouse.w;
-      set => NativeEvent.mouse.w = value;
-    }
-
-    public int MouseDX
-    {
-      get => NativeEvent.mouse.dx;
-      set => NativeEvent.mouse.dx = value;
-    }
-
-    public int MouseDY
-    {
-      get => NativeEvent.mouse.dy;
-      set => NativeEvent.mouse.dy = value;
-    }
-
-    public int MouseDZ
-    {
-      get => NativeEvent.mouse.dz;
-      set => NativeEvent.mouse.dz = value;
-    }
-
-    public int MouseDW
-    {
-      get => NativeEvent.mouse.dw;
-      set => NativeEvent.mouse.dw = value;
-    }
-
-    public uint MouseButton
-    {
-      get => NativeEvent.mouse.button;
-      set => NativeEvent.mouse.button = value;
-    }
-
-    public float MousePressure
-    {
-      get => NativeEvent.mouse.pressure;
-      set => NativeEvent.mouse.pressure = value;
-    }
-    #endregion
-
-    #region Timer
-    public long TimerCount
-    {
-      get => NativeEvent.timer.count;
-      set => NativeEvent.timer.count = value;
-    }
-    #endregion
-
-    #region User
-    public IntPtr UserData1
-    {
-      get => NativeEvent.user.data1;
-      set => NativeEvent.user.data1 = value;
-    }
-
-    public IntPtr UserData2
-    {
-      get => NativeEvent.user.data2;
-      set => NativeEvent.user.data2 = value;
-    }
-
-    public IntPtr UserData3
-    {
-      get => NativeEvent.user.data3;
-      set => NativeEvent.user.data3 = value;
-    }
-
-    public IntPtr UserData4
-    {
-      get => NativeEvent.user.data4;
-      set => NativeEvent.user.data4 = value;
-    }
-    #endregion
-
-    public EventType Type
-    {
-      get => (EventType)NativeEvent.type;
-      set => NativeEvent.type = (uint)value;
-    }
-
-    internal NativeAllegroEvent NativeEvent;
-
-    [StructLayout(LayoutKind.Sequential, Pack = 1)]
-    internal struct NativeAllegroDisplayEvent
-    {
-      public NativeAllegroEventHeader header;
-      public int x;
-      public int y;
-      public int width;
-      public int height;
-      public int orientation;
-    }
-
-    [StructLayout(LayoutKind.Explicit, Pack = 1)]
-    internal struct NativeAllegroEvent
-    {
-      [FieldOffset(0)]
-      public uint type;
-
-      [FieldOffset(0)]
-      public NativeAllegroEventHeader any;
-
-      [FieldOffset(0)]
-      public NativeAllegroDisplayEvent display;
-
-      [FieldOffset(0)]
-      public NativeAllegroJoystickEvent joystick;
-
-      [FieldOffset(0)]
-      public NativeAllegroKeyboardEvent keyboard;
-
-      [FieldOffset(0)]
-      public NativeAllegroMouseEvent mouse;
-
-      [FieldOffset(0)]
-      public NativeAllegroTimerEvent timer;
-
-      [FieldOffset(0)]
-      public NativeAllegroTouchEvent touch;
-
-      [FieldOffset(0)]
-      public NativeAllegroUserEvent user;
-    }
-
-    [StructLayout(LayoutKind.Sequential)]
-    public struct NativeAllegroEventHeader
-    {
-      public uint type;
-      public IntPtr source;
-      public double timestamp;
-    }
-
-    [StructLayout(LayoutKind.Sequential)]
-    public struct NativeAllegroJoystickEvent
-    {
-      public NativeAllegroEventHeader header;
-      public IntPtr id;
-      public int stick;
-      public int axis;
-      public float pos;
-      public int button;
-    }
-
-    [StructLayout(LayoutKind.Sequential)]
-    public struct NativeAllegroKeyboardEvent
-    {
-      public NativeAllegroEventHeader header;
-      public IntPtr display;
-      public int keycode;
-      public int unichar;
-      public uint modifiers;
-      public bool repeat;
-    }
-
-    [StructLayout(LayoutKind.Sequential)]
-    public struct NativeAllegroMouseEvent
-    {
-      public NativeAllegroEventHeader header;
-      public IntPtr display;
-      public int x;
-      public int y;
-      public int z;
-      public int w;
-      public int dx;
-      public int dy;
-      public int dz;
-      public int dw;
-      public uint button;
-      public float pressure;
-    }
-
-    [StructLayout(LayoutKind.Sequential)]
-    public struct NativeAllegroTimerEvent
-    {
-      public NativeAllegroEventHeader header;
-      public long count;
-      public double error;
-    }
-
-    [StructLayout(LayoutKind.Sequential)]
-    public struct NativeAllegroTouchEvent
-    {
-      public NativeAllegroEventHeader header;
-      public IntPtr display;
-      public int id;
-      public float x;
-      public float y;
-      public float dx;
-      public float dy;
-      public bool primary;
-    }
-
-    [StructLayout(LayoutKind.Sequential)]
-    public struct NativeAllegroUserEvent
-    {
-      public NativeAllegroEventHeader header;
-      public IntPtr __internal_descr;
-      public IntPtr data1;
-      public IntPtr data2;
-      public IntPtr data3;
-      public IntPtr data4;
-    }
+    readonly get => (EventType)header.type;
+    set => header.type = (int)value;
   }
+
+  public AllegroEventSource? Source
+  {
+    readonly get => NativePointer.Create<AllegroEventSource>(header.source);
+    set => header.source = NativePointer.Get(value);
+  }
+
+  public double Timestamp
+  {
+    readonly get => header.timestamp;
+    set => header.timestamp = value;
+  }
+
+  public AllegroAnyEvent Any
+  {
+    readonly get => any;
+    set => any = value;
+  }
+
+  public AllegroDisplayEvent Display
+  {
+    readonly get => display;
+    set => display = value;
+  }
+
+  public AllegroJoystickEvent Joystick
+  {
+    readonly get => joystick;
+    set => joystick = value;
+  }
+
+  public AllegroKeyboardEvent Keyboard
+  {
+    readonly get => keyboard;
+    set => keyboard = value;
+  }
+
+  public AllegroMouseEvent Mouse
+  {
+    readonly get => mouse;
+    set => mouse = value;
+  }
+
+  public AllegroTimerEvent Timer
+  {
+    readonly get => timer;
+    set => timer = value;
+  }
+
+  public AllegroTouchEvent Touch
+  {
+    readonly get => touch;
+    set => touch = value;
+  }
+
+  public AllegroUserEvent User
+  {
+    readonly get => user;
+    set => user = value;
+  }
+
+  [FieldOffset(0)] private NativeEventHeader header;
+  [FieldOffset(0)] private AllegroAnyEvent any;
+  [FieldOffset(0)] private AllegroDisplayEvent display;
+  [FieldOffset(0)] private AllegroJoystickEvent joystick;
+  [FieldOffset(0)] private AllegroKeyboardEvent keyboard;
+  [FieldOffset(0)] private AllegroMouseEvent mouse;
+  [FieldOffset(0)] private AllegroTimerEvent timer;
+  [FieldOffset(0)] private AllegroTouchEvent touch;
+  [FieldOffset(0)] private AllegroUserEvent user;
+}
+
+[StructLayout(LayoutKind.Sequential)]
+public struct NativeEventHeader
+{
+  public int type;
+  public IntPtr source;
+  public double timestamp;
+}
+
+[StructLayout(LayoutKind.Sequential)]
+public struct AllegroUserEvent
+{
+  public IntPtr Data1
+  {
+    readonly get => data1;
+    set => data1 = value;
+  }
+
+  public IntPtr Data2
+  {
+    readonly get => data2;
+    set => data2 = value;
+  }
+
+  public IntPtr Data3
+  {
+    readonly get => data3;
+    set => data3 = value;
+  }
+
+  public IntPtr Data4
+  {
+    readonly get => data4;
+    set => data4 = value;
+  }
+
+  private NativeEventHeader header;
+  private IntPtr __internal__descr;
+  private IntPtr data1;
+  private IntPtr data2;
+  private IntPtr data3;
+  private IntPtr data4;
+}
+
+[StructLayout(LayoutKind.Sequential)]
+public struct AllegroAnyEvent
+{
+  public EventType Type
+  {
+    readonly get => (EventType)header.type;
+    set => header.type = (int)value;
+  }
+
+  public AllegroEventSource? Source
+  {
+    readonly get => NativePointer.Create<AllegroEventSource>(header.source);
+    set => header.source = NativePointer.Get(value);
+  }
+
+  public double Timestamp
+  {
+    readonly get => header.timestamp;
+    set => header.timestamp = value;
+  }
+
+  private NativeEventHeader header;
+}
+
+[StructLayout(LayoutKind.Sequential)]
+public struct AllegroDisplayEvent
+{
+  public int X
+  {
+    readonly get => x;
+    set => x = value;
+  }
+
+  public int Y
+  {
+    readonly get => y;
+    set => y = value;
+  }
+
+  public int Width
+  {
+    readonly get => width;
+    set => width = value;
+  }
+
+  public int Height
+  {
+    readonly get => height;
+    set => height = value;
+  }
+
+  public DisplayOrientation Orientation
+  {
+    readonly get => (DisplayOrientation)orientation;
+    set => orientation = (int)value;
+  }
+
+  private NativeEventHeader header;
+  private int x;
+  private int y;
+  private int width;
+  private int height;
+  private int orientation;
+}
+
+[StructLayout(LayoutKind.Sequential)]
+public struct AllegroJoystickEvent
+{
+  public AllegroJoystick? ID
+  {
+    readonly get => NativePointer.Create<AllegroJoystick>(id);
+    set => id = NativePointer.Get(value);
+  }
+
+  public int Stick
+  {
+    readonly get => stick;
+    set => stick = value;
+  }
+
+  public int Axis
+  {
+    readonly get => axis;
+    set => axis = value;
+  }
+
+  public float Pos
+  {
+    readonly get => pos;
+    set => pos = value;
+  }
+
+  public int Button
+  {
+    readonly get => button;
+    set => button = value;
+  }
+
+  private NativeEventHeader header;
+  private IntPtr id;
+  private int stick;
+  private int axis;
+  private float pos;
+  private int button;
+}
+
+[StructLayout(LayoutKind.Sequential)]
+public struct AllegroKeyboardEvent
+{
+  public AllegroDisplay? Display
+  {
+    readonly get => NativePointer.Create<AllegroDisplay>(display);
+    set => display = NativePointer.Get(value);
+  }
+
+  public KeyCode KeyCode
+  {
+    readonly get => (KeyCode)keycode;
+    set => keycode = (int)value;
+  }
+
+  public int Unichar
+  {
+    readonly get => unichar;
+    set => unichar = value;
+  }
+
+  public uint Modifiers
+  {
+    readonly get => modifiers;
+    set => modifiers = value;
+  }
+
+  public bool Repeat
+  {
+    readonly get => repeat != 0;
+    set => repeat = (byte)(value ? 1 : 0);
+  }
+
+  private NativeEventHeader header;
+  private IntPtr display;
+  private int keycode;
+  private int unichar;
+  private uint modifiers;
+  private byte repeat;
+}
+
+[StructLayout(LayoutKind.Sequential)]
+public struct AllegroMouseEvent
+{
+  public AllegroDisplay? Display
+  {
+    readonly get => NativePointer.Create<AllegroDisplay>(display);
+    set => display = NativePointer.Get(value);
+  }
+
+  public int X
+  {
+    readonly get => x;
+    set => x = value;
+  }
+
+  public int Y
+  {
+    readonly get => y;
+    set => y = value;
+  }
+
+  public int Z
+  {
+    readonly get => z;
+    set => z = value;
+  }
+
+  public int W
+  {
+    readonly get => w;
+    set => w = value;
+  }
+
+  public int DX
+  {
+    readonly get => dx;
+    set => dx = value;
+  }
+
+  public int DY
+  {
+    readonly get => dy;
+    set => dy = value;
+  }
+
+  public int DZ
+  {
+    readonly get => dz;
+    set => dz = value;
+  }
+
+  public int DW
+  {
+    readonly get => dw;
+    set => dw = value;
+  }
+
+  public uint Button
+  {
+    readonly get => button;
+    set => button = value;
+  }
+
+  public float Pressure
+  {
+    readonly get => pressure;
+    set => pressure = value;
+  }
+
+  private NativeEventHeader header;
+  private IntPtr display;
+  private int x;
+  private int y;
+  private int z;
+  private int w;
+  private int dx;
+  private int dy;
+  private int dz;
+  private int dw;
+  private uint button;
+  private float pressure;
+}
+
+[StructLayout(LayoutKind.Sequential)]
+public struct AllegroTimerEvent
+{
+  public long Count
+  {
+    readonly get => count;
+    set => count = value;
+  }
+
+  public double Error
+  {
+    readonly get => error;
+    set => error = value;
+  }
+
+  private NativeEventHeader header;
+  private long count;
+  private double error;
+}
+
+[StructLayout(LayoutKind.Sequential)]
+public struct AllegroTouchEvent
+{
+  public AllegroDisplay? Display
+  {
+    readonly get => NativePointer.Create<AllegroDisplay>(display);
+    set => display = NativePointer.Get(value);
+  }
+
+  public int TouchID
+  {
+    readonly get => id;
+    set => id = value;
+  }
+
+  public float TouchX
+  {
+    readonly get => x;
+    set => x = value;
+  }
+
+  public float TouchY
+  {
+    get => y;
+    set => y = value;
+  }
+
+  public float TouchDX
+  {
+    get => dx;
+    set => dx = value;
+  }
+
+  public float TouchDY
+  {
+    get => dy;
+    set => dy = value;
+  }
+
+  public bool TouchPrimary
+  {
+    get => primary != 0;
+    set => primary = (byte)(value ? 1 : 0);
+  }
+
+  private NativeEventHeader header;
+  private IntPtr display;
+  private int id;
+  private float x;
+  private float y;
+  private float dx;
+  private float dy;
+  private byte primary;
 }

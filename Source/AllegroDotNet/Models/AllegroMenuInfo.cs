@@ -1,17 +1,36 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 
-namespace SubC.AllegroDotNet.Models
+namespace SubC.AllegroDotNet.Models;
+
+[StructLayout(LayoutKind.Sequential)]
+public struct AllegroMenuInfo
 {
-  public sealed class AllegroMenuInfo
+  public IntPtr Caption
   {
-    [StructLayout(LayoutKind.Sequential, Pack = 1)]
-    internal struct NativeAllegroMenuInfo
-    {
-      public IntPtr caption;
-      public ushort id;
-      public int flags;
-      public IntPtr icon;
-    }
+    readonly get => caption;
+    set => caption = value;
   }
+
+  public ushort ID
+  {
+    readonly get => id;
+    set => id = value;
+  }
+
+  public int Flags
+  {
+    readonly get => flags;
+    set => flags = value;
+  }
+
+  public IntPtr Icon
+  {
+    readonly get => icon;
+    set => icon = value;
+  }
+
+  private IntPtr caption;
+  private ushort id;
+  private int flags;
+  private IntPtr icon;
 }

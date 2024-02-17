@@ -1,6 +1,8 @@
-﻿namespace SubC.AllegroDotNet.Models
+﻿namespace SubC.AllegroDotNet.Models;
+
+/// <summary>
+/// This is an opaque class representing an audio stream.
+/// </summary>
+public sealed class AllegroAudioStream : NativePointer
 {
-  public sealed class AllegroAudioStream : NativePointerModel
-  {
-  }
 }

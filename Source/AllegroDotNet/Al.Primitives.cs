@@ -1,261 +1,429 @@
 ﻿using SubC.AllegroDotNet.Enums;
 using SubC.AllegroDotNet.Models;
 using SubC.AllegroDotNet.Native;
-using System;
-using System.Linq;
 
 namespace SubC.AllegroDotNet;
 
+/// <summary>
+/// This static class contains the Allegro 5 library methods.
+/// </summary>
 public static partial class Al
 {
   public static uint GetAllegroPrimitivesVersion()
   {
-    return NativeFunctions.AlGetAllegroPrimitivesVersion();
+    return Interop.Primitives.AlGetAllegroPrimitivesVersion();
   }
 
   public static bool InitPrimitivesAddon()
   {
-    return NativeFunctions.AlInitPrimitivesAddon();
+    return Interop.Primitives.AlInitPrimitivesAddon() != 0;
   }
 
   public static bool IsPrimitivesAddonInitialized()
   {
-    return NativeFunctions.AlIsPrimitivesAddonInitialized();
+    return Interop.Primitives.AlIsPrimitivesAddonInitialized() != 0;
   }
 
   public static void ShutdownPrimitivesAddon()
   {
-    NativeFunctions.AlShutdownPrimitivesAddon();
+    Interop.Primitives.AlShutdownPrimitivesAddon();
   }
 
   public static void DrawLine(float x1, float y1, float x2, float y2, AllegroColor color, float thickness)
   {
-    NativeFunctions.AlDrawLine(x1, y1, x2, y2, color, thickness);
+    Interop.Primitives.AlDrawLine(x1, y1, x2, y2, color, thickness);
   }
 
-  public static void DrawTriangle(float x1, float y1, float x2, float y2, float x3, float y3, AllegroColor color, float thickness)
+  public static void DrawTriangle(
+    float x1,
+    float y1,
+    float x2,
+    float y2,
+    float x3,
+    float y3,
+    AllegroColor color,
+    float thickness)
   {
-    NativeFunctions.AlDrawTriangle(x1, y1, x2, y2, x3, y3, color, thickness);
+    Interop.Primitives.AlDrawTriangle(x1, y1, x2, y2, x3, y3, color, thickness);
   }
 
-  public static void DrawFilledTriangle(float x1, float y1, float x2, float y2, float x3, float y3, AllegroColor color)
+  public static void DrawFilledTriangle(
+    float x1,
+    float y1,
+    float x2,
+    float y2,
+    float x3,
+    float y3,
+    AllegroColor color)
   {
-    NativeFunctions.AlDrawFilledTriangle(x1, y1, x2, y2, x3, y3, color);
+    Interop.Primitives.AlDrawFilledTriangle(x1, y1, x2, y2, x3, y3, color);
   }
 
   public static void DrawRectangle(float x1, float y1, float x2, float y2, AllegroColor color, float thickness)
   {
-    NativeFunctions.AlDrawRectangle(x1, y1, x2, y2, color, thickness);
+    Interop.Primitives.AlDrawRectangle(x1, y1, x2, y2, color, thickness);
   }
 
   public static void DrawFilledRectangle(float x1, float y1, float x2, float y2, AllegroColor color)
   {
-    NativeFunctions.AlDrawFilledRectangle(x1, y1, x2, y2, color);
+    Interop.Primitives.AlDrawFilledRectangle(x1, y1, x2, y2, color);
   }
 
-  public static void DrawRoundedRectangle(float x1, float y1, float x2, float y2, float rx, float ry, AllegroColor color, float thickness)
+  public static void DrawRoundedRectangle(
+    float x1,
+    float y1,
+    float x2,
+    float y2,
+    float rx,
+    float ry,
+    AllegroColor color,
+    float thickness)
   {
-    NativeFunctions.AlDrawRoundedRectangle(x1, y1, x2, y2, rx, ry, color, thickness);
+    Interop.Primitives.AlDrawRoundedRectangle(x1, y1, x2, y2, rx, ry, color, thickness);
   }
 
-  public static void DrawFilledRoundedRectangle(float x1, float y1, float x2, float y2, float rx, float ry, AllegroColor color)
+  public static void DrawFilledRoundedRectangle(
+    float x1,
+    float y1,
+    float x2,
+    float y2,
+    float rx,
+    float ry,
+    AllegroColor color)
   {
-    NativeFunctions.AlDrawFilledRoundedRectangle(x1, y1, x2, y2, rx, ry, color);
+    Interop.Primitives.AlDrawFilledRoundedRectangle(x1, y1, x2, y2, rx, ry, color);
   }
 
-  public static void CalculateArc(ref float[] buffer, int stride, float cx, float cy, float rx, float ry, float startTheta, float deltaTheta, float thickness, int numPoints)
+  public static void CalculateArc(
+    float[] destination,
+    int stride,
+    float cx,
+    float cy,
+    float rx,
+    float ry,
+    float startTheta,
+    float deltaTheta,
+    float thickness,
+    int pointsCount)
   {
-    NativeFunctions.AlCalculateArc(ref buffer, stride, cx, cy, rx, ry, startTheta, deltaTheta, thickness, numPoints);
+    Interop.Primitives.AlCalculateArc(
+      destination,
+      stride,
+      cx,
+      cy,
+      rx,
+      ry,
+      startTheta,
+      deltaTheta,
+      thickness,
+      pointsCount);
   }
 
-  public static void DrawPieSlice(float cx, float cy, float r, float startTheta, float deltaTheta, AllegroColor color, float thickness)
+  public static void DrawPieslice(
+    float cx,
+    float cy,
+    float r,
+    float startTheta,
+    float deltaTheta,
+    AllegroColor color,
+    float thickness)
   {
-    NativeFunctions.AlDrawPieslice(cx, cy, r, startTheta, deltaTheta, color, thickness);
+    Interop.Primitives.AlDrawPieslice(cx, cy, r, startTheta, deltaTheta, color, thickness);
   }
 
-  public static void DrawFilledPieSlice(float cx, float cy, float r, float startTheta, float deltaTheta, AllegroColor color)
+  public static void DrawFilledPieslice(
+    float cx,
+    float cy,
+    float r,
+    float startTheta,
+    float deltaTheta,
+    AllegroColor color)
   {
-    NativeFunctions.AlDrawFilledPieslice(cx, cy, r, startTheta, deltaTheta, color);
+    Interop.Primitives.AlDrawFilledPieslice(cx, cy, r, startTheta, deltaTheta, color);
   }
 
   public static void DrawEllipse(float cx, float cy, float rx, float ry, AllegroColor color, float thickness)
   {
-    NativeFunctions.AlDrawEllipse(cx, cy, rx, ry, color, thickness);
+    Interop.Primitives.AlDrawEllipse(cx, cy, rx, ry, color, thickness);
   }
 
   public static void DrawFilledEllipse(float cx, float cy, float rx, float ry, AllegroColor color)
   {
-    NativeFunctions.AlDrawFilledEllipse(cx, cy, rx, ry, color);
+    Interop.Primitives.AlDrawFilledEllipse(cx, cy, rx, ry, color);
   }
 
   public static void DrawCircle(float cx, float cy, float r, AllegroColor color, float thickness)
   {
-    NativeFunctions.AlDrawCircle(cx, cy, r, color, thickness);
+    Interop.Primitives.AlDrawCircle(cx, cy, r, color, thickness);
   }
 
   public static void DrawFilledCircle(float cx, float cy, float r, AllegroColor color)
   {
-    NativeFunctions.AlDrawFilledCircle(cx, cy, r, color);
+    Interop.Primitives.AlDrawFilledCircle(cx, cy, r, color);
   }
 
-  public static void DrawArc(float cx, float cy, float r, float startTheta, float deltaTheta, AllegroColor color, float thickness)
+  public static void DrawArc(
+    float cx,
+    float cy,
+    float r,
+    float startTheta,
+    float deltaTheta,
+    AllegroColor color,
+    float thickness)
   {
-    NativeFunctions.AlDrawArc(cx, cy, r, startTheta, deltaTheta, color, thickness);
+    Interop.Primitives.AlDrawArc(cx, cy, r, startTheta, deltaTheta, color, thickness);
   }
 
-  public static void DrawEllipticalArc(float cx, float cy, float rx, float ry, float startTheta, float deltaTheta, AllegroColor color, float thickness)
+  public static void DrawEllipticalArc(
+    float cx,
+    float cy,
+    float rx,
+    float ry,
+    float startTheta,
+    float deltaTheta,
+    AllegroColor color,
+    float thickness)
   {
-    NativeFunctions.AlDrawEllipticalArc(cx, cy, rx, ry, startTheta, deltaTheta, color, thickness);
+    Interop.Primitives.AlDrawEllipticalArc(cx, cy, rx, ry, startTheta, deltaTheta, color, thickness);
   }
 
-  public static void CalculateSpline(ref float[] buffer, int stride, float[] points, float thickness, int numSegments)
+  public static void CalculateSpline(float[] destination, int stride, float[] points, float thickness, int segmentCount)
   {
-    NativeFunctions.AlCalculateSpline(ref buffer, stride, points, thickness, numSegments);
+    Interop.Primitives.AlCalculateSpline(destination, stride, points, thickness, segmentCount);
   }
 
   public static void DrawSpline(float[] points, AllegroColor color, float thickness)
   {
-    NativeFunctions.AlDrawSpline(points, color, thickness);
+    Interop.Primitives.AlDrawSpline(points, color, thickness);
   }
 
-  public static void CalculateRibbon(ref float[] buffer, int destStride, ref float[] points, int pointsStride, float thickness, int numSegments)
+  public static void CalculateRibbon(
+    float[] destination,
+    int destinationStride,
+    float[] points,
+    int pointStride,
+    float thickness,
+    int segmentCount)
   {
-    NativeFunctions.AlCalculateRibbon(ref buffer, destStride, ref points, pointsStride, thickness, numSegments);
+    Interop.Primitives.AlCalculateRibbon(
+      destination,
+      destinationStride,
+      points,
+      pointStride,
+      thickness,
+      segmentCount);
   }
 
-  public static void DrawRibbon(ref float[] points, int pointsStride, AllegroColor color, float thickness, int numSegments)
+  public static void DrawRibbon(float[] points, int pointStride, AllegroColor color, float thickness, int segmentCount)
   {
-    NativeFunctions.AlDrawRibbon(ref points, pointsStride, color, thickness, numSegments);
+    Interop.Primitives.AlDrawRibbon(points, pointStride, color, thickness, segmentCount);
   }
 
-  public static void DrawPrim(AllegroVertex[] vertexes, AllegroVertexDecl? declaration, AllegroBitmap? texture, int start, int end, PrimitiveType type)
+  public static int DrawPrim(
+    AllegroVertex[] vertexes,
+    AllegroBitmap? texture,
+    int start,
+    int end,
+    PrimType type)
   {
-    if (declaration is not null)
-      throw new NotImplementedException("Vertex declarations are not implemented, pass null instead.");
-
-    NativeFunctions.AlDrawPrim(vertexes, IntPtr.Zero, NativePointerModel.GetPointer(texture), start, end, (int)type);
-  }
-
-  public static int DrawIndexedPrim(AllegroVertex[] vertexes, AllegroVertexDecl? declaration, AllegroBitmap? texture, int[] indices, int vertexCount, PrimitiveType type)
-  {
-    if (declaration is not null)
-      throw new NotImplementedException("Vertex declarations are not implemented, pass null instead.");
-
-    return NativeFunctions.AlDrawIndexedPrim(vertexes, IntPtr.Zero, NativePointerModel.GetPointer(texture), indices, vertexCount, (int)type);
-  }
-
-  public static int DrawVertexBuffer(AllegroVertexBuffer? vertexBuffer, AllegroBitmap? texture, int start, int end, PrimitiveType type)
-  {
-    return NativeFunctions.AlDrawVertexBuffer(NativePointerModel.GetPointer(vertexBuffer), NativePointerModel.GetPointer(texture), start, end, (int)type);
-  }
-
-  public static int DrawIndexedBuffer(AllegroVertexBuffer? vertexBuffer, AllegroBitmap? texture, AllegroIndexBuffer? indexBuffer, int start, int end, PrimitiveType type)
-  {
-    return NativeFunctions.AlDrawIndexedBuffer(
-      NativePointerModel.GetPointer(vertexBuffer),
-      NativePointerModel.GetPointer(texture),
-      NativePointerModel.GetPointer(indexBuffer),
+    return Interop.Primitives.AlDrawPrim(
+      vertexes,
+      IntPtr.Zero,
+      NativePointer.Get(texture),
       start,
       end,
       (int)type);
   }
 
-  public static void DrawSoftTriangle()
+  public static int DrawIndexedPrim(
+    AllegroVertex[] vertexes,
+    AllegroBitmap? texture,
+    int[] indices,
+    int vertexCount,
+    PrimType type)
   {
-    throw new NotImplementedException();
+    return Interop.Primitives.AlDrawIndexedPrim(
+      vertexes,
+      IntPtr.Zero,
+      NativePointer.Get(texture),
+      indices,
+      vertexCount,
+      (int)type);
   }
 
-  public static void DrawSoftLine()
+  public static int DrawVertexBuffer(
+    AllegroVertexBuffer? buffer,
+    AllegroBitmap? texture,
+    int start,
+    int end,
+    PrimType type)
   {
-    throw new NotImplementedException();
+    return Interop.Primitives.AlDrawVertexBuffer(
+      NativePointer.Get(buffer),
+      NativePointer.Get(texture),
+      start,
+      end,
+      (int)type);
+  }
+
+  public static int DrawIndexedBuffer(
+    AllegroVertexBuffer? buffer,
+    AllegroBitmap? texture,
+    AllegroIndexBuffer? indexBuffer,
+    int start,
+    int end,
+    PrimType type)
+  {
+    return Interop.Primitives.AlDrawIndexedBuffer(
+      NativePointer.Get(buffer),
+      NativePointer.Get(texture),
+      NativePointer.Get(indexBuffer),
+      start,
+      end,
+      (int)type);
+  }
+
+  public static void DrawSoftTriangle(
+    ref AllegroVertex v1,
+    ref AllegroVertex v2,
+    ref AllegroVertex v3,
+    UIntPtr state,
+    Delegates.DrawPrimitiveSoftTriangleInit initAction,
+    Delegates.DrawPrimitiveSoftTriangleFirst firstAction,
+    Delegates.DrawPrimitiveStep stepAction,
+    Delegates.DrawPrimitiveSoftTriangleDraw drawAction)
+  {
+    Interop.Primitives.AlDrawSoftTriangle(ref v1, ref v2, ref v3, state, initAction, firstAction, stepAction, drawAction);
+  }
+
+  public static void DrawSoftLine(
+    ref AllegroVertex v1,
+    ref AllegroVertex v2,
+    UIntPtr state,
+    Delegates.DrawPrimitiveSoftLineFirst firstAction,
+    Delegates.DrawPrimitiveStep stepAction,
+    Delegates.DrawPrimitiveSoftLineDraw drawAction)
+  {
+    Interop.Primitives.AlDrawSoftLine(ref v1, ref v2, state, firstAction, stepAction, drawAction);
   }
 
   public static AllegroVertexDecl? CreateVertexDecl(AllegroVertexElement[] elements, int stride)
   {
-    var nativeAllegroVertexElements = elements.Select(x => x.NativeVertexElement).ToArray();
-    var result = NativeFunctions.AlCreateVertexDecl(nativeAllegroVertexElements, stride);
-    return NativePointerModel.Create<AllegroVertexDecl>(result);
+    var pointer = Interop.Primitives.AlCreateVertexDecl(elements, stride);
+    return NativePointer.Create<AllegroVertexDecl>(pointer);
   }
 
   public static void DestroyVertexDecl(AllegroVertexDecl? decl)
   {
-    NativeFunctions.AlDestroyVertexDecl(NativePointerModel.GetPointer(decl));
+    Interop.Primitives.AlDestroyVertexDecl(NativePointer.Get(decl));
   }
 
-  public static AllegroVertexBuffer? CreateVertexBuffer(AllegroVertexDecl? decl, IntPtr initialData, int numVertices, int flags)
+  public static AllegroVertexBuffer? CreateVertexBuffer(AllegroVertexDecl? decl, IntPtr initialData, int verticesCount, PrimBufferFlags flags)
   {
-    var nativePointer = NativeFunctions.AlCreateVertexBuffer(NativePointerModel.GetPointer(decl), initialData, numVertices, flags);
-    return NativePointerModel.Create<AllegroVertexBuffer>(nativePointer);
+    var pointer = Interop.Primitives.AlCreateVertexBuffer(NativePointer.Get(decl), initialData, verticesCount, (int)flags);
+    return NativePointer.Create<AllegroVertexBuffer>(pointer);
   }
 
   public static void DestroyVertexBuffer(AllegroVertexBuffer? buffer)
   {
-    NativeFunctions.AlDestroyVertexBuffer(NativePointerModel.GetPointer(buffer));
+    Interop.Primitives.AlDestroyVertexBuffer(NativePointer.Get(buffer));
   }
 
-  public static void LockVertexBuffer(AllegroVertexBuffer? buffer, int offset, int length, int flags)
+  public static IntPtr LockVertexBuffer(AllegroVertexBuffer? buffer, int offset, int length, LockFlag flag)
   {
-    NativeFunctions.AlLockVertexBuffer(NativePointerModel.GetPointer(buffer), offset, length, flags);
+    return Interop.Primitives.AlLockVertexBuffer(NativePointer.Get(buffer), offset, length, (int)flag);
   }
 
   public static void UnlockVertexBuffer(AllegroVertexBuffer? buffer)
   {
-    NativeFunctions.AlUnlockVertexBuffer(NativePointerModel.GetPointer(buffer));
+    Interop.Primitives.AlUnlockVertexBuffer(NativePointer.Get(buffer));
   }
 
   public static int GetVertexBufferSize(AllegroVertexBuffer? buffer)
   {
-    return NativeFunctions.AlGetVertexBufferSize(NativePointerModel.GetPointer(buffer));
+    return Interop.Primitives.AlGetVertexBufferSize(NativePointer.Get(buffer));
   }
 
-  public static AllegroIndexBuffer? CreateIndexBuffer(int indexSize, IntPtr initialData, int numIndices, int flags)
+  public static AllegroIndexBuffer? CreateIndexBuffer(int indexSize, IntPtr initialData, int indicesCount, PrimBufferFlags flags)
   {
-    var nativePointer = NativeFunctions.AlCreateIndexBuffer(indexSize, initialData, numIndices, flags);
-    return NativePointerModel.Create<AllegroIndexBuffer>(nativePointer);
+    var pointer = Interop.Primitives.AlCreateIndexBuffer(indexSize, initialData, indicesCount, (int)flags);
+    return NativePointer.Create<AllegroIndexBuffer>(pointer);
   }
 
   public static void DestroyIndexBuffer(AllegroIndexBuffer? buffer)
   {
-    NativeFunctions.AlDestroyIndexBuffer(NativePointerModel.GetPointer(buffer));
+    Interop.Primitives.AlDestroyIndexBuffer(NativePointer.Get(buffer));
   }
 
-  public static IntPtr LockIndexBuffer(AllegroIndexBuffer? buffer, int offset, int length, int flags)
+  public static IntPtr LockIndexBuffer(AllegroIndexBuffer? buffer, int offset, int length, LockFlag flag)
   {
-    return NativeFunctions.AlLockIndexBuffer(NativePointerModel.GetPointer(buffer), offset, length, flags);
+    return Interop.Primitives.AlLockIndexBuffer(NativePointer.Get(buffer), offset, length, (int)flag);
   }
 
   public static void UnlockIndexBuffer(AllegroIndexBuffer? buffer)
   {
-    NativeFunctions.AlUnlockIndexBuffer(NativePointerModel.GetPointer(buffer));
+    Interop.Primitives.AlUnlockIndexBuffer(NativePointer.Get(buffer));
   }
 
   public static int GetIndexBufferSize(AllegroIndexBuffer? buffer)
   {
-    return NativeFunctions.AlGetIndexBufferSize(NativePointerModel.GetPointer(buffer));
+    return Interop.Primitives.AlGetIndexBufferSize(NativePointer.Get(buffer));
   }
 
-  public static void DrawPolyline(IntPtr vertices, int vertexStride, int vertexCount, int joinStyle, int capStyle, AllegroColor color, float thickness, float miterLimit)
+  public static void DrawPolyline(
+    float[] vertices,
+    int vertexStride,
+    int vertexCount,
+    LineJoin joinStyle,
+    LineCap capStyle,
+    AllegroColor color,
+    float thickness,
+    float miterLimit)
   {
-    NativeFunctions.AlDrawPolyline(vertices, vertexStride, vertexCount, joinStyle, capStyle, color, thickness, miterLimit);
+    Interop.Primitives.AlDrawPolyline(
+      vertices,
+      vertexStride,
+      vertexCount,
+      (int)joinStyle,
+      (int)capStyle,
+      color,
+      thickness,
+      miterLimit);
   }
 
-  public static void DrawPolygon(IntPtr vertices, int vertexCount, int joinStyle, AllegroColor color, float thickness, float miterLimit)
+  public static void DrawPolygon(
+    float[] vertices,
+    int vertexCount,
+    LineJoin joinStyle,
+    AllegroColor color,
+    float thickness,
+    float miterLimit)
   {
-    NativeFunctions.AlDrawPolygon(vertices, vertexCount, joinStyle, color, thickness, miterLimit);
+    Interop.Primitives.AlDrawPolygon(vertices, vertexCount, (int)joinStyle, color, thickness, miterLimit);
   }
 
-  public static void DrawFilledPolygon(IntPtr vertices, int vertexCount, AllegroColor color)
+  public static void DrawFilledPolygon(float[] vertices, int vertexCount, AllegroColor color)
   {
-    NativeFunctions.AlDrawFilledPolygon(vertices, vertexCount, color);
+    Interop.Primitives.AlDrawFilledPolygon(vertices, vertexCount, color);
   }
 
-  public static void DrawFilledPolygonWithHoles(IntPtr vertices, IntPtr vertexCounts, AllegroColor color)
+  public static void DrawFilledPolygonWithHoles(float[] vertices, int[] vertexCounts, AllegroColor color)
   {
-    NativeFunctions.AlDrawFilledPolygonWithHoles(vertices, vertexCounts, color);
+    Interop.Primitives.AlDrawFilledPolygonWithHoles(vertices, vertexCounts, color);
   }
 
-  public static bool TriangulatePolygon(IntPtr vertices, long vertexStride, IntPtr vertexCounts, NativeDelegates.EmitTriangle emitTriangle, IntPtr userdata)
+  public static bool TriangulatePolygon(
+    float[] vertices,
+    ulong vertexStride,
+    int[] vertexCounts,
+    Delegates.TriangulatePolygonEmitTriangle emitTriangleAction,
+    IntPtr userdata)
   {
-    return NativeFunctions.AlTriangulatePolygon(vertices, vertexStride, vertexCounts, emitTriangle, userdata);
+    return Interop.Primitives.AlTriangulatePolygon(
+      vertices,
+      new UIntPtr(vertexStride),
+      vertexCounts,
+      emitTriangleAction,
+      userdata) != 0;
   }
 }

@@ -1,393 +1,365 @@
 ﻿using SubC.AllegroDotNet.Models;
 using SubC.AllegroDotNet.Native;
-using System;
-using System.Runtime.InteropServices;
+using System.Text;
 
 namespace SubC.AllegroDotNet;
 
+/// <summary>
+/// This static class contains the Allegro 5 library methods.
+/// </summary>
 public static partial class Al
 {
-  public static AllegroUstr? UstrNew(string cstr)
+  public static AllegroUstr? UstrNew(string s)
   {
-    var nativeString = Marshal.StringToHGlobalAnsi(cstr);
-    var result = NativeFunctions.AlUstrNew(nativeString);
-    Marshal.FreeHGlobal(nativeString);
-    return NativePointerModel.Create<AllegroUstr>(result);
+    using var nativeS = new CStringAnsi(s);
+    var pointer = Interop.Core.AlUstrNew(nativeS.Pointer);
+    return NativePointer.Create<AllegroUstr>(pointer);
   }
 
-  public static AllegroUstr? UStrNewFromBuffer(IntPtr buffer, long size)
+  public static AllegroUstr? UstrNewFromBuffer(byte[] s, ulong size)
   {
-    var result = NativeFunctions.AlUstrNewFromBuffer(buffer, size);
-    return NativePointerModel.Create<AllegroUstr>(result);
+    var pointer = Interop.Core.AlUstrNewFromBuffer(s, new UIntPtr(size));
+    return NativePointer.Create<AllegroUstr>(pointer);
   }
 
   public static void UstrFree(AllegroUstr? ustr)
   {
-    NativeFunctions.AlUstrFree(NativePointerModel.GetPointer(ustr));
+    Interop.Core.AlUstrFree(NativePointer.Get(ustr));
   }
 
-  public static string Cstr(AllegroUstr? ustr)
+  public static string? Cstr(AllegroUstr? ustr)
   {
-    var result = NativeFunctions.AlCstr(NativePointerModel.GetPointer(ustr));
-    return Marshal.PtrToStringAnsi(result) ?? string.Empty;
+    var pointer = Interop.Core.AlCstr(NativePointer.Get(ustr));
+    return CStringAnsi.ToCSharpString(pointer);
   }
 
-  public static void UstrToBuffer(AllegroUstr? ustr, IntPtr buffer, int size)
+  public static void UstrToBuffer(AllegroUstr? ustr, byte[] buffer, int size)
   {
-    NativeFunctions.AlUstrToBuffer(NativePointerModel.GetPointer(ustr), buffer, size);
+    Interop.Core.AlUstrToBuffer(NativePointer.Get(ustr), buffer, size);
   }
 
-  public static string CstrDup(AllegroUstr? ustr)
+  /// <summary>
+  /// Creates a null-terminated copy of the string. Any embedded null bytes will still be present in the returned string.
+  /// The returned native string does not need to be freed; AllegroDotNet will free it for you after making a copy
+  /// of it as a managed string.
+  /// </summary>
+  /// <param name="ustr">The UTF string instance.</param>
+  /// <returns>Null if an error occurs, otherwise the string of the <see cref="AllegroUstr"/> instance.</returns>
+  public static string? CstrDup(AllegroUstr? ustr)
   {
-    var result = NativeFunctions.AlCstrDup(NativePointerModel.GetPointer(ustr));
-    return Marshal.PtrToStringAnsi(result) ?? string.Empty;
+    var pointer = Interop.Core.AlCstrDup(NativePointer.Get(ustr));
+    var result = CStringAnsi.ToCSharpString(pointer);
+
+    if (NativePointer.Get(ustr) != IntPtr.Zero)
+      Interop.Core.AlFreeWithContext(pointer, 0, IntPtr.Zero, IntPtr.Zero);
+
+    return result;
   }
 
   public static AllegroUstr? UstrDup(AllegroUstr? ustr)
   {
-    var result = NativeFunctions.AlUstrDup(NativePointerModel.GetPointer(ustr));
-    return NativePointerModel.Create<AllegroUstr>(result);
+    var pointer = Interop.Core.AlUstrDup(NativePointer.Get(ustr));
+    return NativePointer.Create<AllegroUstr>(pointer);
   }
 
-  public static AllegroUstr? UstrDupSubstr(AllegroUstr? ustr, int startPosition, int endPosition)
+  public static AllegroUstr? UstrDupSubstr(AllegroUstr? ustr, int start, int end)
   {
-    var result = NativeFunctions.AlUstrDupSubstr(NativePointerModel.GetPointer(ustr), startPosition, endPosition);
-    return NativePointerModel.Create<AllegroUstr>(result);
+    var pointer = Interop.Core.AlUstrDupSubstr(NativePointer.Get(ustr), start, end);
+    return NativePointer.Create<AllegroUstr>(pointer);
   }
 
   public static AllegroUstr? UstrEmptyString()
   {
-    var result = NativeFunctions.AlUstrEmptyString();
-    return NativePointerModel.Create<AllegroUstr>(result);
+    var pointer = Interop.Core.AlUstrEmptyString();
+    return NativePointer.Create<AllegroUstr>(pointer);
   }
 
-  public static AllegroUstr? RefCstr(AllegroUstrInfo info, string str)
+  public static AllegroUstr? RefCstr(ref AllegroUstrInfo ustrInfo, IntPtr cStringPointer)
   {
-    var nativeStr = Marshal.StringToHGlobalAnsi(str);
-    var result = NativeFunctions.AlRefCstr(ref info.NativeUstrInfo, nativeStr);
-    Marshal.FreeHGlobal(nativeStr);
-    return NativePointerModel.Create<AllegroUstr>(result);
+    var pointer = Interop.Core.AlRefCstr(ref ustrInfo, cStringPointer);
+    return NativePointer.Create<AllegroUstr>(pointer);
   }
 
-  public static AllegroUstr? RefBuffer(AllegroUstrInfo info, string str, long size)
+  public static AllegroUstr? RefBuffer(ref AllegroUstrInfo ustrInfo, IntPtr buffer, ulong size)
   {
-    var nativeStr = Marshal.StringToHGlobalAnsi(str);
-    var result = NativeFunctions.AlRefBuffer(ref info.NativeUstrInfo, nativeStr, size);
-    Marshal.FreeHGlobal(nativeStr);
-    return NativePointerModel.Create<AllegroUstr>(result);
+    var pointer = Interop.Core.AlRefBuffer(ref ustrInfo, buffer, new UIntPtr(size));
+    return NativePointer.Create<AllegroUstr>(pointer);
   }
 
-  public static AllegroUstr? RefUstr(AllegroUstrInfo info, AllegroUstr? ustr, int startPosition, int endPosition)
+  public static AllegroUstr? RefUstr(ref AllegroUstrInfo ustrInfo, AllegroUstr? ustr2, int start, int end)
   {
-    var result = NativeFunctions.AlRefUstr(ref info.NativeUstrInfo, NativePointerModel.GetPointer(ustr), startPosition, endPosition);
-    return NativePointerModel.Create<AllegroUstr>(result);
+    var pointer = Interop.Core.AlRefUstr(ref ustrInfo, NativePointer.Get(ustr2), start, end);
+    return NativePointer.Create<AllegroUstr>(pointer);
   }
 
-  public static long UstrSize(AllegroUstr? ustr)
+  public static ulong UstrSize(AllegroUstr? ustr)
   {
-    return NativeFunctions.AlUstrSize(NativePointerModel.GetPointer(ustr));
+    var result = Interop.Core.AlUstrSize(NativePointer.Get(ustr));
+    return result.ToUInt64();
   }
 
-  public static long UstrLength(AllegroUstr? ustr)
+  public static ulong UstrLength(AllegroUstr? ustr)
   {
-    return NativeFunctions.AlUstrLength(NativePointerModel.GetPointer(ustr));
+    var result = Interop.Core.AlUstrLength(NativePointer.Get(ustr));
+    return result.ToUInt64();
   }
 
   public static int UstrOffset(AllegroUstr? ustr, int index)
   {
-    return NativeFunctions.AlUstrOffset(NativePointerModel.GetPointer(ustr), index);
+    return Interop.Core.AlUstrOffset(NativePointer.Get(ustr), index);
   }
 
   public static bool UstrNext(AllegroUstr? ustr, ref int pos)
   {
-    return NativeFunctions.AlUstrNext(NativePointerModel.GetPointer(ustr), ref pos);
+    return Interop.Core.AlUstrNext(NativePointer.Get(ustr), ref pos) != 0;
   }
 
   public static bool UstrPrev(AllegroUstr? ustr, ref int pos)
   {
-    return NativeFunctions.AlUstrPrev(NativePointerModel.GetPointer(ustr), ref pos);
+    return Interop.Core.AlUstrPrev(NativePointer.Get(ustr), ref pos) != 0;
   }
 
   public static int UstrGet(AllegroUstr? ustr, int pos)
   {
-    return NativeFunctions.AlUstrGet(NativePointerModel.GetPointer(ustr), pos);
+    return Interop.Core.AlUstrGet(NativePointer.Get(ustr), pos);
   }
 
   public static int UstrGetNext(AllegroUstr? ustr, ref int pos)
   {
-    return NativeFunctions.AlUstrGetNext(NativePointerModel.GetPointer(ustr), ref pos);
+    return Interop.Core.AlUstrGetNext(NativePointer.Get(ustr), ref pos);
   }
 
   public static int UstrPrevGet(AllegroUstr? ustr, ref int pos)
   {
-    return NativeFunctions.AlUstrPrevGet(NativePointerModel.GetPointer(ustr), ref pos);
+    return Interop.Core.AlUstrPrevGet(NativePointer.Get(ustr), ref pos);
   }
 
   public static bool UstrInsert(AllegroUstr? ustr1, int pos, AllegroUstr? ustr2)
   {
-    return NativeFunctions.AlUstrInsert(NativePointerModel.GetPointer(ustr1), pos, NativePointerModel.GetPointer(ustr2));
+    return Interop.Core.AlUstrInsert(NativePointer.Get(ustr1), pos, NativePointer.Get(ustr2)) != 0;
   }
 
-  public static bool UstrInsertCstr(AllegroUstr? ustr, int pos, string str)
+  public static bool UstrInsertCstr(AllegroUstr? ustr, int pos, string s)
   {
-    var nativeStr = Marshal.StringToHGlobalAnsi(str);
-    var result = NativeFunctions.AlUstrInsertCstr(NativePointerModel.GetPointer(ustr), pos, nativeStr);
-    Marshal.FreeHGlobal(nativeStr);
-    return result;
+    using var nativeS = new CStringAnsi(s);
+    return Interop.Core.AlUstrInsertCstr(NativePointer.Get(ustr), pos, nativeS.Pointer) != 0;
   }
 
-  public static long UstrInsertChr(AllegroUstr? ustr, int pos, int c)
+  public static ulong UstrInsertChr(AllegroUstr? ustr, int pos, int c)
   {
-    return NativeFunctions.AlUstrInsertChr(NativePointerModel.GetPointer(ustr), pos, c);
+    return Interop.Core.AlUstrInsertChr(NativePointer.Get(ustr), pos, c).ToUInt64();
   }
 
   public static bool UstrAppend(AllegroUstr? ustr1, AllegroUstr? ustr2)
   {
-    return NativeFunctions.AlUstrAppend(NativePointerModel.GetPointer(ustr1), NativePointerModel.GetPointer(ustr2));
+    return Interop.Core.AlUstrAppend(NativePointer.Get(ustr1), NativePointer.Get(ustr2)) != 0;
   }
 
-  public static bool UstrAppendCstr(AllegroUstr? ustr, string str)
+  public static bool UstrAppendCstr(AllegroUstr? ustr, string s)
   {
-    var nativeStr = Marshal.StringToHGlobalAnsi(str);
-    var result = NativeFunctions.AlUstrAppendCstr(NativePointerModel.GetPointer(ustr), nativeStr);
-    Marshal.FreeHGlobal(nativeStr);
-    return result;
+    using var nativeS = new CStringAnsi(s);
+    return Interop.Core.AlUstrAppendCstr(NativePointer.Get(ustr), nativeS.Pointer) != 0;
   }
 
-  public static long UstrAppendChr(AllegroUstr? ustr, int c)
+  public static ulong UstrAppendChr(AllegroUstr? ustr, int c)
   {
-    return NativeFunctions.AlUstrAppendChr(NativePointerModel.GetPointer(ustr), c);
+    return Interop.Core.AlUstrAppendChr(NativePointer.Get(ustr), c).ToUInt64();
   }
 
   public static bool UstrRemoveChr(AllegroUstr? ustr, int pos)
   {
-    return NativeFunctions.AlUstrRemoveChr(NativePointerModel.GetPointer(ustr), pos);
+    return Interop.Core.AlUstrRemoveChr(NativePointer.Get(ustr), pos) != 0;
   }
 
-  public static bool UstrRemoveRange(AllegroUstr? ustr, int startPosition, int endPosition)
+  public static bool UstrRemoveRange(AllegroUstr? ustr, int start, int end)
   {
-    return NativeFunctions.AlUstrRemoveRange(NativePointerModel.GetPointer(ustr), startPosition, endPosition);
+    return Interop.Core.AlUstrRemoveRange(NativePointer.Get(ustr), start, end) != 0;
   }
 
-  public static bool UstrTruncate(AllegroUstr? ustr, int startPosition)
+  public static bool UstrTruncate(AllegroUstr? ustr, int start)
   {
-    return NativeFunctions.AlUstrTruncate(NativePointerModel.GetPointer(ustr), startPosition);
+    return Interop.Core.AlUstrTruncate(NativePointer.Get(ustr), start) != 0;
   }
 
   public static bool UstrLtrimWs(AllegroUstr? ustr)
   {
-    return NativeFunctions.AlUstrLtrimWs(NativePointerModel.GetPointer(ustr));
+    return Interop.Core.AlUstrLtrimWs(NativePointer.Get(ustr)) != 0;
   }
 
   public static bool UstrRtrimWs(AllegroUstr? ustr)
   {
-    return NativeFunctions.AlUstrRtrimWs(NativePointerModel.GetPointer(ustr));
+    return Interop.Core.AlUstrRtrimWs(NativePointer.Get(ustr)) != 0;
   }
 
   public static bool UstrTrimWs(AllegroUstr? ustr)
   {
-    return NativeFunctions.AlUstrTrimWs(NativePointerModel.GetPointer(ustr));
+    return Interop.Core.AlUstrTrimWs(NativePointer.Get(ustr)) != 0;
   }
 
   public static bool UstrAssign(AllegroUstr? ustr1, AllegroUstr? ustr2)
   {
-    return NativeFunctions.AlUstrAssign(NativePointerModel.GetPointer(ustr1), NativePointerModel.GetPointer(ustr2));
+    return Interop.Core.AlUstrAssign(NativePointer.Get(ustr1), NativePointer.Get(ustr2)) != 0;
   }
 
-  public static bool UstrAssignSubstr(AllegroUstr? ustr1, AllegroUstr? ustr2, int startPosition, int endPosition)
+  public static bool UstrAssignSubstr(AllegroUstr? ustr1, AllegroUstr? ustr2, int start, int end)
   {
-    return NativeFunctions.AlUstrAssignSubstr(
-      NativePointerModel.GetPointer(ustr1),
-      NativePointerModel.GetPointer(ustr2),
-      startPosition,
-      endPosition);
+    return Interop.Core.AlUstrAssignSubstr(NativePointer.Get(ustr1), NativePointer.Get(ustr2), start, end) != 0;
   }
 
-  public static bool UstrAssignCstr(AllegroUstr? ustr, string str)
+  public static bool UstrAssignCstr(AllegroUstr? ustr, string s)
   {
-    var nativeStr = Marshal.StringToHGlobalAnsi(str);
-    var result = NativeFunctions.AlUstrAssignCstr(NativePointerModel.GetPointer(ustr), nativeStr);
-    Marshal.FreeHGlobal(nativeStr);
-    return result;
+    using var nativeS = new CStringAnsi(s);
+    return Interop.Core.AlUstrAssignCstr(NativePointer.Get(ustr), nativeS.Pointer) != 0;
   }
 
-  public static long UstrSetChr(AllegroUstr? ustr, int startPosition, int c)
+  public static ulong UstrSetChr(AllegroUstr? ustr, int start, int c)
   {
-    return NativeFunctions.AlUstrSetChr(NativePointerModel.GetPointer(ustr), startPosition, c);
+    return Interop.Core.AlUstrSetChr(NativePointer.Get(ustr), start, c).ToUInt64();
   }
 
-  public static bool UstrReplaceRange(AllegroUstr? ustr1, int startPosition, int endPosition, AllegroUstr? ustr2)
+  public static bool UstrReplaceRange(AllegroUstr? ustr1, int start, int end, AllegroUstr? ustr2)
   {
-    return NativeFunctions.AlUstrReplaceRange(
-      NativePointerModel.GetPointer(ustr1),
-      startPosition,
-      endPosition,
-      NativePointerModel.GetPointer(ustr2));
+    return Interop.Core.AlUstrReplaceRange(NativePointer.Get(ustr1), start, end, NativePointer.Get(ustr2)) != 0;
   }
 
-  public static int UstrFindChr(AllegroUstr? ustr, int startPosition, int c)
+  public static int UstrFindChr(AllegroUstr? ustr, int start, int c)
   {
-    return NativeFunctions.AlUstrFindChr(NativePointerModel.GetPointer(ustr), startPosition, c);
+    return Interop.Core.AlUstrFindChr(NativePointer.Get(ustr), start, c);
   }
 
-  public static int UstrRfindChr(AllegroUstr? ustr, int endPosition, int c)
+  public static int UstrRfindChr(AllegroUstr? ustr, int end, int c)
   {
-    return NativeFunctions.AlUstrRFindChr(NativePointerModel.GetPointer(ustr), endPosition, c);
+    return Interop.Core.AlUstrRfindChr(NativePointer.Get(ustr), end, c);
   }
 
-  public static int UstrFindSet(AllegroUstr? ustr, int startPosition, AllegroUstr? accept)
+  public static int UstrFindSet(AllegroUstr? ustr, int start, AllegroUstr? accept)
   {
-    return NativeFunctions.AlUstrFindSet(NativePointerModel.GetPointer(ustr), startPosition, NativePointerModel.GetPointer(accept));
+    return Interop.Core.AlUstrFindSet(NativePointer.Get(ustr), start, NativePointer.Get(accept));
   }
 
-  public static int UstrFindSetCstr(AllegroUstr? ustr, int startPosition, string accept)
+  public static int UstrFindSetCstr(AllegroUstr? ustr, int start, string accept)
   {
-    var nativeAccept = Marshal.StringToHGlobalAnsi(accept);
-    var result = NativeFunctions.AlUstrFindSetCstr(NativePointerModel.GetPointer(ustr), startPosition, nativeAccept);
-    Marshal.FreeHGlobal(nativeAccept);
-    return result;
+    using var nativeAccept = new CStringAnsi(accept);
+    return Interop.Core.AlUstrFindCstr(NativePointer.Get(ustr), start, nativeAccept.Pointer);
   }
 
-  public static int UstrFindCset(AllegroUstr? ustr, int startPosition, AllegroUstr? reject)
+  public static int UstrFindCset(AllegroUstr? ustr, int start, AllegroUstr? reject)
   {
-    return NativeFunctions.AlUstrFindCset(NativePointerModel.GetPointer(ustr), startPosition, NativePointerModel.GetPointer(reject));
+    return Interop.Core.AlUstrFindCset(NativePointer.Get(ustr), start, NativePointer.Get(reject));
   }
 
-  public static int UstrFindCsetCstr(AllegroUstr? ustr, int startPosition, string reject)
+  public static int UstrFindCsetCstr(AllegroUstr? ustr, int start, string reject)
   {
-    var nativeReject = Marshal.StringToHGlobalAnsi(reject);
-    var result = NativeFunctions.AlUstrFindCsetCstr(NativePointerModel.GetPointer(ustr), startPosition, nativeReject);
-    Marshal.FreeHGlobal(nativeReject);
-    return result;
+    using var nativeReject = new CStringAnsi(reject);
+    return Interop.Core.AlUstrFindCsetCstr(NativePointer.Get(ustr), start, nativeReject.Pointer);
   }
 
-  public static int UstrFindStr(AllegroUstr? haystack, int startPosition, AllegroUstr? needle)
+  public static int UstrFindStr(AllegroUstr? haystack, int start, AllegroUstr? needle)
   {
-    return NativeFunctions.AlUstrFindStr(NativePointerModel.GetPointer(haystack), startPosition, NativePointerModel.GetPointer(needle));
+    return Interop.Core.AlUstrFindStr(NativePointer.Get(haystack), start, NativePointer.Get(needle));
   }
 
-  public static int UstrFindCstr(AllegroUstr? haystack, int startPosition, string needle)
+  public static int UstrFindCstr(AllegroUstr? haystack, int start, string needle)
   {
-    var nativeNeedle = Marshal.StringToHGlobalAnsi(needle);
-    var result = NativeFunctions.AlUstrFindCstr(NativePointerModel.GetPointer(haystack), startPosition, nativeNeedle);
-    Marshal.FreeHGlobal(nativeNeedle);
-    return result;
+    using var nativeNeedle = new CStringAnsi(needle);
+    return Interop.Core.AlUstrFindCstr(NativePointer.Get(haystack), start, nativeNeedle.Pointer);
   }
 
-  public static int UstrRfindStr(AllegroUstr? haystack, int endPosition, AllegroUstr? needle)
+  public static int UstrRfindStr(AllegroUstr? haystack, int end, AllegroUstr? needle)
   {
-    return NativeFunctions.AlUstrRfindStr(NativePointerModel.GetPointer(haystack), endPosition, NativePointerModel.GetPointer(needle));
+    return Interop.Core.AlUstrRfindStr(NativePointer.Get(haystack), end, NativePointer.Get(needle));
   }
 
-  public static int UstrRfindCstr(AllegroUstr? haystack, int endPosition, string needle)
+  public static int UstrRfindCstr(AllegroUstr? haystack, int end, string needle)
   {
-    var nativeNeedle = Marshal.StringToHGlobalAnsi(needle);
-    var result = NativeFunctions.AlUstrRfindCstr(NativePointerModel.GetPointer(haystack), endPosition, nativeNeedle);
-    Marshal.FreeHGlobal(nativeNeedle);
-    return result;
+    using var nativeNeedle = new CStringAnsi(needle);
+    return Interop.Core.AlUstrRfindCstr(NativePointer.Get(haystack), end, nativeNeedle.Pointer);
   }
 
-  public static bool UstrFindReplace(AllegroUstr? ustr, int startPosition, AllegroUstr? find, AllegroUstr? replace)
+  public static bool UstrFindReplace(AllegroUstr? ustr, int start, AllegroUstr? find, AllegroUstr? replace)
   {
-    return NativeFunctions.AlUstrFindReplace(
-      NativePointerModel.GetPointer(ustr),
-      startPosition,
-      NativePointerModel.GetPointer(find),
-      NativePointerModel.GetPointer(replace));
+    return Interop.Core.AlUstrFindReplace(NativePointer.Get(ustr), start, NativePointer.Get(find), NativePointer.Get(replace)) != 0;
   }
 
-  public static bool UstrFindReplaceCstr(AllegroUstr? ustr, int startPosition, string find, string replace)
+  public static bool UstrFindReplaceCstr(AllegroUstr? ustr, int start, string find, string replace)
   {
-    var nativeFind = Marshal.StringToHGlobalAnsi(find);
-    var nativeReplace = Marshal.StringToHGlobalAnsi(replace);
-    var result = NativeFunctions.AlUstrFindReplaceCstr(
-      NativePointerModel.GetPointer(ustr),
-      startPosition,
-      nativeFind,
-      nativeReplace);
-    Marshal.FreeHGlobal(nativeFind);
-    Marshal.FreeHGlobal(nativeReplace);
-    return result;
+    using var nativeFind = new CStringAnsi(find);
+    using var nativeReplace = new CStringAnsi(replace);
+    return Interop.Core.AlUstrFindReplaceCstr(NativePointer.Get(ustr), start, nativeFind.Pointer, nativeReplace.Pointer) != 0;
   }
 
   public static bool UstrEqual(AllegroUstr? ustr1, AllegroUstr? ustr2)
   {
-    return NativeFunctions.AlUstrEqual(NativePointerModel.GetPointer(ustr1), NativePointerModel.GetPointer(ustr2));
+    return Interop.Core.AlUstrEqual(NativePointer.Get(ustr1), NativePointer.Get(ustr2)) != 0;
   }
 
   public static int UstrCompare(AllegroUstr? ustr1, AllegroUstr? ustr2)
   {
-    return NativeFunctions.AlUstrCompare(NativePointerModel.GetPointer(ustr1), NativePointerModel.GetPointer(ustr2));
+    return Interop.Core.AlUstrCompare(NativePointer.Get(ustr1), NativePointer.Get(ustr2));
   }
 
   public static int UstrNcompare(AllegroUstr? ustr1, AllegroUstr? ustr2, int n)
   {
-    return NativeFunctions.AlUstrNcompare(NativePointerModel.GetPointer(ustr1), NativePointerModel.GetPointer(ustr2), n);
+    return Interop.Core.AlUstrNcompare(NativePointer.Get(ustr1), NativePointer.Get(ustr2), n);
   }
 
   public static bool UstrHasPrefix(AllegroUstr? ustr1, AllegroUstr? ustr2)
   {
-    return NativeFunctions.AlUstrHasPrefix(NativePointerModel.GetPointer(ustr1), NativePointerModel.GetPointer(ustr2));
+    return Interop.Core.AlUstrHasPrefix(NativePointer.Get(ustr1), NativePointer.Get(ustr2)) != 0;
   }
 
-  public static bool UstrHasPrefixCstr(AllegroUstr? ustr, string str)
+  public static bool UstrHasPrefixCstr(AllegroUstr? ustr, string s)
   {
-    var nativeStr = Marshal.StringToHGlobalAnsi(str);
-    var result = NativeFunctions.AlUstrHasPrefixCstr(NativePointerModel.GetPointer(ustr), nativeStr);
-    Marshal.FreeHGlobal(nativeStr);
-    return result;
+    using var nativeS = new CStringAnsi(s);
+    return Interop.Core.AlUstrHasPrefixCstr(NativePointer.Get(ustr), nativeS.Pointer) != 0;
   }
 
   public static bool UstrHasSuffix(AllegroUstr? ustr1, AllegroUstr? ustr2)
   {
-    return NativeFunctions.AlUstrHasSuffix(NativePointerModel.GetPointer(ustr1), NativePointerModel.GetPointer(ustr2));
+    return Interop.Core.AlUstrHasSuffix(NativePointer.Get(ustr1), NativePointer.Get(ustr2)) != 0;
   }
 
-  public static bool UstrHasSuffixCstr(AllegroUstr? ustr, string str)
+  public static bool UstrHasSuffixCstr(AllegroUstr? ustr, string s)
   {
-    var nativeStr = Marshal.StringToHGlobalAnsi(str);
-    var result = NativeFunctions.AlUstrHasSuffixCstr(NativePointerModel.GetPointer(ustr), nativeStr);
-    Marshal.FreeHGlobal(nativeStr);
-    return result;
+    using var nativeS = new CStringAnsi(s);
+    return Interop.Core.AlUstrHasSuffixCstr(NativePointer.Get(ustr), nativeS.Pointer) != 0;
   }
 
-  public static AllegroUstr? UstrNewFromUtf16(string str)
+  public static AllegroUstr? UstrNewFromUtf16(string s)
   {
-    var nativeStr = Marshal.StringToHGlobalUni(str);
-    var result = NativeFunctions.AlUstrNewFromUtf16(nativeStr);
-    Marshal.FreeHGlobal(nativeStr);
-    return NativePointerModel.Create<AllegroUstr>(result);
+    var sBytes = Encoding.Unicode.GetBytes(s);
+    var sChars = Encoding.Unicode.GetChars(sBytes);
+    var pointer = Interop.Core.AlUstrNewFromUtf16(sChars);
+    return NativePointer.Create<AllegroUstr>(pointer);
   }
 
-  public static long UstrSizeUtf16(AllegroUstr? ustr)
+  public static ulong UstrSizeUtf16(AllegroUstr? ustr)
   {
-    var nativeUstr = NativePointerModel.GetPointer(ustr);
-    return NativeFunctions.AlUstrSizeUtf16(nativeUstr);
+    return Interop.Core.AlUstrSizeUtf16(NativePointer.Get(ustr)).ToUInt64();
   }
 
-  public static long UstrEncodeUtf16(AllegroUstr? ustr, IntPtr buffer, long size)
+  public static ulong UstrEncodeUtf16(AllegroUstr? ustr, char[] s, ulong n)
   {
-    var nativeUstr = NativePointerModel.GetPointer(ustr);
-    return NativeFunctions.AlUstrEncodeUtf16(nativeUstr, buffer, size);
+    return Interop.Core.AlUstrEncodeUtf16(NativePointer.Get(ustr), s, new UIntPtr(n)).ToUInt64();
   }
 
-  public static long Utf8Width(int c)
+  public static ulong Utf8Width(int c)
   {
-    return NativeFunctions.AlUtf8Width(c);
+    return Interop.Core.AlUtf8Width(c).ToUInt64();
   }
 
-  public static long Utf8Encode(IntPtr buffer, int c)
+  public static ulong Utf8Encode(byte[] s, int c)
   {
-    return NativeFunctions.AlUtf8Encode(buffer, c);
+    return Interop.Core.AlUtf8Encode(s, c).ToUInt64();
   }
 
-  public static long Utf16Width(int c)
+  public static ulong Utf16Width(int c)
   {
-    return NativeFunctions.AlUtf16Width(c);
+    return Interop.Core.AlUtf16Width(c).ToUInt64();
   }
 
-  public static long Utf16Encode(IntPtr buffer, int c)
+  public static ulong Utf16Encode(char[] s, int c)
   {
-    return NativeFunctions.AlUtf16Encode(buffer, c);
+    return Interop.Core.AlUtf16Encode(s, c).ToUInt64();
   }
 }

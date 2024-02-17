@@ -1,26 +1,78 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 
-namespace SubC.AllegroDotNet.Models
+namespace SubC.AllegroDotNet.Models;
+
+[StructLayout(LayoutKind.Sequential)]
+public struct AllegroMouseState
 {
-  public sealed class AllegroMouseState
+  public int X
   {
-    internal NativeMouseState MouseState = new();
+    readonly get => x;
+    set => x = value;
+  }
 
-    [StructLayout(LayoutKind.Sequential)]
-    internal struct NativeMouseState
-    {
-      public int x;
-      public int y;
-      public int z;
-      public int w;
+  public int Y
+  {
+    readonly get => y;
+    set => y = value;
+  }
 
-      [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
-      public int[] more_axes;
+  public int Z
+  {
+    readonly get => z;
+    set => z = value;
+  }
 
-      public int buttons;
-      public float pressure;
-      public IntPtr display;
-    }
+  public int W
+  {
+    readonly get => w;
+    set => w = value;
+  }
+
+  public int[] MoreAxes
+  {
+    readonly get => more_axes;
+    set => more_axes = value;
+  }
+
+  public int Buttons
+  {
+    readonly get => buttons;
+    set => buttons = value;
+  }
+
+  public float Pressure
+  {
+    readonly get => pressure;
+    set => pressure = value;
+  }
+
+  public AllegroDisplay? Display
+  {
+    readonly get => NativePointer.Create<AllegroDisplay>(display);
+    set => display = value?.Pointer ?? IntPtr.Zero;
+  }
+
+  private const int MaxExtraAxes = 4;
+
+  private int x;
+  private int y;
+  private int z;
+  private int w;
+  [MarshalAs(UnmanagedType.ByValArray, SizeConst = MaxExtraAxes)] private int[] more_axes;
+  private int buttons;
+  private float pressure;
+  private IntPtr display;
+
+  public AllegroMouseState()
+  {
+    x = 0;
+    y = 0;
+    z = 0;
+    w = 0;
+    more_axes = new int[MaxExtraAxes];
+    buttons = 0;
+    pressure = 0f;
+    display = IntPtr.Zero;
   }
 }

@@ -1,9 +1,8 @@
-﻿namespace SubC.AllegroDotNet.Enums
+﻿namespace SubC.AllegroDotNet.Enums;
+
+public enum MessageBoxResponse : int
 {
-  public enum MessageBoxResponse : int
-  {
-    NoResponse = 0,
-    OkOrYes = 1,
-    CancelOrNo = 2
-  }
+  NoResponse = 0,
+  OkOrYes = 1,
+  CancelOrNo = 2
 }
