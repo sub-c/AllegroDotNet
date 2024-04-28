@@ -2,6 +2,9 @@
 
 namespace SubC.AllegroDotNet.Models;
 
+/// <summary>
+/// This structure contains information about a video mode of a monitor.
+/// </summary>
 [StructLayout(LayoutKind.Sequential)]
 public struct AllegroMonitorInfo
 {

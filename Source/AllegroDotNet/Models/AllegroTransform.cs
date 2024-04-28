@@ -2,6 +2,9 @@
 
 namespace SubC.AllegroDotNet.Models;
 
+/// <summary>
+/// This structure holds the matrix for a transform operation.
+/// </summary>
 [StructLayout(LayoutKind.Sequential)]
 public struct AllegroTransform
 {

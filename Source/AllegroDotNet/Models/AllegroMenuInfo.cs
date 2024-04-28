@@ -2,6 +2,9 @@
 
 namespace SubC.AllegroDotNet.Models;
 
+/// <summary>
+/// This structure contains the information about a menu item.
+/// </summary>
 [StructLayout(LayoutKind.Sequential)]
 public struct AllegroMenuInfo
 {

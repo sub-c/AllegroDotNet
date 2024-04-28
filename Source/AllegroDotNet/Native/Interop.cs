@@ -51,7 +51,7 @@ internal static partial class Interop
   {
     private const int RTLD_LAZY = 0x0001;
 
-    public IReadOnlyCollection<string> NativeLibraryFilenames { get; } = new List<string>
+    public IEnumerable<string> NativeLibraryFilenames { get; } = new[]
     {
       "liballegro.so",
       "liballegro_acodec.so",
@@ -87,7 +87,7 @@ internal static partial class Interop
 
   private sealed class OSXInteropProvider : IInteropProvider
   {
-    public IReadOnlyCollection<string> NativeLibraryFilenames { get; } = new List<string>
+    public IEnumerable<string> NativeLibraryFilenames { get; } = new[]
     {
       "liballegro.so",
       "liballegro_acodec.so",
@@ -130,7 +130,7 @@ internal static partial class Interop
 
   private sealed class WindowsInteropProvider : IInteropProvider
   {
-    public IReadOnlyCollection<string> NativeLibraryFilenames { get; } = new List<string>
+    public IEnumerable<string> NativeLibraryFilenames { get; } = new[]
     {
       "allegro-5.2.dll",
       "allegro_acodec-5.2.dll",

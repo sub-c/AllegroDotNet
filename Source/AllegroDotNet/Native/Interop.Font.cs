@@ -35,7 +35,7 @@ internal static partial class Interop
     public al_set_fallback_font AlSetFallbackFont { get; }
     public al_get_fallback_font AlGetFallbackFont { get; }
     public al_draw_glyph AlDrawGlyph { get; }
-    public al_get_glyph_width AlDrawGlyphWidth { get; }
+    public al_get_glyph_width AlGetGlyphWidth { get; }
     public al_get_glyph_dimensions AlGetGlyphDimensions { get; }
     public al_get_glyph_advance AlGetGlyphAdvance { get; }
     public al_draw_multiline_text AlDrawMultilineText { get; }
@@ -246,7 +246,7 @@ internal static partial class Interop
       AlSetFallbackFont = LoadFunction<al_set_fallback_font>();
       AlGetFallbackFont = LoadFunction<al_get_fallback_font>();
       AlDrawGlyph = LoadFunction<al_draw_glyph>();
-      AlDrawGlyphWidth = LoadFunction<al_get_glyph_width>();
+      AlGetGlyphWidth = LoadFunction<al_get_glyph_width>();
       AlGetGlyphDimensions = LoadFunction<al_get_glyph_dimensions>();
       AlGetGlyphAdvance = LoadFunction<al_get_glyph_advance>();
       AlDrawMultilineText = LoadFunction<al_draw_multiline_text>();

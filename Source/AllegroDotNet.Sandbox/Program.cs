@@ -1,5 +1,6 @@
 ﻿using SubC.AllegroDotNet;
 using SubC.AllegroDotNet.Enums;
+using SubC.AllegroDotNet.Extensions;
 using SubC.AllegroDotNet.Models;
 using System.Runtime.InteropServices;
 
@@ -15,7 +16,7 @@ Console.WriteLine($"Number of joysticks: {Al.GetNumJoysticks()}");
 Console.WriteLine($"Install mouse: {Al.InstallMouse()}");
 
 Console.WriteLine($"Install video: {Al.InitVideoAddon()}");
-Console.WriteLine($"Video verison: {Al.GetAllegroVideoVersion()}");
+Console.WriteLine($"Video version: {Al.GetAllegroVideoVersion()}");
 
 Console.WriteLine($"Install image: {Al.InitImageAddon()}");
 Console.WriteLine($"Is image installed? {Al.IsImageAddonInitialized()}");
@@ -198,7 +199,7 @@ var mouseState = new AllegroMouseState();
 var touchState = new AllegroTouchInputState();
 while (true)
 {
-  Al.WaitForEvent(eventQueue, ref myEvent);
+  eventQueue.WaitForEvent(ref myEvent); //Al.WaitForEvent(eventQueue, ref myEvent);
   Al.GetKeyboardState(ref keyState);
   Al.GetMouseState(ref mouseState);
   Al.GetTouchInputState(ref touchState);

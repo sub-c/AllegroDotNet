@@ -315,7 +315,7 @@ public static partial class Al
     return NativePointer.Create<AllegroEventSource>(pointer);
   }
 
-  public static void DrainAudioSTream(AllegroAudioStream? stream)
+  public static void DrainAudioStream(AllegroAudioStream? stream)
   {
     Interop.Audio.AlDrainAudioStream(NativePointer.Get(stream));
   }

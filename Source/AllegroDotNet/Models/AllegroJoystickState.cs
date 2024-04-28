@@ -2,6 +2,9 @@
 
 namespace SubC.AllegroDotNet.Models;
 
+/// <summary>
+/// This structure contains the state of a joystick at a specific moment in time.
+/// </summary>
 [StructLayout(LayoutKind.Sequential)]
 public struct AllegroJoystickState
 {
@@ -31,6 +34,9 @@ public struct AllegroJoystickState
   }
 }
 
+/// <summary>
+/// This structure contains the state of a joystick stick at a moment in time.
+/// </summary>
 [StructLayout(LayoutKind.Sequential)]
 public struct AllegroJoystickStick
 {

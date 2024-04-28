@@ -3,6 +3,9 @@ using System.Runtime.InteropServices;
 
 namespace SubC.AllegroDotNet.Models;
 
+/// <summary>
+/// This structure contains the state of a locked region of a bitmap.
+/// </summary>
 [StructLayout(LayoutKind.Sequential)]
 public struct AllegroLockedRegion
 {

@@ -2,6 +2,9 @@
 
 namespace SubC.AllegroDotNet.Models;
 
+/// <summary>
+/// This structure contains the data for a vertex element.
+/// </summary>
 [StructLayout(LayoutKind.Sequential)]
 public struct AllegroVertexElement
 {

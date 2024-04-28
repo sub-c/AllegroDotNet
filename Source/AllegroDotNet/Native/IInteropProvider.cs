@@ -9,7 +9,7 @@ public interface IInteropProvider
   /// Gets the collection of filename(s) to pass to the <see cref="LoadLibrary(string)"/>
   /// method when loading the Allegro 5 library.
   /// </summary>
-  IReadOnlyCollection<string> NativeLibraryFilenames { get; }
+  IEnumerable<string> NativeLibraryFilenames { get; }
 
   /// <summary>
   /// This method is invoked with a filename from <see cref="NativeLibraryFilenames"/>.

@@ -196,6 +196,11 @@ public static partial class Al
     Interop.Font.AlDrawGlyph(NativePointer.Get(font), color, x, y, codePoint);
   }
 
+  public static int GetGlyphWidth(AllegroFont? font, int codePoint)
+  {
+    return Interop.Font.AlGetGlyphWidth(NativePointer.Get(font), codePoint);
+  }
+
   public static bool GetGlyphDimensions(AllegroFont? font, int codePoint, ref int bbx, ref int bby, ref int bbw, ref int bbh)
   {
     return Interop.Font.AlGetGlyphDimensions(NativePointer.Get(font), codePoint, ref bbx, ref bby, ref bbw, ref bbh) != 0;

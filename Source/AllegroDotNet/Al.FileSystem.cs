@@ -9,60 +9,60 @@ namespace SubC.AllegroDotNet;
 /// </summary>
 public static partial class Al
 {
-  public static AllegroFSEntry? CreateFSEntry(string? path)
+  public static AllegroFsEntry? CreateFSEntry(string? path)
   {
     using var nativePath = new CStringAnsi(path);
     var pointer = Interop.Core.AlCreateFsEntry(nativePath.Pointer);
-    return NativePointer.Create<AllegroFSEntry>(pointer);
+    return NativePointer.Create<AllegroFsEntry>(pointer);
   }
 
-  public static void DestroyFSEntry(AllegroFSEntry? entry)
+  public static void DestroyFSEntry(AllegroFsEntry? entry)
   {
     Interop.Core.AlDestroyFsEntry(NativePointer.Get(entry));
   }
 
-  public static string? GetFSEntryName(AllegroFSEntry? entry)
+  public static string? GetFSEntryName(AllegroFsEntry? entry)
   {
     var pointer = Interop.Core.AlGetFsEntryName(NativePointer.Get(entry));
     return CStringAnsi.ToCSharpString(pointer);
   }
 
-  public static bool UpdateFSEntry(AllegroFSEntry? entry)
+  public static bool UpdateFSEntry(AllegroFsEntry? entry)
   {
     return Interop.Core.AlUpdateFsEntry(NativePointer.Get(entry)) != 0;
   }
 
-  public static FileMode GetFSEntryMode(AllegroFSEntry? entry)
+  public static FileMode GetFSEntryMode(AllegroFsEntry? entry)
   {
     return (FileMode)Interop.Core.AlGetFsEntryMode(NativePointer.Get(entry));
   }
 
-  public static ulong GetFSEntryATime(AllegroFSEntry? entry)
+  public static ulong GetFSEntryATime(AllegroFsEntry? entry)
   {
     return Interop.Core.AlGetFsEntryAtime(NativePointer.Get(entry));
   }
 
-  public static ulong GetFSEntryCTime(AllegroFSEntry? entry)
+  public static ulong GetFSEntryCTime(AllegroFsEntry? entry)
   {
     return Interop.Core.AlGetFsEntryCtime(NativePointer.Get(entry));
   }
 
-  public static ulong GetFSEntryMTime(AllegroFSEntry? entry)
+  public static ulong GetFSEntryMTime(AllegroFsEntry? entry)
   {
     return Interop.Core.AlGetFsEntryMtime(NativePointer.Get(entry));
   }
 
-  public static ulong GetFSEntrySize(AllegroFSEntry? entry)
+  public static ulong GetFSEntrySize(AllegroFsEntry? entry)
   {
     return Interop.Core.AlGetFsEntrySize(NativePointer.Get(entry));
   }
 
-  public static bool FSEntryExists(AllegroFSEntry? entry)
+  public static bool FSEntryExists(AllegroFsEntry? entry)
   {
     return Interop.Core.AlFsEntryExists(NativePointer.Get(entry)) != 0;
   }
 
-  public static bool RemoveFSEntry(AllegroFSEntry? entry)
+  public static bool RemoveFSEntry(AllegroFsEntry? entry)
   {
     return Interop.Core.AlRemoveFsEntry(NativePointer.Get(entry)) != 0;
   }
@@ -79,18 +79,18 @@ public static partial class Al
     return Interop.Core.AlRemoveFilename(nativePath.Pointer) != 0;
   }
 
-  public static bool OpenDirectory(AllegroFSEntry? entry)
+  public static bool OpenDirectory(AllegroFsEntry? entry)
   {
     return Interop.Core.AlOpenDirectory(NativePointer.Get(entry)) != 0;
   }
 
-  public static AllegroFSEntry? ReadDirectory(AllegroFSEntry? entry)
+  public static AllegroFsEntry? ReadDirectory(AllegroFsEntry? entry)
   {
     var pointer = Interop.Core.AlReadDirectory(NativePointer.Get(entry));
-    return NativePointer.Create<AllegroFSEntry>(pointer);
+    return NativePointer.Create<AllegroFsEntry>(pointer);
   }
 
-  public static bool CloseDirectory(AllegroFSEntry? entry)
+  public static bool CloseDirectory(AllegroFsEntry? entry)
   {
     return Interop.Core.AlCloseDirectory(NativePointer.Get(entry)) != 0;
   }
@@ -113,14 +113,14 @@ public static partial class Al
     return Interop.Core.AlMakeDirectory(nativePath.Pointer) != 0;
   }
 
-  public static AllegroFile? OpenFSEntry(AllegroFSEntry? entry, string? mode)
+  public static AllegroFile? OpenFSEntry(AllegroFsEntry? entry, string? mode)
   {
     using var nativeMode = new CStringAnsi(mode);
     var pointer = Interop.Core.ALOpenFsEntry(NativePointer.Get(entry), nativeMode.Pointer);
     return NativePointer.Create<AllegroFile>(pointer);
   }
 
-  public static int ForEachFSEntry(AllegroFSEntry? entry, Delegates.ForEachFsCallback callback, IntPtr extra)
+  public static int ForEachFSEntry(AllegroFsEntry? entry, Delegates.ForEachFsCallback callback, IntPtr extra)
   {
     return Interop.Core.AlForEachFsEntry(NativePointer.Get(entry), callback, extra);
   }

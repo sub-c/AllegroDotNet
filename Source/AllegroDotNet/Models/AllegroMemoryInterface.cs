@@ -3,6 +3,9 @@ using System.Runtime.InteropServices;
 
 namespace SubC.AllegroDotNet.Models;
 
+/// <summary>
+/// This structure contains the methods Allegro will use to manage memory.
+/// </summary>
 [StructLayout(LayoutKind.Sequential)]
 public struct AllegroMemoryInterface
 {

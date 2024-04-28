@@ -2,6 +2,9 @@
 
 namespace SubC.AllegroDotNet.Models;
 
+/// <summary>
+/// This structure contains information about the state of the mouse at a moment in time.
+/// </summary>
 [StructLayout(LayoutKind.Sequential)]
 public struct AllegroMouseState
 {

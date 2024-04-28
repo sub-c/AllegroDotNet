@@ -2,6 +2,9 @@
 
 namespace SubC.AllegroDotNet.Models;
 
+/// <summary>
+/// This structure contains a vertex.
+/// </summary>
 [StructLayout(LayoutKind.Sequential)]
 public struct AllegroVertex
 {

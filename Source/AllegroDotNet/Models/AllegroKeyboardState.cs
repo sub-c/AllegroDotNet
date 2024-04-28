@@ -3,6 +3,9 @@ using System.Runtime.InteropServices;
 
 namespace SubC.AllegroDotNet.Models;
 
+/// <summary>
+/// This structure contains the state of the keyboard at a given moment in time.
+/// </summary>
 [StructLayout(LayoutKind.Sequential)]
 public struct AllegroKeyboardState
 {

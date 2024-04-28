@@ -2,6 +2,9 @@
 
 namespace SubC.AllegroDotNet.Models;
 
+/// <summary>
+/// This structure contains the touch state at a moment in time.
+/// </summary>
 [StructLayout(LayoutKind.Sequential)]
 public struct AllegroTouchState
 {

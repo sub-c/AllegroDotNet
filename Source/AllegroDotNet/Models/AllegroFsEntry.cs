@@ -3,6 +3,6 @@
 /// <summary>
 /// An opaque class representing a file or directory.
 /// </summary>
-public sealed class AllegroFSEntry : NativePointer
+public sealed class AllegroFsEntry : NativePointer
 {
 }
