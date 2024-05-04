@@ -7,7 +7,7 @@ namespace SubC.AllegroDotNet.Extensions;
 /// This class provides extension methods for the <see cref="AllegroDisplay"/> class
 /// that can be used as shortcuts or object-oriented methods for Allegro.
 /// </summary>
-internal static class AllegroDisplayExtensions
+public static class AllegroDisplayExtensions
 {
   public static void DestroyDisplay(this AllegroDisplay? display)
       => Al.DestroyDisplay(display);

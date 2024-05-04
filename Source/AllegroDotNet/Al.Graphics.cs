@@ -543,41 +543,41 @@ public static partial class Al
     return Interop.Core.AlIsBitmapDrawingHeld() != 0;
   }
 
-  public static AllegroBitmap? LoadBitmap(string filename)
+  public static AllegroBitmap? LoadBitmap(string? filename)
   {
     using var nativeFilename = new CStringAnsi(filename);
     var pointer = Interop.Core.AlLoadBitmap(nativeFilename.Pointer);
     return NativePointer.Create<AllegroBitmap>(pointer);
   }
 
-  public static AllegroBitmap? LoadBitmapFlags(string filename, LoadBitmapFlags flags)
+  public static AllegroBitmap? LoadBitmapFlags(string? filename, LoadBitmapFlags flags)
   {
     using var nativeFilename = new CStringAnsi(filename);
     var pointer = Interop.Core.AlLoadBitmapFlags(nativeFilename.Pointer, (int)flags);
     return NativePointer.Create<AllegroBitmap>(pointer);
   }
 
-  public static AllegroBitmap? LoadBitmapF(AllegroFile? file, string identifier)
+  public static AllegroBitmap? LoadBitmapF(AllegroFile? file, string? identifier)
   {
     using var nativeIdentifier = new CStringAnsi(identifier);
     var pointer = Interop.Core.AlLoadBitmapF(NativePointer.Get(file), nativeIdentifier.Pointer);
     return NativePointer.Create<AllegroBitmap>(pointer);
   }
 
-  public static AllegroBitmap? LoadBitmapFlagsF(AllegroFile? file, string identifier, LoadBitmapFlags flags)
+  public static AllegroBitmap? LoadBitmapFlagsF(AllegroFile? file, string? identifier, LoadBitmapFlags flags)
   {
     using var nativeIdentifier = new CStringAnsi(identifier);
     var pointer = Interop.Core.AlLoadBitmapFlagsF(NativePointer.Get(file), nativeIdentifier.Pointer, (int)flags);
     return NativePointer.Create<AllegroBitmap>(pointer);
   }
 
-  public static bool SaveBitmap(string filename, AllegroBitmap? bitmap)
+  public static bool SaveBitmap(string? filename, AllegroBitmap? bitmap)
   {
     using var nativeFilename = new CStringAnsi(filename);
     return Interop.Core.AlSaveBitmap(nativeFilename.Pointer, NativePointer.Get(bitmap)) != 0;
   }
 
-  public static bool SaveBitmapF(AllegroFile? file, string identifier, AllegroBitmap? bitmap)
+  public static bool SaveBitmapF(AllegroFile? file, string? identifier, AllegroBitmap? bitmap)
   {
     using var nativeIdentifier = new CStringAnsi(identifier);
     return Interop.Core.AlSaveBitmapF(NativePointer.Get(file), nativeIdentifier.Pointer, NativePointer.Get(bitmap)) != 0;
