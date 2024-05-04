@@ -5,17 +5,21 @@
     <BuildTargets>Clean;Restore;Rebuild</BuildTargets>
     <MajorVersion>0</MajorVersion>
     <MinorVersion>9</MinorVersion>
-    <BuildVersion>0</BuildVersion>
+    <BuildVersion>1</BuildVersion>
     <Version>$(MajorVersion).$(MinorVersion).$(BuildVersion)</Version>
   </PropertyGroup>
 
-  <ItemGroup>
-    <CsProjects>$(MSBuildThisFileDirectory)Source\AllegroDotNet\AllegroDotNet.csproj</CsProjects>
-  </ItemGroup>
-
   <Target Name="Build">
-    <MsBuild Projects="%(CsProjects)"
+    <ItemGroup>
+      <CsProjects Include="$(MSBuildThisFileDirectory)Source\AllegroDotNet\AllegroDotNet.csproj" />
+    </ItemGroup>
+
+    <MsBuild Projects="@(CsProjects)"
              Properties="Configuration=$(BuildConfiguration);Version=$(Version)"
              Targets="$(BuildTargets)"/>
+
+    <MsBuild Projects="@(CsProjects)"
+             Properties="Configuration=$(BuildConfiguration);Version=$(Version)"
+             Targets="Pack"/>
   </Target>
 </Project>
