@@ -20,7 +20,7 @@
     <RepositoryType>git</RepositoryType>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>game 2d allegro allegro5 interop directx opengl multimedia sound input graphics</PackageTags>
-    <PackageReleaseNotes>Refactor to some AllegroDotNet API and major refactor to backend interop code.</PackageReleaseNotes>
+    <PackageReleaseNotes>Add .NET8 target. Small bug fixes.</PackageReleaseNotes>
     <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 

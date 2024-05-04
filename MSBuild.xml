@@ -20,6 +20,6 @@
 
     <MsBuild Projects="@(CsProjects)"
              Properties="Configuration=$(BuildConfiguration);Version=$(Version)"
-             Targets="Pack"/>
+             Targets="Clean;Restore;Pack"/>
   </Target>
 </Project>
