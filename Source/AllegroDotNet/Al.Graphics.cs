@@ -395,7 +395,7 @@ public static partial class Al
     float dh,
     FlipFlags flags)
   {
-    Interop.Core.AlDrawTintedScaledBitmap(NativePointer.Get(bitmap), tint, sx, sy, sw, sh, dx, dy, sw, dh, (int)flags);
+    Interop.Core.AlDrawTintedScaledBitmap(NativePointer.Get(bitmap), tint, sx, sy, sw, sh, dx, dy, dw, dh, (int)flags);
   }
 
   public static AllegroBitmap? GetTargetBitmap()
