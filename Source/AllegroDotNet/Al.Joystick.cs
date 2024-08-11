@@ -94,7 +94,7 @@ public static partial class Al
     return Interop.Core.AlGetJoystickNumButtons(NativePointer.Get(joystick));
   }
 
-  public static void GetJoystickState(AllegroJoystick? joystick, AllegroJoystickState state)
+  public static void GetJoystickState(AllegroJoystick? joystick, ref AllegroJoystickState state)
   {
     Interop.Core.AlGetJoystickState(NativePointer.Get(joystick), ref state);
   }
