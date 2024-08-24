@@ -3,6 +3,6 @@
 [Flags]
 public enum TextLogFlags : int
 {
-  NoClose = 1 << 0,
-  Monospace = 1 << 1
+    NoClose = 1 << 0,
+    Monospace = 1 << 1
 }

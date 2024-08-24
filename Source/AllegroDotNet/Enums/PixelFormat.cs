@@ -39,165 +39,165 @@
 /// </summary>
 public enum PixelFormat : int
 {
-  /// <summary>
-  /// The default; allowing any pixel format.
-  /// </summary>
-  Any = 0,
+    /// <summary>
+    /// The default; allowing any pixel format.
+    /// </summary>
+    Any = 0,
 
-  /// <summary>
-  /// Any pixel format that does not have alpha.
-  /// </summary>
-  AnyNoAlpha = 1,
+    /// <summary>
+    /// Any pixel format that does not have alpha.
+    /// </summary>
+    AnyNoAlpha = 1,
 
-  /// <summary>
-  /// Any pixel format with alpha.
-  /// </summary>
-  AnyWithAlpha = 2,
+    /// <summary>
+    /// Any pixel format with alpha.
+    /// </summary>
+    AnyWithAlpha = 2,
 
-  /// <summary>
-  /// Any 15-bit format without an alpha.
-  /// </summary>
-  Any15NoAlpha = 3,
+    /// <summary>
+    /// Any 15-bit format without an alpha.
+    /// </summary>
+    Any15NoAlpha = 3,
 
-  /// <summary>
-  /// Any 16-bit format without an alpha.
-  /// </summary>
-  Any16NoAlpha = 4,
+    /// <summary>
+    /// Any 16-bit format without an alpha.
+    /// </summary>
+    Any16NoAlpha = 4,
 
-  /// <summary>
-  /// Any 16-bit format with an alpha.
-  /// </summary>
-  Any16WithAlpha = 5,
+    /// <summary>
+    /// Any 16-bit format with an alpha.
+    /// </summary>
+    Any16WithAlpha = 5,
 
-  /// <summary>
-  /// Any 24-bit format without an alpha.
-  /// </summary>
-  Any24NoAlpha = 6,
+    /// <summary>
+    /// Any 24-bit format without an alpha.
+    /// </summary>
+    Any24NoAlpha = 6,
 
-  /// <summary>
-  /// Any 32-bit format without an alpha.
-  /// </summary>
-  Any32NoAlpha = 7,
+    /// <summary>
+    /// Any 32-bit format without an alpha.
+    /// </summary>
+    Any32NoAlpha = 7,
 
-  /// <summary>
-  /// Any 32-bit format with an alpha.
-  /// </summary>
-  Any32WithAlpha = 8,
+    /// <summary>
+    /// Any 32-bit format with an alpha.
+    /// </summary>
+    Any32WithAlpha = 8,
 
-  /// <summary>
-  /// 32-bit format.
-  /// </summary>
-  Argb8888 = 9,
+    /// <summary>
+    /// 32-bit format.
+    /// </summary>
+    Argb8888 = 9,
 
-  /// <summary>
-  /// 32-bit format.
-  /// </summary>
-  Rgba8888 = 10,
+    /// <summary>
+    /// 32-bit format.
+    /// </summary>
+    Rgba8888 = 10,
 
-  /// <summary>
-  /// 16-bit format.
-  /// </summary>
-  Argb4444 = 11,
+    /// <summary>
+    /// 16-bit format.
+    /// </summary>
+    Argb4444 = 11,
 
-  /// <summary>
-  /// 24-bit format.
-  /// </summary>
-  Rgb888 = 12,
+    /// <summary>
+    /// 24-bit format.
+    /// </summary>
+    Rgb888 = 12,
 
-  /// <summary>
-  /// 16-bit format.
-  /// </summary>
-  Rgb565 = 13,
+    /// <summary>
+    /// 16-bit format.
+    /// </summary>
+    Rgb565 = 13,
 
-  /// <summary>
-  /// 15-bit format.
-  /// </summary>
-  Rgb555 = 14,
+    /// <summary>
+    /// 15-bit format.
+    /// </summary>
+    Rgb555 = 14,
 
-  /// <summary>
-  /// 16-bit format.
-  /// </summary>
-  RgbaA5551 = 15,
+    /// <summary>
+    /// 16-bit format.
+    /// </summary>
+    RgbaA5551 = 15,
 
-  /// <summary>
-  /// 16-bit format.
-  /// </summary>
-  Argb1555 = 16,
+    /// <summary>
+    /// 16-bit format.
+    /// </summary>
+    Argb1555 = 16,
 
-  /// <summary>
-  /// 32-format.
-  /// </summary>
-  Abgr8888 = 17,
+    /// <summary>
+    /// 32-format.
+    /// </summary>
+    Abgr8888 = 17,
 
-  /// <summary>
-  /// 32-bit format.
-  /// </summary>
-  Xbgr8888 = 18,
+    /// <summary>
+    /// 32-bit format.
+    /// </summary>
+    Xbgr8888 = 18,
 
-  /// <summary>
-  /// 24-bit format.
-  /// </summary>
-  Bgr888 = 19,
+    /// <summary>
+    /// 24-bit format.
+    /// </summary>
+    Bgr888 = 19,
 
-  /// <summary>
-  /// 16-bit format.
-  /// </summary>
-  Bgr565 = 20,
+    /// <summary>
+    /// 16-bit format.
+    /// </summary>
+    Bgr565 = 20,
 
-  /// <summary>
-  /// 15-bit format.
-  /// </summary>
-  Bgr555 = 21,
+    /// <summary>
+    /// 15-bit format.
+    /// </summary>
+    Bgr555 = 21,
 
-  /// <summary>
-  /// 32-bit format.
-  /// </summary>
-  Rgbx8888 = 22,
+    /// <summary>
+    /// 32-bit format.
+    /// </summary>
+    Rgbx8888 = 22,
 
-  /// <summary>
-  /// 32-bit format.
-  /// </summary>
-  Xrgb8888 = 23,
+    /// <summary>
+    /// 32-bit format.
+    /// </summary>
+    Xrgb8888 = 23,
 
-  /// <summary>
-  /// 128-bit format.
-  /// </summary>
-  AbgrF32 = 24,
+    /// <summary>
+    /// 128-bit format.
+    /// </summary>
+    AbgrF32 = 24,
 
-  /// <summary>
-  /// Little-endian 32-bit format.
-  /// </summary>
-  Abgr8888LE = 25,
+    /// <summary>
+    /// Little-endian 32-bit format.
+    /// </summary>
+    Abgr8888LE = 25,
 
-  /// <summary>
-  /// 16-bit format.
-  /// </summary>
-  Rgba4444 = 26,
+    /// <summary>
+    /// 16-bit format.
+    /// </summary>
+    Rgba4444 = 26,
 
-  /// <summary>
-  /// A single 8-bit channel. A pixel value maps onto the red channel when displayed, but it is undefined how it maps
-  /// onto green, blue and alpha channels. When drawing to bitmaps of this format, only the red channel is taken into
-  /// account. Allegro may have to use fallback methods to render to bitmaps of this format. This pixel format is
-  /// mainly intended for storing the color indices of an indexed (paletted) image, usually in conjunction with a
-  /// pixel shader that maps indices to RGBA values.
-  /// </summary>
-  SingleChannel8 = 27,
+    /// <summary>
+    /// A single 8-bit channel. A pixel value maps onto the red channel when displayed, but it is undefined how it maps
+    /// onto green, blue and alpha channels. When drawing to bitmaps of this format, only the red channel is taken into
+    /// account. Allegro may have to use fallback methods to render to bitmaps of this format. This pixel format is
+    /// mainly intended for storing the color indices of an indexed (paletted) image, usually in conjunction with a
+    /// pixel shader that maps indices to RGBA values.
+    /// </summary>
+    SingleChannel8 = 27,
 
-  /// <summary>
-  /// Compressed using the DXT1 compression algorithm. Each 4x4 pixel block is encoded in 64 bytes, resulting in
-  /// 6-8x compression ratio. Only a single bit of alpha per pixel is supported.
-  /// </summary>
-  CompressedRgbaDxt1 = 28,
+    /// <summary>
+    /// Compressed using the DXT1 compression algorithm. Each 4x4 pixel block is encoded in 64 bytes, resulting in
+    /// 6-8x compression ratio. Only a single bit of alpha per pixel is supported.
+    /// </summary>
+    CompressedRgbaDxt1 = 28,
 
-  /// <summary>
-  /// Compressed using the DXT3 compression algorithm. Each 4x4 pixel block is encoded in 128 bytes, resulting in
-  /// 4x compression ratio. This format supports sharp alpha transitions.
-  /// </summary>
-  CompressedRgbaDxt3 = 29,
+    /// <summary>
+    /// Compressed using the DXT3 compression algorithm. Each 4x4 pixel block is encoded in 128 bytes, resulting in
+    /// 4x compression ratio. This format supports sharp alpha transitions.
+    /// </summary>
+    CompressedRgbaDxt3 = 29,
 
-  /// <summary>
-  /// Compressed using the DXT5 compression algorithm. Each 4x4 pixel block is encoded in 128 bytes, resulting in
-  /// 4x compression ratio. This format supports smooth alpha transitions.
-  /// </summary>
-  CompressedRgbaDxt5 = 30
+    /// <summary>
+    /// Compressed using the DXT5 compression algorithm. Each 4x4 pixel block is encoded in 128 bytes, resulting in
+    /// 4x compression ratio. This format supports smooth alpha transitions.
+    /// </summary>
+    CompressedRgbaDxt5 = 30
 }

@@ -2,9 +2,9 @@
 
 public enum LineJoin
 {
-  None,
-  Bevel,
-  Round,
-  Miter,
-  Mitre = Miter
+    None,
+    Bevel,
+    Round,
+    Miter,
+    Mitre = Miter
 }

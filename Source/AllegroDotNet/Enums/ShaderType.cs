@@ -2,6 +2,6 @@
 
 public enum ShaderType
 {
-  VertexShader = 1,
-  PixelShader = 2
+    VertexShader = 1,
+    PixelShader = 2
 }

@@ -2,9 +2,9 @@
 
 public enum PrimAttr
 {
-  Position = 1,
-  ColorAttr,
-  TexCoord,
-  TexCoordPixel,
-  UserAttr
+    Position = 1,
+    ColorAttr,
+    TexCoord,
+    TexCoordPixel,
+    UserAttr
 }

@@ -5,6 +5,6 @@
 /// </summary>
 public enum JoyFlags : int
 {
-  Digital = 0x01,
-  Analogue = 0x02
+    Digital = 0x01,
+    Analogue = 0x02
 }

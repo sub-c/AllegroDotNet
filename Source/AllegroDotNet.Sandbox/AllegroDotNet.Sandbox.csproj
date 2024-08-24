@@ -7,7 +7,7 @@
     <Nullable>enable</Nullable>
     <AssemblyName>AllegroDotNet.Sandbox</AssemblyName>
     <RootNamespace>SubC.AllegroDotNet.Sandbox</RootNamespace>
-    <Platforms>x64</Platforms>
+    <Platforms>x64;AnyCPU</Platforms>
   </PropertyGroup>
 
   <ItemGroup>

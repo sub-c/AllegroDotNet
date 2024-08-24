@@ -8,12 +8,12 @@ namespace SubC.AllegroDotNet.Models;
 [StructLayout(LayoutKind.Sequential)]
 public struct AllegroState
 {
-  private const int InternalTlsArraySize = 1024;
+    private const int InternalTlsArraySize = 1024;
 
-  [MarshalAs(UnmanagedType.ByValArray, SizeConst = InternalTlsArraySize)]
-  private byte[] _tls = new byte[InternalTlsArraySize];
+    [MarshalAs(UnmanagedType.ByValArray, SizeConst = InternalTlsArraySize)]
+    private byte[] _tls = new byte[InternalTlsArraySize];
 
-  public AllegroState()
-  {
-  }
+    public AllegroState()
+    {
+    }
 }

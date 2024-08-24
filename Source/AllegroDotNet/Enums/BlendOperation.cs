@@ -2,7 +2,7 @@
 
 public enum BlendOperation
 {
-  Add = 0,
-  SourceMinusDestination = 1,
-  DestinationMinusSource = 2
+    Add = 0,
+    SourceMinusDestination = 1,
+    DestinationMinusSource = 2
 }

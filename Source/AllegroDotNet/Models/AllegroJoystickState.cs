@@ -8,30 +8,30 @@ namespace SubC.AllegroDotNet.Models;
 [StructLayout(LayoutKind.Sequential)]
 public struct AllegroJoystickState
 {
-  public int[] Button
-  {
-    readonly get => button;
-    set => button = value;
-  }
+    public int[] Button
+    {
+        readonly get => button;
+        set => button = value;
+    }
 
-  public AllegroJoystickStick[] Stick
-  {
-    readonly get => stick;
-    set => stick = value;
-  }
+    public AllegroJoystickStick[] Stick
+    {
+        readonly get => stick;
+        set => stick = value;
+    }
 
-  private const int MaxJoystickSticks = 16;
-  private const int MaxJoystickButtons = 32;
+    private const int MaxJoystickSticks = 16;
+    private const int MaxJoystickButtons = 32;
 
-  [MarshalAs(UnmanagedType.ByValArray, SizeConst = MaxJoystickSticks)]
-  private AllegroJoystickStick[] stick = new AllegroJoystickStick[MaxJoystickSticks];
+    [MarshalAs(UnmanagedType.ByValArray, SizeConst = MaxJoystickSticks)]
+    private AllegroJoystickStick[] stick = new AllegroJoystickStick[MaxJoystickSticks];
 
-  [MarshalAs(UnmanagedType.ByValArray, SizeConst = MaxJoystickButtons)]
-  private int[] button = new int[MaxJoystickButtons];
+    [MarshalAs(UnmanagedType.ByValArray, SizeConst = MaxJoystickButtons)]
+    private int[] button = new int[MaxJoystickButtons];
 
-  public AllegroJoystickState()
-  {
-  }
+    public AllegroJoystickState()
+    {
+    }
 }
 
 /// <summary>
@@ -40,18 +40,18 @@ public struct AllegroJoystickState
 [StructLayout(LayoutKind.Sequential)]
 public struct AllegroJoystickStick
 {
-  public float[] Axis
-  {
-    readonly get => axis;
-    set => axis = value;
-  }
+    public float[] Axis
+    {
+        readonly get => axis;
+        set => axis = value;
+    }
 
-  private const int MaxJoystickAxes = 3;
+    private const int MaxJoystickAxes = 3;
 
-  [MarshalAs(UnmanagedType.ByValArray, SizeConst = MaxJoystickAxes)]
-  private float[] axis = new float[MaxJoystickAxes];
+    [MarshalAs(UnmanagedType.ByValArray, SizeConst = MaxJoystickAxes)]
+    private float[] axis = new float[MaxJoystickAxes];
 
-  public AllegroJoystickStick()
-  {
-  }
+    public AllegroJoystickStick()
+    {
+    }
 }

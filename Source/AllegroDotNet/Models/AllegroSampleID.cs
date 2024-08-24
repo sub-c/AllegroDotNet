@@ -8,6 +8,6 @@ namespace SubC.AllegroDotNet.Models;
 [StructLayout(LayoutKind.Sequential)]
 public struct AllegroSampleID
 {
-  private int _index;
-  private int _id;
+    private int _index;
+    private int _id;
 }

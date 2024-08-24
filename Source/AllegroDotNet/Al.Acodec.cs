@@ -7,18 +7,18 @@ namespace SubC.AllegroDotNet;
 /// </summary>
 public static partial class Al
 {
-  public static bool InitACodecAddon()
-  {
-    return Interop.ACodec.AlInitACodecAddon() != 0;
-  }
+    public static bool InitACodecAddon()
+    {
+        return Interop.ACodec.AlInitACodecAddon() != 0;
+    }
 
-  public static bool IsACodecAddonInitialized()
-  {
-    return Interop.ACodec.AlIsACodecAddonInitialized() != 0;
-  }
+    public static bool IsACodecAddonInitialized()
+    {
+        return Interop.ACodec.AlIsACodecAddonInitialized() != 0;
+    }
 
-  public static uint GetAllegroACodecVersion()
-  {
-    return Interop.ACodec.AlGetAllegroACodecVersion();
-  }
+    public static uint GetAllegroACodecVersion()
+    {
+        return Interop.ACodec.AlGetAllegroACodecVersion();
+    }
 }

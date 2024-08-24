@@ -7,7 +7,7 @@
     <Nullable>enable</Nullable>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <BaseOutputPath>..\..\Artifacts\bin\</BaseOutputPath>
-    <Platforms>x64</Platforms>
+    <Platforms>x64;AnyCPU</Platforms>
   </PropertyGroup>
 
   <ItemGroup>

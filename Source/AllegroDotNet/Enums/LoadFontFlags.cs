@@ -6,9 +6,9 @@
 [Flags]
 public enum LoadFontFlags
 {
-  None = 0,
-  TtfNoKerning = 1,
-  TtfMonochrome = 2,
-  TtfNoAutohint = 4,
-  NoPremultipliedAlpha = 0x0200
+    None = 0,
+    TtfNoKerning = 1,
+    TtfMonochrome = 2,
+    TtfNoAutohint = 4,
+    NoPremultipliedAlpha = 0x0200
 }

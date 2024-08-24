@@ -2,6 +2,6 @@
 
 public enum OpenGLVariant
 {
-  Desktop = 0,
-  ES
+    Desktop = 0,
+    ES
 }

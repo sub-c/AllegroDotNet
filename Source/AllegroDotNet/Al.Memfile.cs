@@ -8,15 +8,15 @@ namespace SubC.AllegroDotNet;
 /// </summary>
 public static partial class Al
 {
-  public static AllegroFile? OpenMemfile(IntPtr memory, long size, string mode)
-  {
-    using var nativeMode = new CStringAnsi(mode);
-    var pointer = Interop.Memfile.AlOpenMemfile(memory, size, nativeMode.Pointer);
-    return NativePointer.Create<AllegroFile>(pointer);
-  }
+    public static AllegroFile? OpenMemfile(IntPtr memory, long size, string mode)
+    {
+        using var nativeMode = new CStringAnsi(mode);
+        var pointer = Interop.Memfile.AlOpenMemfile(memory, size, nativeMode.Pointer);
+        return NativePointer.Create<AllegroFile>(pointer);
+    }
 
-  public static uint GetAllegroMemfileVersion()
-  {
-    return Interop.Memfile.AlGetAllegroMemfileVersion();
-  }
+    public static uint GetAllegroMemfileVersion()
+    {
+        return Interop.Memfile.AlGetAllegroMemfileVersion();
+    }
 }

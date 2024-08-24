@@ -9,7 +9,7 @@ namespace SubC.AllegroDotNet.Models;
 [StructLayout(LayoutKind.Sequential)]
 public struct AllegroUstrInfo
 {
-  private int mlen;
-  private int slen;
-  private IntPtr data;
+    private int mlen;
+    private int slen;
+    private IntPtr data;
 }

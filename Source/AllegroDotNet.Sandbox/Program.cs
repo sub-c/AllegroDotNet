@@ -44,10 +44,10 @@ var sample = Al.LoadSample(@"D:\game_over.ogg");
 Console.WriteLine($"Loaded sample? {sample != null}");
 if (sample is not null)
 {
-  var sampleInstance = Al.CreateSampleInstance(sample);
-  var a1 = Al.AttachSampleInstanceToMixer(sampleInstance, mixer);
-  var b1 = Al.SetSampleInstancePlaymode(sampleInstance, PlayMode.Once);
-  var c1 = Al.PlaySampleInstance(sampleInstance);
+    var sampleInstance = Al.CreateSampleInstance(sample);
+    var a1 = Al.AttachSampleInstanceToMixer(sampleInstance, mixer);
+    var b1 = Al.SetSampleInstancePlaymode(sampleInstance, PlayMode.Once);
+    var c1 = Al.PlaySampleInstance(sampleInstance);
 }
 
 var displayAdapter = 0; // Al.GetNewDisplayAdapter();
@@ -68,17 +68,17 @@ var testColor = Al.MapRgb(64, 128, 255);
 
 if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
 {
-  var winHandle = Al.GetWinWindowHandle(display);
-  Console.WriteLine($"Window handle: {winHandle}");
+    var winHandle = Al.GetWinWindowHandle(display);
+    Console.WriteLine($"Window handle: {winHandle}");
 
-  try
-  {
-    _ = Al.GetD3dDevice(display);
-  }
-  catch (Exception exception)
-  {
-    Console.WriteLine($"Could not get D3D device, no Direct3D support? {exception.Message}");
-  }
+    try
+    {
+        _ = Al.GetD3dDevice(display);
+    }
+    catch (Exception exception)
+    {
+        Console.WriteLine($"Could not get D3D device, no Direct3D support? {exception.Message}");
+    }
 }
 
 
@@ -97,9 +97,9 @@ Al.AppendNativeTextLog(textLog, "A test message appended to the text log.");
 
 
 var transform1 = new AllegroTransform();
-transform1.M[0,1] = 5;
+transform1.M[0, 1] = 5;
 var transform2 = new AllegroTransform();
-transform2.M[0,2] = 10;
+transform2.M[0, 2] = 10;
 Al.CopyTransform(ref transform1, in transform2);
 //Al.UseTransform(in transform1);
 var usedTransform = Al.GetCurrentTransform();
@@ -144,10 +144,10 @@ Console.WriteLine($"Was config saved: {isConfigSaved}");
 config = Al.LoadConfig(@"C:\Users\Public\Documents\allegro-test.cfg");
 if (config is not null)
 {
-  var configSection = Al.GetFirstConfigSection(config, out var section);
-  var configEntry = Al.GetFirstConfigEntry(config, configSection, out var entry);
-  var configValue = Al.GetConfigValue(config, configSection, configEntry);
-  Console.WriteLine($"First config section, entry, value: {configSection}, {configEntry}, {configValue}");
+    var configSection = Al.GetFirstConfigSection(config, out var section);
+    var configEntry = Al.GetFirstConfigEntry(config, configSection, out var entry);
+    var configValue = Al.GetConfigValue(config, configSection, configEntry);
+    Console.WriteLine($"First config section, entry, value: {configSection}, {configEntry}, {configValue}");
 }
 
 
@@ -199,21 +199,21 @@ var mouseState = new AllegroMouseState();
 var touchState = new AllegroTouchInputState();
 while (true)
 {
-  eventQueue.WaitForEvent(ref myEvent); //Al.WaitForEvent(eventQueue, ref myEvent);
-  Al.GetKeyboardState(ref keyState);
-  Al.GetMouseState(ref mouseState);
-  Al.GetTouchInputState(ref touchState);
+    eventQueue.WaitForEvent(ref myEvent); //Al.WaitForEvent(eventQueue, ref myEvent);
+    Al.GetKeyboardState(ref keyState);
+    Al.GetMouseState(ref mouseState);
+    Al.GetTouchInputState(ref touchState);
 
-  if (myEvent.Type == EventType.DisplayClose || Al.KeyDown(ref keyState, KeyCode.KeyEscape))
-    break;
-  
-  if (myEvent.Type == EventType.Timer)
-  {
-    Al.ClearToColor(color);
-    Al.DrawRoundedRectangle(32, 32, 512, 128, 10, 10, Al.MapRgb(255, 255, 255), 5);
-    Al.DrawText(defaultFont, Al.MapRgb(255, 255, 255), 8, 8, FontAlignFlags.Left, $"the default font! - MouseXY: {mouseState.X},{mouseState.Y}");
-    Al.FlipDisplay();
-  }
+    if (myEvent.Type == EventType.DisplayClose || Al.KeyDown(ref keyState, KeyCode.KeyEscape))
+        break;
+
+    if (myEvent.Type == EventType.Timer)
+    {
+        Al.ClearToColor(color);
+        Al.DrawRoundedRectangle(32, 32, 512, 128, 10, 10, Al.MapRgb(255, 255, 255), 5);
+        Al.DrawText(defaultFont, Al.MapRgb(255, 255, 255), 8, 8, FontAlignFlags.Left, $"the default font! - MouseXY: {mouseState.X},{mouseState.Y}");
+        Al.FlipDisplay();
+    }
 }
 
 Al.CloseNativeTextLog(textLog);

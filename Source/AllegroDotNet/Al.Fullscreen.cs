@@ -9,14 +9,14 @@ namespace SubC.AllegroDotNet;
 /// </summary>
 public static partial class Al
 {
-  public static AllegroDisplayMode? GetDisplayMode(int index, ref AllegroDisplayMode mode)
-  {
-    var pointer = Interop.Core.AlGetDisplayMode(index, ref mode);
-    return Marshal.PtrToStructure<AllegroDisplayMode>(pointer);
-  }
+    public static AllegroDisplayMode? GetDisplayMode(int index, ref AllegroDisplayMode mode)
+    {
+        var pointer = Interop.Core.AlGetDisplayMode(index, ref mode);
+        return Marshal.PtrToStructure<AllegroDisplayMode>(pointer);
+    }
 
-  public static int GetNumDisplayModes()
-  {
-    return Interop.Core.AlGetNumDisplayModes();
-  }
+    public static int GetNumDisplayModes()
+    {
+        return Interop.Core.AlGetNumDisplayModes();
+    }
 }

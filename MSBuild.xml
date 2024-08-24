@@ -2,10 +2,10 @@
 <Project>
   <PropertyGroup>
     <BuildConfiguration>Release</BuildConfiguration>
-    <BuildTargets>Clean;Restore;Rebuild</BuildTargets>
+    <BuildTargets>Clean;Restore;Build;Pack</BuildTargets>
     <MajorVersion>0</MajorVersion>
     <MinorVersion>9</MinorVersion>
-    <BuildVersion>2</BuildVersion>
+    <BuildVersion>3</BuildVersion>
     <Version>$(MajorVersion).$(MinorVersion).$(BuildVersion)</Version>
   </PropertyGroup>
 
@@ -17,9 +17,5 @@
     <MsBuild Projects="@(CsProjects)"
              Properties="Configuration=$(BuildConfiguration);Version=$(Version)"
              Targets="$(BuildTargets)"/>
-
-    <MsBuild Projects="@(CsProjects)"
-             Properties="Configuration=$(BuildConfiguration);Version=$(Version)"
-             Targets="Clean;Restore;Pack"/>
   </Target>
 </Project>

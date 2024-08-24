@@ -2,12 +2,12 @@
 
 public enum AllegroRenderFunction
 {
-  Never,
-  Always,
-  Less,
-  Equal,
-  LessEqual,
-  Greater,
-  NotEqual,
-  GreaterEqual
+    Never,
+    Always,
+    Less,
+    Equal,
+    LessEqual,
+    Greater,
+    NotEqual,
+    GreaterEqual
 }

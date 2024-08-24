@@ -7,24 +7,24 @@ namespace SubC.AllegroDotNet;
 /// </summary>
 public static partial class Al
 {
-  public static bool InitImageAddon()
-  {
-    return Interop.Image.AlInitImageAddon() != 0;
-  }
+    public static bool InitImageAddon()
+    {
+        return Interop.Image.AlInitImageAddon() != 0;
+    }
 
-  public static bool IsImageAddonInitialized()
-  {
-    return Interop.Image.AlIsImageAddonInitialized() != 0;
-  }
+    public static bool IsImageAddonInitialized()
+    {
+        return Interop.Image.AlIsImageAddonInitialized() != 0;
+    }
 
-  public static void ShutdownImageAddon()
-  {
-    Interop.Image.AlShutdownImageAddon();
-  }
+    public static void ShutdownImageAddon()
+    {
+        Interop.Image.AlShutdownImageAddon();
+    }
 
-  public static uint GetAllegroImageVersion()
-  {
-    return Interop.Image.AlGetAllegroImageVersion();
-  }
+    public static uint GetAllegroImageVersion()
+    {
+        return Interop.Image.AlGetAllegroImageVersion();
+    }
 }
 

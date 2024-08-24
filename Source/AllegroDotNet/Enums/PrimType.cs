@@ -2,12 +2,12 @@
 
 public enum PrimType
 {
-  LineList,
-  LineStrip,
-  LineLoop,
-  TriangleList,
-  TriangleStrip,
-  TriangleFan,
-  PointList,
-  NumTypes
+    LineList,
+    LineStrip,
+    LineLoop,
+    TriangleList,
+    TriangleStrip,
+    TriangleFan,
+    PointList,
+    NumTypes
 }

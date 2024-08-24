@@ -8,6 +8,6 @@ namespace SubC.AllegroDotNet.Extensions;
 /// </summary>
 public static class AllegroSampleIDExtensions
 {
-  public static void StopSample(this ref AllegroSampleID? sampleID)
-      => Al.StopSample(ref sampleID);
+    public static void StopSample(this ref AllegroSampleID? sampleID)
+        => Al.StopSample(ref sampleID);
 }

@@ -1,31 +1,30 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net6.0;net8.0</TargetFrameworks>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-    <AssemblyName>SubC.AllegroDotNet</AssemblyName>
-    <RootNamespace>SubC.AllegroDotNet</RootNamespace>
-    <PlatformTarget>x64</PlatformTarget>
-    <Platforms>x64</Platforms>
-		<LangVersion>10.0</LangVersion>
-    <OutputPath>..\..\Artifacts\</OutputPath>
-    <GeneragePackageOnBuild>false</GeneragePackageOnBuild>
-    <PackageId>SubC.AllegroDotNet</PackageId>
-    <Authors>Sub-C</Authors>
-    <Company>Sub-C</Company>
-    <Description>Interop framework to consume the Allegro 5 (v5.2.x) game programming library from C#.</Description>
-    <PackageProjectUrl>https://github.com/sub-c/AllegroDotNet</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/sub-c/AllegroDotNet</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageTags>game 2d allegro allegro5 interop directx opengl multimedia sound input graphics</PackageTags>
-    <PackageReleaseNotes>Add .NET8 target. Small bug fixes.</PackageReleaseNotes>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFrameworks>netstandard2.0;net6.0;net8.0</TargetFrameworks>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<AssemblyName>SubC.AllegroDotNet</AssemblyName>
+		<RootNamespace>SubC.AllegroDotNet</RootNamespace>
+		<Platforms>x64;AnyCPU</Platforms>
+		<LangVersion>latest</LangVersion>
+		<OutputPath>..\..\Artifacts\</OutputPath>
+		<GeneragePackageOnBuild>false</GeneragePackageOnBuild>
+		<PackageId>SubC.AllegroDotNet</PackageId>
+		<Authors>Sub-C</Authors>
+		<Company>Sub-C</Company>
+		<Description>Interop framework to consume the Allegro 5 (v5.2.x) game programming library from C#.</Description>
+		<PackageProjectUrl>https://github.com/sub-c/AllegroDotNet</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/sub-c/AllegroDotNet</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageTags>game 2d allegro allegro5 interop directx opengl multimedia sound input graphics</PackageTags>
+		<PackageReleaseNotes>Add AnyCPU platform. Refactor interop provider interface.</PackageReleaseNotes>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Include="..\..\README.md" Pack="true" PackagePath="\" />
+	</ItemGroup>
 
 </Project>

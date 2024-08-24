@@ -5,5 +5,5 @@
 /// </summary>
 public struct AllegroFixed
 {
-  public int Fixed;
+    public int Fixed;
 }

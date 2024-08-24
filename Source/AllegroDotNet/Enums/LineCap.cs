@@ -2,9 +2,9 @@
 
 public enum LineCap
 {
-  None,
-  Square,
-  Round,
-  Triangle,
-  Closed
+    None,
+    Square,
+    Round,
+    Triangle,
+    Closed
 }
