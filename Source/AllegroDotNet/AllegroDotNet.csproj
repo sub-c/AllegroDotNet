@@ -19,7 +19,7 @@
 		<RepositoryType>git</RepositoryType>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageTags>game 2d allegro allegro5 interop directx opengl multimedia sound input graphics</PackageTags>
-		<PackageReleaseNotes>Add AnyCPU platform. Refactor interop provider interface.</PackageReleaseNotes>
+		<PackageReleaseNotes>Fix AllegroTimeout.</PackageReleaseNotes>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 	</PropertyGroup>
 

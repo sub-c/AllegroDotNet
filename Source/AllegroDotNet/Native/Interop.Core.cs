@@ -315,7 +315,7 @@ internal static partial class Interop
         public delegate byte al_wait_for_event_timed(IntPtr queue, ref AllegroEvent ret_event, float secs);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate byte al_wait_for_event_until(IntPtr queue, ref AllegroEvent ret_event, IntPtr timeout);
+        public delegate byte al_wait_for_event_until(IntPtr queue, ref AllegroEvent ret_event, ref AllegroTimeout timeout);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate void al_init_user_event_source(IntPtr source);
@@ -1628,7 +1628,7 @@ internal static partial class Interop
         public delegate void al_wait_cond(IntPtr cond, IntPtr mutex);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate int al_wait_cond_until(IntPtr cond, IntPtr mutex, IntPtr timeout);
+        public delegate int al_wait_cond_until(IntPtr cond, IntPtr mutex, ref AllegroTimeout timeout);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate void al_broadcast_cond(IntPtr cond);
@@ -1641,13 +1641,14 @@ internal static partial class Interop
         #region Time Routines
 
         public al_get_time AlGetTime { get; }
+        public al_init_timeout AlInitTimeout { get; }
         public al_rest AlRest { get; }
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate double al_get_time();
 
-        //[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        //public delegate void al_init_timeout(ref AllegroTimeout timeout, double seconds);
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void al_init_timeout(ref AllegroTimeout timeout, double seconds);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate void al_rest(double seconds);
@@ -2548,6 +2549,7 @@ internal static partial class Interop
 
             // Time routines
             AlGetTime = LoadFunction<al_get_time>();
+            AlInitTimeout = LoadFunction<al_init_timeout>();
             AlRest = LoadFunction<al_rest>();
 
             // Timer routines

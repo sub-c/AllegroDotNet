@@ -80,9 +80,9 @@ public static partial class Al
         return Interop.Core.AlWaitForEventTimed(NativePointer.Get(queue), ref retEvent, seconds) != 0;
     }
 
-    public static bool WaitForEventUntil(AllegroEventQueue? queue, ref AllegroEvent retEvent, AllegroTimeout? timeout)
+    public static bool WaitForEventUntil(AllegroEventQueue? queue, ref AllegroEvent retEvent, ref AllegroTimeout timeout)
     {
-        return Interop.Core.AlWaitForEventUntil(NativePointer.Get(queue), ref retEvent, NativePointer.Get(timeout)) != 0;
+        return Interop.Core.AlWaitForEventUntil(NativePointer.Get(queue), ref retEvent, ref timeout) != 0;
     }
 
     public static void InitUserEventSource(out AllegroEventSource? source)

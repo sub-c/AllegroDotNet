@@ -82,6 +82,19 @@ if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
 }
 
 
+var cond = Al.CreateCond();
+var mutex = Al.CreateMutex();
+var timeout = new AllegroTimeout();
+
+Console.WriteLine("Waiting 1 seconds for timeout to expire...");
+Al.InitTimeout(ref timeout, 1);
+Al.WaitCondUntil(cond, mutex, ref timeout);
+Console.WriteLine("Done waiting 1 seconds.");
+
+cond.DestroyCond();
+mutex.DestroyMutex();
+
+
 var myFix = Al.IToFix(512);
 var myInt = Al.FixToI(myFix);
 Console.WriteLine($"Fixed is: {myFix.Fixed}, integer is {myInt}");

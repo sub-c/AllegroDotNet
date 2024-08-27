@@ -1,8 +1,13 @@
-﻿namespace SubC.AllegroDotNet.Models;
+﻿using System.Runtime.InteropServices;
+
+namespace SubC.AllegroDotNet.Models;
 
 /// <summary>
-/// This class is an abstract data type representing a timeout.
+/// This struct represents a timeout.
 /// </summary>
-public sealed class AllegroTimeout : NativePointer
+[StructLayout(LayoutKind.Sequential)]
+public struct AllegroTimeout
 {
+    private ulong __pad1__;
+    private ulong __pad2__;
 }

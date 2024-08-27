@@ -87,9 +87,9 @@ public static partial class Al
         Interop.Core.AlWaitCond(NativePointer.Get(cond), NativePointer.Get(mutex));
     }
 
-    public static int WaitCondUntil(AllegroCond? cond, AllegroMutex? mutex, AllegroTimeout? timeout)
+    public static int WaitCondUntil(AllegroCond? cond, AllegroMutex? mutex, ref AllegroTimeout timeout)
     {
-        return Interop.Core.AlWaitCondUntil(NativePointer.Get(cond), NativePointer.Get(mutex), NativePointer.Get(timeout));
+        return Interop.Core.AlWaitCondUntil(NativePointer.Get(cond), NativePointer.Get(mutex), ref timeout);
     }
 
     public static void BroadcastCond(AllegroCond? cond)

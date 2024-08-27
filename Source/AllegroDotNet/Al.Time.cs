@@ -1,4 +1,5 @@
-﻿using SubC.AllegroDotNet.Native;
+﻿using SubC.AllegroDotNet.Models;
+using SubC.AllegroDotNet.Native;
 
 namespace SubC.AllegroDotNet;
 
@@ -16,6 +17,17 @@ public static partial class Al
     public static double GetTime()
     {
         return Interop.Core.AlGetTime();
+    }
+
+    /// <summary>
+    /// Set timeout value of some number of seconds after the function call. For compatibility with all
+    /// platforms, seconds must be 2,147,483.647 seconds or less.
+    /// </summary>
+    /// <param name="timeout">The timeout instance.</param>
+    /// <param name="seconds">The number of seconds until the timeout.</param>
+    public static void InitTimeout(ref AllegroTimeout timeout, double seconds)
+    {
+        Interop.Core.AlInitTimeout(ref timeout, seconds);
     }
 
     /// <summary>

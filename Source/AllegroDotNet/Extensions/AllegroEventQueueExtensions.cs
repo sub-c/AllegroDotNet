@@ -47,6 +47,6 @@ public static class AllegroEventQueueExtensions
     public static void WaitForEventTimed(this AllegroEventQueue? queue, ref AllegroEvent allegroEvent, float secs)
       => Al.WaitForEventTimed(queue, ref allegroEvent, secs);
 
-    public static bool WaitForEventUntil(this AllegroEventQueue? queue, ref AllegroEvent allegroEvent, AllegroTimeout timeout)
-      => Al.WaitForEventUntil(queue, ref allegroEvent, timeout);
+    public static bool WaitForEventUntil(this AllegroEventQueue? queue, ref AllegroEvent allegroEvent, ref AllegroTimeout timeout)
+      => Al.WaitForEventUntil(queue, ref allegroEvent, ref timeout);
 }

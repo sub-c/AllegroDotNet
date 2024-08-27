@@ -14,8 +14,8 @@ public static class AllegroCondExtensions
     public static void WaitCond(this AllegroCond? cond, AllegroMutex? mutex)
       => Al.WaitCond(cond, mutex);
 
-    public static int WaitCondUntil(this AllegroCond? cond, AllegroMutex? mutex, AllegroTimeout timeout)
-      => Al.WaitCondUntil(cond, mutex, timeout);
+    public static int WaitCondUntil(this AllegroCond? cond, AllegroMutex? mutex, ref AllegroTimeout timeout)
+      => Al.WaitCondUntil(cond, mutex, ref timeout);
 
     public static void BroadcastCond(this AllegroCond? cond)
       => Al.BroadcastCond(cond);

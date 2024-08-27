@@ -2,10 +2,10 @@
 <Project>
   <PropertyGroup>
     <BuildConfiguration>Release</BuildConfiguration>
-    <BuildTargets>Clean;Restore;Build;Pack</BuildTargets>
+    <BuildTargets>Clean;Restore;Rebuild;Pack</BuildTargets>
     <MajorVersion>0</MajorVersion>
     <MinorVersion>9</MinorVersion>
-    <BuildVersion>3</BuildVersion>
+    <BuildVersion>4</BuildVersion>
     <Version>$(MajorVersion).$(MinorVersion).$(BuildVersion)</Version>
   </PropertyGroup>
 
