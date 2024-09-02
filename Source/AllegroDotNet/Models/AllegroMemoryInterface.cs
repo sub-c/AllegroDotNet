@@ -10,26 +10,26 @@ namespace SubC.AllegroDotNet.Models;
 public struct AllegroMemoryInterface
 {
     public Delegates.MemoryInterfaceCalloc Calloc
-    {
-        get => mi_calloc;
+    { 
+        readonly get => mi_calloc;
         set => mi_calloc = value;
     }
 
     public Delegates.MemoryInterfaceFree Free
     {
-        get => mi_free;
+        readonly get => mi_free;
         set => mi_free = value;
     }
 
     public Delegates.MemoryInterfaceMalloc Malloc
     {
-        get => mi_malloc;
+        readonly get => mi_malloc;
         set => mi_malloc = value;
     }
 
     public Delegates.MemoryInterfaceRealloc Realloc
     {
-        get => mi_realloc;
+        readonly get => mi_realloc;
         set => mi_realloc = value;
     }
 

@@ -110,9 +110,9 @@ Al.AppendNativeTextLog(textLog, "A test message appended to the text log.");
 
 
 var transform1 = new AllegroTransform();
-transform1.M[0, 1] = 5;
+transform1[0, 1] = 5;
 var transform2 = new AllegroTransform();
-transform2.M[0, 2] = 10;
+transform2[0, 2] = 10;
 Al.CopyTransform(ref transform1, in transform2);
 //Al.UseTransform(in transform1);
 var usedTransform = Al.GetCurrentTransform();

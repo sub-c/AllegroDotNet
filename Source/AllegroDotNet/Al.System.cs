@@ -16,7 +16,13 @@ public static partial class Al
     /// <returns>True if Allegro was initialized, otherwise false.</returns>
     public static bool Init()
     {
+#if NET8_0_OR_GREATER
+        // Native AoT compatible
+        foreach (LibraryVersion libraryVersion in Enum.GetValuesAsUnderlyingType(typeof(LibraryVersion)))
+#else
+        // NET Standard 2.0 compatible
         foreach (LibraryVersion libraryVersion in Enum.GetValues(typeof(LibraryVersion)))
+#endif
         {
             if (InstallSystem(libraryVersion))
                 return true;

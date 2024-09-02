@@ -4,8 +4,8 @@
     <BuildConfiguration>Release</BuildConfiguration>
     <BuildTargets>Clean;Restore;Rebuild;Pack</BuildTargets>
     <MajorVersion>0</MajorVersion>
-    <MinorVersion>9</MinorVersion>
-    <BuildVersion>4</BuildVersion>
+    <MinorVersion>10</MinorVersion>
+    <BuildVersion>0</BuildVersion>
     <Version>$(MajorVersion).$(MinorVersion).$(BuildVersion)</Version>
   </PropertyGroup>
 

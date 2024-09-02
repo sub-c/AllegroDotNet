@@ -19,8 +19,10 @@
 		<RepositoryType>git</RepositoryType>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageTags>game 2d allegro allegro5 interop directx opengl multimedia sound input graphics</PackageTags>
-		<PackageReleaseNotes>Fix AllegroTimeout.</PackageReleaseNotes>
+		<PackageReleaseNotes>Removed `M` property from AllegroTransform. Made library native AoT compatible with .NET 8.</PackageReleaseNotes>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PublishAot Condition="'$(TargetFramework)' == 'net8.0'">true</PublishAot>
+		<IsAotCompatible Condition="'$(TargetFramework)' == 'net8.0'">true</IsAotCompatible>
 	</PropertyGroup>
 
 	<ItemGroup>
