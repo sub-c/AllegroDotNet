@@ -24,8 +24,8 @@ internal sealed class InteropProviderWindows : IInteropProvider
 
 
     private readonly IntPtr[] _loadedNativeLibraries;
-    private readonly string[] _nativeLibraryFilenames = new[]
-    {
+    private readonly string[] _nativeLibraryFilenames =
+    [
         "allegro-5.2.dll",
         "allegro_acodec-5.2.dll",
         "allegro_audio-5.2.dll",
@@ -39,7 +39,7 @@ internal sealed class InteropProviderWindows : IInteropProvider
         "allegro_primitives-5.2.dll",
         "allegro_ttf-5.2.dll",
         "allegro_video-5.2.dll"
-    };
+    ];
 
     public InteropProviderWindows()
     {

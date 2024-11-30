@@ -19,7 +19,7 @@
 		<RepositoryType>git</RepositoryType>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageTags>game 2d allegro allegro5 interop directx opengl multimedia sound input graphics</PackageTags>
-		<PackageReleaseNotes>Removed `M` property from AllegroTransform. Made library native AoT compatible with .NET 8.</PackageReleaseNotes>
+		<PackageReleaseNotes>Updated LibraryVersion enum for Allegro v5.2.10.</PackageReleaseNotes>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PublishAot Condition="'$(TargetFramework)' == 'net8.0'">true</PublishAot>
 		<IsAotCompatible Condition="'$(TargetFramework)' == 'net8.0'">true</IsAotCompatible>
