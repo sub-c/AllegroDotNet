@@ -23,7 +23,7 @@ internal sealed class InteropProviderLinux : IInteropProvider
 
     private readonly IntPtr[] _loadedNativeLibraries;
     private readonly string[] _nativeLibraryFilenames =
-    {
+    [
         "liballegro.so",
         "liballegro_acodec.so",
         "liballegro_audio.so",
@@ -37,7 +37,7 @@ internal sealed class InteropProviderLinux : IInteropProvider
         "liballegro_primitives.so",
         "liballegro_ttf.so",
         "liballegro_video.so"
-    };
+    ];
 
     public InteropProviderLinux()
     {

@@ -24,5 +24,10 @@ public enum LibraryVersion : int
     /// <summary>
     /// Allegro version 5.2.9.
     /// </summary>
-    V529 = (5 << 24) | (2 << 16) | (9 << 8) | 1
+    V529 = (5 << 24) | (2 << 16) | (9 << 8) | 1,
+
+    /// <summary>
+    /// Allegro version 5.2.10.
+    /// </summary>
+    V5210 = (5 << 24) | (2 << 16) | (10 << 8) | 1
 }

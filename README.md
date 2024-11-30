@@ -82,6 +82,10 @@ If you want to support other operating systems or the debug-named Allegro 5 libr
 
 ## :warning: Troubleshooting
 
+* If you get "access violation" errors when trying to call to Allegro functions, ensure you do not have multiple versions of the Allegro library in your path. For example, on Windows systems, if you have a MinGW Allegro .DLL file in the path, and another VC++ Allegro .DLL next to your .EXE, AllegroDotNet will load both libraries and can invoke the function from the wrong .DLL library.
+
+	* If this is a legitimate concern for you, you may provide your own more strict interop provider. See the above 'Custom Interop Providers' section for how to write your own.
+
 * If you get "unbalanced stack" or "attempted to read or write protected memory" errors, ensure your application is running the correct "bit-ness" that matches the version of Allegro 5 being used. You cannot use x64 Allegro 5 in your 32-bit .NET application or vice-versa.
 
 * If calling `Al.InstallSystem()` is failing, ensure the version of Allegro 5 you are trying to load is available. You cannot load Allegro 5.2.8 if you pass `LibraryVersion.V529` (5.2.9) to `Al.InstallSystem()`. Also ensure the library files (ie, .DLL files on Windows) are available to your executable.
